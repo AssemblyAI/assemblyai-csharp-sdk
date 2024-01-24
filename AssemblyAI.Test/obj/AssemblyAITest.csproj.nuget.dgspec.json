@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/dsinghvi/Git/assemblyai-csharp-sdk/AssemblyAI/AssemblyAITest/AssemblyAITest.csproj": {}
+    "/Users/niels/assemblyai-csharp-sdk/AssemblyAITest/AssemblyAITest.csproj": {}
   },
   "projects": {
-    "/Users/dsinghvi/Git/assemblyai-csharp-sdk/AssemblyAI/AssemblyAI/AssemblyAI.csproj": {
+    "/Users/niels/assemblyai-csharp-sdk/AssemblyAI/AssemblyAI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/dsinghvi/Git/assemblyai-csharp-sdk/AssemblyAI/AssemblyAI/AssemblyAI.csproj",
+        "projectUniqueName": "/Users/niels/assemblyai-csharp-sdk/AssemblyAI/AssemblyAI.csproj",
         "projectName": "AssemblyAI",
-        "projectPath": "/Users/dsinghvi/Git/assemblyai-csharp-sdk/AssemblyAI/AssemblyAI/AssemblyAI.csproj",
-        "packagesPath": "/Users/dsinghvi/.nuget/packages/",
-        "outputPath": "/Users/dsinghvi/Git/assemblyai-csharp-sdk/AssemblyAI/AssemblyAI/obj/",
+        "projectPath": "/Users/niels/assemblyai-csharp-sdk/AssemblyAI/AssemblyAI.csproj",
+        "packagesPath": "/Users/niels/.nuget/packages/",
+        "outputPath": "/Users/niels/assemblyai-csharp-sdk/AssemblyAI/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/dsinghvi/.nuget/NuGet/NuGet.Config"
+          "/Users/niels/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -48,26 +48,36 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[7.0.14, 7.0.14]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[7.0.14, 7.0.14]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/Users/dsinghvi/.dotnet/sdk/7.0.306/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.100/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/dsinghvi/Git/assemblyai-csharp-sdk/AssemblyAI/AssemblyAITest/AssemblyAITest.csproj": {
+    "/Users/niels/assemblyai-csharp-sdk/AssemblyAITest/AssemblyAITest.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/dsinghvi/Git/assemblyai-csharp-sdk/AssemblyAI/AssemblyAITest/AssemblyAITest.csproj",
+        "projectUniqueName": "/Users/niels/assemblyai-csharp-sdk/AssemblyAITest/AssemblyAITest.csproj",
         "projectName": "AssemblyAITest",
-        "projectPath": "/Users/dsinghvi/Git/assemblyai-csharp-sdk/AssemblyAI/AssemblyAITest/AssemblyAITest.csproj",
-        "packagesPath": "/Users/dsinghvi/.nuget/packages/",
-        "outputPath": "/Users/dsinghvi/Git/assemblyai-csharp-sdk/AssemblyAI/AssemblyAITest/obj/",
+        "projectPath": "/Users/niels/assemblyai-csharp-sdk/AssemblyAITest/AssemblyAITest.csproj",
+        "packagesPath": "/Users/niels/.nuget/packages/",
+        "outputPath": "/Users/niels/assemblyai-csharp-sdk/AssemblyAITest/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/dsinghvi/.nuget/NuGet/NuGet.Config"
+          "/Users/niels/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -79,8 +89,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "/Users/dsinghvi/Git/assemblyai-csharp-sdk/AssemblyAI/AssemblyAI/AssemblyAI.csproj": {
-                "projectPath": "/Users/dsinghvi/Git/assemblyai-csharp-sdk/AssemblyAI/AssemblyAI/AssemblyAI.csproj"
+              "/Users/niels/assemblyai-csharp-sdk/AssemblyAI/AssemblyAI.csproj": {
+                "projectPath": "/Users/niels/assemblyai-csharp-sdk/AssemblyAI/AssemblyAI.csproj"
               }
             }
           }
@@ -127,12 +137,22 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[7.0.14, 7.0.14]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[7.0.14, 7.0.14]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/Users/dsinghvi/.dotnet/sdk/7.0.306/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.100/RuntimeIdentifierGraph.json"
         }
       }
     }

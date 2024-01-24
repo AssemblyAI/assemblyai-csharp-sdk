@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "/gyHJAZC00J8YOei37TilPap22bTz/R/dGbi1GpHGNtKXg+dx4PepPM5v6BWPV93iiTXWH7B7B2GHJF2wae0rw==",
+  "dgSpecHash": "tJ0KushZnj/dZ5fHu2eKYSb532xkvox+jxCjV9McWZ6Qr5l4n3m5Noqj9ojqw3epK71RzzMRKeQWzKuPXl9bsQ==",
   "success": true,
-  "projectFilePath": "/Users/dsinghvi/Git/assemblyai-csharp-sdk/AssemblyAI/AssemblyAI/AssemblyAI.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/Users/niels/assemblyai-csharp-sdk/AssemblyAI/AssemblyAI.csproj",
+  "expectedPackageFiles": [
+    "/Users/niels/.nuget/packages/microsoft.netcore.app.ref/7.0.14/microsoft.netcore.app.ref.7.0.14.nupkg.sha512",
+    "/Users/niels/.nuget/packages/microsoft.aspnetcore.app.ref/7.0.14/microsoft.aspnetcore.app.ref.7.0.14.nupkg.sha512"
+  ],
   "logs": []
 }

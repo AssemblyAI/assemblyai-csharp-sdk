@@ -2,7 +2,14 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyAI", "AssemblyAI\AssemblyAI.csproj", "{7D54A49F-778C-4AFC-B562-AB579FAD8C4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyAITest", "AssemblyAITest\AssemblyAITest.csproj", "{8C0CC51F-4194-480E-AFDA-0A03F55E82E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyAI.Test", "AssemblyAI.Test\AssemblyAI.Test.csproj", "{8C0CC51F-4194-480E-AFDA-0A03F55E82E7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Files", "Files", "{B5A3AAB6-2BCC-4E2B-BA05-143E56319486}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		.fernignore = .fernignore
+		.gitignore = .gitignore
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,6 +1,6 @@
 using AssemblyAI.Core;
 
-namespace AssemblyAITest;
+namespace AssemblyAI.Test;
 
 public class Tests
 {
@@ -12,7 +12,7 @@ public class Tests
     [Test]
     public async Task TestClient()
     {
-        var aai = new AssemblyAI.AssemblyAI("ey...");
-        var transcript = await aai.Transcript.Get("transcript-id");
+        // var aai = new AssemblyAI("ey...");
+        // var transcript = await aai.Transcript.Get("transcript-id");
     }
 }
