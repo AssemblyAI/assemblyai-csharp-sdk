@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyAI", "AssemblyAI\AssemblyAI.csproj", "{7D54A49F-778C-4AFC-B562-AB579FAD8C4C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyAITest", "AssemblyAITest\AssemblyAITest.csproj", "{8C0CC51F-4194-480E-AFDA-0A03F55E82E7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7D54A49F-778C-4AFC-B562-AB579FAD8C4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D54A49F-778C-4AFC-B562-AB579FAD8C4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D54A49F-778C-4AFC-B562-AB579FAD8C4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D54A49F-778C-4AFC-B562-AB579FAD8C4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C0CC51F-4194-480E-AFDA-0A03F55E82E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C0CC51F-4194-480E-AFDA-0A03F55E82E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C0CC51F-4194-480E-AFDA-0A03F55E82E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C0CC51F-4194-480E-AFDA-0A03F55E82E7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
