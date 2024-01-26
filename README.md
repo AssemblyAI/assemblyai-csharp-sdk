@@ -8,6 +8,8 @@
 [![Discord](https://img.shields.io/discord/875120158014853141?logo=discord&label=Discord&link=https%3A%2F%2Fdiscord.com%2Fchannels%2F875120158014853141&style=social)
 ](https://assemblyai.com/discord)
 
+The official AssemblyAI C# library, supporting .NET Standard 3.0+, .NET Core 3.0+, and .NET Framework 4.6.1+.
+
 ## Documentation
 
 API reference documentation is available [here](https://www.assemblyai.com/docs/).
@@ -33,27 +35,24 @@ Install-Package Stripe.net
 ```
 
 ## Usage 
-Instantiate the SDK using the `AssemblyAI` class. 
+Instantiate the SDK using the `AssemblyAI` class. Note that all 
+of the SDK methods are awaitable!
 
 ```csharp
   using AssemblyaAI;
 
-  aai = new AssemblyAI("YOUR_API_KEY")
-  
+  AssemblyAI aai = new AssemblyAI("YOUR_API_KEY")
   TranscriptResponse transcript = 
-      aai.Transcript.get("transcript_id");
-  
+      await aai.Transcript.get("transcript_id");
   System.Console.WriteLine("Received transcript!", transcript);
 ```
 
-## Client Options
-You can specify a variety of options for the SDK by using
-the client options class. 
+## HTTP Client
+You can override the HttpClient by passing in `ClientOptions`. 
 
 ```csharp
 aai = new AssemblyAI("YOUR_API_KEY", new ClientOptions{
     HttpClient = ... // Override the Http Client
-    MaxRetries = ... // Override the Max Retries
     BaseURL = ... // Override the Base URL
 })
 ```
@@ -69,6 +68,33 @@ try {
   System.Console.WriteLine(e.Message) 
   System.Console.WriteLine(e.StatusCode) 
 }
+```
+
+## Retries 
+409 Conflict, 429 Rate Limit, and >=500 Internal errors will all be 
+retried twice with exponential backoff. You can override this behavior 
+globally or per-request. 
+
+```csharp
+var aai = new AssemblyAI("...", new ClientOptions{
+    MaxRetries = 1 // Only retry once
+});
+aai.transcript.create(new TranscriptCreateParams{ ... }, new RequestOptions {
+    MaxRetries = 0 // Disable retries
+});
+```
+
+## Timeouts
+The SDK defaults to a 60s timeout. You can override this behaviour
+globally or per-request. 
+
+```csharp
+var aai = new AssemblyAI("...", new ClientOptions{
+    TimeoutInSeconds = 20 // Lower timeout
+});
+aai.transcript.create(new TranscriptCreateParams{ ... }, new RequestOptions {
+    TimeoutInSeconds = 90 // Raise timeout
+});
 ```
 
 ## Contributing
