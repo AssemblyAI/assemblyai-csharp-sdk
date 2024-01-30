@@ -1,4 +1,4 @@
-# AssemblyAI C# SDK
+# WIP! AssemblyAI C# SDK
 
 [![NuGet](https://img.shields.io/nuget/v/AssemblyAI.svg)](https://www.nuget.org/packages/AssemblyAI.net/)
 [![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-SDK%20generated%20by%20Fern-brightgreen)](https://buildwithfern.com/?utm_source=assemblyai/assemblyai-java-sdk/readme)
@@ -7,6 +7,10 @@
 [![AssemblyAI YouTube](https://img.shields.io/youtube/channel/subscribers/UCtatfZMf-8EkIwASXM4ts0A)](https://www.youtube.com/@AssemblyAI)
 [![Discord](https://img.shields.io/discord/875120158014853141?logo=discord&label=Discord&link=https%3A%2F%2Fdiscord.com%2Fchannels%2F875120158014853141&style=social)
 ](https://assemblyai.com/discord)
+
+> [!WARNING]  
+> We are actively working on the .NET SDK for AssemblyAI. Watch [the C# SDK repo](https://github.com/AssemblyAI/assemblyai-csharp-sdk), specifically the releases, so you get notified when we have our first release.
+<img width="441" alt="Screenshot 2024-01-25 at 2 27 59 PM" src="https://github.com/AssemblyAI/assemblyai-semantic-kernel/assets/3382717/5e3af901-26f6-4910-bd86-31e4f07deab1">
 
 The official AssemblyAI C# library, supporting .NET Standard 3.0+, .NET Core 3.0+, and .NET Framework 4.6.1+.
 
