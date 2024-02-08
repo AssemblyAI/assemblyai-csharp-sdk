@@ -21,19 +21,14 @@ var config = new ConfigurationBuilder()
 
 var cts = new CancellationTokenSource();
 var ct = cts.Token;
-var transcribeTask = Task.Run(async () =>
+var transcribeThread = new Thread(() =>
 {
     const int sampleRate = 16_000;
-    await using var transcriber = new RealtimeTranscriber
+    using var transcriber = new RealtimeTranscriber
     {
         ApiKey = config["AssemblyAI:ApiKey"]!,
         SampleRate = sampleRate
     };
-    transcriber.SessionBegins += (sender, args) => Console.WriteLine($"""
-                                                                      Session begins:
-                                                                      - Session ID: {args.Result.SessionId}
-                                                                      - Expires at: {args.Result.ExpiresAt}
-                                                                      """);
     transcriber.PartialTranscriptReceived += (_, args) =>
     {
         // don't do anything if nothing was said
@@ -64,8 +59,12 @@ var transcribeTask = Task.Run(async () =>
         Console.WriteLine("Real-time connection closed: {0} - {1}", args.Code, args.Reason);
 
     Console.WriteLine("Connecting to real-time transcript service");
-    await transcriber.ConnectAsync();
-
+    var sessionBeginsMessage = transcriber.ConnectAsync().Result;
+    Console.WriteLine($"""
+                       Session begins:
+                       - Session ID: {sessionBeginsMessage.SessionId}
+                       - Expires at: {sessionBeginsMessage.ExpiresAt}
+                       """);
     Console.WriteLine("Starting recording");
 
     const int bufferSize = 1024;
@@ -92,15 +91,14 @@ var transcribeTask = Task.Run(async () =>
 
     Console.WriteLine("Stopping recording");
     ALC.CaptureStop(captureDevice);
+    ALC.CaptureCloseDevice(captureDevice);
 
     Console.WriteLine("Closing real-time transcript connection");
-    await transcriber.CloseAsync();
+    transcriber.CloseAsync().Wait();
 });
 
-var listenForKeyTask = Task.Run(async () =>
-{
-    Console.ReadKey();
-    await cts.CancelAsync().ConfigureAwait(false);
-});
+transcribeThread.IsBackground = true;
+transcribeThread.Start();
 
-await Task.WhenAny(transcribeTask, listenForKeyTask);
+Console.ReadKey();
+await cts.CancelAsync().ConfigureAwait(false);

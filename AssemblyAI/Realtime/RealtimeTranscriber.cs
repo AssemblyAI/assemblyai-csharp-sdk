@@ -240,7 +240,7 @@ namespace AssemblyAI.Realtime
                 });
             
             _listenerCancellationTokenSource = new CancellationTokenSource();
-            return await sessionBeginsTaskCompletionSource.Task;
+            return await sessionBeginsTaskCompletionSource.Task.ConfigureAwait(false);
         }
 
         /// <summary>
@@ -404,7 +404,6 @@ namespace AssemblyAI.Realtime
 
             Status = RealtimeTranscriberStatus.Disconnected;
             _listenerCancellationTokenSource.Cancel();
-            
         }
 
         private void DisposeObservables()
