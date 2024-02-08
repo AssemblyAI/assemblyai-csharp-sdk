@@ -17,4 +17,8 @@
       <None Remove="Transcript\Requests\**" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Websocket.Client" Version="5.0.0" />
+    </ItemGroup>
+
 </Project>
