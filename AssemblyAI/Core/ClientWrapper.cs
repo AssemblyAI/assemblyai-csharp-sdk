@@ -6,10 +6,14 @@ public sealed class ClientWrapper
     private readonly Dictionary<string, string> _headers;
     private readonly ClientOptions _clientOptions;
 
-    public ClientWrapper(ClientOptions _clientOptions, HttpClient httpClient, Dictionary<string, string> headers)
+    public ClientWrapper(ClientOptions clientOptions, HttpClient httpClient, Dictionary<string, string> headers)
     {
-        _clientOptions = _clientOptions;
+        _clientOptions = clientOptions;
         _httpClient = httpClient;
+        foreach (var kv in headers)
+        {
+            httpClient.DefaultRequestHeaders.Add(kv.Key, kv.Value);
+        }
         _headers = headers;
     }
 

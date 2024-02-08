@@ -4,7 +4,7 @@ namespace AssemblyAI
 {
     public class CreateRealtimeTemporaryTokenParameters
     {
-        [JsonPropertyName("expiresIn")]
+        [JsonPropertyName("expires_in")]
         public int ExpiresIn { get; init; }
     }   
 }

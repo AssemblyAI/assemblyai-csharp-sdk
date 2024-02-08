@@ -1,3 +1,4 @@
+using System.Text;
 using System.Text.Json;
 using AssemblyAI.Core;
 
@@ -15,7 +16,7 @@ namespace AssemblyAI
         /**
          * Retrieve a list of transcripts you have created.
          */
-        public async Task<TranscriptList> CreateTemporaryToken(
+        public async Task<RealtimeTemporaryTokenResponse> CreateTemporaryToken(
             CreateRealtimeTemporaryTokenParameters request, RequestOptions? options = null)
         {
             var url = new URLBuilder(this._clientWrapper.BaseUrl)
@@ -23,10 +24,10 @@ namespace AssemblyAI
                 .build();
             var response = await this._clientWrapper.HttpClient.PostAsync(
                 url,
-                new StringContent(JsonSerializer.Serialize(request)));
+                new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json"));
             if (response.IsSuccessStatusCode)
             {
-                return JsonSerializer.Deserialize<TranscriptList>(await response.Content.ReadAsStringAsync());
+                return JsonSerializer.Deserialize<RealtimeTemporaryTokenResponse>(await response.Content.ReadAsStringAsync());
             }
             throw new APIError
             {

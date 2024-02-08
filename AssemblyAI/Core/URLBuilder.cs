@@ -4,8 +4,8 @@ public sealed class URLBuilder
 {
 
     private readonly string _baseUrl;
-    private readonly List<string> _pathSegments;
-    private readonly Dictionary<string, List<string>> _queryParameters;
+    private readonly List<string> _pathSegments = new ();
+    private readonly Dictionary<string, List<string>> _queryParameters = new();
 
     public URLBuilder(string baseUrl)
     {
