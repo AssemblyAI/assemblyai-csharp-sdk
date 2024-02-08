@@ -8,10 +8,34 @@
              x:DataType="viewModels:TranscribeMicrophoneViewModel">
     <Interaction.Behaviors>
         <AdaptiveBehavior>
+            <AdaptiveClassSetter TargetControl="TranscribeForm" MinWidth="0" MaxWidth="500" ClassName="small" />
+            <AdaptiveClassSetter TargetControl="TranscribeForm" MinWidth="500" MaxWidth="900" ClassName="medium" />
+            <AdaptiveClassSetter TargetControl="TranscribeForm" MinWidth="900" MaxWidth="Infinity" ClassName="wide" />
+            <AdaptiveClassSetter TargetControl="TranscriptPanel" MinWidth="0" MaxWidth="500" ClassName="small" />
+            <AdaptiveClassSetter TargetControl="TranscriptPanel" MinWidth="500" MaxWidth="900" ClassName="medium" />
+            <AdaptiveClassSetter TargetControl="TranscriptPanel" MinWidth="900" MaxWidth="Infinity" ClassName="wide" />
         </AdaptiveBehavior>
     </Interaction.Behaviors>
-    <Grid Margin="0 10" ColumnDefinitions="Auto,*">
-        <StackPanel Grid.Column="0">
+    <Grid Margin="0 10" ColumnDefinitions="Auto,*" RowDefinitions="Auto, *">
+        <StackPanel Grid.Column="0" Name="TranscribeForm">
+            <StackPanel.Styles>
+                <Style Selector="StackPanel">
+                    <Setter Property="Grid.ColumnSpan" Value="1" />
+                    <Setter Property="Grid.RowSpan" Value="2" />
+                </Style>
+                <Style Selector="StackPanel.small">
+                    <Setter Property="Grid.ColumnSpan" Value="2" />
+                    <Setter Property="Grid.RowSpan" Value="1" />
+                </Style>
+                <Style Selector="StackPanel.medium">
+                    <Setter Property="Grid.ColumnSpan" Value="2" />
+                    <Setter Property="Grid.RowSpan" Value="1" />
+                </Style>
+                <Style Selector="StackPanel.wide">
+                    <Setter Property="Grid.ColumnSpan" Value="1" />
+                    <Setter Property="Grid.RowSpan" Value="2" />
+                </Style>
+            </StackPanel.Styles>
             <TextBlock Margin="0 0 0 10">Transcribe audio from your microphone:</TextBlock>
             <Button
                 Margin="0 0 0 10"
@@ -34,9 +58,40 @@
                             Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
         </StackPanel>
         <TextBox
-            Grid.Column="1" Padding="10" Margin="10 0"
+            Name="TranscriptPanel" Padding="10" 
             Text="{Binding Transcript}"
             TextWrapping="Wrap"
-            IsReadOnly="True" />
+            IsReadOnly="True">
+            <TextBox.Styles>
+                <Style Selector="TextBox">
+                    <Setter Property="Margin" Value="10 0" />
+                    <Setter Property="Grid.Column" Value="1" />
+                    <Setter Property="Grid.ColumnSpan" Value="1" />
+                    <Setter Property="Grid.Row" Value="1" />
+                    <Setter Property="Grid.RowSpan" Value="2" />
+                </Style>
+                <Style Selector="TextBox.small">
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="Grid.Column" Value="0" />
+                    <Setter Property="Grid.ColumnSpan" Value="2" />
+                    <Setter Property="Grid.Row" Value="2" />
+                    <Setter Property="Grid.RowSpan" Value="1" />
+                </Style>
+                <Style Selector="TextBox.medium">
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="Grid.Column" Value="0" />
+                    <Setter Property="Grid.ColumnSpan" Value="2" />
+                    <Setter Property="Grid.Row" Value="2" />
+                    <Setter Property="Grid.RowSpan" Value="1" />
+                </Style>
+                <Style Selector="TextBox.wide">
+                    <Setter Property="Margin" Value="10 0" />
+                    <Setter Property="Grid.Column" Value="1" />
+                    <Setter Property="Grid.ColumnSpan" Value="1" />
+                    <Setter Property="Grid.Row" Value="1" />
+                    <Setter Property="Grid.RowSpan" Value="2" />
+                </Style>
+            </TextBox.Styles>
+        </TextBox>
     </Grid>
 </UserControl>
