@@ -8,12 +8,7 @@ export async function hasPermission() {
 
 export async function requestPermission() {
     // getting the media stream makes the browser request for the permission
-    const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
-    mediaStream.getTracks().forEach((track) => {
-        if (track.readyState === 'live') {
-            track.stop();
-        }
-    });
+    mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
 }
 
 let mediaStream;
@@ -21,13 +16,12 @@ let mediaRecorder;
 
 
 export async function startRecording() {
-    mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
+    if(!mediaStream) mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
     mediaRecorder = new MediaRecorder(mediaStream);
-    mediaRecorder.start();
-    mediaRecorder.stream
-    mediaRecorder.ondataavailable = (e) => {
-        exports.Sample.Browser.JsMicrophone.OnAudioDataFromJs(e.data);
+    mediaRecorder.ondataavailable = async (e) => {
+        exports.Sample.Browser.JsMicrophone.OnAudioDataFromJs(new Uint8Array(await e.data.arrayBuffer()));
     };
+    mediaRecorder.start(100); //100 ms per audio buffer
 }
 
 export function stopRecording() {
@@ -37,4 +31,6 @@ export function stopRecording() {
         }
     });
     mediaRecorder.stop();
+    mediaStream = null;
+    mediaRecorder = null;
 }

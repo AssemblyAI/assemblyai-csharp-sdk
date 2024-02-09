@@ -22,9 +22,9 @@ public class CaptureAudio : ICaptureAudio, IDisposable
 
     public void RequestPermission() => JsMicrophone.RequestPermissionJs();
 
-    public void Start() => JsMicrophone.StartRecording();
+    public async void Start() => await JsMicrophone.StartRecording();
 
-    public void Stop() => JsMicrophone.StopRecording();
+    public async void Stop() => JsMicrophone.StopRecording();
 
     public void Dispose()
     {

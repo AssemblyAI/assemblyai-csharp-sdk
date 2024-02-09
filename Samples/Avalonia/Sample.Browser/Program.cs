@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Versioning;
 using System.Threading.Tasks;
+using AssemblyAI.Core;
 using Avalonia;
 using Avalonia.Browser;
 using Avalonia.ReactiveUI;
@@ -21,7 +22,10 @@ internal sealed partial class Program
             services.AddTransient<AssemblyAI.AssemblyAI>(services =>
             {
                 var apiContainer = services.GetRequiredService<ApiKeyContainer>();
-                return new AssemblyAI.AssemblyAI(apiContainer.ApiKey);
+                return new AssemblyAI.AssemblyAI(apiContainer.ApiKey, new ClientOptions
+                {
+                    BaseURL = "https://localhost:7030/api"
+                });
             });
         });
         return BuildAvaloniaApp()
