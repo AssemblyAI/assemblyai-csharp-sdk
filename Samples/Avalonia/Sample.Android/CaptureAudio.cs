@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content.PM;
 using Android.Media;
@@ -21,8 +22,8 @@ public class CaptureAudio : ICaptureAudio
     }
 
 
-    public bool HasPermission() => 
-        ContextCompat.CheckSelfPermission(_activity, RecordPermissionName) == Permission.Granted;
+    public Task<bool> HasPermission() => 
+        Task.FromResult(ContextCompat.CheckSelfPermission(_activity, RecordPermissionName) == Permission.Granted);
 
     public void RequestPermission()
     {

@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using OpenTK.Audio.OpenAL;
 
 namespace Sample.Desktop;
@@ -11,7 +12,7 @@ public class CaptureAudio : ICaptureAudio
     private CancellationTokenSource? _cts;
     public event OnAudioData? OnAudioData;
 
-    public bool HasPermission() => true;
+    public Task<bool> HasPermission() => Task.FromResult(true);
 
     public void RequestPermission()
     {

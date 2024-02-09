@@ -11,3 +11,6 @@ const dotnetRuntime = await dotnet
 const config = dotnetRuntime.getConfig();
 
 await dotnetRuntime.runMainAndExit(config.mainAssemblyName, [window.location.search]);
+
+const exports = await dotnetRuntime.getAssemblyExports("Sample.Browser.dll");
+await exports.Sample.Browser.JsMicrophone.LoadModule();

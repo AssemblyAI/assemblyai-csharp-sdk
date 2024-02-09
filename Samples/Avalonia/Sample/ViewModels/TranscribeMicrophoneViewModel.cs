@@ -165,7 +165,7 @@ public class TranscribeMicrophoneViewModel : ViewModelBase, IAsyncDisposable
 
     public async Task StartAsync()
     {
-        if (!_captureAudio.HasPermission())
+        if (!await _captureAudio.HasPermission())
         {
             _captureAudio.RequestPermission();
             return;
