@@ -2,5 +2,5 @@
 
 README.md
 LICENSE.md
-AssemblyAI/RealtimeTranscriber.cs
+AssemblyAI/Realtime/RealtimeTranscriber.cs
 AssemblyAI.Test
