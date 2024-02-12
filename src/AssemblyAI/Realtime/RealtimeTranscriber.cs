@@ -38,7 +38,7 @@ namespace AssemblyAI.Realtime
         private const string RealtimeServiceEndpoint = "wss://api.assemblyai.com/v2/realtime/ws";
         private WebsocketClient _socket;
         private TaskCompletionSource<bool> _sessionTerminatedTaskCompletionSource;
-        private CancellationTokenSource _IEnumerableenerCancellationTokenSource;
+        private CancellationTokenSource _listenerCancellationTokenSource;
 
         /// <summary>
         /// Use your AssemblyAI API key to authenticate with the AssemblyAI real-time transcriber.
@@ -239,7 +239,7 @@ namespace AssemblyAI.Realtime
                     }
                 });
             
-            _IEnumerableenerCancellationTokenSource = new CancellationTokenSource();
+            _listenerCancellationTokenSource = new CancellationTokenSource();
             return await sessionBeginsTaskCompletionSource.Task;
         }
 
@@ -403,7 +403,7 @@ namespace AssemblyAI.Realtime
             await _socket.StopOrFail(WebSocketCloseStatus.NormalClosure, "");
 
             Status = RealtimeTranscriberStatus.Disconnected;
-            _IEnumerableenerCancellationTokenSource.Cancel();
+            _listenerCancellationTokenSource.Cancel();
             
         }
 
