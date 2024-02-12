@@ -14,5 +14,5 @@ public class AutoHighlightResult
     public string Text { get; init; } = null!;
     
     [JsonPropertyName("timestamps")] 
-    public List<Timestamp> Timestamps { get; init; } = null!;
+    public IEnumerable<Timestamp> Timestamps { get; init; } = null!;
 }

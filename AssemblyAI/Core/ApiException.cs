@@ -1,6 +1,6 @@
 namespace AssemblyAI.Core;
 
-public class APIError : AssemblyAIError
+public class ApiException : AssemblyAIException
 {
     public int? StatusCode { init; get; }
     

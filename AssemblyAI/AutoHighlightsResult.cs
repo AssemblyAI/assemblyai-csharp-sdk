@@ -5,5 +5,5 @@ namespace AssemblyAI;
 public class AutoHighlightsResult
 {
     [JsonPropertyName("results")] 
-    public List<AutoHighlightResult> Results { get; init; } = null!;
+    public IEnumerable<AutoHighlightResult> Results { get; init; } = null!;
 }

@@ -5,7 +5,7 @@ namespace AssemblyAI;
 public class LemurBaseParameters
 {
     [JsonPropertyName("transcript_ids")]
-    public List<string> TranscriptIds { get; init; } = new List<string>();
+    public IEnumerable<string> TranscriptIds { get; init; } = new List<string>();
 
     [JsonPropertyName("context")]
     public LemurBaseParametersContext? Context { get; init; } = null;

@@ -38,7 +38,7 @@ namespace AssemblyAI.Realtime
         private const string RealtimeServiceEndpoint = "wss://api.assemblyai.com/v2/realtime/ws";
         private WebsocketClient _socket;
         private TaskCompletionSource<bool> _sessionTerminatedTaskCompletionSource;
-        private CancellationTokenSource _listenerCancellationTokenSource;
+        private CancellationTokenSource _IEnumerableenerCancellationTokenSource;
 
         /// <summary>
         /// Use your AssemblyAI API key to authenticate with the AssemblyAI real-time transcriber.
@@ -119,7 +119,7 @@ namespace AssemblyAI.Realtime
         public event ClosedEventHandler Closed;
 
         /// <summary>
-        /// Connect to AssemblyAI's real-time transcription service, and start listening for messages.
+        /// Connect to AssemblyAI's real-time transcription service, and start IEnumerableening for messages.
         /// </summary>
         /// <returns>The session begins message</returns>
         public async Task<SessionBeginsMessage> ConnectAsync()
@@ -239,7 +239,7 @@ namespace AssemblyAI.Realtime
                     }
                 });
             
-            _listenerCancellationTokenSource = new CancellationTokenSource();
+            _IEnumerableenerCancellationTokenSource = new CancellationTokenSource();
             return await sessionBeginsTaskCompletionSource.Task;
         }
 
@@ -403,7 +403,7 @@ namespace AssemblyAI.Realtime
             await _socket.StopOrFail(WebSocketCloseStatus.NormalClosure, "");
 
             Status = RealtimeTranscriberStatus.Disconnected;
-            _listenerCancellationTokenSource.Cancel();
+            _IEnumerableenerCancellationTokenSource.Cancel();
             
         }
 
@@ -418,7 +418,7 @@ namespace AssemblyAI.Realtime
         {
             if (evt is null) return;
 
-            foreach (var d in evt.GetInvocationList())
+            foreach (var d in evt.GetInvocationIEnumerable())
             {
                 if (d.Target is ISynchronizeInvoke { InvokeRequired: true } syncer)
                 {

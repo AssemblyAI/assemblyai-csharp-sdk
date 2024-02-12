@@ -2,8 +2,8 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI;
 
-public class TerminateSession : RealtimeBaseMessage
+public class TerminateSessionParams : RealtimeBaseMessage
 {
     [JsonPropertyName("terminateSession")]
-    public bool TerminateSession_ { get; init; }
+    public bool TerminateSession { get; init; }
 }

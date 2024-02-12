@@ -8,6 +8,6 @@ public class ClientOptions
 
     public int TimeoutInSeconds { get; init; } = 60;
 
-    public Dictionary<string, string> Headers { get; init; } = new Dictionary<string, string>();
-    public string BaseURL { get; init; } = Environment.Default.URL;
+    public IReadOnlyDictionary<string, string> Headers { get; init; } = new Dictionary<string, string>();
+    public string BaseUrl { get; init; } = Environment.Production.Url;
 }

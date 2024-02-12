@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI
 {
-    public sealed class TranscriptListRequest
+    public sealed class TranscriptIEnumerableRequest
     {
         [JsonPropertyName("limit")] 
         public int? Limit { get; init; }

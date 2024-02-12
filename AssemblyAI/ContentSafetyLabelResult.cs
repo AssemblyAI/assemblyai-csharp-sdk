@@ -8,7 +8,7 @@ public class ContentSafetyLabelResult
     public string Text { get; init; } = null!;
     
     [JsonPropertyName("labels")]
-    public List<ContentSafetyLabel> labels { get; init; } = null!;
+    public IEnumerable<ContentSafetyLabel> labels { get; init; } = null!;
     
     [JsonPropertyName("sentences_idx_start")]
     public int SentencesIdxStart { get; init; }

@@ -8,5 +8,5 @@ public class LemurQuestionAnswerResponse
     public string RequestId { get; init; } = null!;
     
     [JsonPropertyName("response")]
-    public List<LemurQuestionAnswer> Response { get; init; } = null!;
+    public IEnumerable<LemurQuestionAnswer> Response { get; init; } = null!;
 }

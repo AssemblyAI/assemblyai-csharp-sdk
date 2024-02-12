@@ -14,6 +14,6 @@ public class ParagraphsResponse
     public double AudioDuration { get; init; }
 
     [JsonPropertyName("paragraphs")]
-    public List<TranscriptParagraph> Paragraphs { get; init; } = null!;
+    public IEnumerable<TranscriptParagraph> Paragraphs { get; init; } = null!;
 }
 

@@ -3,27 +3,27 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI
 {
-    public class TranscriptClient
+    public partial class TranscriptsClient
     {
         private readonly ClientWrapper _clientWrapper;
 
-        public TranscriptClient(ClientWrapper clientWrapper)
+        public TranscriptsClient(ClientWrapper clientWrapper)
         {
             _clientWrapper = clientWrapper;
         }
         
         /**
-        * Retrieve a list of transcripts you have created.
+        * Retrieve a IEnumerable of transcripts you have created.
         */
-        public async Task<TranscriptList> List()
+        public async Task<TranscriptIEnumerable> IEnumerable()
         {
-            return await List(new TranscriptListRequest{});
+            return await IEnumerable(new TranscriptIEnumerableRequest{});
         }
 
         /**
-        * Retrieve a list of transcripts you have created.
+        * Retrieve a IEnumerable of transcripts you have created.
         */
-        public async Task<TranscriptList> List(TranscriptListRequest request, RequestOptions? options = null)
+        public async Task<TranscriptIEnumerable> IEnumerable(TranscriptIEnumerableRequest request, RequestOptions? options = null)
         {
             var urlBuilder = new URLBuilder(this._clientWrapper.BaseUrl);
             urlBuilder.AddPathSegment("v2/transcript");
@@ -52,9 +52,9 @@ namespace AssemblyAI
                 await this._clientWrapper.HttpClient.GetAsync(urlBuilder.build());
             if (response.IsSuccessStatusCode)
             {
-                return JsonSerializer.Deserialize<TranscriptList>(await response.Content.ReadAsStringAsync());
+                return JsonSerializer.Deserialize<TranscriptIEnumerable>(await response.Content.ReadAsStringAsync());
             }
-            throw new APIError
+            throw new ApiException
             {
                 StatusCode = (int) response.StatusCode,
             };
@@ -75,7 +75,7 @@ namespace AssemblyAI
             {
                 return JsonSerializer.Deserialize<Transcript>(await response.Content.ReadAsStringAsync());
             }
-            throw new APIError
+            throw new ApiException
             {
                 StatusCode = (int) response.StatusCode,
             };
@@ -95,7 +95,7 @@ namespace AssemblyAI
             {
                 return JsonSerializer.Deserialize<Transcript>(await response.Content.ReadAsStringAsync());
             }
-            throw new APIError
+            throw new ApiException
             {
                 StatusCode = (int) response.StatusCode,
             };
@@ -115,7 +115,7 @@ namespace AssemblyAI
             {
                 return JsonSerializer.Deserialize<Transcript>(await response.Content.ReadAsStringAsync());
             }
-            throw new APIError
+            throw new ApiException
             {
                 StatusCode = (int) response.StatusCode,
             };
@@ -151,7 +151,7 @@ namespace AssemblyAI
             {
                 return JsonSerializer.Deserialize<string>(await response.Content.ReadAsStringAsync());
             }
-            throw new APIError
+            throw new ApiException
             {
                 StatusCode = (int) response.StatusCode,
             };
@@ -172,7 +172,7 @@ namespace AssemblyAI
             {
                 return JsonSerializer.Deserialize<string>(await response.Content.ReadAsStringAsync());
             }
-            throw new APIError
+            throw new ApiException
             {
                 StatusCode = (int) response.StatusCode,
             };

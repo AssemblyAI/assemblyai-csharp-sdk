@@ -4,10 +4,10 @@ namespace AssemblyAI
 {
     public sealed class TranscriptStatus
     {
-        public static readonly TranscriptStatus ERROR = new TranscriptStatus(Value.ERROR, "error");
-        public static readonly TranscriptStatus QUEUED = new TranscriptStatus(Value.QUEUED, "queued");
-        public static readonly TranscriptStatus PROCESSING = new TranscriptStatus(Value.PROCESSING, "processing");
-        public static readonly TranscriptStatus COMPLETED = new TranscriptStatus(Value.COMPLETED, "completed");
+        public static readonly TranscriptStatus Error = new TranscriptStatus(Value.Error, "error");
+        public static readonly TranscriptStatus Queued = new TranscriptStatus(Value.Queued, "queued");
+        public static readonly TranscriptStatus Processing = new TranscriptStatus(Value.Processing, "processing");
+        public static readonly TranscriptStatus Completed = new TranscriptStatus(Value.Completed, "completed");
 
         private readonly Value value;
         private readonly string raw;
@@ -38,21 +38,21 @@ namespace AssemblyAI
         {
             return value switch
             {
-                "ERROR" => ERROR,
-                "QUEUED" => QUEUED,
-                "PROCESSING" => PROCESSING,
-                "COMPLETED" => COMPLETED,
-                _ => throw new AssemblyAIError()
+                "ERROR" => Error,
+                "QUEUED" => Queued,
+                "PROCESSING" => Processing,
+                "COMPLETED" => Completed,
+                _ => throw new AssemblyAIException()
             };
         }
 
         public enum Value
         {
-            QUEUED,
-            PROCESSING,
-            COMPLETED,
-            ERROR,
-            UNKNOWN,
+            Queued,
+            Processing,
+            Completed,
+            Error,
+            Unknown,
         }
     }
 }

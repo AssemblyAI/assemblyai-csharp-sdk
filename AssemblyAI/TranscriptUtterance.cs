@@ -17,7 +17,7 @@ public class TranscriptUtterance
     public string Text { get; init; } = null!;
 
     [JsonPropertyName("words")]
-    public List<TranscriptWord> Words { get; init; } = null!;
+    public IEnumerable<TranscriptWord> Words { get; init; } = null!;
 
     [JsonPropertyName("speaker")]
     public string Speaker { get; init; } = null!;

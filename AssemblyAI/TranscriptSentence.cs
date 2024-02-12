@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace AssemblyAI;
@@ -17,5 +18,5 @@ public class TranscriptSentence
     public double Confidence { get; init; }
 
     [JsonPropertyName("words")]
-    public List<TranscriptWord> Words { get; init; } = new List<TranscriptWord>();
+    public IEnumerable<TranscriptWord> Words { get; init; } = new List<TranscriptWord>();
 }

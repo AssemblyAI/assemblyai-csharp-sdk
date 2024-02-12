@@ -9,11 +9,11 @@ public class ContentSafetyLabelsResult
     public AudioIntelligenceModelStatus Status { get; init; } = null!;
     
     [JsonPropertyName("results")]
-    public List<ContentSafetyLabelResult> Results { get; init; } = null!;
+    public IEnumerable<ContentSafetyLabelResult> Results { get; init; } = null!;
     
     [JsonPropertyName("summary")]
-    public Dictionary<string, double> Summary { get; init; } = null!;
+    public IReadOnlyDictionary<string, double> Summary { get; init; } = null!;
     
     [JsonPropertyName("severity_score_summary")]
-    public Dictionary<string, SeverityScoreSummary> SeverityScoreSummary { get; init; } = null!;
+    public IReadOnlyDictionary<string, SeverityScoreSummary> SeverityScoreSummary { get; init; } = null!;
 }

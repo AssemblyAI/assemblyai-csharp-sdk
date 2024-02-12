@@ -4,10 +4,10 @@ namespace AssemblyAI;
 
 public class AudioIntelligenceModelStatus
 {
-    public static readonly AudioIntelligenceModelStatus SUCCESS = 
-        new AudioIntelligenceModelStatus("success", Value.SUCCESS);
-    public static readonly AudioIntelligenceModelStatus UNAVAILABLE = 
-        new AudioIntelligenceModelStatus("unavailable", Value.UNAVAILABLE);
+    public static readonly AudioIntelligenceModelStatus Success = 
+        new AudioIntelligenceModelStatus("success", Value.Success);
+    public static readonly AudioIntelligenceModelStatus Unavailable = 
+        new AudioIntelligenceModelStatus("unavailable", Value.Unavailable);
 
     private readonly string _raw;
     private readonly Value _value;
@@ -23,15 +23,15 @@ public class AudioIntelligenceModelStatus
     {
         return value switch
         {
-            "success" => SUCCESS,
-            "unavailable" => UNAVAILABLE,
-            _ => throw new AssemblyAIError()
+            "success" => Success,
+            "unavailable" => Unavailable,
+            _ => throw new AssemblyAIException()
         };
     }
 
     public enum Value
     {
-        SUCCESS,
-        UNAVAILABLE
+        Success,
+        Unavailable
     }
 }

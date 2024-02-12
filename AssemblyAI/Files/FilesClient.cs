@@ -3,7 +3,7 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI
 {
-    public class FilesClient
+    public partial class FilesClient
     {
         private readonly ClientWrapper _clientWrapper;
 
@@ -24,7 +24,7 @@ namespace AssemblyAI
             {
                 return JsonSerializer.Deserialize<UploadedFile>(await response.Content.ReadAsStringAsync());
             }
-            throw new APIError
+            throw new ApiException
             {
                 StatusCode = (int) response.StatusCode,
             };

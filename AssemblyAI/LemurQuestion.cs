@@ -14,6 +14,6 @@ public class LemurQuestion
     public string? AnswerFormat { get; init; }
 
     [JsonPropertyName("answer_options")]
-    public List<string>? AnswerOptions { get; init; }
+    public IEnumerable<string>? AnswerOptions { get; init; }
 }
 
