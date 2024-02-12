@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<ForwardedHeadersOptions>(
     options => options.ForwardedHeaders = ForwardedHeaders.All
 );
-builder.Services.AddScoped<RealtimeTranscriber>(provider =>
+builder.Services.AddTransient<RealtimeTranscriber>(provider =>
 {
     var config = provider.GetRequiredService<IConfiguration>();
     var realtimeTranscriber = new RealtimeTranscriber
@@ -31,6 +31,7 @@ app.MapGet("/", () => "Hello World!");
 app.MapPost("/voice", (HttpRequest request) =>
 {
     var response = new VoiceResponse();
+    response.Say("Speak to see your audio transcribed in the console.");
     var connect = new Twilio.TwiML.Voice.Connect();
     connect.Stream(url: $"wss://{request.Host}/stream");
     response.Append(connect);
@@ -121,12 +122,10 @@ async Task TranscribeStream(
         switch (eventMessage)
         {
             case "connected":
-                Console.WriteLine("Event: connected");
+                app.Logger.LogInformation("Twilio media stream connected");
                 break;
             case "start":
-                Console.WriteLine("Event: start");
-                var streamSid = jsonDocument.RootElement.GetProperty("streamSid").GetString();
-                Console.WriteLine($"StreamId: {streamSid}");
+                app.Logger.LogInformation("Twilio media stream started");
                 break;
             case "media":
                 var payload = jsonDocument.RootElement.GetProperty("media").GetProperty("payload").GetString();
@@ -134,7 +133,7 @@ async Task TranscribeStream(
                 realtimeTranscriber.SendAudio(audio);
                 break;
             case "stop":
-                Console.WriteLine("Event: stop");
+                app.Logger.LogInformation("Twilio media stream stopped");
                 break;
         }
 
