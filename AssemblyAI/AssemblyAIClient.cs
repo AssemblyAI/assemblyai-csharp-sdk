@@ -2,29 +2,29 @@
 
 namespace AssemblyAI;
 
-public sealed class AssemblyAI
+public partial class AssemblyAIClient
 {
     private readonly ClientWrapper _clientWrapper;
     
-    public AssemblyAI(string apiKey) : this(apiKey, new ClientOptions()) {}
+    public AssemblyAIClient(string apiKey) : this(apiKey, new ClientOptions()) {}
     
-    public AssemblyAI(string apiKey, ClientOptions clientOptions)
+    public AssemblyAIClient(string apiKey, ClientOptions clientOptions)
     {
         _clientWrapper = new ClientWrapper(clientOptions, clientOptions.HttpClient, new Dictionary<string, string>()
         {
             { "Authorization", apiKey },
             { "X-Fern-SDK-Name", "assemblyai" },
             { "X-Fern-SDK-Version", "0.0.1-beta0" },
-            { "X-Fern-SDK-Langauge", "C#" },
+            { "X-Fern-SDK-Language", "dotnet" },
         });
         Files = new FilesClient(_clientWrapper);
-        Transcript = new TranscriptClient(_clientWrapper);
+        Transcripts = new TranscriptsClient(_clientWrapper);
         Lemur = new LemurClient(_clientWrapper);
         Realtime = new RealtimeClient(_clientWrapper);
     }
     
     public FilesClient Files { get; }
-    public TranscriptClient Transcript { get; }
+    public TranscriptsClient Transcripts { get; }
     public LemurClient Lemur { get; }
     
     public RealtimeClient Realtime { get; }

@@ -5,7 +5,7 @@ namespace AssemblyAI;
 public class TranscriptCustomSpelling
 {
     [JsonPropertyName("from")]
-    public List<string> From { get; init; }
+    public IEnumerable<string> From { get; init; }
     
     [JsonPropertyName("to")]
     public string To { get; init; }

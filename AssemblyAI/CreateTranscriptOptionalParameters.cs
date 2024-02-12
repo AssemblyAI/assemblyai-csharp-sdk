@@ -35,7 +35,7 @@ public class CreateTranscriptOptionalParameters
     public int? AudioEndAt { get; init; }
 
     [JsonPropertyName("word_boost")]
-    public List<string?> WordBoost { get; init; }
+    public IEnumerable<string?> WordBoost { get; init; }
 
     [JsonPropertyName("boost_param")]
     public TranscriptBoostParam? BoostParam { get; init; }
@@ -53,7 +53,7 @@ public class CreateTranscriptOptionalParameters
     public string? RedactPiiAudioQuality { get; init; }
 
     [JsonPropertyName("redact_pii_policies")]
-    public List<PiiPolicy>? RedactPiiPolicies { get; init; }
+    public IEnumerable<PiiPolicy>? RedactPiiPolicies { get; init; }
 
     [JsonPropertyName("redact_pii_sub")]
     public SubstitutionPolicy? RedactPiiSub { get; init; }
@@ -74,7 +74,7 @@ public class CreateTranscriptOptionalParameters
     public bool? LanguageDetection { get; init; }
 
     [JsonPropertyName("custom_spelling")]
-    public List<TranscriptCustomSpelling>? CustomSpelling { get; init; }
+    public IEnumerable<TranscriptCustomSpelling>? CustomSpelling { get; init; }
 
     [JsonPropertyName("disfluencies")]
     public bool? Disfluencies { get; init; }
@@ -104,5 +104,5 @@ public class CreateTranscriptOptionalParameters
     public bool? CustomTopics { get; init; }
 
     [JsonPropertyName("topics")]
-    public List<string?> Topics { get; init; }
+    public IEnumerable<string?> Topics { get; init; }
 }

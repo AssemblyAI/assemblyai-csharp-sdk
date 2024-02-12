@@ -8,8 +8,8 @@ public class TranscriptlabCategoriesResult
     public AudioIntelligenceModelStatus Status { get; init; }
 
     [JsonPropertyName("results")]
-    public List<TopicDetectionResult> Results { get; init; } = null!;
+    public IEnumerable<TopicDetectionResult> Results { get; init; } = null!;
 
     [JsonPropertyName("summary")]
-    public Dictionary<string, double> Summary { get; init; } = null!;
+    public IReadOnlyDictionary<string, double> Summary { get; init; } = null!;
 }

@@ -11,8 +11,8 @@ public class WordSearchMatch
     public int Count { get; init; }
 
     [JsonPropertyName("timestamps")]
-    public List<List<int>> Timestamps { get; init; }
+    public IEnumerable<IEnumerable<int>> Timestamps { get; init; }
 
     [JsonPropertyName("indexes")]
-    public List<int> Indexes { get; init; }
+    public IEnumerable<int> Indexes { get; init; }
 }

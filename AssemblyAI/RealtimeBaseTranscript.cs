@@ -17,7 +17,7 @@ public class RealtimeBaseTranscript
     public string Text { get; init; } = null!;
 
     [JsonPropertyName("words")]
-    public List<Word> Words { get; init; } = new List<Word>();
+    public IEnumerable<Word> Words { get; init; } = new List<Word>();
 
     [JsonPropertyName("created")]
     public string Created { get; init; } = null!;

@@ -11,5 +11,5 @@ public class WordSearchResponse
     public int TotalCount { get; init; }
 
     [JsonPropertyName("matches")]
-    public List<WordSearchMatch> Matches { get; init; }
+    public IEnumerable<WordSearchMatch> Matches { get; init; }
 }

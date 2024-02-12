@@ -3,7 +3,7 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI
 {
-    public class LemurClient
+    public partial class LemurClient
     {
         private readonly ClientWrapper _clientWrapper;
 
@@ -24,7 +24,7 @@ namespace AssemblyAI
             {
                 return JsonSerializer.Deserialize<LemurSummaryResponse>(await response.Content.ReadAsStringAsync());
             }
-            throw new APIError
+            throw new ApiException
             {
                 StatusCode = (int) response.StatusCode,
             };
@@ -43,7 +43,7 @@ namespace AssemblyAI
             {
                 return JsonSerializer.Deserialize<LemurQuestionAnswerResponse>(await response.Content.ReadAsStringAsync());
             }
-            throw new APIError
+            throw new ApiException
             {
                 StatusCode = (int) response.StatusCode,
             };
@@ -62,7 +62,7 @@ namespace AssemblyAI
             {
                 return JsonSerializer.Deserialize<LemurActionItemsResponse>(await response.Content.ReadAsStringAsync());
             }
-            throw new APIError
+            throw new ApiException
             {
                 StatusCode = (int) response.StatusCode,
             };
@@ -81,7 +81,7 @@ namespace AssemblyAI
             {
                 return JsonSerializer.Deserialize<LemurTaskResponse>(await response.Content.ReadAsStringAsync());
             }
-            throw new APIError
+            throw new ApiException
             {
                 StatusCode = (int) response.StatusCode,
             };
@@ -99,7 +99,7 @@ namespace AssemblyAI
             {
                 return JsonSerializer.Deserialize<PurgeLemurRequestDataResponse>(await response.Content.ReadAsStringAsync());
             }
-            throw new APIError
+            throw new ApiException
             {
                 StatusCode = (int) response.StatusCode,
             };

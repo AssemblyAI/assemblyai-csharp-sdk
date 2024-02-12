@@ -4,22 +4,22 @@ namespace AssemblyAI
 {
     public class LemurQuestionAnswerParameters
     {
-        [JsonPropertyName("transcriptIds")]
-        public List<string> TranscriptIds { get; init; }
+        [JsonPropertyName("transcript_ids")]
+        public IEnumerable<string> TranscriptIds { get; init; }
 
         [JsonPropertyName("context")]
         public LemurBaseParametersContext? Context { get; init; }
 
-        [JsonPropertyName("finalModel")]
+        [JsonPropertyName("final_model")]
         public LemurModel? FinalModel { get; init; }
 
-        [JsonPropertyName("maxOutputSize")]
+        [JsonPropertyName("max_output_size")]
         public int? MaxOutputSize { get; init; }
 
         [JsonPropertyName("temperature")]
         public double? Temperature { get; init; }
 
         [JsonPropertyName("questions")]
-        public List<LemurQuestion> Questions { get; init; }
+        public IEnumerable<LemurQuestion> Questions { get; init; }
     }   
 }

@@ -4,10 +4,10 @@ namespace AssemblyAI;
 
 public class PurgeLemurRequestDataResponse
 {
-    [JsonPropertyName("requestId")]
+    [JsonPropertyName("request_id")]
     public string RequestId { get; init; } = null!;
 
-    [JsonPropertyName("requestIdToPurge")]
+    [JsonPropertyName("request_id_to_purge")]
     public string RequestIdToPurge { get; init; } = null!;
 
     [JsonPropertyName("deleted")]

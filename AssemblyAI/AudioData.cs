@@ -2,8 +2,8 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI;
 
-public class AudioData
+public class AudioDataParams
 {
     [JsonPropertyName("audio_data")] 
-    public string AudioData_ { get; init; } = null!;
+    public string AudioData { get; init; } = null!;
 }

@@ -2,8 +2,7 @@ namespace AssemblyAI.Core;
 
 public sealed class Environment
 {
-    public static readonly Environment Default = new Environment("https://api.assemblyai.com");
-    public static readonly Environment Sandbox = new Environment("https://sandbox.assemblyai.com");
+    public static readonly Environment Production = new Environment("https://api.assemblyai.com");
     
     private readonly string _url;
     
@@ -12,5 +11,5 @@ public sealed class Environment
         this._url = url;
     }
 
-    public string URL => _url;
+    public string Url => _url;
 }

@@ -3,7 +3,7 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI
 {
-    public class RealtimeClient
+    public partial class RealtimeClient
     {
         private readonly ClientWrapper _clientWrapper;
 
@@ -13,9 +13,9 @@ namespace AssemblyAI
         }
         
         /**
-         * Retrieve a list of transcripts you have created.
+         * Retrieve a IEnumerable of transcripts you have created.
          */
-        public async Task<TranscriptList> CreateTemporaryToken(
+        public async Task<TranscriptIEnumerable> CreateTemporaryToken(
             CreateRealtimeTemporaryTokenParameters request, RequestOptions? options = null)
         {
             var url = new URLBuilder(this._clientWrapper.BaseUrl)
@@ -26,9 +26,9 @@ namespace AssemblyAI
                 new StringContent(JsonSerializer.Serialize(request)));
             if (response.IsSuccessStatusCode)
             {
-                return JsonSerializer.Deserialize<TranscriptList>(await response.Content.ReadAsStringAsync());
+                return JsonSerializer.Deserialize<TranscriptIEnumerable>(await response.Content.ReadAsStringAsync());
             }
-            throw new APIError
+            throw new ApiException
             {
                 StatusCode = (int) response.StatusCode,
             };

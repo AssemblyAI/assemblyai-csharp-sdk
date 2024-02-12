@@ -2,10 +2,10 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI;
 
-public class Error
+public class ErrorParams
 {
     [JsonPropertyName("error")]
-    public string Error_ { get; init; } = null!;
+    public string Error { get; init; } = null!;
     
     [JsonPropertyName("status")]
     public string? Status { get; init; }

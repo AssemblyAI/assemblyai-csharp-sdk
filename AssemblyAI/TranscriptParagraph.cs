@@ -17,5 +17,5 @@ public class TranscriptParagraph
     public double Confidence { get; init; }
 
     [JsonPropertyName("words")]
-    public List<TranscriptWord> Words { get; init; } = null!;
+    public IEnumerable<TranscriptWord> Words { get; init; } = null!;
 }

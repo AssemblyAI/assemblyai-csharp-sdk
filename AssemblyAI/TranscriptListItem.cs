@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI
 {
-    public sealed class TranscriptListItem
+    public sealed class TranscriptIEnumerableItem
     {
         [JsonPropertyName("id")] 
         public string Id { get; init; } = null!;

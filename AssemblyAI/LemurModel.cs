@@ -2,9 +2,9 @@ namespace AssemblyAI;
 
 public class LemurModel
 {
-    public static LemurModel BASIC { get; } = new LemurModel(Value.BASIC, "basic");
+    public static LemurModel Basic { get; } = new LemurModel(Value.Basic, "basic");
 
-    public static LemurModel DEFAULT { get; } = new LemurModel(Value.DEFAULT, "default");
+    public static LemurModel Default { get; } = new LemurModel(Value.Default, "default");
     
     
     private readonly Value _value;
@@ -17,8 +17,8 @@ public class LemurModel
 
     public enum Value
     {
-        DEFAULT,
-        BASIC,
-        UNKNOWN
+        Default,
+        Basic,
+        Unknown
     }
 }

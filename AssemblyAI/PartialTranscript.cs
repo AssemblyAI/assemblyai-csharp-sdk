@@ -4,10 +4,10 @@ namespace AssemblyAI;
 
 public class PartialTranscript
 {
-    [JsonPropertyName("audioStart")]
+    [JsonPropertyName("audio_start")]
     public int AudioStart { get; init; }
 
-    [JsonPropertyName("audioEnd")]
+    [JsonPropertyName("audio_end")]
     public int AudioEnd { get; init; }
 
     [JsonPropertyName("confidence")]
@@ -17,7 +17,7 @@ public class PartialTranscript
     public string Text { get; init; } = null!;
 
     [JsonPropertyName("words")]
-    public List<Word> Words { get; init; } = null!;
+    public IEnumerable<Word> Words { get; init; } = null!;
 
     [JsonPropertyName("created")]
     public string Created { get; init; } = null!;

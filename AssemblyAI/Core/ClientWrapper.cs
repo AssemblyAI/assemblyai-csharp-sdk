@@ -3,10 +3,10 @@ namespace AssemblyAI.Core;
 public sealed class ClientWrapper
 {
     private readonly HttpClient _httpClient;
-    private readonly Dictionary<string, string> _headers;
+    private readonly IReadOnlyDictionary<string, string> _headers;
     private readonly ClientOptions _clientOptions;
 
-    public ClientWrapper(ClientOptions _clientOptions, HttpClient httpClient, Dictionary<string, string> headers)
+    public ClientWrapper(ClientOptions _clientOptions, HttpClient httpClient, IReadOnlyDictionary<string, string> headers)
     {
         _clientOptions = _clientOptions;
         _httpClient = httpClient;
@@ -15,7 +15,7 @@ public sealed class ClientWrapper
 
     public HttpClient HttpClient => _httpClient;
 
-    public string BaseUrl => _clientOptions.BaseURL;
+    public string BaseUrl => _clientOptions.BaseUrl;
 
-    public Dictionary<string, string> Headers => _headers;
+    public IReadOnlyDictionary<string, string> Headers => _headers;
 }
