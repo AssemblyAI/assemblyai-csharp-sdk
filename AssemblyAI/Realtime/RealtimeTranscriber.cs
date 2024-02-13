@@ -189,7 +189,7 @@ namespace AssemblyAI.Realtime
 
             _socket.DisconnectionHappened.Subscribe(d =>
             {
-                OnClosed((int)d.CloseStatus, d.CloseStatusDescription);
+                OnClosed((int?)d.CloseStatus, d.CloseStatusDescription);
             });
 
             var sessionBeginsTaskCompletionSource = new TaskCompletionSource<SessionBeginsMessage>();
@@ -214,8 +214,8 @@ namespace AssemblyAI.Realtime
                     {
                         case "SessionBegins":
                             var sessionBeginsMessage = message.Deserialize<SessionBeginsMessage>();
-                            OnSessionBegins(sessionBeginsMessage);
                             sessionBeginsTaskCompletionSource.SetResult(sessionBeginsMessage);
+                            OnSessionBegins(sessionBeginsMessage);
                             break;
                         case "PartialTranscript":
                         {
@@ -290,7 +290,7 @@ namespace AssemblyAI.Realtime
             _sessionTerminatedTaskCompletionSource?.TrySetResult(true);
         }
 
-        private void OnClosed(int code, string reason)
+        private void OnClosed(int? code, string reason)
         {
             Status = RealtimeTranscriberStatus.Disconnected;
             RaiseEvent(Closed, this, new ClosedEventArgs
@@ -319,8 +319,7 @@ namespace AssemblyAI.Realtime
         /// <param name="audio">Audio to transcribe</param>
         /// <returns></returns>
         public void SendAudio(ArraySegment<byte> audio) => _socket.Send(audio);
-
-
+        
         /// <summary>
         /// Send audio to the real-time service.
         /// </summary>
@@ -336,13 +335,17 @@ namespace AssemblyAI.Realtime
         /// </remarks>
         public void Dispose()
         {
-            if (_socket.IsRunning)
+            if (_socket is not null)
             {
-                CloseAsync(false).Wait();
-            }
+                if (_socket.IsRunning)
+                {
+                    CloseAsync(false).Wait();
+                }
 
-            _socket.Dispose();
+                _socket.Dispose();
+            }
             RemoveEvents();
+            DisposeObservables();
         }
 
         /// <summary>
@@ -354,13 +357,18 @@ namespace AssemblyAI.Realtime
         /// </remarks>
         public async ValueTask DisposeAsync()
         {
-            if (_socket.IsRunning)
+            if (_socket is not null)
             {
-                await CloseAsync(false);
-            }
+                if (_socket.IsRunning)
+                {
+                    await CloseAsync(false);
+                }
 
-            _socket.Dispose();
+                _socket.Dispose();
+                _socket = null;
+            }
             RemoveEvents();
+            DisposeObservables();
         }
 
         private void RemoveEvents()
@@ -557,7 +565,7 @@ namespace AssemblyAI.Realtime
         {
         }
 
-        public int Code { get; internal set; }
+        public int? Code { get; internal set; }
         public string Reason { get; internal set; }
     }
 }

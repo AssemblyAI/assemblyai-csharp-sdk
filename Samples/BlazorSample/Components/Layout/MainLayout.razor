@@ -1,0 +1,31 @@
+﻿@inherits LayoutComponentBase
+@implements IDisposable
+
+<main class="d-flex flex-column min-vh-100">
+    <NavMenu/>
+
+    <article class="content px-4 flex-fill d-flex pt-2">
+        @Body
+    </article>
+</main>
+
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>
+
+@code
+{
+    [Inject] private AppState AppState { get; set; }
+
+    protected override void OnInitialized()
+    {
+        AppState.StateHasChanged += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        AppState.StateHasChanged -= StateHasChanged;
+    }
+}

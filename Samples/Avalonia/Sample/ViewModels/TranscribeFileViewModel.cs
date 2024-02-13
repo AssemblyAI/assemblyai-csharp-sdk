@@ -114,6 +114,7 @@ public class TranscribeFileViewModel : ViewModelBase
         IsTranscribing = false;
     }
 
+    // TODO: Replace when stream is supported by SDK
     public static byte[] ReadToEnd(System.IO.Stream stream)
     {
         long originalPosition = 0;
