@@ -20,7 +20,7 @@ builder.Services.AddTransient<AssemblyAI.AssemblyAI>(provider =>
     return new AssemblyAI.AssemblyAI(config["AssemblyAI:ApiKey"]);
 });
 builder.Services.AddScoped<IRealtimeTranscriberFactory, RealtimeTranscriberFactory>();
-builder.Services.AddScoped<ITranscribeFile, TranscribeFile>();
+builder.Services.AddScoped<IFileTranscriber, FileTranscriber>();
 
 var app = builder.Build();
 

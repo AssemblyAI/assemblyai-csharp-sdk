@@ -55,25 +55,53 @@
             style="width: 100%"
         >@Transcript</textarea>
     </div>
-    <div class="col">
-        LeMUR
+    <div class="col d-flex flex-column">
+        <div class="p-2 flex-grow-1">
+            @foreach (var message in LemurMessages)
+            {
+                @if (message.IsAssistantMessage)
+                {
+                    <div class="d-flex justify-content-end mb-1">
+                        <span class="d-block p-2 bubble right">
+                            @message.Message
+                        </span>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex justify-content-start mb-1">
+                        <span class="d-block p-2 bubble left">@message.Message</span>
+                    </div>
+                }
+            }
+        </div>
+        <EditForm Model="LemurFormModel" OnValidSubmit="AskQuestion">
+            <div class="input-group p-2">
+                <InputText
+                    type="text"
+                    class="form-control"
+                    placeholder="Ask Question"
+                    @bind-Value="LemurFormModel!.Question"
+                    required="required"/>
+                <button class="btn btn-outline-secondary" type="submit">Send</button>
+            </div>
+        </EditForm>
     </div>
 </div>
 
 @code {
 
-    [Inject] private AntiforgeryStateProvider AntiforgeryStateProvider { get; set; }
-    [SupplyParameterFromForm] public TranscribeFileFormModel? FormModel { get; set; }
-
-    public Transcript Transcript { get; set; }
-
+    [SupplyParameterFromForm] private TranscribeFileFormModel? FormModel { get; set; }
+    [SupplyParameterFromForm] private LemurFormModel? LemurFormModel { get; set; }
     [Inject] private ILogger<TranscribeFile> Logger { get; set; }
-    [Inject] private NavigationManager NavigationManager { get; set; }
-    [Inject] private HttpClient HttpClient { get; set; }
+    [Inject] private IFileTranscriber FileTranscriber { get; set; }
+    private Transcript Transcript { get; set; }
+    private List<LemurMessage> LemurMessages { get; set; } = [LemurMessage.FromAssistant("Ask a question about your transcript.")];
 
     protected override void OnInitialized()
     {
         FormModel ??= new();
+        LemurFormModel ??= new();
     }
 
     private void SetFile(InputFileChangeEventArgs e)
@@ -83,17 +111,14 @@
 
     private async Task Submit()
     {
-        Logger.LogInformation("Submit called: Processing the form");
-        var csrfToken = AntiforgeryStateProvider.GetAntiforgeryToken();
-        await using var fileStream = FormModel.File.OpenReadStream(maxAllowedSize: 2_306_867_200);
-        var content = new MultipartFormDataContent
-        {
-            { new StringContent(FormModel.LanguageCode), nameof(FormModel.LanguageCode) },
-            { new StreamContent(fileStream), nameof(FormModel.File), FormModel.File.Name }
-        };
-        var request = new HttpRequestMessage(HttpMethod.Post, "/api/transcribe-file");
-        request.Headers.Add("RequestVerificationToken", csrfToken.Value);
-        request.Content = content;
-        var response = await HttpClient.SendAsync(request);
+        Transcript = await FileTranscriber.TranscribeFileAsync(FormModel).ConfigureAwait(false);
     }
+
+    private async Task AskQuestion()
+    {
+        var question = LemurFormModel.Question;
+        LemurFormModel.Question = "";
+        LemurMessages.Add(LemurMessage.FromUser(question));
+    }
+
 }

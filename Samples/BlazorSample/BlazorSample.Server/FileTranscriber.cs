@@ -4,11 +4,11 @@ using BlazorSample.Shared.Models;
 
 namespace BlazorSample.Server;
 
-public class TranscribeFile : ITranscribeFile
+public class FileTranscriber : IFileTranscriber
 {
     private readonly AssemblyAI.AssemblyAI _assemblyAIClient;
 
-    public TranscribeFile(AssemblyAI.AssemblyAI assemblyAIClient)
+    public FileTranscriber(AssemblyAI.AssemblyAI assemblyAIClient)
     {
         _assemblyAIClient = assemblyAIClient;
     }

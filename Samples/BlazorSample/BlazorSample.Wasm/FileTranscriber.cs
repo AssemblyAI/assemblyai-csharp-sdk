@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Components.Forms;
 
 namespace BlazorSample.Wasm;
 
-public class TranscribeFile(
+public class FileTranscriber(
     HttpClient httpClient,
     AntiforgeryStateProvider antiforgeryStateProvider)
-    : ITranscribeFile
+    : IFileTranscriber
 {
     public async Task<Transcript> TranscribeFileAsync(TranscribeFileFormModel model)
     {

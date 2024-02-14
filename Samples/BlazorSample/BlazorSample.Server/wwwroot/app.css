@@ -16,10 +16,50 @@
     color: white;
 }
 
-    .blazor-error-boundary::after {
-        content: "An error has occurred."
-    }
+.blazor-error-boundary::after {
+    content: "An error has occurred."
+}
 
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
+}
+
+.bubble {
+    position: relative;
+}
+
+.bubble.left {
+    background-color: #008000;
+    color: white;
+    margin-left: 5px;
+}
+
+.bubble.right {
+    background-color: #0a53be;
+    color: white;
+    margin-right: 5px;
+}
+
+.bubble:after {
+    content: '';
+    position: absolute;
+    border: 1px solid rgba(51, 51, 51, 0.19);
+}
+
+/*triangle side*/
+
+/*right*/
+.bubble.right:after {
+    border-color: transparent #0a53be;
+    border-width: 13px 0 0px 12px;
+    bottom: 0;
+    right: -12px;
+}
+
+/*left*/
+.bubble.left:after {
+    border-color: transparent #008000;
+    border-width: 13px 12px 0px 0;
+    bottom: 0;
+    left: -12px;
 }

@@ -3,7 +3,7 @@ using BlazorSample.Shared.Models;
 
 namespace BlazorSample.Shared;
 
-public interface ITranscribeFile
+public interface IFileTranscriber
 {
     public Task<Transcript> TranscribeFileAsync(TranscribeFileFormModel model);
 }
