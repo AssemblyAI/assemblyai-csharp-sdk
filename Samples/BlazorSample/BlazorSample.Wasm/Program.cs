@@ -10,6 +10,7 @@ public class Program
         var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
         builder.Services.AddScoped<IRealtimeTranscriberFactory, RealtimeTranscriberFactory>();
+        builder.Services.AddScoped<ITranscribeFile, TranscribeFile>();
         builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
         await builder.Build().RunAsync();

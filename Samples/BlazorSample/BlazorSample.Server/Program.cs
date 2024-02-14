@@ -20,6 +20,7 @@ builder.Services.AddTransient<AssemblyAI.AssemblyAI>(provider =>
     return new AssemblyAI.AssemblyAI(config["AssemblyAI:ApiKey"]);
 });
 builder.Services.AddScoped<IRealtimeTranscriberFactory, RealtimeTranscriberFactory>();
+builder.Services.AddScoped<ITranscribeFile, TranscribeFile>();
 
 var app = builder.Build();
 
@@ -44,7 +45,7 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(BlazorSample.Wasm.Program).Assembly)
-    .AddAdditionalAssemblies(typeof(BlazorSample.Shared.Pages.TranscribeFile).Assembly);
+    .AddAdditionalAssemblies(typeof(BlazorSample.Shared.Components.Pages.TranscribeFile).Assembly);
 
 var api = app.MapGroup("/api");
 
