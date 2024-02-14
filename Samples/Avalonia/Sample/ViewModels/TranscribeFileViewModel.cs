@@ -97,17 +97,17 @@ public class TranscribeFileViewModel : ViewModelBase
         IsTranscribing = true;
         await using var fileStream = await _selectedFile.OpenReadAsync();
         var uploadedFile = await _client.Files.Upload(ReadToEnd(fileStream));
-        var transcript = await _client.Transcript.Create(new CreateTranscriptParameters
+        var transcript = await _client.Transcripts.Create(new CreateTranscriptParameters
         {
             AudioUrl = uploadedFile.UploadUrl,
             LanguageCode = SelectedLanguage != null ? new TranscriptLanguageCode(SelectedLanguage.Value.Value) : null
         });
         while (true)
         {
-            if (transcript.Status == TranscriptStatus.ERROR) throw new Exception();
-            if (transcript.Status == TranscriptStatus.COMPLETED) break;
+            if (transcript.Status == TranscriptStatus.Error) throw new Exception();
+            if (transcript.Status == TranscriptStatus.Completed) break;
             await Task.Delay(500);
-            transcript = await _client.Transcript.Get(transcript.Id);
+            transcript = await _client.Transcripts.Get(transcript.Id);
         }
 
         Transcript = transcript;
@@ -177,7 +177,7 @@ public class TranscribeFileViewModel : ViewModelBase
     }
 
     private bool _isLemurThinking = false;
-    private readonly AssemblyAI.AssemblyAI _client = DiContainer.Services.GetRequiredService<AssemblyAI.AssemblyAI>();
+    private readonly AssemblyAIClient _client = DiContainer.Services.GetRequiredService<AssemblyAIClient>();
 
     public bool IsLemurThinking
     {

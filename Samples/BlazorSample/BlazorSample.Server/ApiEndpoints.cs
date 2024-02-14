@@ -18,11 +18,11 @@ public static class ApiEndpoints
 
     [RequestSizeLimit(2_306_867_200)]
     private static async Task<Transcript> TranscribeFile([FromForm] TranscribeFileModel model,
-        AssemblyAI.AssemblyAI assemblyAIClient)
+        AssemblyAIClient assemblyAIClient)
     {
         await using var fileStream = model.File.OpenReadStream();
         var fileUpload = await assemblyAIClient.Files.Upload(await ReadToEndAsync(fileStream));
-        var transcript = await assemblyAIClient.Transcript.Create(new CreateTranscriptParameters
+        var transcript = await assemblyAIClient.Transcripts.Create(new CreateTranscriptParameters
             { AudioUrl = fileUpload.UploadUrl, LanguageCode = new TranscriptLanguageCode(model.LanguageCode) });
         return transcript;
     }
@@ -30,7 +30,7 @@ public static class ApiEndpoints
     private static async Task<object> AskLemur(
         [FromForm] string transcriptId,
         [FromForm] string question,
-        AssemblyAI.AssemblyAI assemblyAIClient
+        AssemblyAIClient assemblyAIClient
     )
     {
         var response = await assemblyAIClient.Lemur.Task(new LemurTaskParameters
@@ -41,7 +41,7 @@ public static class ApiEndpoints
         return new { response = response.Response };
     }
 
-    private static async Task<RealtimeTemporaryTokenResponse> GetRealtimeToken(AssemblyAI.AssemblyAI assemblyAIClient)
+    private static async Task<RealtimeTemporaryTokenResponse> GetRealtimeToken(AssemblyAIClient assemblyAIClient)
     {
         var tokenResponse = await assemblyAIClient.Realtime
             .CreateTemporaryToken(new CreateRealtimeTemporaryTokenParameters { ExpiresIn = 360 });

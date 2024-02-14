@@ -1,3 +1,4 @@
+using AssemblyAI;
 using BlazorSample.Server;
 using BlazorSample.Server.Components;
 using BlazorSample.Shared;
@@ -11,10 +12,10 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddHttpClient();
 
-builder.Services.AddTransient<AssemblyAI.AssemblyAI>(provider =>
+builder.Services.AddTransient<AssemblyAIClient>(provider =>
 {
     var config = provider.GetRequiredService<IConfiguration>();
-    return new AssemblyAI.AssemblyAI(config["AssemblyAI:ApiKey"]);
+    return new AssemblyAIClient(config["AssemblyAI:ApiKey"]);
 });
 builder.Services.AddScoped<IRealtimeTranscriberFactory, RealtimeTranscriberFactory>();
 builder.Services.AddScoped<IFileTranscriber, FileTranscriber>();

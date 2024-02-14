@@ -1,4 +1,5 @@
 ﻿using System;
+using AssemblyAI;
 using Avalonia;
 using Avalonia.ReactiveUI;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,10 +19,10 @@ sealed class Program
         {
             services.AddTransient<ICaptureAudio, CaptureAudio>();
             services.AddSingleton<ApiKeyContainer>();
-            services.AddTransient<AssemblyAI.AssemblyAI>(services =>
+            services.AddTransient<AssemblyAIClient>(services =>
             {
                 var apiContainer = services.GetRequiredService<ApiKeyContainer>();
-                return new AssemblyAI.AssemblyAI(apiContainer.ApiKey);
+                return new AssemblyAIClient(apiContainer.ApiKey);
             });
         });
         BuildAvaloniaApp()

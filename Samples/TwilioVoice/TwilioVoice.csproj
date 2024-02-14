@@ -9,10 +9,12 @@
 
     <ItemGroup>
       <PackageReference Include="Twilio.AspNet.Core" Version="8.0.2" />
+      <PackageReference Include="Websocket.Client" Version="5.0.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\AssemblyAI\AssemblyAI.csproj" />
+      <ProjectReference Include="..\..\src\AssemblyAI\AssemblyAI.csproj" />
     </ItemGroup>
 
 </Project>

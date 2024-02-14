@@ -21,7 +21,7 @@
         <WasmExtraFilesToDeploy Include="wwwroot\**\*" />
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\..\..\AssemblyAI\AssemblyAI.csproj" />
+      <ProjectReference Include="..\..\..\src\AssemblyAI\AssemblyAI.csproj" />
     </ItemGroup>
     <ItemGroup>
       <_ContentIncludedByDefault Remove="wwwroot\bootstrap\bootstrap.min.css" />

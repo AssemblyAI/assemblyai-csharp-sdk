@@ -6,9 +6,9 @@ namespace BlazorSample.Server;
 
 public class FileTranscriber : IFileTranscriber
 {
-    private readonly AssemblyAI.AssemblyAI _assemblyAIClient;
+    private readonly AssemblyAIClient _assemblyAIClient;
 
-    public FileTranscriber(AssemblyAI.AssemblyAI assemblyAIClient)
+    public FileTranscriber(AssemblyAIClient assemblyAIClient)
     {
         _assemblyAIClient = assemblyAIClient;
     }
@@ -17,7 +17,7 @@ public class FileTranscriber : IFileTranscriber
     {
         await using var fileStream = model.File.OpenReadStream(maxAllowedSize: 2_306_867_200);
         var fileUpload = await _assemblyAIClient.Files.Upload(await ReadToEndAsync(fileStream));
-        var transcript = await _assemblyAIClient.Transcript.Create(new CreateTranscriptParameters
+        var transcript = await _assemblyAIClient.Transcripts.Create(new CreateTranscriptParameters
         {
             AudioUrl = fileUpload.UploadUrl,
             LanguageCode = new TranscriptLanguageCode(model.LanguageCode)

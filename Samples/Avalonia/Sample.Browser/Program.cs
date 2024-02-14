@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Versioning;
 using System.Threading.Tasks;
+using AssemblyAI;
 using AssemblyAI.Core;
 using Avalonia;
 using Avalonia.Browser;
@@ -19,12 +20,12 @@ internal sealed partial class Program
         {
             services.AddTransient<ICaptureAudio, CaptureAudio>();
             services.AddSingleton<ApiKeyContainer>();
-            services.AddTransient<AssemblyAI.AssemblyAI>(services =>
+            services.AddTransient<AssemblyAIClient>(services =>
             {
                 var apiContainer = services.GetRequiredService<ApiKeyContainer>();
-                return new AssemblyAI.AssemblyAI(apiContainer.ApiKey, new ClientOptions
+                return new AssemblyAIClient(apiContainer.ApiKey, new ClientOptions
                 {
-                    BaseURL = "https://localhost:7030/api"
+                    BaseUrl = "https://localhost:7030/api"
                 });
             });
         });

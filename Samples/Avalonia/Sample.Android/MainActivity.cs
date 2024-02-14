@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Android.App;
 using Android.Content.PM;
+using AssemblyAI;
 using Avalonia;
 using Avalonia.Android;
 using Avalonia.ReactiveUI;
@@ -25,10 +26,10 @@ public class MainActivity : AvaloniaMainActivity<App>
         {
             services.AddTransient<ICaptureAudio, CaptureAudio>(_ => new CaptureAudio(this));
             services.AddSingleton<ApiKeyContainer>();
-            services.AddTransient<AssemblyAI.AssemblyAI>(services =>
+            services.AddTransient<AssemblyAIClient>(services =>
             {
                 var apiContainer = services.GetRequiredService<ApiKeyContainer>();
-                return new AssemblyAI.AssemblyAI(apiContainer.ApiKey);
+                return new AssemblyAIClient(apiContainer.ApiKey);
             });
         });
         return base.CustomizeAppBuilder(builder)

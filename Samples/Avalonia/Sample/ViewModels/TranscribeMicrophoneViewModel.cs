@@ -16,7 +16,7 @@ namespace Sample.ViewModels;
 public class TranscribeMicrophoneViewModel : ViewModelBase, IAsyncDisposable
 {
     private readonly ICaptureAudio _captureAudio;
-    private readonly AssemblyAI.AssemblyAI _client = DiContainer.Services.GetRequiredService<AssemblyAI.AssemblyAI>();
+    private readonly AssemblyAIClient _client = DiContainer.Services.GetRequiredService<AssemblyAIClient>();
     private readonly SortedDictionary<int, string> _transcriptWords = new();
     private readonly RealtimeTranscriber _transcriber;
 

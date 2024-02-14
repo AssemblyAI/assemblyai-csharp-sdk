@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\AssemblyAI\AssemblyAI.csproj" />
+      <ProjectReference Include="..\..\..\src\AssemblyAI\AssemblyAI.csproj" />
       <ProjectReference Include="..\BlazorSample.Shared\BlazorSample.Shared.csproj" />
       <ProjectReference Include="..\BlazorSample.Wasm\BlazorSample.Wasm.csproj" />
     </ItemGroup>

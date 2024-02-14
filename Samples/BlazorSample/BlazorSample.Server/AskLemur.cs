@@ -4,7 +4,7 @@ using BlazorSample.Shared;
 
 namespace BlazorSample.Server;
 
-public class AskLemur(AssemblyAI.AssemblyAI assemblyAIClient)
+public class AskLemur(AssemblyAIClient assemblyAIClient)
     : IAskLemur
 {
     public async Task<string> AskQuestionAsync(string transcriptId, string question)

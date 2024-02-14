@@ -10,6 +10,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\AssemblyAI\AssemblyAI.csproj" />
+      <ProjectReference Include="..\..\src\AssemblyAI\AssemblyAI.csproj" />
     </ItemGroup>
 
     <ItemGroup>
