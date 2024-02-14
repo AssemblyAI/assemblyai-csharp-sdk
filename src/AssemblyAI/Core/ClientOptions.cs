@@ -1,13 +1,17 @@
-namespace AssemblyAI.Core;
+using System.Collections.Generic;
+using System.Net.Http;
 
-public class ClientOptions
+namespace AssemblyAI.Core
 {
-    public HttpClient HttpClient { get; init;} = new HttpClient();
+    public class ClientOptions
+    {
+        public HttpClient HttpClient { get; set;} = new HttpClient();
     
-    public int MaxRetries { get; init; } = 2;
+        public int MaxRetries { get; set; } = 2;
 
-    public int TimeoutInSeconds { get; init; } = 60;
+        public int TimeoutInSeconds { get; set; } = 60;
 
-    public IReadOnlyDictionary<string, string> Headers { get; init; } = new Dictionary<string, string>();
-    public string BaseUrl { get; init; } = Environment.Production.Url;
+        public IReadOnlyDictionary<string, string> Headers { get; set; } = new Dictionary<string, string>();
+        public string BaseUrl { get; set; } = Environment.Production.Url;
+    }
 }

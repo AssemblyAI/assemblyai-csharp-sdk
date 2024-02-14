@@ -1,23 +1,25 @@
-namespace AssemblyAI.Core;
+using System.Collections.Generic;
 
-public sealed class URLBuilder
+namespace AssemblyAI.Core
 {
+    public sealed class URLBuilder
+    {
 
-    private readonly string _baseUrl;
-    private readonly List<string> _pathSegments = new ();
-    private readonly Dictionary<string, List<string>> _queryParameters = new();
+        private readonly string _baseUrl;
+        private readonly List<string> _pathSegments = new List<string>();
+        private readonly Dictionary<string, List<string>> _queryParameters = new Dictionary<string, List<string>>();
 
-    public URLBuilder(string baseUrl)
+        public URLBuilder(string baseUrl)
     {
         this._baseUrl = baseUrl;
     }
     
-    /**
-     * Add a path segment to the URL.
-     * AddPathSegment("/bar") adds `/bar` to the url.
-     * AddPathSegment("/bar/baz/foo") adds `/bar/baz/foo` to the url.
-     */
-    public URLBuilder AddPathSegment(string path)
+        /**
+         * Add a path segment to the URL.
+         * AddPathSegment("/bar") adds `/bar` to the url.
+         * AddPathSegment("/bar/baz/foo") adds `/bar/baz/foo` to the url.
+         */
+        public URLBuilder AddPathSegment(string path)
     {
         if (path.StartsWith("/"))
         {
@@ -27,12 +29,12 @@ public sealed class URLBuilder
         return this;
     }
     
-    /**
-     * Add a query parameter ot the URL.
-     * AddQueryParameter("bar", "baz") will append `?bar=baz` to the URL.
-     * If multiple query parameters are 
-     */
-    public URLBuilder AddQueryParameter(string key, string value)
+        /**
+         * Add a query parameter ot the URL.
+         * AddQueryParameter("bar", "baz") will append `?bar=baz` to the URL.
+         * If multiple query parameters are
+         */
+        public URLBuilder AddQueryParameter(string key, string value)
     {
         List<string> values;
         if (!_queryParameters.TryGetValue(key, out values)) {
@@ -43,10 +45,10 @@ public sealed class URLBuilder
         return this;
     }
     
-    /**
-     * Builds and returns full URL;
-     */
-    public string build()
+        /**
+         * Builds and returns full URL;
+         */
+        public string build()
     {
         string url = this._baseUrl;
         if (_pathSegments.Count > 0)
@@ -65,7 +67,7 @@ public sealed class URLBuilder
         return url;
     }
 
-    private List<string> getQueryParamEntries()
+        private List<string> getQueryParamEntries()
     {
         List<string> queryParamEntries = new List<string>();
         foreach(KeyValuePair<string, List<string>> entry in _queryParameters)
@@ -76,5 +78,6 @@ public sealed class URLBuilder
             }
         }
         return queryParamEntries;
+    }
     }
 }

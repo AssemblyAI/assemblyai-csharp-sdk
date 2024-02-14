@@ -1,21 +1,25 @@
-namespace AssemblyAI.Core;
+using System.Collections.Generic;
+using System.Net.Http;
 
-public sealed class ClientWrapper
+namespace AssemblyAI.Core
 {
-    private readonly HttpClient _httpClient;
-    private readonly IReadOnlyDictionary<string, string> _headers;
-    private readonly ClientOptions _clientOptions;
-
-    public ClientWrapper(ClientOptions _clientOptions, HttpClient httpClient, IReadOnlyDictionary<string, string> headers)
+    public sealed class ClientWrapper
     {
-        _clientOptions = _clientOptions;
+        private readonly HttpClient _httpClient;
+        private readonly IReadOnlyDictionary<string, string> _headers;
+        private readonly ClientOptions _clientOptions;
+
+        public ClientWrapper(ClientOptions clientOptions, HttpClient httpClient, IReadOnlyDictionary<string, string> headers)
+    {
+        _clientOptions = clientOptions;
         _httpClient = httpClient;
         _headers = headers;
     }
 
-    public HttpClient HttpClient => _httpClient;
+        public HttpClient HttpClient => _httpClient;
 
-    public string BaseUrl => _clientOptions.BaseUrl;
+        public string BaseUrl => _clientOptions.BaseUrl;
 
-    public IReadOnlyDictionary<string, string> Headers => _headers;
+        public IReadOnlyDictionary<string, string> Headers => _headers;
+    }
 }

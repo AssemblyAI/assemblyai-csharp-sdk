@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Net.WebSockets;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -6,6 +9,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading;
+using System.Threading.Tasks;
 using Websocket.Client;
 
 // ReSharper disable ClassNeverInstantiated.Global
@@ -85,28 +90,28 @@ namespace AssemblyAI.Realtime
         /// </summary>
         public event PartialTranscriptEventHandler PartialTranscriptReceived;
 
-        private Subject<PartialRealtimeTranscript> _partialTranscripts = new();
-        
+        private Subject<PartialRealtimeTranscript> _partialTranscripts = new Subject<PartialRealtimeTranscript>();
+
         /// <summary>
         /// 
         /// </summary>
-        public IObservable<PartialRealtimeTranscript> PartialTranscripts => _partialTranscripts; 
+        public IObservable<PartialRealtimeTranscript> PartialTranscripts => _partialTranscripts;
 
         /// <summary>
         /// Event for when a final transcript is received.
         /// </summary>
         public event FinalTranscriptEventHandler FinalTranscriptReceived;
 
-        private Subject<FinalRealtimeTranscript> _finalTranscripts = new();
-        public IObservable<FinalRealtimeTranscript> FinalTranscripts => _finalTranscripts; 
+        private Subject<FinalRealtimeTranscript> _finalTranscripts = new Subject<FinalRealtimeTranscript>();
+        public IObservable<FinalRealtimeTranscript> FinalTranscripts => _finalTranscripts;
 
         /// <summary>
         /// Event for when a partial or final transcript is received.
         /// </summary>
         public event TranscriptEventHandler TranscriptReceived;
 
-        private Subject<RealtimeTranscript> _transcripts = new();
-        public IObservable<RealtimeTranscript> Transcripts => _transcripts; 
+        private Subject<RealtimeTranscript> _transcripts = new Subject<RealtimeTranscript>();
+        public IObservable<RealtimeTranscript> Transcripts => _transcripts;
 
         /// <summary>
         /// Event for when an error is received from the real-time service.
@@ -187,14 +192,11 @@ namespace AssemblyAI.Realtime
                 throw;
             }
 
-            _socket.DisconnectionHappened.Subscribe(d =>
-            {
-                OnClosed((int?)d.CloseStatus, d.CloseStatusDescription);
-            });
+            _socket.DisconnectionHappened.Subscribe(d => { OnClosed((int?)d.CloseStatus, d.CloseStatusDescription); });
 
             var sessionBeginsTaskCompletionSource = new TaskCompletionSource<SessionBeginsMessage>();
             _socket.MessageReceived
-                .Select(message => JsonSerializer.Deserialize<JsonDocument>(message.Text!))
+                .Select(message => JsonSerializer.Deserialize<JsonDocument>(message.Text))
                 .Subscribe(message =>
                 {
                     if (message.RootElement.TryGetProperty("error", out var errorProperty))
@@ -208,7 +210,7 @@ namespace AssemblyAI.Realtime
                     }
 
                     if (!message.RootElement.TryGetProperty("message_type", out var messageTypeProperty)) return;
-                    
+
                     var messageType = messageTypeProperty.GetString();
                     switch (messageType)
                     {
@@ -238,7 +240,7 @@ namespace AssemblyAI.Realtime
                             break;
                     }
                 });
-            
+
             _listenerCancellationTokenSource = new CancellationTokenSource();
             return await sessionBeginsTaskCompletionSource.Task.ConfigureAwait(false);
         }
@@ -319,7 +321,7 @@ namespace AssemblyAI.Realtime
         /// <param name="audio">Audio to transcribe</param>
         /// <returns></returns>
         public void SendAudio(ArraySegment<byte> audio) => _socket.Send(audio);
-        
+
         /// <summary>
         /// Send audio to the real-time service.
         /// </summary>
@@ -335,7 +337,7 @@ namespace AssemblyAI.Realtime
         /// </remarks>
         public void Dispose()
         {
-            if (_socket is not null)
+            if (_socket != null)
             {
                 if (_socket.IsRunning)
                 {
@@ -344,6 +346,7 @@ namespace AssemblyAI.Realtime
 
                 _socket.Dispose();
             }
+
             RemoveEvents();
             DisposeObservables();
         }
@@ -357,7 +360,7 @@ namespace AssemblyAI.Realtime
         /// </remarks>
         public async ValueTask DisposeAsync()
         {
-            if (_socket is not null)
+            if (_socket != null)
             {
                 if (_socket.IsRunning)
                 {
@@ -367,6 +370,7 @@ namespace AssemblyAI.Realtime
                 _socket.Dispose();
                 _socket = null;
             }
+
             RemoveEvents();
             DisposeObservables();
         }
@@ -427,7 +431,7 @@ namespace AssemblyAI.Realtime
 
             foreach (var d in evt.GetInvocationList())
             {
-                if (d.Target is ISynchronizeInvoke { InvokeRequired: true } syncer)
+                if (d.Target is ISynchronizeInvoke syncer && syncer.InvokeRequired == true)
                 {
                     syncer.EndInvoke(syncer.BeginInvoke(d, args));
                 }

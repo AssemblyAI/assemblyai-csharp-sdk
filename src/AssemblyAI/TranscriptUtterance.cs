@@ -1,24 +1,26 @@
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI;
-
-public class TranscriptUtterance
+namespace AssemblyAI
 {
-    [JsonPropertyName("confidence")]
-    public double Confidence { get; init; }
+    public class TranscriptUtterance
+    {
+        [JsonPropertyName("confidence")]
+        public double Confidence { get; set; }
 
-    [JsonPropertyName("start")]
-    public int Start { get; init; }
+        [JsonPropertyName("start")]
+        public int Start { get; set; }
 
-    [JsonPropertyName("end")]
-    public int End { get; init; }
+        [JsonPropertyName("end")]
+        public int End { get; set; }
 
-    [JsonPropertyName("text")]
-    public string Text { get; init; } = null!;
+        [JsonPropertyName("text")]
+        public string Text { get; set; }
 
-    [JsonPropertyName("words")]
-    public IEnumerable<TranscriptWord> Words { get; init; } = null!;
+        [JsonPropertyName("words")]
+        public IEnumerable<TranscriptWord> Words { get; set; }
 
-    [JsonPropertyName("speaker")]
-    public string Speaker { get; init; } = null!;
+        [JsonPropertyName("speaker")]
+        public string Speaker { get; set; }
+    }
 }

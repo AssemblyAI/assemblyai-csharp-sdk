@@ -1,8 +1,11 @@
-namespace AssemblyAI.Core;
+using System;
 
-public class AssemblyAIException : SystemException {
+namespace AssemblyAI.Core
+{
+    public class AssemblyAIException : SystemException {
     
-    public AssemblyAIException() {}
-    public AssemblyAIException(string? message)
-        : base(message) {}
+        public AssemblyAIException() {}
+        public AssemblyAIException(string message)
+            : base(message) {}
+    }
 }

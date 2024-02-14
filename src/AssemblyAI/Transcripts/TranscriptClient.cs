@@ -1,7 +1,9 @@
+using System.Net.Http;
 using System.Text.Json;
+using System.Threading.Tasks;
 using AssemblyAI.Core;
 
-namespace AssemblyAI
+namespace AssemblyAI.Transcripts
 {
     public partial class TranscriptsClient
     {
@@ -23,7 +25,7 @@ namespace AssemblyAI
         /**
         * Retrieve a IEnumerable of transcripts you have created.
         */
-        public async Task<TranscriptIEnumerable> IEnumerable(TranscriptIEnumerableRequest request, RequestOptions? options = null)
+        public async Task<TranscriptIEnumerable> IEnumerable(TranscriptIEnumerableRequest request, RequestOptions options = null)
         {
             var urlBuilder = new URLBuilder(this._clientWrapper.BaseUrl);
             urlBuilder.AddPathSegment("v2/transcript");
@@ -63,7 +65,7 @@ namespace AssemblyAI
         /**
         * Create a transcript from an audio or video file that is accessible via a URL.
         */
-        public async Task<Transcript> Create(CreateTranscriptParameters request, RequestOptions? options = null)
+        public async Task<Transcript> Create(CreateTranscriptParameters request, RequestOptions options = null)
         {
             var url = new URLBuilder(this._clientWrapper.BaseUrl)
                 .AddPathSegment("v2/transcript")
@@ -84,7 +86,7 @@ namespace AssemblyAI
         /**
          * Get the transcript resource. The transcript is ready when the &quot;status&quot; is &quot;completed&quot;.
          */
-        public async Task<Transcript> Get(string transcriptId, RequestOptions? options = null)
+        public async Task<Transcript> Get(string transcriptId, RequestOptions options = null)
         {
             var url = new URLBuilder(this._clientWrapper.BaseUrl)
                 .AddPathSegment("v2/transcript")
@@ -104,7 +106,7 @@ namespace AssemblyAI
         /**
         * Delete the transcript
         */
-        public async Task<Transcript> Delete(string transcriptId, RequestOptions? options = null)
+        public async Task<Transcript> Delete(string transcriptId, RequestOptions options = null)
         {
             var url = new URLBuilder(this._clientWrapper.BaseUrl)
                 .AddPathSegment("v2/transcript")
@@ -136,7 +138,7 @@ namespace AssemblyAI
             string transcriptId, 
             SubtitleFormat subtitleFormat, 
             TranscriptGetSubtitlesRequest request, 
-            RequestOptions? options = null)
+            RequestOptions options = null)
         {
             var urlBuilder = new URLBuilder(this._clientWrapper.BaseUrl)
                 .AddPathSegment("v2/transcript")
@@ -160,7 +162,7 @@ namespace AssemblyAI
         /**
         * Get the transcript split by sentences. The API will attempt to semantically segment the transcript into sentences to create more reader-friendly transcripts.
         */
-        public async Task<string> GetSentences(string transcriptId, RequestOptions? options = null)
+        public async Task<string> GetSentences(string transcriptId, RequestOptions options = null)
         {
             var url = new URLBuilder(this._clientWrapper.BaseUrl)
                 .AddPathSegment("v2/transcript")

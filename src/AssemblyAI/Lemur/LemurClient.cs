@@ -1,7 +1,9 @@
+using System.Net.Http;
 using System.Text.Json;
+using System.Threading.Tasks;
 using AssemblyAI.Core;
 
-namespace AssemblyAI
+namespace AssemblyAI.Lemur
 {
     public partial class LemurClient
     {
@@ -12,7 +14,7 @@ namespace AssemblyAI
             _clientWrapper = clientWrapper;
         }
 
-        public async Task<LemurSummaryResponse> Summary(LemurSummaryParameters request, RequestOptions? options = null)
+        public async Task<LemurSummaryResponse> Summary(LemurSummaryParameters request, RequestOptions options = null)
         {
             var url = new URLBuilder(this._clientWrapper.BaseUrl)
                 .AddPathSegment("lemur/v3/generate/summary")
@@ -31,7 +33,7 @@ namespace AssemblyAI
         }
         
         public async Task<LemurQuestionAnswerResponse> QuestionAnswer(
-            LemurSummaryParameters request, RequestOptions? options = null)
+            LemurSummaryParameters request, RequestOptions options = null)
         {
             var url = new URLBuilder(this._clientWrapper.BaseUrl)
                 .AddPathSegment("lemur/v3/generate/question-answer")
@@ -50,7 +52,7 @@ namespace AssemblyAI
         }
 
         public async Task<LemurActionItemsResponse> ActionItems(
-            LemurBaseParameters request, RequestOptions? options = null)
+            LemurBaseParameters request, RequestOptions options = null)
         {
             var url = new URLBuilder(this._clientWrapper.BaseUrl)
                 .AddPathSegment("lemur/v3/generate/action-items")
@@ -69,7 +71,7 @@ namespace AssemblyAI
         }
         
         public async Task<LemurTaskResponse> Task(
-            LemurTaskParameters request, RequestOptions? options = null)
+            LemurTaskParameters request, RequestOptions options = null)
         {
             var url = new URLBuilder(this._clientWrapper.BaseUrl)
                 .AddPathSegment("v2/realtime/token")
@@ -88,7 +90,7 @@ namespace AssemblyAI
         }
         
         public async Task<PurgeLemurRequestDataResponse> Task(
-            string requestId,  RequestOptions? options = null)
+            string requestId,  RequestOptions options = null)
         {
             var url = new URLBuilder(this._clientWrapper.BaseUrl)
                 .AddPathSegment("lemur/v3")

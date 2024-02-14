@@ -1,8 +1,10 @@
+using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using AssemblyAI.Core;
 
-namespace AssemblyAI
+namespace AssemblyAI.Realtime
 {
     public class RealtimeClient
     {
@@ -17,7 +19,7 @@ namespace AssemblyAI
          * Retrieve a list of transcripts you have created.
          */
         public async Task<RealtimeTemporaryTokenResponse> CreateTemporaryToken(
-            CreateRealtimeTemporaryTokenParameters request, RequestOptions? options = null)
+            CreateRealtimeTemporaryTokenParameters request, RequestOptions options = null)
         {
             var url = new URLBuilder(this._clientWrapper.BaseUrl)
                 .AddPathSegment("v2/realtime/token")

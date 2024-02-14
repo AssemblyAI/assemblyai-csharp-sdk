@@ -1,6 +1,7 @@
-namespace AssemblyAI;
-
-public class LemurBaseParametersContext
+namespace AssemblyAI
 {
+    public class LemurBaseParametersContext
+    {
     
+    }
 }

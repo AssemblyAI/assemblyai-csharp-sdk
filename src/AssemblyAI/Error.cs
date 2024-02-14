@@ -1,12 +1,13 @@
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI;
-
-public class ErrorParams
+namespace AssemblyAI
 {
-    [JsonPropertyName("error")]
-    public string Error { get; init; } = null!;
+    public class ErrorParams
+    {
+        [JsonPropertyName("error")]
+        public string Error { get; set; }
     
-    [JsonPropertyName("status")]
-    public string? Status { get; init; }
+        [JsonPropertyName("status")]
+        public string Status { get; set; }
+    }
 }

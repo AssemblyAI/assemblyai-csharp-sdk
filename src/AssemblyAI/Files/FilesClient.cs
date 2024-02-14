@@ -1,7 +1,9 @@
+using System.Net.Http;
 using System.Text.Json;
+using System.Threading.Tasks;
 using AssemblyAI.Core;
 
-namespace AssemblyAI
+namespace AssemblyAI.Files
 {
     public partial class FilesClient
     {
@@ -12,7 +14,7 @@ namespace AssemblyAI
             _clientWrapper = clientWrapper;
         }
 
-        public async Task<UploadedFile> Upload(byte[] request, RequestOptions? requestOptions = null)
+        public async Task<UploadedFile> Upload(byte[] request, RequestOptions requestOptions = null)
         {
             var url = new URLBuilder(this._clientWrapper.BaseUrl)
                 .AddPathSegment("v2/upload")

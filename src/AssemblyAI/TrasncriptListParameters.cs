@@ -1,24 +1,25 @@
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI;
-
-public class TrasncriptIEnumerableParameters
+namespace AssemblyAI
 {
-    [JsonPropertyName("limit")]
-    public int? Limit { get; init; }
+    public class TrasncriptIEnumerableParameters
+    {
+        [JsonPropertyName("limit")]
+        public int? Limit { get; set; }
 
-    [JsonPropertyName("status")]
-    public TranscriptStatus? Status { get; init; }
+        [JsonPropertyName("status")]
+        public TranscriptStatus Status { get; set; }
 
-    [JsonPropertyName("createdOn")]
-    public string? CreatedOn { get; init; }
+        [JsonPropertyName("createdOn")]
+        public string CreatedOn { get; set; }
 
-    [JsonPropertyName("beforeId")]
-    public string? BeforeId { get; init; }
+        [JsonPropertyName("beforeId")]
+        public string BeforeId { get; set; }
 
-    [JsonPropertyName("afterId")]
-    public string? AfterId { get; init; }
+        [JsonPropertyName("afterId")]
+        public string AfterId { get; set; }
 
-    [JsonPropertyName("throttledOnly")]
-    public bool? ThrottledOnly { get; init; }
+        [JsonPropertyName("throttledOnly")]
+        public bool? ThrottledOnly { get; set; }
+    }
 }

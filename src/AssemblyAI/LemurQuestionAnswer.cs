@@ -1,12 +1,13 @@
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI;
-
-public class LemurQuestionAnswer
+namespace AssemblyAI
 {
-    [JsonPropertyName("question")]
-    public string Question { get; init; } = null!;
+    public class LemurQuestionAnswer
+    {
+        [JsonPropertyName("question")]
+        public string Question { get; set; }
 
-    [JsonPropertyName("answer")]
-    public string Answer { get; init; } = null!;
+        [JsonPropertyName("answer")]
+        public string Answer { get; set; }
+    }
 }

@@ -1,21 +1,22 @@
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI;
-
-public class TranscriptWord
+namespace AssemblyAI
 {
-    [JsonPropertyName("confidence")]
-    public double Confidence { get; init; }
+    public class TranscriptWord
+    {
+        [JsonPropertyName("confidence")]
+        public double Confidence { get; set; }
 
-    [JsonPropertyName("start")]
-    public int Start { get; init; }
+        [JsonPropertyName("start")]
+        public int Start { get; set; }
 
-    [JsonPropertyName("end")]
-    public int End { get; init; }
+        [JsonPropertyName("end")]
+        public int End { get; set; }
 
-    [JsonPropertyName("text")]
-    public string Text { get; init; }
+        [JsonPropertyName("text")]
+        public string Text { get; set; }
 
-    [JsonPropertyName("speaker")]
-    public string? Speaker { get; init; }
+        [JsonPropertyName("speaker")]
+        public string Speaker { get; set; }
+    }
 }

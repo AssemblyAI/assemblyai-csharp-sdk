@@ -1,12 +1,13 @@
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI;
-
-public class RealtimeTranscriptResponse
+namespace AssemblyAI
 {
-    [JsonPropertyName("status")]
-    public string Status { get; init; } = null!;
+    public class RealtimeTranscriptResponse
+    {
+        [JsonPropertyName("status")]
+        public string Status { get; set; }
 
-    [JsonPropertyName("redacted_audio_url")]
-    public string RedactedAudioUrl { get; init; } = null!;
+        [JsonPropertyName("redacted_audio_url")]
+        public string RedactedAudioUrl { get; set; }
+    }
 }

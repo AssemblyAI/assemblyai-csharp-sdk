@@ -36,14 +36,19 @@ namespace AssemblyAI
         
         public static TranscriptStatus Of(string value)
         {
-            return value switch
+            switch (value)
             {
-                "ERROR" => Error,
-                "QUEUED" => Queued,
-                "PROCESSING" => Processing,
-                "COMPLETED" => Completed,
-                _ => throw new AssemblyAIException()
-            };
+                case "ERROR":
+                    return Error;
+                case "QUEUED":
+                    return Queued;
+                case "PROCESSING":
+                    return Processing;
+                case "COMPLETED":
+                    return Completed;
+                default:
+                    throw new AssemblyAIException();
+            }
         }
 
         public enum Value

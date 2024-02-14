@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI;
-
-public class AutoHighlightsResult
+namespace AssemblyAI
 {
-    [JsonPropertyName("results")] 
-    public IEnumerable<AutoHighlightResult> Results { get; init; } = null!;
+    public class AutoHighlightsResult
+    {
+        [JsonPropertyName("results")] 
+        public IEnumerable<AutoHighlightResult> Results { get; set; }
+    }
 }
