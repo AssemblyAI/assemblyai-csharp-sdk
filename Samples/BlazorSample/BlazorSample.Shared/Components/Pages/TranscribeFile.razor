@@ -61,7 +61,7 @@
             {
                 @if (message.IsAssistantMessage)
                 {
-                    <div class="d-flex justify-content-end mb-1">
+                    <div class="d-flex justify-content-end mb-1 me-2">
                         <span class="d-block p-2 bubble right">
                             @message.Message
                         </span>
@@ -69,21 +69,31 @@
                 }
                 else
                 {
-                    <div class="d-flex justify-content-start mb-1">
+                    <div class="d-flex justify-content-start mb-1 ms-2">
                         <span class="d-block p-2 bubble left">@message.Message</span>
                     </div>
                 }
             }
         </div>
+        @if (IsLemurThinking)
+        {
+            <div class="px-2">LeMUR is thinking...</div> 
+        }
         <EditForm Model="LemurFormModel" OnValidSubmit="AskQuestion">
             <div class="input-group p-2">
+                    @* disabled="@(Transcript == null)" *@
                 <InputText
                     type="text"
                     class="form-control"
                     placeholder="Ask Question"
                     @bind-Value="LemurFormModel!.Question"
                     required="required"/>
-                <button class="btn btn-outline-secondary" type="submit">Send</button>
+                    @* disabled="@(Transcript == null)" *@
+                <button
+                    class="btn btn-outline-secondary"
+                    type="submit">
+                    Send
+                </button>
             </div>
         </EditForm>
     </div>
@@ -95,8 +105,10 @@
     [SupplyParameterFromForm] private LemurFormModel? LemurFormModel { get; set; }
     [Inject] private ILogger<TranscribeFile> Logger { get; set; }
     [Inject] private IFileTranscriber FileTranscriber { get; set; }
-    private Transcript Transcript { get; set; }
-    private List<LemurMessage> LemurMessages { get; set; } = [LemurMessage.FromAssistant("Ask a question about your transcript.")];
+    [Inject] private IAskLemur AskLemur { get; set; }
+    private Transcript? Transcript { get; set; }
+    private List<LemurMessage> LemurMessages { get; } = [LemurMessage.FromAssistant("Ask a question about your transcript.")];
+    private bool IsLemurThinking { get; set; }
 
     protected override void OnInitialized()
     {
@@ -111,14 +123,18 @@
 
     private async Task Submit()
     {
-        Transcript = await FileTranscriber.TranscribeFileAsync(FormModel).ConfigureAwait(false);
+        Transcript = await FileTranscriber.TranscribeFileAsync(FormModel!).ConfigureAwait(false);
     }
 
     private async Task AskQuestion()
     {
-        var question = LemurFormModel.Question;
+        var question = LemurFormModel!.Question;
         LemurFormModel.Question = "";
         LemurMessages.Add(LemurMessage.FromUser(question));
+        IsLemurThinking = true;
+        var response = await AskLemur.AskQuestionAsync(Transcript!.Id, question).ConfigureAwait(false);
+        IsLemurThinking = false;
+        LemurMessages.Add(LemurMessage.FromAssistant(response));
     }
 
 }

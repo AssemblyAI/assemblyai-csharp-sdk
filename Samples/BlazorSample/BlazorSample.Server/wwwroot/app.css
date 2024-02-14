@@ -31,13 +31,11 @@
 .bubble.left {
     background-color: #008000;
     color: white;
-    margin-left: 5px;
 }
 
 .bubble.right {
     background-color: #0a53be;
     color: white;
-    margin-right: 5px;
 }
 
 .bubble:after {
@@ -51,15 +49,15 @@
 /*right*/
 .bubble.right:after {
     border-color: transparent #0a53be;
-    border-width: 13px 0 0px 12px;
+    border-width: 8px 0 0 8px;
     bottom: 0;
-    right: -12px;
+    right: -8px;
 }
 
 /*left*/
 .bubble.left:after {
     border-color: transparent #008000;
-    border-width: 13px 12px 0px 0;
+    border-width: 8px 8px 0 0;
     bottom: 0;
-    left: -12px;
+    left: -8px;
 }
