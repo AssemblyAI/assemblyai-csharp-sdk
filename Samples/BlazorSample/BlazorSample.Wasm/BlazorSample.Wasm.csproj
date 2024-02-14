@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
+        <StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.2" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\css\app.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\css\bootstrap\bootstrap.min.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\icon-192.png" />
+      <_ContentIncludedByDefault Remove="wwwroot\index.html" />
+      <_ContentIncludedByDefault Remove="wwwroot\sample-data\weather.json" />
+      <_ContentIncludedByDefault Remove="Layout\MainLayout.razor" />
+      <_ContentIncludedByDefault Remove="Layout\NavMenu.razor" />
+      <_ContentIncludedByDefault Remove="wwwroot\bootstrap\bootstrap.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\bootstrap\bootstrap.min.css.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\audio-processor.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\audio.mjs" />
+      <_ContentIncludedByDefault Remove="Pages\TranscribeMicrophone.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\AssemblyAI\AssemblyAI.csproj" />
+      <ProjectReference Include="..\BlazorSample.Shared\BlazorSample.Shared.csproj" />
+    </ItemGroup>
+</Project>

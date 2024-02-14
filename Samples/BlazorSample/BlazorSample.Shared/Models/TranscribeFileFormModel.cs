@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Components.Forms;
 
-namespace BlazorSample.Models;
+namespace BlazorSample.Shared.Models;
 
 public class TranscribeFileFormModel
 {

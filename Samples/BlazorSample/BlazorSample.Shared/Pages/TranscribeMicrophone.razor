@@ -1,11 +1,12 @@
 ﻿@page "/transcribe-microphone"
 @implements IAsyncDisposable
-@rendermode InteractiveServer
+@rendermode RenderMode.InteractiveWebAssembly
 @using System.Diagnostics
 @using System.Net.WebSockets
 @using System.Text
-@using AssemblyAI
 @using AssemblyAI.Realtime
+@using Microsoft.Extensions.Configuration
+@using Microsoft.JSInterop
 @using ReactiveUI
 
 <PageTitle>Transcribe Microphone</PageTitle>
@@ -48,12 +49,9 @@
 >@Transcript</textarea>
 
 @code {
-    [Inject] private AppState AppState { get; set; }
     [Inject] private IConfiguration Configuration { get; set; }
     [Inject] private IJSRuntime JsRuntime { get; set; }
-    [Inject] private NavigationManager NavigationManager { get; set; }
-    [Inject] private HttpClient HttpClient { get; set; }
-    [Inject] private AssemblyAI AssemblyAIClient { get; set; }
+    [Inject] private IRealtimeTranscriberFactory RealtimeTranscriberFactory { get; set; }
     private RealtimeTranscriber? _transcriber;
     private readonly SortedDictionary<int, string> _transcriptWords = new();
     private JsMicrophone? _jsMicrophone;
@@ -64,33 +62,22 @@
 
     public string Error { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        AppState.TopRowTitle = "Transcribe Microphone";
-        AppState.NotifyStateChanged();
+        _transcriber = await RealtimeTranscriberFactory.CreateAsync();
+        _transcriber.PartialTranscriptReceived += OnPartialTranscriptReceived;
+        _transcriber.FinalTranscriptReceived += OnFinalTranscriptReceived;
+        _transcriber.ErrorReceived += OnErrorReceived;
+        _transcriber.Closed += OnClosed;
+        _transcriber.ObservableForProperty(t => t.Status)
+            .Subscribe(status => { Status = status.Value; });
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            _transcriber = new RealtimeTranscriber();
-            if (IsClientSide())
-            {
-                _transcriber.Token = await GetTokenAsync();
-            }
-            else
-            {
-                _transcriber.ApiKey = Configuration["AssemblyAI:ApiKey"];
-            }
-            _transcriber.PartialTranscriptReceived += OnPartialTranscriptReceived;
-            _transcriber.FinalTranscriptReceived += OnFinalTranscriptReceived;
-            _transcriber.ErrorReceived += OnErrorReceived;
-            _transcriber.Closed += OnClosed;
-            _transcriber.ObservableForProperty(t => t.Status)
-                .Subscribe(status => { Status = status.Value; });
-
-            _jsMicrophone = await JsMicrophone.CreateAsync(JsRuntime, "/audio.mjs");
+            _jsMicrophone = await JsMicrophone.CreateAsync(JsRuntime);
             _jsMicrophone.OnAudioData += JsMicrophoneOnOnAudioData;
         }
     }
@@ -98,17 +85,6 @@
     private void JsMicrophoneOnOnAudioData(byte[] audio)
     {
         _transcriber.SendAudio(audio);
-    }
-
-    private async Task<string> GetTokenAsync()
-    {
-        var tokenResponse = await HttpClient.PostAsync(
-            NavigationManager.BaseUri + "api/realtime/token",
-            null
-        );
-        tokenResponse.EnsureSuccessStatusCode();
-        var tokenResponseObject = await tokenResponse.Content.ReadFromJsonAsync<RealtimeTemporaryTokenResponse>();
-        return tokenResponseObject!.Token;
     }
 
     private async Task TranscribeToggleClick()

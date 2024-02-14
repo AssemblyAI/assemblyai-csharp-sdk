@@ -1,6 +1,8 @@
 ﻿@page "/"
-@rendermode InteractiveServer
-@using BlazorSample.Models
+@rendermode RenderMode.InteractiveWebAssembly
+@using BlazorSample.Shared.Models
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.Extensions.Logging
 @using AssemblyAI
 
 <PageTitle>Transcribe file</PageTitle>
@@ -60,19 +62,17 @@
 
 @code {
 
+    [Inject] private AntiforgeryStateProvider AntiforgeryStateProvider { get; set; }
     [SupplyParameterFromForm] public TranscribeFileFormModel? FormModel { get; set; }
 
     public Transcript Transcript { get; set; }
 
-    [Inject] public AppState AppState { get; set; }
     [Inject] private ILogger<TranscribeFile> Logger { get; set; }
     [Inject] private NavigationManager NavigationManager { get; set; }
-    [Inject] private AssemblyAI AssemblyAIClient { get; set; }
+    [Inject] private HttpClient HttpClient { get; set; }
 
     protected override void OnInitialized()
     {
-        AppState.TopRowTitle = "Transcribe File";
-        AppState.NotifyStateChanged();
         FormModel ??= new();
     }
 
@@ -84,61 +84,16 @@
     private async Task Submit()
     {
         Logger.LogInformation("Submit called: Processing the form");
+        var csrfToken = AntiforgeryStateProvider.GetAntiforgeryToken();
         await using var fileStream = FormModel.File.OpenReadStream(maxAllowedSize: 2_306_867_200);
-        var fileUpload = await AssemblyAIClient.Files.Upload(await ReadToEndAsync(fileStream));
-        Transcript = await AssemblyAIClient.Transcript.Create(new CreateTranscriptParameters
+        var content = new MultipartFormDataContent
         {
-            AudioUrl = fileUpload.UploadUrl,
-            LanguageCode = new TranscriptLanguageCode(FormModel.LanguageCode)
-        });
+            { new StringContent(FormModel.LanguageCode), nameof(FormModel.LanguageCode) },
+            { new StreamContent(fileStream), nameof(FormModel.File), FormModel.File.Name }
+        };
+        var request = new HttpRequestMessage(HttpMethod.Post, "/api/transcribe-file");
+        request.Headers.Add("RequestVerificationToken", csrfToken.Value);
+        request.Content = content;
+        var response = await HttpClient.SendAsync(request);
     }
-
-    // TODO: Replace when stream is supported by SDK
-    private static async Task<byte[]> ReadToEndAsync(Stream stream)
-    {
-        long originalPosition = 0;
-
-        if (stream.CanSeek)
-        {
-            originalPosition = stream.Position;
-            stream.Position = 0;
-        }
-
-        var totalBytesRead = 0;
-        try
-        {
-            var readBuffer = new byte[4096];
-
-            int bytesRead;
-
-            while ((bytesRead = await stream.ReadAsync(readBuffer, totalBytesRead, readBuffer.Length - totalBytesRead).ConfigureAwait(false)) > 0)
-            {
-                totalBytesRead += bytesRead;
-
-                if (totalBytesRead != readBuffer.Length) continue;
-                var nextByte = stream.ReadByte();
-                if (nextByte == -1) continue;
-                var temp = new byte[readBuffer.Length * 2];
-                Buffer.BlockCopy(readBuffer, 0, temp, 0, readBuffer.Length);
-                Buffer.SetByte(temp, totalBytesRead, (byte)nextByte);
-                readBuffer = temp;
-                totalBytesRead++;
-            }
-
-            var buffer = readBuffer;
-            if (readBuffer.Length == totalBytesRead) return buffer;
-            buffer = new byte[totalBytesRead];
-            Buffer.BlockCopy(readBuffer, 0, buffer, 0, totalBytesRead);
-
-            return buffer;
-        }
-        finally
-        {
-            if (stream.CanSeek)
-            {
-                stream.Position = originalPosition;
-            }
-        }
-    }
-
 }
