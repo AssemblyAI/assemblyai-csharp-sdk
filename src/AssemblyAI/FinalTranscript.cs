@@ -11,6 +11,6 @@ namespace AssemblyAI
         public bool Punctuated { get; set; }
     
         [JsonPropertyName("text_formatted")]
-        public string TextFormatted { get; set; }
+        public bool TextFormatted { get; set; }
     }
 }

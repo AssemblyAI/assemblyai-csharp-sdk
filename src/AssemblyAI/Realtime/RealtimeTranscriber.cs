@@ -3,18 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Net.WebSockets;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-using Websocket.Client;
-
-// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable UnusedAutoPropertyAccessor.Global
+using WebSocket = AssemblyAI.Realtime.WebsocketClient.WebsocketClient;
 
 namespace AssemblyAI.Realtime
 {
@@ -41,9 +36,8 @@ namespace AssemblyAI.Realtime
     public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotifyPropertyChanged
     {
         private const string RealtimeServiceEndpoint = "wss://api.assemblyai.com/v2/realtime/ws";
-        private WebsocketClient _socket;
+        private WebSocket _socket;
         private TaskCompletionSource<bool> _sessionTerminatedTaskCompletionSource;
-        private CancellationTokenSource _listenerCancellationTokenSource;
 
         /// <summary>
         /// Use your AssemblyAI API key to authenticate with the AssemblyAI real-time transcriber.
@@ -90,28 +84,15 @@ namespace AssemblyAI.Realtime
         /// </summary>
         public event PartialTranscriptEventHandler PartialTranscriptReceived;
 
-        private Subject<PartialRealtimeTranscript> _partialTranscripts = new Subject<PartialRealtimeTranscript>();
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public IObservable<PartialRealtimeTranscript> PartialTranscripts => _partialTranscripts;
-
         /// <summary>
         /// Event for when a final transcript is received.
         /// </summary>
         public event FinalTranscriptEventHandler FinalTranscriptReceived;
 
-        private Subject<FinalRealtimeTranscript> _finalTranscripts = new Subject<FinalRealtimeTranscript>();
-        public IObservable<FinalRealtimeTranscript> FinalTranscripts => _finalTranscripts;
-
         /// <summary>
         /// Event for when a partial or final transcript is received.
         /// </summary>
         public event TranscriptEventHandler TranscriptReceived;
-
-        private Subject<RealtimeTranscript> _transcripts = new Subject<RealtimeTranscript>();
-        public IObservable<RealtimeTranscript> Transcripts => _transcripts;
 
         /// <summary>
         /// Event for when an error is received from the real-time service.
@@ -131,7 +112,7 @@ namespace AssemblyAI.Realtime
         {
             if (Status != RealtimeTranscriberStatus.Disconnected)
             {
-                throw new Exception($"Transcriber is already in status {Status}");
+                throw new Exception($"Transcriber status is {Status}");
             }
 
             if (string.IsNullOrEmpty(Token) && string.IsNullOrEmpty(ApiKey))
@@ -159,17 +140,15 @@ namespace AssemblyAI.Realtime
                 queryPrefix = "&";
             }
 
-            if (_socket != null && _socket.IsRunning)
-            {
-                _socket.Dispose();
-            }
+            _socket?.Dispose();
 
             if (!string.IsNullOrEmpty(Token))
             {
                 urlBuilder.AppendFormat("{0}token={1}", queryPrefix, Token);
             }
 
-            _socket = new WebsocketClient(new Uri(urlBuilder.ToString()), () =>
+            var sessionBeginsTaskCompletionSource = new TaskCompletionSource<SessionBeginsMessage>();
+            _socket = new WebSocket(new Uri(urlBuilder.ToString()), () =>
             {
                 var socket = new ClientWebSocket();
                 if (string.IsNullOrEmpty(Token))
@@ -179,69 +158,70 @@ namespace AssemblyAI.Realtime
 
                 return socket;
             });
+            _socket.TextMessageReceived = async stream =>
+            {
+                var message = await JsonSerializer.DeserializeAsync<JsonDocument>(stream);
+                if (message.RootElement.TryGetProperty("error", out var errorProperty))
+                {
+                    var error = errorProperty.GetString();
+                    OnErrorReceived(error);
+                    if (sessionBeginsTaskCompletionSource.Task.IsCompleted == false)
+                    {
+                        sessionBeginsTaskCompletionSource.SetException(new Exception(error));
+                    }
+                }
+
+                if (!message.RootElement.TryGetProperty("message_type", out var messageTypeProperty)) return;
+
+                var messageType = messageTypeProperty.GetString();
+                switch (messageType)
+                {
+                    case "SessionBegins":
+                        var sessionBeginsMessage = message.Deserialize<SessionBeginsMessage>();
+                        sessionBeginsTaskCompletionSource.SetResult(sessionBeginsMessage);
+                        OnSessionBegins(sessionBeginsMessage);
+                        break;
+                    case "PartialTranscript":
+                    {
+                        var partialTranscript = message.Deserialize<PartialTranscript>();
+                        OnPartialTranscriptReceived(partialTranscript);
+                        var transcript = message.Deserialize<RealtimeTranscript>();
+                        OnTranscriptReceived(transcript);
+                        break;
+                    }
+                    case "FinalTranscript":
+                    {
+                        var finalTranscript = message.Deserialize<FinalTranscript>();
+                        OnFinalTranscriptReceived(finalTranscript);
+                        var transcript = message.Deserialize<RealtimeTranscript>();
+                        OnTranscriptReceived(transcript);
+                        break;
+                    }
+                    case "SessionTerminated":
+                        OnSessionTerminated();
+                        break;
+                }
+            };
 
             Status = RealtimeTranscriberStatus.Connecting;
             try
             {
-                await _socket.StartOrFail();
+                await _socket.StartOrFail().ConfigureAwait(false);
                 Status = RealtimeTranscriberStatus.Connected;
             }
-            catch (Exception)
+            catch
+                (Exception)
             {
                 Status = RealtimeTranscriberStatus.Disconnected;
                 throw;
             }
 
-            _socket.DisconnectionHappened.Subscribe(d => { OnClosed((int?)d.CloseStatus, d.CloseStatusDescription); });
+            _socket.DisconnectionHappened = d =>
+            {
+                OnClosed((int?)d.CloseStatus, d.CloseStatusDescription);
+                return Task.CompletedTask;
+            };
 
-            var sessionBeginsTaskCompletionSource = new TaskCompletionSource<SessionBeginsMessage>();
-            _socket.MessageReceived
-                .Select(message => JsonSerializer.Deserialize<JsonDocument>(message.Text))
-                .Subscribe(message =>
-                {
-                    if (message.RootElement.TryGetProperty("error", out var errorProperty))
-                    {
-                        var error = errorProperty.GetString();
-                        OnErrorReceived(error);
-                        if (sessionBeginsTaskCompletionSource.Task.IsCompleted == false)
-                        {
-                            sessionBeginsTaskCompletionSource.SetException(new Exception(error));
-                        }
-                    }
-
-                    if (!message.RootElement.TryGetProperty("message_type", out var messageTypeProperty)) return;
-
-                    var messageType = messageTypeProperty.GetString();
-                    switch (messageType)
-                    {
-                        case "SessionBegins":
-                            var sessionBeginsMessage = message.Deserialize<SessionBeginsMessage>();
-                            sessionBeginsTaskCompletionSource.SetResult(sessionBeginsMessage);
-                            OnSessionBegins(sessionBeginsMessage);
-                            break;
-                        case "PartialTranscript":
-                        {
-                            var partialTranscript = message.Deserialize<PartialRealtimeTranscript>();
-                            OnPartialTranscriptReceived(partialTranscript);
-                            var transcript = message.Deserialize<RealtimeTranscript>();
-                            OnTranscriptReceived(transcript);
-                            break;
-                        }
-                        case "FinalTranscript":
-                        {
-                            var finalTranscript = message.Deserialize<FinalRealtimeTranscript>();
-                            OnFinalTranscriptReceived(finalTranscript);
-                            var transcript = message.Deserialize<RealtimeTranscript>();
-                            OnTranscriptReceived(transcript);
-                            break;
-                        }
-                        case "SessionTerminated":
-                            OnSessionTerminated();
-                            break;
-                    }
-                });
-
-            _listenerCancellationTokenSource = new CancellationTokenSource();
             return await sessionBeginsTaskCompletionSource.Task.ConfigureAwait(false);
         }
 
@@ -257,21 +237,19 @@ namespace AssemblyAI.Realtime
         /// <summary>
         /// Called when a partial transcript message is received. Calls the PartialTranscriptReceived event.
         /// </summary>
-        /// <param name="realtimeTranscript"></param>
-        private void OnPartialTranscriptReceived(PartialRealtimeTranscript realtimeTranscript)
+        /// <param name="partialTranscript"></param>
+        private void OnPartialTranscriptReceived(PartialTranscript partialTranscript)
         {
-            _partialTranscripts.OnNext(realtimeTranscript);
-            RaiseEvent(PartialTranscriptReceived, this, new PartialTranscriptEventArgs(realtimeTranscript));
+            RaiseEvent(PartialTranscriptReceived, this, new PartialTranscriptEventArgs(partialTranscript));
         }
 
         /// <summary>
         /// Called when a final transcript message is received. Calls the FinalTranscriptReceived event.
         /// </summary>
-        /// <param name="realtimeTranscript"></param>
-        private void OnFinalTranscriptReceived(FinalRealtimeTranscript realtimeTranscript)
+        /// <param name="finalTranscript"></param>
+        private void OnFinalTranscriptReceived(FinalTranscript finalTranscript)
         {
-            _finalTranscripts.OnNext(realtimeTranscript);
-            RaiseEvent(FinalTranscriptReceived, this, new FinalTranscriptEventArgs(realtimeTranscript));
+            RaiseEvent(FinalTranscriptReceived, this, new FinalTranscriptEventArgs(finalTranscript));
         }
 
         /// <summary>
@@ -280,7 +258,6 @@ namespace AssemblyAI.Realtime
         /// <param name="realtimeTranscript"></param>
         private void OnTranscriptReceived(RealtimeTranscript realtimeTranscript)
         {
-            _transcripts.OnNext(realtimeTranscript);
             RaiseEvent(TranscriptReceived, this, new TranscriptEventArgs(realtimeTranscript));
         }
 
@@ -348,7 +325,6 @@ namespace AssemblyAI.Realtime
             }
 
             RemoveEvents();
-            DisposeObservables();
         }
 
         /// <summary>
@@ -364,7 +340,7 @@ namespace AssemblyAI.Realtime
             {
                 if (_socket.IsRunning)
                 {
-                    await CloseAsync(false);
+                    await CloseAsync(false).ConfigureAwait(false);
                 }
 
                 _socket.Dispose();
@@ -372,7 +348,6 @@ namespace AssemblyAI.Realtime
             }
 
             RemoveEvents();
-            DisposeObservables();
         }
 
         private void RemoveEvents()
@@ -399,7 +374,6 @@ namespace AssemblyAI.Realtime
         public async Task CloseAsync(bool waitForSessionTerminated)
         {
             Status = RealtimeTranscriberStatus.Disconnecting;
-            var ct = CancellationToken.None;
             if (waitForSessionTerminated)
             {
                 _sessionTerminatedTaskCompletionSource = new TaskCompletionSource<bool>();
@@ -415,14 +389,6 @@ namespace AssemblyAI.Realtime
             await _socket.StopOrFail(WebSocketCloseStatus.NormalClosure, "");
 
             Status = RealtimeTranscriberStatus.Disconnected;
-            _listenerCancellationTokenSource.Cancel();
-        }
-
-        private void DisposeObservables()
-        {
-            _partialTranscripts.Dispose();
-            _finalTranscripts.Dispose();
-            _transcripts.Dispose();
         }
 
         private static void RaiseEvent(MulticastDelegate evt, params object[] args)
@@ -431,7 +397,7 @@ namespace AssemblyAI.Realtime
 
             foreach (var d in evt.GetInvocationList())
             {
-                if (d.Target is ISynchronizeInvoke syncer && syncer.InvokeRequired == true)
+                if (d.Target is ISynchronizeInvoke syncer && syncer.InvokeRequired)
                 {
                     syncer.EndInvoke(syncer.BeginInvoke(d, args));
                 }
@@ -490,9 +456,9 @@ namespace AssemblyAI.Realtime
     /// <summary>
     /// Event arguments for a partial transcript.
     /// </summary>
-    public sealed class PartialTranscriptEventArgs : RealtimeTranscriberEventArgs<PartialRealtimeTranscript>
+    public sealed class PartialTranscriptEventArgs : RealtimeTranscriberEventArgs<PartialTranscript>
     {
-        internal PartialTranscriptEventArgs(PartialRealtimeTranscript result) : base(result)
+        internal PartialTranscriptEventArgs(PartialTranscript result) : base(result)
         {
         }
     }
@@ -501,9 +467,9 @@ namespace AssemblyAI.Realtime
     /// <summary>
     /// Event arguments for a final transcript.
     /// </summary>
-    public sealed class FinalTranscriptEventArgs : RealtimeTranscriberEventArgs<FinalRealtimeTranscript>
+    public sealed class FinalTranscriptEventArgs : RealtimeTranscriberEventArgs<FinalTranscript>
     {
-        internal FinalTranscriptEventArgs(FinalRealtimeTranscript result) : base(result)
+        internal FinalTranscriptEventArgs(FinalTranscript result) : base(result)
         {
         }
     }
@@ -516,36 +482,6 @@ namespace AssemblyAI.Realtime
         internal TranscriptEventArgs(RealtimeTranscript result) : base(result)
         {
         }
-    }
-
-    /// <summary>
-    /// A final or partial transcript
-    /// </summary>
-    public class RealtimeTranscript
-    {
-        [JsonPropertyName("text")] public string Text { get; set; }
-        [JsonPropertyName("words")] public IEnumerable<Word> Words { get; set; }
-    }
-
-    public class Word
-    {
-        [JsonPropertyName("start")] public int Start { get; set; }
-
-        [JsonPropertyName("text")] public string Text { get; set; }
-    }
-
-    /// <summary>
-    /// A final transcript
-    /// </summary>
-    public class FinalRealtimeTranscript : RealtimeTranscript
-    {
-    }
-
-    /// <summary>
-    /// A partial transcript
-    /// </summary>
-    public class PartialRealtimeTranscript : RealtimeTranscript
-    {
     }
 
     /// <summary>

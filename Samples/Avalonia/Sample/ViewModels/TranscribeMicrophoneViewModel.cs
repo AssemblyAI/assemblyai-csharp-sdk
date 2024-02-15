@@ -29,9 +29,9 @@ public class TranscribeMicrophoneViewModel : ViewModelBase, IAsyncDisposable
         set => this.RaiseAndSetIfChanged(ref _transcript, value);
     }
 
-    private string _error;
+    private string  _error;
 
-    public string Error
+    public string  Error
     {
         get => _error;
         set => this.RaiseAndSetIfChanged(ref _error, value);

@@ -1,4 +1,7 @@
 using AssemblyAI;
+using AssemblyAI.Lemur;
+using AssemblyAI.Realtime;
+using AssemblyAI.Transcripts;
 using BlazorSample.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,5 +1,6 @@
 using System.Text.Json;
 using AssemblyAI;
+using AssemblyAI.Lemur;
 using BlazorSample.Shared;
 
 namespace BlazorSample.Server;

@@ -1,4 +1,5 @@
 using AssemblyAI;
+using AssemblyAI.Transcripts;
 using BlazorSample.Shared;
 using BlazorSample.Shared.Models;
 

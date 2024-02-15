@@ -10,7 +10,7 @@ public partial class TranscribeFileView : UserControl
         InitializeComponent();
     }
 
-    private void LemurPromptKeyDown(object? sender, KeyEventArgs e)
+    private void LemurPromptKeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key != Key.Enter) return;
         

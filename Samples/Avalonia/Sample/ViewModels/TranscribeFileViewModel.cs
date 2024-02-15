@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using AssemblyAI;
+using AssemblyAI.Transcripts;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;

@@ -17,19 +17,14 @@ transcriber.SessionBegins += (sender, args) => Console.WriteLine($"""
                                                                   - Session ID: {args.Result.SessionId}
                                                                   - Expires at: {args.Result.ExpiresAt}
                                                                   """);
-transcriber.PartialTranscripts.Subscribe(t => Console.WriteLine("Partial transcript: {0}", t.Text));
-//transcriber.PartialTranscriptReceived += (_, args) => Console.WriteLine("Partial transcript: {0}", args.Result.Text);
-
-transcriber.FinalTranscripts.Subscribe(t => Console.WriteLine("Final transcript: {0}", t.Text));
-//transcriber.FinalTranscriptReceived += (_, args) => Console.WriteLine("Final transcript: {0}", args.Result.Text);
-
-transcriber.Transcripts.Subscribe(t => Console.WriteLine("Transcript: {0}", t.Text));
+transcriber.PartialTranscriptReceived += (_, args) => Console.WriteLine("Partial transcript: {0}", args.Result.Text);
+transcriber.FinalTranscriptReceived += (_, args) => Console.WriteLine("Final transcript: {0}", args.Result.Text);
 //transcriber.TranscriptReceived += (_, args) => Console.WriteLine("Transcript: {0}", args.Result.Text);
 
 transcriber.ErrorReceived += (_, args) => Console.WriteLine("Error: {0}", args.Error);
 transcriber.Closed += (_, _) => Console.WriteLine("Closed");
 
-await transcriber.ConnectAsync();
+await transcriber.ConnectAsync().ConfigureAwait(false);
 
 // Mock of streaming audio from a microphone
 await using var fileStream = File.OpenRead("./gore-short.wav");
@@ -40,4 +35,4 @@ while (fileStream.Read(audio, 0, audio.Length) > 0)
     await Task.Delay(100);
 }
 
-await transcriber.CloseAsync();
+await transcriber.CloseAsync().ConfigureAwait(false);
