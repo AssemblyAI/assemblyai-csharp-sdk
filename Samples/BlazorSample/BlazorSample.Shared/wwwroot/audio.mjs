@@ -43,8 +43,6 @@ export function create(dotnetObjectReference) {
         stopRecording() {
             stream?.getTracks().forEach((track) => track.stop());
             audioContext?.close();
-            audioWorkletNode?.close();
-            source?.close();
             audioBufferQueue = new Int16Array(0);
         }
     }
