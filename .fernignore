@@ -5,3 +5,4 @@ LICENSE.md
 AssemblyAI/Realtime/RealtimeTranscriber.cs
 AssemblyAI/Realtime/WebSocketClient
 AssemblyAI.Test
+**/*.fernignore.*
