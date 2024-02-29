@@ -6,16 +6,18 @@ public sealed class ClientWrapper
     private readonly IReadOnlyDictionary<string, string> _headers;
     private readonly ClientOptions _clientOptions;
 
-    public ClientWrapper(ClientOptions _clientOptions, HttpClient httpClient, IReadOnlyDictionary<string, string> headers)
+    public ClientWrapper(ClientOptions clientOptions, HttpClient httpClient,
+        IReadOnlyDictionary<string, string> headers)
     {
-        _clientOptions = _clientOptions;
+        _clientOptions = clientOptions;
         _httpClient = httpClient;
-        _headers = headers;
+        foreach (var header in headers)
+        {
+            httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+        }
     }
 
     public HttpClient HttpClient => _httpClient;
 
     public string BaseUrl => _clientOptions.BaseUrl;
-
-    public IReadOnlyDictionary<string, string> Headers => _headers;
 }

@@ -9,7 +9,7 @@ public class FinalTranscript : RealtimeBaseTranscript
 
     [JsonPropertyName("punctuated")]
     public bool Punctuated { get; init; }
-    
+
     [JsonPropertyName("text_formatted")]
     public string TextFormatted { get; init; } = null!;
 }

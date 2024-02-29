@@ -16,4 +16,3 @@ public class LemurQuestion
     [JsonPropertyName("answer_options")]
     public IEnumerable<string>? AnswerOptions { get; init; }
 }
-

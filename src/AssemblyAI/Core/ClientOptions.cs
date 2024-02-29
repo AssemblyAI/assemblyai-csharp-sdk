@@ -3,7 +3,7 @@ namespace AssemblyAI.Core;
 public class ClientOptions
 {
     public HttpClient HttpClient { get; init;} = new HttpClient();
-    
+
     public int MaxRetries { get; init; } = 2;
 
     public int TimeoutInSeconds { get; init; } = 60;

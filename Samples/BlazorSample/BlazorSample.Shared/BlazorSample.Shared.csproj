@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+
+    <ItemGroup>
+        <SupportedPlatform Include="browser"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
+        <PackageReference Include="ReactiveUI" Version="19.5.41" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <WasmExtraFilesToDeploy Include="wwwroot\**\*" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\src\AssemblyAI\AssemblyAI.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\bootstrap\bootstrap.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\bootstrap\bootstrap.min.css.map" />
+    </ItemGroup>
+    <ItemGroup>
+      <Compile Remove="ExampleJsInterop.cs" />
+    </ItemGroup>
+    <ItemGroup>
+      <AdditionalFiles Include="Components\Layout\MainLayout.razor" />
+      <AdditionalFiles Include="Components\Layout\NavMenu.razor" />
+      <AdditionalFiles Include="Components\Routes.razor" />
+      <AdditionalFiles Include="Components\_Imports.razor" />
+    </ItemGroup>
+
+</Project>

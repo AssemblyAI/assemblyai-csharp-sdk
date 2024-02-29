@@ -16,4 +16,3 @@ public class Word
     [JsonPropertyName("text")]
     public string Text { get; init; } = null!;
 }
-

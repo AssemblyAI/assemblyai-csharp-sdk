@@ -6,4 +6,4 @@ public class LemurBaseResponse
 {
     [JsonPropertyName("request_id")]
     public string RequestId { get; init; } = null!;
-}
+}   

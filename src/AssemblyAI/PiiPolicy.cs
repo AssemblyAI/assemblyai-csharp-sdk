@@ -56,7 +56,7 @@ public class PiiPolicy
 
     public static readonly PiiPolicy USSocialSecurityNumber = new PiiPolicy(Value.USSocialSecurityNumber, "us_social_security_number");
 
-        
+
     private readonly Value _value;
     private readonly String _raw;
 
@@ -64,7 +64,7 @@ public class PiiPolicy
         this._value = value;
         this._raw = raw;
     }
-    
+
     public enum Value {
         MedicalProcess,
         MedicalCondition,

@@ -4,6 +4,6 @@ namespace AssemblyAI;
 
 public class UploadedFile
 {
-    [JsonPropertyName("upload_url")]
+    [JsonPropertyName("upload_url")] 
     public string UploadUrl { get; init; }
 }

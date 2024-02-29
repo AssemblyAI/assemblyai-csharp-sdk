@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <RuntimeIdentifier>browser-wasm</RuntimeIdentifier>
+        <WasmMainJSPath>AppBundle\main.js</WasmMainJSPath>
+        <OutputType>Exe</OutputType>
+        <RootNamespace>Sample.Browser</RootNamespace>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <PublishAot>false</PublishAot>
+        <PublishTrimmed>false</PublishTrimmed>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <WasmExtraFilesToDeploy Include="AppBundle\**"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia.Browser" Version="$(AvaloniaVersion)"/>
+        <PackageReference Include="Microsoft.JSInterop" Version="8.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Sample\Sample.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AndroidResource Include="AppBundle\icon.png">
+        <SubType>Designer</SubType>
+      </AndroidResource>
+    </ItemGroup>
+</Project>

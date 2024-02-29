@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>c4d4a96b-f6c0-43ed-b413-fb44726ff039</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Twilio.AspNet.Core" Version="8.0.2" />
+      <PackageReference Include="Websocket.Client" Version="5.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\AssemblyAI\AssemblyAI.csproj" />
+      <ProjectReference Include="..\..\src\AssemblyAI\AssemblyAI.csproj" />
+    </ItemGroup>
+
+</Project>

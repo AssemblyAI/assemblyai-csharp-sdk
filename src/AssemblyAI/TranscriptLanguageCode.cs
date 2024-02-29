@@ -31,6 +31,10 @@ public class TranscriptLanguageCode
         this._raw = raw;
     }
     
+    public TranscriptLanguageCode(string raw) {
+        this._raw = raw;
+    }
+    
     public enum Value {
         EN,
         EN_AU,

@@ -7,8 +7,8 @@ public class Sentiment
     public static readonly Sentiment Negative = new Sentiment(Value.Negative, "NEGATIVE");
 
     public static readonly Sentiment Positive = new Sentiment(Value.Positive, "POSITIVE");
-    
-    
+
+
     private readonly Value _value;
     private readonly String _raw;
 
