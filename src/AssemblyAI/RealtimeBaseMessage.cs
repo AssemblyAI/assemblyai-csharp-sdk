@@ -1,10 +1,9 @@
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI
+namespace AssemblyAI;
+
+public class RealtimeBaseMessage
 {
-    public class RealtimeBaseMessage
-    {
-        [JsonPropertyName("messageType")]
-        public MessageType MessageType { get; set; }
-    }
+    [JsonPropertyName("messageType")]
+    public MessageType MessageType { get; init; } = null!;
 }

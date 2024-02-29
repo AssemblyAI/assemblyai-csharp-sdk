@@ -1,19 +1,18 @@
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI
+namespace AssemblyAI;
+
+public class Entity
 {
-    public class Entity
-    {
-        [JsonPropertyName("entity_type")]
-        private EntityType EntityType { get; set; }
+    [JsonPropertyName("entity_type")]
+    private EntityType EntityType { get; init; } = null!;
 
-        [JsonPropertyName("text")]
-        private string Text { get; set; }
+    [JsonPropertyName("text")]
+    private string Text { get; init; } = null!;
 
-        [JsonPropertyName("start")]
-        private int Start { get; set; }
+    [JsonPropertyName("start")]
+    private int Start { get; init; }
 
-        [JsonPropertyName("end")]
-        private int End  { get; set; }
-    }
+    [JsonPropertyName("end")]
+    private int End  { get; init; }
 }

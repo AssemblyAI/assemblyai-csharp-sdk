@@ -1,7 +1,6 @@
-namespace AssemblyAI
+namespace AssemblyAI;
+
+public class RealtimeMessage
 {
-    public class RealtimeMessage
-    {
     
-    }
 }

@@ -1,10 +1,9 @@
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI
+namespace AssemblyAI;
+
+public class LemurBaseResponse
 {
-    public class LemurBaseResponse
-    {
-        [JsonPropertyName("request_id")]
-        public string RequestId { get; set; }
-    }
-}
+    [JsonPropertyName("request_id")]
+    public string RequestId { get; init; } = null!;
+}   

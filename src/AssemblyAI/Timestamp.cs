@@ -1,13 +1,12 @@
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI
+namespace AssemblyAI;
+
+public class Timestamp
 {
-    public class Timestamp
-    {
-        [JsonPropertyName("start")] 
-        public int Start { get; set; }
-    
-        [JsonPropertyName("end")] 
-        public int End { get; set; }
-    }
+    [JsonPropertyName("start")] 
+    public int Start { get; init; }
+
+    [JsonPropertyName("end")] 
+    public int End { get; init; }
 }

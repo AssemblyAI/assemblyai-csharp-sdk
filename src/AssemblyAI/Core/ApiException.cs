@@ -1,9 +1,8 @@
-namespace AssemblyAI.Core
+namespace AssemblyAI.Core;
+
+public class ApiException : AssemblyAIException
 {
-    public class ApiException : AssemblyAIException
-    {
-        public int? StatusCode { set; get; }
-    
-        public object Body { set; get; }
-    }
+    public int? StatusCode { init; get; }
+
+    public object? Body { init; get; }
 }

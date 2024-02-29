@@ -1,10 +1,9 @@
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI
+namespace AssemblyAI;
+
+public class TerminateSessionParams : RealtimeBaseMessage
 {
-    public class TerminateSessionParams : RealtimeBaseMessage
-    {
-        [JsonPropertyName("terminateSession")]
-        public bool TerminateSession { get; set; }
-    }
+    [JsonPropertyName("terminateSession")]
+    public bool TerminateSession { get; init; }
 }

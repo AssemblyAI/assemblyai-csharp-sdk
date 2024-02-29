@@ -1,10 +1,9 @@
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI
+namespace AssemblyAI;
+
+public class SessionTerminated
 {
-    public class SessionTerminated
-    {
-        [JsonPropertyName("message_type")]
-        public string MessageType = "SessionTerminated";
-    }
+    [JsonPropertyName("message_type")]
+    public string MessageType = "SessionTerminated";
 }

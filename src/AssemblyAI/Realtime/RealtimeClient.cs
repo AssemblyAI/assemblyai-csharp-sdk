@@ -1,26 +1,24 @@
-using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using AssemblyAI.Core;
 
-namespace AssemblyAI.Realtime
-{
-    public class RealtimeClient
-    {
-        private readonly ClientWrapper _clientWrapper;
+namespace AssemblyAI.Realtime;
 
-        public RealtimeClient(ClientWrapper clientWrapper)
-        {
+public class RealtimeClient
+{
+    private readonly ClientWrapper _clientWrapper;
+
+    public RealtimeClient(ClientWrapper clientWrapper)
+    {
             _clientWrapper = clientWrapper;
         }
         
-        /**
-         * Retrieve a list of transcripts you have created.
-         */
-        public async Task<RealtimeTemporaryTokenResponse> CreateTemporaryToken(
-            CreateRealtimeTemporaryTokenParameters request, RequestOptions options = null)
-        {
+    /**
+     * Retrieve a list of transcripts you have created.
+     */
+    public async Task<RealtimeTemporaryTokenResponse> CreateTemporaryToken(
+        CreateRealtimeTemporaryTokenParameters request, RequestOptions? options = null)
+    {
             var url = new URLBuilder(this._clientWrapper.BaseUrl)
                 .AddPathSegment("v2/realtime/token")
                 .build();
@@ -36,5 +34,4 @@ namespace AssemblyAI.Realtime
                 StatusCode = (int) response.StatusCode,
             };
         }
-    }    
 }

@@ -1,16 +1,15 @@
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI
+namespace AssemblyAI;
+
+public class PurgeLemurRequestDataResponse
 {
-    public class PurgeLemurRequestDataResponse
-    {
-        [JsonPropertyName("request_id")]
-        public string RequestId { get; set; }
+    [JsonPropertyName("request_id")]
+    public string RequestId { get; init; } = null!;
 
-        [JsonPropertyName("request_id_to_purge")]
-        public string RequestIdToPurge { get; set; }
+    [JsonPropertyName("request_id_to_purge")]
+    public string RequestIdToPurge { get; init; } = null!;
 
-        [JsonPropertyName("deleted")]
-        public bool Deleted { get; set; }
-    }
+    [JsonPropertyName("deleted")]
+    public bool Deleted { get; init; }
 }

@@ -1,17 +1,15 @@
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI
+namespace AssemblyAI;
+
+public class TranscriptlabCategoriesResult
 {
-    public class TranscriptlabCategoriesResult
-    {
-        [JsonPropertyName("status")]
-        public AudioIntelligenceModelStatus Status { get; set; }
+    [JsonPropertyName("status")]
+    public AudioIntelligenceModelStatus Status { get; init; }
 
-        [JsonPropertyName("results")]
-        public IEnumerable<TopicDetectionResult> Results { get; set; }
+    [JsonPropertyName("results")]
+    public IEnumerable<TopicDetectionResult> Results { get; init; } = null!;
 
-        [JsonPropertyName("summary")]
-        public IReadOnlyDictionary<string, double> Summary { get; set; }
-    }
+    [JsonPropertyName("summary")]
+    public IReadOnlyDictionary<string, double> Summary { get; init; } = null!;
 }

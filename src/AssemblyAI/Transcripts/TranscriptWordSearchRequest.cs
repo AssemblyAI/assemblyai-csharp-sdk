@@ -1,10 +1,9 @@
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI.Transcripts
+namespace AssemblyAI.Transcripts;
+
+public sealed class TranscriptWordSearchRequest
 {
-    public sealed class TranscriptWordSearchRequest
-    {
-        [JsonPropertyName("words")] 
-        public string Words { get; set; }
-    }   
-}
+    [JsonPropertyName("words")] 
+    public string? Words { get; init; }
+} 

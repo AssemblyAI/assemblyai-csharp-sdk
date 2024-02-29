@@ -1,10 +1,9 @@
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI
+namespace AssemblyAI;
+
+public class RealtimeTemporaryTokenResponse
 {
-    public class RealtimeTemporaryTokenResponse
-    {
-        [JsonPropertyName("token")]
-        public string Token { get; set; }
-    }
+    [JsonPropertyName("token")]
+    public string Token { get; init; } = null!;
 }

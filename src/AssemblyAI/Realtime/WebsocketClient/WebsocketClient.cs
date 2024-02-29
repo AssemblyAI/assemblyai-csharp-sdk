@@ -1,9 +1,5 @@
-using System;
-using System.IO;
 using System.Net.WebSockets;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using AssemblyAI.Realtime.WebsocketClient.Exceptions;
 using AssemblyAI.Realtime.WebsocketClient.Threading;
 using Microsoft.Extensions.Logging;
@@ -11,62 +7,62 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.IO;
 using Websocket.Client;
 
-namespace AssemblyAI.Realtime.WebsocketClient
+namespace AssemblyAI.Realtime.WebsocketClient;
+
+/// <summary>
+/// A simple websocket client with built-in reconnection and error handling
+/// </summary>
+internal partial class WebsocketClient
 {
+    private readonly ILogger<WebsocketClient> _logger;
+    private readonly WebsocketAsyncLock _locker = new WebsocketAsyncLock();
+    private readonly Func<Uri, CancellationToken, Task<WebSocket>> _connectionFactory;
+
+    private static readonly RecyclableMemoryStreamManager
+        _memoryStreamManager = new RecyclableMemoryStreamManager();
+
+    private Timer _lastChanceTimer;
+
+    private Timer _errorReconnectTimer;
+
+    private bool _disposing;
+    private bool _reconnecting;
+    private bool _stopping;
+    private bool _isReconnectionEnabled = true;
+    private WebSocket _client;
+    private CancellationTokenSource _cancellation;
+    private CancellationTokenSource _cancellationTotal;
+
     /// <summary>
     /// A simple websocket client with built-in reconnection and error handling
     /// </summary>
-    internal partial class WebsocketClient
+    /// <param name="url">Target websocket url (wss://)</param>
+    /// <param name="clientFactory">Optional factory for native ClientWebSocket, use it whenever you need some custom features (proxy, settings, etc)</param>
+    public WebsocketClient(Uri url, Func<ClientWebSocket>? clientFactory = null)
+        : this(url, null, GetClientFactory(clientFactory))
     {
-        private readonly ILogger<WebsocketClient> _logger;
-        private readonly WebsocketAsyncLock _locker = new WebsocketAsyncLock();
-        private readonly Func<Uri, CancellationToken, Task<WebSocket>> _connectionFactory;
-
-        private static readonly RecyclableMemoryStreamManager
-            _memoryStreamManager = new RecyclableMemoryStreamManager();
-
-        private Timer _lastChanceTimer;
-
-        private Timer _errorReconnectTimer;
-
-        private bool _disposing;
-        private bool _reconnecting;
-        private bool _stopping;
-        private bool _isReconnectionEnabled = true;
-        private WebSocket _client;
-        private CancellationTokenSource _cancellation;
-        private CancellationTokenSource _cancellationTotal;
-
-        /// <summary>
-        /// A simple websocket client with built-in reconnection and error handling
-        /// </summary>
-        /// <param name="url">Target websocket url (wss://)</param>
-        /// <param name="clientFactory">Optional factory for native ClientWebSocket, use it whenever you need some custom features (proxy, settings, etc)</param>
-        public WebsocketClient(Uri url, Func<ClientWebSocket> clientFactory = null)
-            : this(url, null, GetClientFactory(clientFactory))
-        {
         }
 
-        /// <summary>
-        /// A simple websocket client with built-in reconnection and error handling
-        /// </summary>
-        /// <param name="url">Target websocket url (wss://)</param>
-        /// <param name="logger">Logger instance, can be null</param>
-        /// <param name="clientFactory">Optional factory for native ClientWebSocket, use it whenever you need some custom features (proxy, settings, etc)</param>
-        public WebsocketClient(Uri url, ILogger<WebsocketClient> logger, Func<ClientWebSocket> clientFactory = null)
-            : this(url, logger, GetClientFactory(clientFactory))
-        {
+    /// <summary>
+    /// A simple websocket client with built-in reconnection and error handling
+    /// </summary>
+    /// <param name="url">Target websocket url (wss://)</param>
+    /// <param name="logger">Logger instance, can be null</param>
+    /// <param name="clientFactory">Optional factory for native ClientWebSocket, use it whenever you need some custom features (proxy, settings, etc)</param>
+    public WebsocketClient(Uri url, ILogger<WebsocketClient> logger, Func<ClientWebSocket>? clientFactory = null)
+        : this(url, logger, GetClientFactory(clientFactory))
+    {
         }
 
-        /// <summary>
-        /// A simple websocket client with built-in reconnection and error handling
-        /// </summary>
-        /// <param name="url">Target websocket url (wss://)</param>
-        /// <param name="logger">Logger instance, can be null</param>
-        /// <param name="connectionFactory">Optional factory for native creating and connecting to a websocket. The method should return a <see cref="WebSocket"/> which is connected. Use it whenever you need some custom features (proxy, settings, etc)</param>
-        public WebsocketClient(Uri url, ILogger<WebsocketClient> logger,
-            Func<Uri, CancellationToken, Task<WebSocket>> connectionFactory)
-        {
+    /// <summary>
+    /// A simple websocket client with built-in reconnection and error handling
+    /// </summary>
+    /// <param name="url">Target websocket url (wss://)</param>
+    /// <param name="logger">Logger instance, can be null</param>
+    /// <param name="connectionFactory">Optional factory for native creating and connecting to a websocket. The method should return a <see cref="WebSocket"/> which is connected. Use it whenever you need some custom features (proxy, settings, etc)</param>
+    public WebsocketClient(Uri url, ILogger<WebsocketClient> logger,
+        Func<Uri, CancellationToken, Task<WebSocket>> connectionFactory)
+    {
             _logger = logger ?? NullLogger<WebsocketClient>.Instance;
             Url = url;
             _connectionFactory = connectionFactory ?? (async (uri, token) =>
@@ -81,61 +77,61 @@ namespace AssemblyAI.Realtime.WebsocketClient
             });
         }
 
-        public Uri Url { get; set; }
+    public Uri Url { get; set; }
 
-        public Func<Stream, Task> TextMessageReceived { get; set; }
-        public Func<Stream, Task> BinaryMessageReceived { get; set; }
-        public Func<DisconnectionInfo, Task> DisconnectionHappened { get; set; }
+    public Func<Stream, Task> TextMessageReceived { get; set; }
+    public Func<Stream, Task> BinaryMessageReceived { get; set; }
+    public Func<DisconnectionInfo, Task> DisconnectionHappened { get; set; }
 
-        private Task OnTextMessageReceived(Stream stream) 
-            => TextMessageReceived == null ? Task.CompletedTask : TextMessageReceived.Invoke(stream);
+    private Task OnTextMessageReceived(Stream stream) 
+        => TextMessageReceived == null ? Task.CompletedTask : TextMessageReceived.Invoke(stream);
 
-        private Task OnBinaryMessageReceived(Stream stream) 
-            => BinaryMessageReceived == null ? Task.CompletedTask : BinaryMessageReceived.Invoke(stream);
+    private Task OnBinaryMessageReceived(Stream stream) 
+        => BinaryMessageReceived == null ? Task.CompletedTask : BinaryMessageReceived.Invoke(stream);
 
-        private Task OnDisconnectionHappened(DisconnectionInfo info) 
-            => DisconnectionHappened == null ? Task.CompletedTask : DisconnectionHappened.Invoke(info);
+    private Task OnDisconnectionHappened(DisconnectionInfo info) 
+        => DisconnectionHappened == null ? Task.CompletedTask : DisconnectionHappened.Invoke(info);
 
-        /// <summary>
-        /// Get or set the name of the current websocket client instance.
-        /// For logging purpose (in case you use more parallel websocket clients and want to distinguish between them)
-        /// </summary>
-        public string Name { get; set; }
+    /// <summary>
+    /// Get or set the name of the current websocket client instance.
+    /// For logging purpose (in case you use more parallel websocket clients and want to distinguish between them)
+    /// </summary>
+    public string Name { get; set; }
 
-        /// <summary>
-        /// Returns true if Start() method was called at least once. False if not started or disposed
-        /// </summary>
-        public bool IsStarted { get; private set; }
+    /// <summary>
+    /// Returns true if Start() method was called at least once. False if not started or disposed
+    /// </summary>
+    public bool IsStarted { get; private set; }
 
-        /// <summary>
-        /// Returns true if client is running and connected to the server
-        /// </summary>
-        public bool IsRunning { get; private set; }
+    /// <summary>
+    /// Returns true if client is running and connected to the server
+    /// </summary>
+    public bool IsRunning { get; private set; }
 
-        /// <summary>
-        /// Enable or disable text message conversion from binary to string (via 'MessageEncoding' property).
-        /// Default: true
-        /// </summary>
-        public bool IsTextMessageConversionEnabled { get; set; } = true;
+    /// <summary>
+    /// Enable or disable text message conversion from binary to string (via 'MessageEncoding' property).
+    /// Default: true
+    /// </summary>
+    public bool IsTextMessageConversionEnabled { get; set; } = true;
 
-        /// <summary>
-        /// Enable or disable automatic <see cref="MemoryStream.Dispose(bool)"/> of the <see cref="MemoryStream"/> 
-        /// after sending data (only available for binary response).
-        /// Setting value to false allows you to access the stream directly.
-        /// <warning>However, keep in mind that you need to handle the dispose yourself.</warning>
-        /// Default: true
-        /// </summary>
-        public bool IsStreamDisposedAutomatically { get; set; } = true;
+    /// <summary>
+    /// Enable or disable automatic <see cref="MemoryStream.Dispose(bool)"/> of the <see cref="MemoryStream"/> 
+    /// after sending data (only available for binary response).
+    /// Setting value to false allows you to access the stream directly.
+    /// <warning>However, keep in mind that you need to handle the dispose yourself.</warning>
+    /// Default: true
+    /// </summary>
+    public bool IsStreamDisposedAutomatically { get; set; } = true;
 
-        public Encoding MessageEncoding { get; set; }
+    public Encoding MessageEncoding { get; set; }
 
-        public ClientWebSocket NativeClient => GetSpecificOrThrow(_client);
+    public ClientWebSocket NativeClient => GetSpecificOrThrow(_client);
 
-        /// <summary>
-        /// Terminate the websocket connection and cleanup everything
-        /// </summary>
-        public void Dispose()
-        {
+    /// <summary>
+    /// Terminate the websocket connection and cleanup everything
+    /// </summary>
+    public void Dispose()
+    {
             _disposing = true;
             try
             {
@@ -164,33 +160,33 @@ namespace AssemblyAI.Realtime.WebsocketClient
             IsStarted = false;
         }
 
-        /// <summary>
-        /// Start listening to the websocket stream on the background thread.
-        /// In case of connection error it doesn't throw an exception.
-        /// Only streams a message via 'DisconnectionHappened' and logs it. 
-        /// </summary>
-        public Task Start()
-        {
+    /// <summary>
+    /// Start listening to the websocket stream on the background thread.
+    /// In case of connection error it doesn't throw an exception.
+    /// Only streams a message via 'DisconnectionHappened' and logs it. 
+    /// </summary>
+    public Task Start()
+    {
             return StartInternal(false);
         }
 
-        /// <summary>
-        /// Start listening to the websocket stream on the background thread. 
-        /// In case of connection error it throws an exception.
-        /// Fail fast approach. 
-        /// </summary>
-        public Task StartOrFail()
-        {
+    /// <summary>
+    /// Start listening to the websocket stream on the background thread. 
+    /// In case of connection error it throws an exception.
+    /// Fail fast approach. 
+    /// </summary>
+    public Task StartOrFail()
+    {
             return StartInternal(true);
         }
 
-        /// <summary>
-        /// Stop/close websocket connection with custom close code.
-        /// Method doesn't throw exception, only logs it and mark client as closed. 
-        /// </summary>
-        /// <returns>Returns true if close was initiated successfully</returns>
-        public async Task<bool> Stop(WebSocketCloseStatus status, string statusDescription)
-        {
+    /// <summary>
+    /// Stop/close websocket connection with custom close code.
+    /// Method doesn't throw exception, only logs it and mark client as closed. 
+    /// </summary>
+    /// <returns>Returns true if close was initiated successfully</returns>
+    public async Task<bool> Stop(WebSocketCloseStatus status, string statusDescription)
+    {
             var result = await StopInternal(
                 _client,
                 status,
@@ -202,13 +198,13 @@ namespace AssemblyAI.Realtime.WebsocketClient
             return result;
         }
 
-        /// <summary>
-        /// Stop/close websocket connection with custom close code.
-        /// Method could throw exceptions, but client is marked as closed anyway.
-        /// </summary>
-        /// <returns>Returns true if close was initiated successfully</returns>
-        public async Task<bool> StopOrFail(WebSocketCloseStatus status, string statusDescription)
-        {
+    /// <summary>
+    /// Stop/close websocket connection with custom close code.
+    /// Method could throw exceptions, but client is marked as closed anyway.
+    /// </summary>
+    /// <returns>Returns true if close was initiated successfully</returns>
+    public async Task<bool> StopOrFail(WebSocketCloseStatus status, string statusDescription)
+    {
             var result = await StopInternal(
                 _client,
                 status,
@@ -220,9 +216,9 @@ namespace AssemblyAI.Realtime.WebsocketClient
             return result;
         }
 
-        private static Func<Uri, CancellationToken, Task<WebSocket>> GetClientFactory(
-            Func<ClientWebSocket> clientFactory)
-        {
+    private static Func<Uri, CancellationToken, Task<WebSocket>> GetClientFactory(
+        Func<ClientWebSocket> clientFactory)
+    {
             if (clientFactory == null)
                 return null;
 
@@ -234,8 +230,8 @@ namespace AssemblyAI.Realtime.WebsocketClient
             });
         }
 
-        private async Task StartInternal(bool failFast)
-        {
+    private async Task StartInternal(bool failFast)
+    {
             if (_disposing)
             {
                 throw new WebsocketException($"Client {Name} is already disposed, starting not possible");
@@ -257,9 +253,9 @@ namespace AssemblyAI.Realtime.WebsocketClient
             StartBackgroundThreadForSendingBinary();
         }
 
-        private async Task<bool> StopInternal(WebSocket client, WebSocketCloseStatus status, string statusDescription,
-            CancellationToken? cancellation, bool failFast, bool byServer)
-        {
+    private async Task<bool> StopInternal(WebSocket client, WebSocketCloseStatus status, string statusDescription,
+        CancellationToken? cancellation, bool failFast, bool byServer)
+    {
             if (_disposing)
             {
                 throw new WebsocketException($"Client {Name} is already disposed, stopping not possible");
@@ -304,21 +300,21 @@ namespace AssemblyAI.Realtime.WebsocketClient
             return result;
         }
 
-        private async Task StartClient(Uri uri, CancellationToken token)
-        {
+    private async Task StartClient(Uri uri, CancellationToken token)
+    {
             _client = await _connectionFactory(uri, token).ConfigureAwait(false);
             _ = Listen(_client, token);
             IsRunning = true;
             IsStarted = true;
         }
 
-        private bool IsClientConnected()
-        {
+    private bool IsClientConnected()
+    {
             return _client?.State == WebSocketState.Open;
         }
 
-        private async Task Listen(WebSocket client, CancellationToken token)
-        {
+    private async Task Listen(WebSocket client, CancellationToken token)
+    {
             // define buffer here and reuse, to avoid more allocation
             const int chunkSize = 4096;
             var buffer = new ArraySegment<byte>(new byte[chunkSize]);
@@ -362,8 +358,8 @@ namespace AssemblyAI.Realtime.WebsocketClient
             } while (client.State == WebSocketState.Open && !token.IsCancellationRequested);
         }
 
-        private ClientWebSocket GetSpecificOrThrow(WebSocket client)
-        {
+    private ClientWebSocket GetSpecificOrThrow(WebSocket client)
+    {
             if (client == null)
                 return null;
             var specific = client as ClientWebSocket;
@@ -372,5 +368,4 @@ namespace AssemblyAI.Realtime.WebsocketClient
                                              "provide correct type via factory or don't use this property at all.");
             return specific;
         }
-    }
 }

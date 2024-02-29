@@ -1,20 +1,18 @@
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI
+namespace AssemblyAI;
+
+public class WordSearchMatch
 {
-    public class WordSearchMatch
-    {
-        [JsonPropertyName("text")]
-        public string Text { get; set; }
+    [JsonPropertyName("text")]
+    public string Text { get; init; }
 
-        [JsonPropertyName("count")]
-        public int Count { get; set; }
+    [JsonPropertyName("count")]
+    public int Count { get; init; }
 
-        [JsonPropertyName("timestamps")]
-        public IEnumerable<IEnumerable<int>> Timestamps { get; set; }
+    [JsonPropertyName("timestamps")]
+    public IEnumerable<IEnumerable<int>> Timestamps { get; init; }
 
-        [JsonPropertyName("indexes")]
-        public IEnumerable<int> Indexes { get; set; }
-    }
+    [JsonPropertyName("indexes")]
+    public IEnumerable<int> Indexes { get; init; }
 }

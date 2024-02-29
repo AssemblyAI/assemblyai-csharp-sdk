@@ -1,14 +1,12 @@
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI
+namespace AssemblyAI;
+
+public class TranscriptCustomSpelling
 {
-    public class TranscriptCustomSpelling
-    {
-        [JsonPropertyName("from")]
-        public IEnumerable<string> From { get; set; }
-    
-        [JsonPropertyName("to")]
-        public string To { get; set; }
-    }
+    [JsonPropertyName("from")]
+    public IEnumerable<string> From { get; init; }
+
+    [JsonPropertyName("to")]
+    public string To { get; init; }
 }

@@ -1,21 +1,18 @@
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI
+namespace AssemblyAI;
+
+public class LemurQuestion
 {
-    public class LemurQuestion
-    {
-        [JsonPropertyName("question")]
-        public string Question { get; set; }
+    [JsonPropertyName("question")]
+    public string Question { get; init; } = null!;
 
-        [JsonPropertyName("context")]
-        public LemurQuestionContext Context { get; set; }
+    [JsonPropertyName("context")]
+    public LemurQuestionContext? Context { get; init; }
 
-        [JsonPropertyName("answer_format")]
-        public string AnswerFormat { get; set; }
+    [JsonPropertyName("answer_format")]
+    public string? AnswerFormat { get; init; }
 
-        [JsonPropertyName("answer_options")]
-        public IEnumerable<string> AnswerOptions { get; set; }
-    }
+    [JsonPropertyName("answer_options")]
+    public IEnumerable<string>? AnswerOptions { get; init; }
 }
-

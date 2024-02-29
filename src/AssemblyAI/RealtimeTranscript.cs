@@ -1,7 +1,6 @@
-namespace AssemblyAI
+namespace AssemblyAI;
+
+public class RealtimeTranscript
 {
-    public class RealtimeTranscript
-    {
     
-    }
 }

@@ -1,20 +1,18 @@
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI
+namespace AssemblyAI;
+
+public class AutoHighlightResult
 {
-    public class AutoHighlightResult
-    {
-        [JsonPropertyName("count")] 
-        public int Count { get; set; }
-    
-        [JsonPropertyName("rank")] 
-        public double Rank { get; set; }
-    
-        [JsonPropertyName("text")] 
-        public string Text { get; set; }
-    
-        [JsonPropertyName("timestamps")] 
-        public IEnumerable<Timestamp> Timestamps { get; set; }
-    }
+    [JsonPropertyName("count")] 
+    public int Count { get; init; }
+
+    [JsonPropertyName("rank")] 
+    public double Rank { get; init; }
+
+    [JsonPropertyName("text")] 
+    public string Text { get; init; } = null!;
+
+    [JsonPropertyName("timestamps")] 
+    public IEnumerable<Timestamp> Timestamps { get; init; } = null!;
 }

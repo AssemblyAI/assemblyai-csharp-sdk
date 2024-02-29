@@ -1,36 +1,33 @@
-﻿using System;
+﻿namespace AssemblyAI.Realtime.WebsocketClient;
 
-namespace AssemblyAI.Realtime.WebsocketClient
+internal abstract class RequestMessage { }
+
+internal class RequestTextMessage : RequestMessage
 {
-    internal abstract class RequestMessage { }
+    public string Text { get; }
 
-    internal class RequestTextMessage : RequestMessage
+    public RequestTextMessage(string text)
     {
-        public string Text { get; }
-
-        public RequestTextMessage(string text)
-        {
             Text = text;
         }
-    }
+}
 
-    internal class RequestBinaryMessage : RequestMessage
+internal class RequestBinaryMessage : RequestMessage
+{
+    public byte[] Data { get; }
+
+    public RequestBinaryMessage(byte[] data)
     {
-        public byte[] Data { get; }
-
-        public RequestBinaryMessage(byte[] data)
-        {
             Data = data;
         }
-    }
+}
 
-    internal class RequestBinarySegmentMessage : RequestMessage
+internal class RequestBinarySegmentMessage : RequestMessage
+{
+    public ArraySegment<byte> Data { get; }
+
+    public RequestBinarySegmentMessage(ArraySegment<byte> data)
     {
-        public ArraySegment<byte> Data { get; }
-
-        public RequestBinarySegmentMessage(ArraySegment<byte> data)
-        {
             Data = data;
         }
-    }
 }

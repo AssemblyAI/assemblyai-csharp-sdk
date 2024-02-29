@@ -1,8 +1,6 @@
-namespace AssemblyAI
-{
-    public class LemurQuestionContext
-    {
-    
-    }
-}
+namespace AssemblyAI;
 
+public class LemurQuestionContext
+{
+    
+}

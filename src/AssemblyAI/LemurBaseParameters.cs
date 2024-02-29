@@ -1,23 +1,21 @@
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI
+namespace AssemblyAI;
+
+public class LemurBaseParameters
 {
-    public class LemurBaseParameters
-    {
-        [JsonPropertyName("transcript_ids")]
-        public IEnumerable<string> TranscriptIds { get; set; } = new List<string>();
+    [JsonPropertyName("transcript_ids")]
+    public IEnumerable<string> TranscriptIds { get; init; } = new List<string>();
 
-        [JsonPropertyName("context")]
-        public LemurBaseParametersContext Context { get; set; } = null;
+    [JsonPropertyName("context")]
+    public LemurBaseParametersContext? Context { get; init; } = null;
 
-        [JsonPropertyName("final_model")]
-        public LemurModel FinalModel { get; set; } = null;
+    [JsonPropertyName("final_model")]
+    public LemurModel? FinalModel { get; init; } = null;
 
-        [JsonPropertyName("max_output_size")]
-        public int? MaxOutputSize { get; set; } = null;
+    [JsonPropertyName("max_output_size")]
+    public int? MaxOutputSize { get; init; } = null;
 
-        [JsonPropertyName("temperature")]
-        public double? Temperature { get; set; } = null;
-    }
+    [JsonPropertyName("temperature")]
+    public double? Temperature { get; init; } = null;
 }

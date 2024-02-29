@@ -1,22 +1,21 @@
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI
+namespace AssemblyAI;
+
+public class Chapter
 {
-    public class Chapter
-    {
-        [JsonPropertyName("gist")]
-        public string Gist { get; set; }
-    
-        [JsonPropertyName("headline")]
-        public string Headline { get; set; }
-    
-        [JsonPropertyName("summary")]
-        public string Summary { get; set; }
-    
-        [JsonPropertyName("start")] 
-        public int Start { get; set; }
-    
-        [JsonPropertyName("end")] 
-        public int End { get; set; }
-    }
+    [JsonPropertyName("gist")]
+    public string Gist { get; init; } = null!;
+
+    [JsonPropertyName("headline")]
+    public string Headline { get; init; } = null!;
+
+    [JsonPropertyName("summary")]
+    public string Summary { get; init; } = null!;
+
+    [JsonPropertyName("start")] 
+    public int Start { get; init; }
+
+    [JsonPropertyName("end")] 
+    public int End { get; init; }
 }

@@ -1,10 +1,9 @@
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI
+namespace AssemblyAI;
+
+public class RealtimeError
 {
-    public class RealtimeError
-    {
-        [JsonPropertyName("error")]
-        public string Text { get; set; }
-    }
+    [JsonPropertyName("error")]
+    public string Text { get; init; } = null!;
 }

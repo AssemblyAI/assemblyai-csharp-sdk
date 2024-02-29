@@ -1,17 +1,15 @@
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI
+namespace AssemblyAI;
+
+public class TopicDetectionResult
 {
-    public class TopicDetectionResult
-    {
-        [JsonPropertyName("text")]
-        public string Text { get; set; }
+    [JsonPropertyName("text")]
+    public string Text { get; init; } = null!;
 
-        [JsonPropertyName("labels")]
-        public IEnumerable<TopicDetectionResultLabelsItem> Labels { get; set; }
+    [JsonPropertyName("labels")]
+    public IEnumerable<TopicDetectionResultLabelsItem>? Labels { get; init; }
 
-        [JsonPropertyName("timestamp")]
-        public Timestamp Timestamp { get; set; }
-    }
+    [JsonPropertyName("timestamp")]
+    public Timestamp? Timestamp { get; init; }
 }

@@ -1,20 +1,19 @@
-﻿using System.Collections.Generic;
-using AssemblyAI.Core;
+﻿using AssemblyAI.Core;
 using AssemblyAI.Files;
 using AssemblyAI.Realtime;
 using AssemblyAI.Lemur;
 using AssemblyAI.Transcripts;
 
-namespace AssemblyAI
+namespace AssemblyAI;
+
+public partial class AssemblyAIClient
 {
-    public partial class AssemblyAIClient
+    private readonly ClientWrapper _clientWrapper;
+    
+    public AssemblyAIClient(string apiKey) : this(apiKey, new ClientOptions()) {}
+    
+    public AssemblyAIClient(string apiKey, ClientOptions clientOptions)
     {
-        private readonly ClientWrapper _clientWrapper;
-    
-        public AssemblyAIClient(string apiKey) : this(apiKey, new ClientOptions()) {}
-    
-        public AssemblyAIClient(string apiKey, ClientOptions clientOptions)
-        {
             
             _clientWrapper = new ClientWrapper(clientOptions, clientOptions.HttpClient, new Dictionary<string, string>()
             {
@@ -29,10 +28,9 @@ namespace AssemblyAI
             Realtime = new RealtimeClient(_clientWrapper);
         }
     
-        public FilesClient Files { get; }
-        public TranscriptsClient Transcripts { get; }
-        public LemurClient Lemur { get; }
+    public FilesClient Files { get; }
+    public TranscriptsClient Transcripts { get; }
+    public LemurClient Lemur { get; }
     
-        public RealtimeClient Realtime { get; }
-    }
+    public RealtimeClient Realtime { get; }
 }

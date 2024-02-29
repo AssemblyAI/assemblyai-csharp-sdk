@@ -1,21 +1,19 @@
-using System.Net.Http;
 using System.Text.Json;
-using System.Threading.Tasks;
 using AssemblyAI.Core;
 
-namespace AssemblyAI.Transcripts
+namespace AssemblyAI.Transcripts;
+
+public partial class TranscriptsClient
 {
-    public partial class TranscriptsClient
+    /**
+    * Create a transcript from an audio or video file that is accessible via a URL.
+    */
+    public async Task<Transcript> Create(
+        string audioUrl,
+        CreateTranscriptOptionalParameters request,
+        RequestOptions? options = null
+    )
     {
-        /**
-        * Create a transcript from an audio or video file that is accessible via a URL.
-        */
-        public async Task<Transcript> Create(
-            string audioUrl,
-            CreateTranscriptOptionalParameters request,
-            RequestOptions options = null
-        )
-        {
             var paramsJson = JsonSerializer.SerializeToNode(request);
             paramsJson.AsObject().Add("audio_url", audioUrl);
 
@@ -32,8 +30,7 @@ namespace AssemblyAI.Transcripts
 
             throw new ApiException
             {
-                StatusCode = (int)response.StatusCode,
+                StatusCode = (int)response.StatusCode
             };
         }
-    }
 }

@@ -1,21 +1,19 @@
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI
+namespace AssemblyAI;
+
+public class ContentSafetyLabelsResult
 {
-    public class ContentSafetyLabelsResult
-    {
-    
-        [JsonPropertyName("status")]
-        public AudioIntelligenceModelStatus Status { get; set; }
-    
-        [JsonPropertyName("results")]
-        public IEnumerable<ContentSafetyLabelResult> Results { get; set; }
-    
-        [JsonPropertyName("summary")]
-        public IReadOnlyDictionary<string, double> Summary { get; set; }
-    
-        [JsonPropertyName("severity_score_summary")]
-        public IReadOnlyDictionary<string, SeverityScoreSummary> SeverityScoreSummary { get; set; }
-    }
+
+    [JsonPropertyName("status")]
+    public AudioIntelligenceModelStatus Status { get; init; } = null!;
+
+    [JsonPropertyName("results")]
+    public IEnumerable<ContentSafetyLabelResult> Results { get; init; } = null!;
+
+    [JsonPropertyName("summary")]
+    public IReadOnlyDictionary<string, double> Summary { get; init; } = null!;
+
+    [JsonPropertyName("severity_score_summary")]
+    public IReadOnlyDictionary<string, SeverityScoreSummary> SeverityScoreSummary { get; init; } = null!;
 }

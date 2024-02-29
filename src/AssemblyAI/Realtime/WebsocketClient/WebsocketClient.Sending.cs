@@ -1,112 +1,109 @@
-﻿using System;
-using System.Net.WebSockets;
+﻿using System.Net.WebSockets;
 using System.Text;
-using System.Threading;
 using System.Threading.Channels;
-using System.Threading.Tasks;
 
-namespace AssemblyAI.Realtime.WebsocketClient
+namespace AssemblyAI.Realtime.WebsocketClient;
+
+internal partial class WebsocketClient
 {
-    internal partial class WebsocketClient
-    {
-        private readonly Channel<RequestMessage> _messagesTextToSendQueue = Channel.CreateUnbounded<RequestMessage>(
-            new UnboundedChannelOptions()
-            {
-                SingleReader = true,
-                SingleWriter = false
-            });
-
-        private readonly Channel<ArraySegment<byte>> _messagesBinaryToSendQueue =
-            Channel.CreateUnbounded<ArraySegment<byte>>(new UnboundedChannelOptions()
-            {
-                SingleReader = true,
-                SingleWriter = false
-            });
-
-
-        /// <summary>
-        /// Send text message to the websocket channel. 
-        /// It inserts the message to the queue and actual sending is done on another thread
-        /// </summary>
-        /// <param name="message">Text message to be sent</param>
-        /// <returns>true if the message was written to the queue</returns>
-        public bool Send(string message)
+    private readonly Channel<RequestMessage> _messagesTextToSendQueue = Channel.CreateUnbounded<RequestMessage>(
+        new UnboundedChannelOptions()
         {
+            SingleReader = true,
+            SingleWriter = false
+        });
+
+    private readonly Channel<ArraySegment<byte>> _messagesBinaryToSendQueue =
+        Channel.CreateUnbounded<ArraySegment<byte>>(new UnboundedChannelOptions()
+        {
+            SingleReader = true,
+            SingleWriter = false
+        });
+
+
+    /// <summary>
+    /// Send text message to the websocket channel. 
+    /// It inserts the message to the queue and actual sending is done on another thread
+    /// </summary>
+    /// <param name="message">Text message to be sent</param>
+    /// <returns>true if the message was written to the queue</returns>
+    public bool Send(string message)
+    {
             return _messagesTextToSendQueue.Writer.TryWrite(new RequestTextMessage(message));
         }
 
-        /// <summary>
-        /// Send binary message to the websocket channel. 
-        /// It inserts the message to the queue and actual sending is done on another thread
-        /// </summary>
-        /// <param name="message">Binary message to be sent</param>
-        /// <returns>true if the message was written to the queue</returns>
-        public bool Send(byte[] message)
-        {
+    /// <summary>
+    /// Send binary message to the websocket channel. 
+    /// It inserts the message to the queue and actual sending is done on another thread
+    /// </summary>
+    /// <param name="message">Binary message to be sent</param>
+    /// <returns>true if the message was written to the queue</returns>
+    public bool Send(byte[] message)
+    {
             return _messagesBinaryToSendQueue.Writer.TryWrite(new ArraySegment<byte>(message));
         }
 
-        /// <summary>
-        /// Send binary message to the websocket channel. 
-        /// It inserts the message to the queue and actual sending is done on another thread
-        /// </summary>
-        /// <param name="message">Binary message to be sent</param>
-        /// <returns>true if the message was written to the queue</returns>
-        public bool Send(ArraySegment<byte> message)
-        {
+    /// <summary>
+    /// Send binary message to the websocket channel. 
+    /// It inserts the message to the queue and actual sending is done on another thread
+    /// </summary>
+    /// <param name="message">Binary message to be sent</param>
+    /// <returns>true if the message was written to the queue</returns>
+    public bool Send(ArraySegment<byte> message)
+    {
             return _messagesBinaryToSendQueue.Writer.TryWrite(message);
         }
 
-        /// <summary>
-        /// Send text message to the websocket channel. 
-        /// It doesn't use a sending queue, 
-        /// beware of issue while sending two messages in the exact same time 
-        /// on the full .NET Framework platform
-        /// </summary>
-        /// <param name="message">Message to be sent</param>
-        public Task SendInstant(string message)
-        {
+    /// <summary>
+    /// Send text message to the websocket channel. 
+    /// It doesn't use a sending queue, 
+    /// beware of issue while sending two messages in the exact same time 
+    /// on the full .NET Framework platform
+    /// </summary>
+    /// <param name="message">Message to be sent</param>
+    public Task SendInstant(string message)
+    {
             return SendInternalSynchronized(new RequestTextMessage(message));
         }
 
-        /// <summary>
-        /// Send binary message to the websocket channel. 
-        /// It doesn't use a sending queue, 
-        /// beware of issue while sending two messages in the exact same time 
-        /// on the full .NET Framework platform
-        /// </summary>
-        /// <param name="message">Message to be sent</param>
-        public Task SendInstant(byte[] message)
-        {
+    /// <summary>
+    /// Send binary message to the websocket channel. 
+    /// It doesn't use a sending queue, 
+    /// beware of issue while sending two messages in the exact same time 
+    /// on the full .NET Framework platform
+    /// </summary>
+    /// <param name="message">Message to be sent</param>
+    public Task SendInstant(byte[] message)
+    {
             return SendInternalSynchronized(new ArraySegment<byte>(message));
         }
 
-        /// <summary>
-        /// Send already converted text message to the websocket channel. 
-        /// Use this method to avoid double serialization of the text message.
-        /// It inserts the message to the queue and actual sending is done on another thread
-        /// </summary>
-        /// <param name="message">Message to be sent</param>
-        /// <returns>true if the message was written to the queue</returns>
-        public bool SendAsText(byte[] message)
-        {
+    /// <summary>
+    /// Send already converted text message to the websocket channel. 
+    /// Use this method to avoid double serialization of the text message.
+    /// It inserts the message to the queue and actual sending is done on another thread
+    /// </summary>
+    /// <param name="message">Message to be sent</param>
+    /// <returns>true if the message was written to the queue</returns>
+    public bool SendAsText(byte[] message)
+    {
             return _messagesTextToSendQueue.Writer.TryWrite(new RequestBinaryMessage(message));
         }
 
-        /// <summary>
-        /// Send already converted text message to the websocket channel. 
-        /// Use this method to avoid double serialization of the text message.
-        /// It inserts the message to the queue and actual sending is done on another thread
-        /// </summary>
-        /// <param name="message">Message to be sent</param>
-        /// <returns>true if the message was written to the queue</returns>
-        public bool SendAsText(ArraySegment<byte> message)
-        {
+    /// <summary>
+    /// Send already converted text message to the websocket channel. 
+    /// Use this method to avoid double serialization of the text message.
+    /// It inserts the message to the queue and actual sending is done on another thread
+    /// </summary>
+    /// <param name="message">Message to be sent</param>
+    /// <returns>true if the message was written to the queue</returns>
+    public bool SendAsText(ArraySegment<byte> message)
+    {
             return _messagesTextToSendQueue.Writer.TryWrite(new RequestBinarySegmentMessage(message));
         }
 
-        private async Task SendTextFromQueue()
-        {
+    private async Task SendTextFromQueue()
+    {
             try
             {
                 while (await _messagesTextToSendQueue.Reader.WaitToReadAsync())
@@ -137,8 +134,8 @@ namespace AssemblyAI.Realtime.WebsocketClient
             }
         }
 
-        private async Task SendBinaryFromQueue()
-        {
+    private async Task SendBinaryFromQueue()
+    {
             try
             {
                 while (await _messagesBinaryToSendQueue.Reader.WaitToReadAsync())
@@ -169,28 +166,28 @@ namespace AssemblyAI.Realtime.WebsocketClient
             }
         }
 
-        private void StartBackgroundThreadForSendingText()
-        {
+    private void StartBackgroundThreadForSendingText()
+    {
             _ = Task.Factory.StartNew(_ => SendTextFromQueue(), TaskCreationOptions.LongRunning,
                 _cancellationTotal?.Token ?? CancellationToken.None);
         }
 
-        private void StartBackgroundThreadForSendingBinary()
-        {
+    private void StartBackgroundThreadForSendingBinary()
+    {
             _ = Task.Factory.StartNew(_ => SendBinaryFromQueue(), TaskCreationOptions.LongRunning,
                 _cancellationTotal?.Token ?? CancellationToken.None);
         }
 
-        private async Task SendInternalSynchronized(RequestMessage message)
-        {
+    private async Task SendInternalSynchronized(RequestMessage message)
+    {
             using (await _locker.LockAsync())
             {
                 await SendInternal(message);
             }
         }
 
-        private async Task SendInternal(RequestMessage message)
-        {
+    private async Task SendInternal(RequestMessage message)
+    {
             if (!IsClientConnected())
             {
                 return;
@@ -218,16 +215,16 @@ namespace AssemblyAI.Realtime.WebsocketClient
                 .ConfigureAwait(false);
         }
 
-        private async Task SendInternalSynchronized(ArraySegment<byte> message)
-        {
+    private async Task SendInternalSynchronized(ArraySegment<byte> message)
+    {
             using (await _locker.LockAsync())
             {
                 await SendInternal(message);
             }
         }
 
-        private async Task SendInternal(ArraySegment<byte> payload)
-        {
+    private async Task SendInternal(ArraySegment<byte> payload)
+    {
             if (!IsClientConnected())
             {
                 return;
@@ -237,5 +234,4 @@ namespace AssemblyAI.Realtime.WebsocketClient
                 .SendAsync(payload, WebSocketMessageType.Binary, true, _cancellation?.Token ?? CancellationToken.None)
                 .ConfigureAwait(false);
         }
-    }
 }

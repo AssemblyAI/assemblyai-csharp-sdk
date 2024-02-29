@@ -1,10 +1,9 @@
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI.Transcripts
+namespace AssemblyAI.Transcripts;
+
+public sealed class CreateTranscriptParameters : CreateTranscriptOptionalParameters
 {
-    public sealed class CreateTranscriptParameters : CreateTranscriptOptionalParameters
-    {
-        [JsonPropertyName("audioUrl")]
-        public string AudioUrl { get; set; }
-    }   
-}
+    [JsonPropertyName("audio_url")] 
+    public string AudioUrl { get; init; } = null!;
+}  

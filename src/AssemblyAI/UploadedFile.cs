@@ -1,10 +1,9 @@
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI
+namespace AssemblyAI;
+
+public class UploadedFile
 {
-    public class UploadedFile
-    {
-        [JsonPropertyName("upload_url")]
-        public string UploadUrl { get; set; }
-    }
+    [JsonPropertyName("upload_url")] 
+    public string UploadUrl { get; init; }
 }

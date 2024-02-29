@@ -1,32 +1,30 @@
-using System.Net.Http;
 using System.Text.Json;
-using System.Threading.Tasks;
 using AssemblyAI.Core;
 
-namespace AssemblyAI.Transcripts
-{
-    public partial class TranscriptsClient
-    {
-        private readonly ClientWrapper _clientWrapper;
+namespace AssemblyAI.Transcripts;
 
-        public TranscriptsClient(ClientWrapper clientWrapper)
-        {
+public partial class TranscriptsClient
+{
+    private readonly ClientWrapper _clientWrapper;
+
+    public TranscriptsClient(ClientWrapper clientWrapper)
+    {
             _clientWrapper = clientWrapper;
         }
         
-        /**
-        * Retrieve a IEnumerable of transcripts you have created.
-        */
-        public async Task<TranscriptIEnumerable> IEnumerable()
-        {
+    /**
+    * Retrieve a IEnumerable of transcripts you have created.
+    */
+    public async Task<TranscriptIEnumerable> IEnumerable()
+    {
             return await IEnumerable(new TranscriptIEnumerableRequest{});
         }
 
-        /**
-        * Retrieve a IEnumerable of transcripts you have created.
-        */
-        public async Task<TranscriptIEnumerable> IEnumerable(TranscriptIEnumerableRequest request, RequestOptions options = null)
-        {
+    /**
+    * Retrieve a IEnumerable of transcripts you have created.
+    */
+    public async Task<TranscriptIEnumerable> IEnumerable(TranscriptIEnumerableRequest request, RequestOptions? options = null)
+    {
             var urlBuilder = new URLBuilder(this._clientWrapper.BaseUrl);
             urlBuilder.AddPathSegment("v2/transcript");
             if (request.Limit.HasValue)
@@ -62,11 +60,11 @@ namespace AssemblyAI.Transcripts
             };
         }
 
-        /**
-        * Create a transcript from an audio or video file that is accessible via a URL.
-        */
-        public async Task<Transcript> Create(CreateTranscriptParameters request, RequestOptions options = null)
-        {
+    /**
+    * Create a transcript from an audio or video file that is accessible via a URL.
+    */
+    public async Task<Transcript> Create(CreateTranscriptParameters request, RequestOptions? options = null)
+    {
             var url = new URLBuilder(this._clientWrapper.BaseUrl)
                 .AddPathSegment("v2/transcript")
                 .build();
@@ -83,11 +81,11 @@ namespace AssemblyAI.Transcripts
             };
         }
         
-        /**
-         * Get the transcript resource. The transcript is ready when the &quot;status&quot; is &quot;completed&quot;.
-         */
-        public async Task<Transcript> Get(string transcriptId, RequestOptions options = null)
-        {
+    /**
+     * Get the transcript resource. The transcript is ready when the &quot;status&quot; is &quot;completed&quot;.
+     */
+    public async Task<Transcript> Get(string transcriptId, RequestOptions? options = null)
+    {
             var url = new URLBuilder(this._clientWrapper.BaseUrl)
                 .AddPathSegment("v2/transcript")
                 .AddPathSegment(transcriptId)
@@ -103,11 +101,11 @@ namespace AssemblyAI.Transcripts
             };
         }
         
-        /**
-        * Delete the transcript
-        */
-        public async Task<Transcript> Delete(string transcriptId, RequestOptions options = null)
-        {
+    /**
+    * Delete the transcript
+    */
+    public async Task<Transcript> Delete(string transcriptId, RequestOptions? options = null)
+    {
             var url = new URLBuilder(this._clientWrapper.BaseUrl)
                 .AddPathSegment("v2/transcript")
                 .AddPathSegment(transcriptId)
@@ -123,23 +121,23 @@ namespace AssemblyAI.Transcripts
             };
         }
         
-        /**
-         * Export your transcript in SRT or VTT format, to be plugged into a video player for subtitles and closed captions.
-         */
-        public async Task<string> GetSubtitles(string transcriptId, SubtitleFormat subtitleFormat)
-        {
+    /**
+     * Export your transcript in SRT or VTT format, to be plugged into a video player for subtitles and closed captions.
+     */
+    public async Task<string> GetSubtitles(string transcriptId, SubtitleFormat subtitleFormat)
+    {
             return await GetSubtitles(transcriptId, subtitleFormat, new TranscriptGetSubtitlesRequest() { });
         }
         
-        /**
-         * Export your transcript in SRT or VTT format, to be plugged into a video player for subtitles and closed captions.
-         */
-        public async Task<string> GetSubtitles(
-            string transcriptId, 
-            SubtitleFormat subtitleFormat, 
-            TranscriptGetSubtitlesRequest request, 
-            RequestOptions options = null)
-        {
+    /**
+     * Export your transcript in SRT or VTT format, to be plugged into a video player for subtitles and closed captions.
+     */
+    public async Task<string> GetSubtitles(
+        string transcriptId, 
+        SubtitleFormat subtitleFormat, 
+        TranscriptGetSubtitlesRequest request, 
+        RequestOptions? options = null)
+    {
             var urlBuilder = new URLBuilder(this._clientWrapper.BaseUrl)
                 .AddPathSegment("v2/transcript")
                 .AddPathSegment(transcriptId)
@@ -159,11 +157,11 @@ namespace AssemblyAI.Transcripts
             };
         }
         
-        /**
-        * Get the transcript split by sentences. The API will attempt to semantically segment the transcript into sentences to create more reader-friendly transcripts.
-        */
-        public async Task<string> GetSentences(string transcriptId, RequestOptions options = null)
-        {
+    /**
+    * Get the transcript split by sentences. The API will attempt to semantically segment the transcript into sentences to create more reader-friendly transcripts.
+    */
+    public async Task<string> GetSentences(string transcriptId, RequestOptions? options = null)
+    {
             var url = new URLBuilder(this._clientWrapper.BaseUrl)
                 .AddPathSegment("v2/transcript")
                 .AddPathSegment(transcriptId)
@@ -179,5 +177,4 @@ namespace AssemblyAI.Transcripts
                 StatusCode = (int) response.StatusCode,
             };
         }
-    }   
 }
