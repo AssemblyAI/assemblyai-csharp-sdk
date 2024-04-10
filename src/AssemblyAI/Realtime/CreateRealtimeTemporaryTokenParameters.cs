@@ -1,10 +1,9 @@
 using System.Text.Json.Serialization;
 
-namespace AssemblyAI
+namespace AssemblyAI.Realtime;
+
+public class CreateRealtimeTemporaryTokenParameters
 {
-    public class CreateRealtimeTemporaryTokenParameters
-    {
-        [JsonPropertyName("expiresIn")]
-        public int ExpiresIn { get; init; }
-    }   
+    [JsonPropertyName("expires_in")]
+    public int ExpiresIn { get; init; }
 }

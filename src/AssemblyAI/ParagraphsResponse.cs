@@ -16,4 +16,3 @@ public class ParagraphsResponse
     [JsonPropertyName("paragraphs")]
     public IEnumerable<TranscriptParagraph> Paragraphs { get; init; } = null!;
 }
-

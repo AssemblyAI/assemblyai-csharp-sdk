@@ -59,7 +59,7 @@ public class EntityType
     public static readonly EntityType CreditCardCvv = new EntityType(Value.CreditCardCvv, "credit_card_cvv");
 
     public static readonly EntityType UsSocialSecurityNumber = new EntityType(Value.UsSocialSecurityNumber, "us_social_security_number");
-    
+
     private readonly Value value;
     private readonly string str;
 
@@ -103,4 +103,3 @@ public class EntityType
         Unknown
     }
 }
-

@@ -4,8 +4,8 @@ public sealed class URLBuilder
 {
 
     private readonly string _baseUrl;
-    private readonly List<string> _pathSegments;
-    private readonly Dictionary<string, List<string>> _queryParameters;
+    private readonly List<string> _pathSegments = new List<string>();
+    private readonly Dictionary<string, List<string>> _queryParameters = new Dictionary<string, List<string>>();
 
     public URLBuilder(string baseUrl)
     {
@@ -30,7 +30,7 @@ public sealed class URLBuilder
     /**
      * Add a query parameter ot the URL.
      * AddQueryParameter("bar", "baz") will append `?bar=baz` to the URL.
-     * If multiple query parameters are 
+     * If multiple query parameters are
      */
     public URLBuilder AddQueryParameter(string key, string value)
     {

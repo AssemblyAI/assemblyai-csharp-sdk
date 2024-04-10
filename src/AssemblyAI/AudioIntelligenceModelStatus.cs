@@ -17,8 +17,8 @@ public class AudioIntelligenceModelStatus
         this._raw = raw;
         this._value = value;
     }
-    
-            
+
+
     public static AudioIntelligenceModelStatus Of(string value)
     {
         return value switch
