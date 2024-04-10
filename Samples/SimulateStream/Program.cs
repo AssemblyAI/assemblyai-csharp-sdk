@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using AssemblyAI;
+using Microsoft.Extensions.Configuration;
 using AssemblyAI.Realtime;
 
 var config = new ConfigurationBuilder()
@@ -12,17 +13,33 @@ await using var transcriber = new RealtimeTranscriber
     WordBoost = new[] { "word1", "word2" }
 };
 
-transcriber.SessionBegins += (sender, args) => Console.WriteLine($"""
-                                                                  Session begins:
-                                                                  - Session ID: {args.Result.SessionId}
-                                                                  - Expires at: {args.Result.ExpiresAt}
-                                                                  """);
-transcriber.PartialTranscriptReceived += (_, args) => Console.WriteLine("Partial transcript: {0}", args.Result.Text);
-transcriber.FinalTranscriptReceived += (_, args) => Console.WriteLine("Final transcript: {0}", args.Result.Text);
-//transcriber.TranscriptReceived += (_, args) => Console.WriteLine("Transcript: {0}", args.Result.Text);
+transcriber.SessionBegins.Subscribe(
+    message => Console.WriteLine(
+        $"""
+         Session begins:
+         - Session ID: {message.SessionId}
+         - Expires at: {message.ExpiresAt}
+         """)
+);
 
-transcriber.ErrorReceived += (_, args) => Console.WriteLine("Error: {0}", args.Error);
-transcriber.Closed += (_, _) => Console.WriteLine("Closed");
+transcriber.PartialTranscriptReceived.Subscribe(
+    transcript => Console.WriteLine("Partial transcript: {0}", transcript.Text)
+);
+
+transcriber.FinalTranscriptReceived.Subscribe(
+    transcript => Console.WriteLine("Final transcript: {0}", transcript.Text)
+);
+
+transcriber.TranscriptReceived.Subscribe(
+    transcript => Console.WriteLine("Transcript: {0}", transcript)
+);
+
+transcriber.ErrorReceived.Subscribe(
+    error => Console.WriteLine("Error: {0}", error)
+);
+transcriber.Closed.Subscribe(
+    closeEvt => Console.WriteLine("Closed: {0} - {1}", closeEvt.Code, closeEvt.Reason)
+);
 
 await transcriber.ConnectAsync().ConfigureAwait(false);
 

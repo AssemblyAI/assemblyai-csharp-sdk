@@ -9,7 +9,6 @@ using AssemblyAI;
 using AssemblyAI.Realtime;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
-using ErrorEventArgs = AssemblyAI.Realtime.ErrorEventArgs;
 
 namespace Sample.ViewModels;
 
@@ -75,10 +74,10 @@ public class TranscribeMicrophoneViewModel : ViewModelBase, IAsyncDisposable
     {
         _captureAudio = DiContainer.Services.GetRequiredService<ICaptureAudio>();
         _transcriber = new RealtimeTranscriber();
-        _transcriber.PartialTranscriptReceived += OnPartialTranscriptReceived;
-        _transcriber.FinalTranscriptReceived += OnFinalTranscriptReceived;
-        _transcriber.ErrorReceived += OnErrorReceived;
-        _transcriber.Closed += OnClosed;
+        _transcriber.PartialTranscriptReceived.Subscribe(OnPartialTranscriptReceived);
+        _transcriber.FinalTranscriptReceived.Subscribe(OnFinalTranscriptReceived);
+        _transcriber.ErrorReceived.Subscribe(OnErrorReceived);
+        _transcriber.Closed.Subscribe(OnClosed);
         _transcriber.ObservableForProperty(t => t.Status)
             .Subscribe(status =>
             {
@@ -120,21 +119,21 @@ public class TranscribeMicrophoneViewModel : ViewModelBase, IAsyncDisposable
         _transcriber.SendAudio(audio);
     }
 
-    private void OnErrorReceived(RealtimeTranscriber sender, ErrorEventArgs evt)
+    private void OnErrorReceived(RealtimeError error)
     {
-        Error = evt.Error;
+        Error = error.Text;
     }
 
-    private void OnClosed(RealtimeTranscriber sender, ClosedEventArgs evt)
+    private void OnClosed(ClosedEventArgs closedEvent)
     {
-        if (evt.Code == (int)WebSocketCloseStatus.NormalClosure) return;
-        Error = $"Socket closed with code {evt.Code}: {evt.Reason}";
+        if (closedEvent.Code == (int)WebSocketCloseStatus.NormalClosure) return;
+        Error = $"Socket closed with code {closedEvent.Code}: {closedEvent.Reason}";
     }
 
-    private void OnPartialTranscriptReceived(RealtimeTranscriber sender, PartialTranscriptEventArgs evt)
+    private void OnPartialTranscriptReceived(PartialTranscript partialTranscript)
     {
-        if (evt.Result.Text == "") return;
-        foreach (var word in evt.Result.Words)
+        if (partialTranscript.Text == "") return;
+        foreach (var word in partialTranscript.Words)
         {
             _transcriptWords[word.Start] = word.Text;
         }
@@ -142,9 +141,9 @@ public class TranscribeMicrophoneViewModel : ViewModelBase, IAsyncDisposable
         BuildTranscript();
     }
 
-    private void OnFinalTranscriptReceived(RealtimeTranscriber sender, FinalTranscriptEventArgs evt)
+    private void OnFinalTranscriptReceived(FinalTranscript finalTranscript)
     {
-        foreach (var word in evt.Result.Words)
+        foreach (var word in finalTranscript.Words)
         {
             _transcriptWords[word.Start] = word.Text;
         }

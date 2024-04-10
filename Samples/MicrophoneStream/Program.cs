@@ -29,11 +29,12 @@ var transcribeThread = new Thread(() =>
         ApiKey = config["AssemblyAI:ApiKey"]!,
         SampleRate = sampleRate
     };
-    transcriber.PartialTranscriptReceived += (_, args) =>
+    
+    transcriber.PartialTranscriptReceived.Subscribe(partialTranscript =>
     {
         // don't do anything if nothing was said
-        if (string.IsNullOrEmpty(args.Result.Text)) return;
-        foreach (var word in args.Result.Words)
+        if (string.IsNullOrEmpty(partialTranscript.Text)) return;
+        foreach (var word in partialTranscript.Words)
         {
             transcriptWords[word.Start] = word.Text;
         }
@@ -41,10 +42,10 @@ var transcribeThread = new Thread(() =>
         Console.Clear();
         Console.WriteLine("Press any key to exit.");
         Console.WriteLine(BuildTranscript());
-    };
-    transcriber.FinalTranscriptReceived += (_, args) =>
+    });
+    transcriber.FinalTranscriptReceived.Subscribe(finalTranscript => 
     {
-        foreach (var word in args.Result.Words)
+        foreach (var word in finalTranscript.Words)
         {
             transcriptWords[word.Start] = word.Text;
         }
@@ -52,11 +53,14 @@ var transcribeThread = new Thread(() =>
         Console.Clear();
         Console.WriteLine("Press any key to exit.");
         Console.WriteLine(BuildTranscript());
-    };
-    
-    transcriber.ErrorReceived += (_, args) => Console.WriteLine("Real-time error: {0}", args.Error);
-    transcriber.Closed += (_, args) =>
-        Console.WriteLine("Real-time connection closed: {0} - {1}", args.Code, args.Reason);
+    });
+    transcriber.ErrorReceived.Subscribe(error => Console.WriteLine("Real-time error: {0}", error));
+    transcriber.Closed.Subscribe(closeEvent =>
+        Console.WriteLine("Real-time connection closed: {0} - {1}",
+            closeEvent.Code,
+            closeEvent.Reason
+        )
+    );
 
     Console.WriteLine("Connecting to real-time transcript service");
     var sessionBeginsMessage = transcriber.ConnectAsync().Result;

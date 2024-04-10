@@ -72,21 +72,28 @@ async Task TranscribeStream(
         return stringBuilder.ToString();
     }
 
-    realtimeTranscriber.SessionBegins += (sender, evt) =>
+    realtimeTranscriber.SessionBegins.Subscribe(sessionBegins =>
         app.Logger.LogInformation(
             "RealtimeTranscriber session begins with ID {SessionId} until {ExpiresAt}",
-            evt.Result.SessionId,
-            evt.Result.ExpiresAt
-        );
-    realtimeTranscriber.ErrorReceived += (sender, evt) =>
-        app.Logger.LogError("RealtimeTranscriber error: {error}", evt.Error);
-    realtimeTranscriber.Closed += (sender, evt) =>
-        app.Logger.LogWarning("RealtimeTranscriber closed with status {Code}, reason: {Reason}", evt.Code, evt.Reason);
+            sessionBegins.SessionId,
+            sessionBegins.ExpiresAt
+        )
+    );
+    realtimeTranscriber.ErrorReceived.Subscribe(error =>
+        app.Logger.LogError("RealtimeTranscriber error: {error}", error)
+    );
+    realtimeTranscriber.Closed.Subscribe(closeEvent =>
+        app.Logger.LogWarning(
+            "RealtimeTranscriber closed with status {Code}, reason: {Reason}",
+            closeEvent.Code,
+            closeEvent.Reason
+        )
+    );
 
-    realtimeTranscriber.PartialTranscriptReceived += (sender, evt) =>
+    realtimeTranscriber.PartialTranscriptReceived.Subscribe(partialTranscript =>
     {
-        if (string.IsNullOrEmpty(evt.Result.Text)) return;
-        foreach (var word in evt.Result.Words)
+        if (string.IsNullOrEmpty(partialTranscript.Text)) return;
+        foreach (var word in partialTranscript.Words)
         {
             transcriptWords[word.Start] = word.Text;
         }
@@ -94,11 +101,11 @@ async Task TranscribeStream(
         var transcript = BuildTranscript();
         Console.Clear();
         Console.WriteLine(transcript);
-    };
+    });
 
-    realtimeTranscriber.FinalTranscriptReceived += (sender, evt) =>
+    realtimeTranscriber.FinalTranscriptReceived.Subscribe(finalTranscript =>
     {
-        foreach (var word in evt.Result.Words)
+        foreach (var word in finalTranscript.Words)
         {
             transcriptWords[word.Start] = word.Text;
         }
@@ -106,7 +113,7 @@ async Task TranscribeStream(
         var transcript = BuildTranscript();
         Console.Clear();
         Console.WriteLine(transcript);
-    };
+    });
 
     await realtimeTranscriber.ConnectAsync().ConfigureAwait(false);
 
