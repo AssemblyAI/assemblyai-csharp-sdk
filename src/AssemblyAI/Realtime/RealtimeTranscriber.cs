@@ -19,7 +19,7 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
 {
     private const string RealtimeServiceEndpoint = "wss://api.assemblyai.com/v2/realtime/ws";
     private WebSocket? _socket;
-    private TaskCompletionSource<bool>? _sessionTerminatedTaskCompletionSource;
+    private TaskCompletionSource<SessionInformation>? _sessionTerminatedTaskCompletionSource;
 
     /// <summary>
     /// Use your AssemblyAI API key to authenticate with the AssemblyAI real-time transcriber.
@@ -53,12 +53,6 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
     /// </summary>
     public bool DisablePartialTranscripts { get; set; }
 
-    /// <summary>
-    /// Enable extra session information.
-    /// Set to `true` to receive the `session_information` message before the session ends. Defaults to `false`.
-    /// </summary>
-    public bool EnableExtraSessionInformation { get; set; }
-
     private RealtimeTranscriberStatus _status;
 
     public RealtimeTranscriberStatus Status
@@ -74,6 +68,7 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
     public readonly Event<SessionInformation> SessionInformationReceived = new();
     public readonly Event<RealtimeError> ErrorReceived = new();
     public readonly Event<ClosedEventArgs> Closed = new();
+    private SessionInformation? _sessionInformation;
 
     /// <summary>
     /// Connect to AssemblyAI's real-time transcription service, and start listening for messages.
@@ -99,10 +94,7 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
             urlBuilder.Append("&disable_partial_transcripts=true");
         }
 
-        if (EnableExtraSessionInformation)
-        {
-            urlBuilder.Append("&enable_extra_session_information=true");
-        }
+        urlBuilder.Append("&enable_extra_session_information=true");
 
         if (WordBoost.Any())
         {
@@ -242,6 +234,7 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
     /// <param name="sessionInformation"></param>
     private async Task OnSessionInformation(SessionInformation sessionInformation)
     {
+        _sessionInformation = sessionInformation;
         await SessionInformationReceived.RaiseEvent(sessionInformation).ConfigureAwait(false);
     }
 
@@ -250,7 +243,7 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
     /// </summary>
     private void OnSessionTerminated()
     {
-        _sessionTerminatedTaskCompletionSource?.TrySetResult(true);
+        _sessionTerminatedTaskCompletionSource?.TrySetResult(_sessionInformation!);
     }
 
     private async Task OnClosed(int? code, string reason)
@@ -372,7 +365,7 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
         Status = RealtimeTranscriberStatus.Disconnecting;
         if (waitForSessionTerminated)
         {
-            _sessionTerminatedTaskCompletionSource = new TaskCompletionSource<bool>();
+            _sessionTerminatedTaskCompletionSource = new TaskCompletionSource<SessionInformation>();
         }
 
         _socket!.Send("{\"terminate_session\": true}");
