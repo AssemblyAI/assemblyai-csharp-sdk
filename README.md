@@ -23,19 +23,19 @@ API reference documentation is available [here](https://www.assemblyai.com/docs/
 Using the [.NET Core command-line interface (CLI) tools](https://learn.microsoft.com/en-us/dotnet/core/tools/):
 
 ```sh
-dotnet add package Stripe.net
+dotnet add package AssemblyAI.Client
 ```
 
 Using the [NuGet Command Line Interface (CLI)](https://learn.microsoft.com/en-us/nuget/reference/nuget-exe-cli-reference?tabs=macos):
 
 ```sh
-nuget install Stripe.net
+nuget install AssemblyAI.Client
 ```
 
 Using the [Package Manager Console](https://learn.microsoft.com/en-us/nuget/consume-packages/install-use-packages-powershell):
 
 ```powershell
-Install-Package Stripe.net
+Install-Package AssemblyAI.Client
 ```
 
 ## Usage 
