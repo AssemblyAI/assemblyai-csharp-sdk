@@ -58,7 +58,7 @@ public class TranscriptsClient
         {
             return JsonSerializer.Deserialize<TranscriptList>(responseBody);
         }
-        throw new Exception();
+        throw new Exception(responseBody);
     }
 
     /// <summary>
@@ -79,7 +79,7 @@ public class TranscriptsClient
         {
             return JsonSerializer.Deserialize<Transcript>(responseBody);
         }
-        throw new Exception();
+        throw new Exception(responseBody);
     }
 
     /// <summary>
@@ -99,7 +99,7 @@ public class TranscriptsClient
         {
             return JsonSerializer.Deserialize<Transcript>(responseBody);
         }
-        throw new Exception();
+        throw new Exception(responseBody);
     }
 
     /// <summary>
@@ -120,7 +120,7 @@ public class TranscriptsClient
         {
             return JsonSerializer.Deserialize<Transcript>(responseBody);
         }
-        throw new Exception();
+        throw new Exception(responseBody);
     }
 
     /// <summary>
@@ -164,7 +164,7 @@ public class TranscriptsClient
         {
             return JsonSerializer.Deserialize<SentencesResponse>(responseBody);
         }
-        throw new Exception();
+        throw new Exception(responseBody);
     }
 
     /// <summary>
@@ -184,7 +184,7 @@ public class TranscriptsClient
         {
             return JsonSerializer.Deserialize<ParagraphsResponse>(responseBody);
         }
-        throw new Exception();
+        throw new Exception(responseBody);
     }
 
     /// <summary>
@@ -213,7 +213,7 @@ public class TranscriptsClient
         {
             return JsonSerializer.Deserialize<WordSearchResponse>(responseBody);
         }
-        throw new Exception();
+        throw new Exception(responseBody);
     }
 
     /// <summary>
@@ -233,6 +233,6 @@ public class TranscriptsClient
         {
             return JsonSerializer.Deserialize<RedactedAudioResponse>(responseBody);
         }
-        throw new Exception();
+        throw new Exception(responseBody);
     }
 }

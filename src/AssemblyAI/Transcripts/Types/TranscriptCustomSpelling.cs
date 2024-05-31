@@ -10,7 +10,7 @@ public class TranscriptCustomSpelling
     /// Words or phrases to replace
     /// </summary>
     [JsonPropertyName("from")]
-    public List<string> From { get; init; }
+    public IEnumerable<string> From { get; init; }
 
     /// <summary>
     /// Word or phrase to replace with

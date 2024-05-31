@@ -17,7 +17,7 @@ public class TopicDetectionModelResult
     /// An array of results for the Topic Detection model
     /// </summary>
     [JsonPropertyName("results")]
-    public List<TopicDetectionResult> Results { get; init; }
+    public IEnumerable<TopicDetectionResult> Results { get; init; }
 
     /// <summary>
     /// The overall relevance of topic to the entire audio file

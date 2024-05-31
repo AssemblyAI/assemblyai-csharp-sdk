@@ -1,9 +1,13 @@
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
+using AssemblyAI;
+using AssemblyAI.Core;
 
 #nullable enable
 
 namespace AssemblyAI;
 
+[JsonConverter(typeof(StringEnumSerializer<SummaryType>))]
 public enum SummaryType
 {
     [EnumMember(Value = "bullets")]

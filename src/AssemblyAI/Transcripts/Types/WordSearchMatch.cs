@@ -22,11 +22,11 @@ public class WordSearchMatch
     /// An array of timestamps
     /// </summary>
     [JsonPropertyName("timestamps")]
-    public List<List<int>> Timestamps { get; init; }
+    public IEnumerable<IEnumerable<int>> Timestamps { get; init; }
 
     /// <summary>
     /// An array of all index locations for that word within the `words` array of the completed transcript
     /// </summary>
     [JsonPropertyName("indexes")]
-    public List<int> Indexes { get; init; }
+    public IEnumerable<int> Indexes { get; init; }
 }

@@ -17,5 +17,5 @@ public class SentencesResponse
     public double AudioDuration { get; init; }
 
     [JsonPropertyName("sentences")]
-    public List<TranscriptSentence> Sentences { get; init; }
+    public IEnumerable<TranscriptSentence> Sentences { get; init; }
 }

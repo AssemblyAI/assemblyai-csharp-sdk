@@ -56,14 +56,14 @@ public class Transcript
     /// See [Speech recognition](https://www.assemblyai.com/docs/models/speech-recognition) for more information.
     /// </summary>
     [JsonPropertyName("words")]
-    public List<TranscriptWord>? Words { get; init; }
+    public IEnumerable<TranscriptWord>? Words { get; init; }
 
     /// <summary>
     /// When dual_channel or speaker_labels is enabled, a list of turn-by-turn utterance objects.
     /// See [Speaker diarization](https://www.assemblyai.com/docs/models/speaker-diarization) for more information.
     /// </summary>
     [JsonPropertyName("utterances")]
-    public List<TranscriptUtterance>? Utterances { get; init; }
+    public IEnumerable<TranscriptUtterance>? Utterances { get; init; }
 
     /// <summary>
     /// The confidence score for the transcript, between 0.0 (low confidence) and 1.0 (high confidence)
@@ -153,7 +153,7 @@ public class Transcript
     /// The list of custom vocabulary to boost transcription probability for
     /// </summary>
     [JsonPropertyName("word_boost")]
-    public List<string>? WordBoost { get; init; }
+    public IEnumerable<string>? WordBoost { get; init; }
 
     /// <summary>
     /// The word boost parameter value
@@ -188,7 +188,7 @@ public class Transcript
     /// See [PII redaction](https://www.assemblyai.com/docs/models/pii-redaction) for more information.
     /// </summary>
     [JsonPropertyName("redact_pii_policies")]
-    public List<PiiPolicy>? RedactPiiPolicies { get; init; }
+    public IEnumerable<PiiPolicy>? RedactPiiPolicies { get; init; }
 
     /// <summary>
     /// The replacement logic for detected PII, can be "entity_type" or "hash". See [PII redaction](https://www.assemblyai.com/docs/models/pii-redaction) for more details.
@@ -236,7 +236,7 @@ public class Transcript
     /// Customize how words are spelled and formatted using to and from values
     /// </summary>
     [JsonPropertyName("custom_spelling")]
-    public List<TranscriptCustomSpelling>? CustomSpelling { get; init; }
+    public IEnumerable<TranscriptCustomSpelling>? CustomSpelling { get; init; }
 
     /// <summary>
     /// Whether [Auto Chapters](https://www.assemblyai.com/docs/models/auto-chapters) is enabled, can be true or false
@@ -248,7 +248,7 @@ public class Transcript
     /// An array of temporally sequential chapters for the audio file
     /// </summary>
     [JsonPropertyName("chapters")]
-    public List<Chapter>? Chapters { get; init; }
+    public IEnumerable<Chapter>? Chapters { get; init; }
 
     /// <summary>
     /// Whether [Summarization](https://www.assemblyai.com/docs/models/summarization) is enabled, either true or false
@@ -285,7 +285,7 @@ public class Transcript
     /// The list of custom topics provided if custom topics is enabled
     /// </summary>
     [JsonPropertyName("topics")]
-    public List<string>? Topics { get; init; }
+    public IEnumerable<string>? Topics { get; init; }
 
     /// <summary>
     /// Transcribe Filler Words, like "umm", in your media file; can be true or false
@@ -304,7 +304,7 @@ public class Transcript
     /// See [Sentiment Analysis](https://www.assemblyai.com/docs/models/sentiment-analysis) for more information.
     /// </summary>
     [JsonPropertyName("sentiment_analysis_results")]
-    public List<SentimentAnalysisResult>? SentimentAnalysisResults { get; init; }
+    public IEnumerable<SentimentAnalysisResult>? SentimentAnalysisResults { get; init; }
 
     /// <summary>
     /// Whether [Entity Detection](https://www.assemblyai.com/docs/models/entity-detection) is enabled, can be true or false
@@ -317,7 +317,7 @@ public class Transcript
     /// See [Entity detection](https://www.assemblyai.com/docs/models/entity-detection) for more information.
     /// </summary>
     [JsonPropertyName("entities")]
-    public List<Entity>? Entities { get; init; }
+    public IEnumerable<Entity>? Entities { get; init; }
 
     /// <summary>
     /// Defaults to null. Reject audio files that contain less than this fraction of speech.

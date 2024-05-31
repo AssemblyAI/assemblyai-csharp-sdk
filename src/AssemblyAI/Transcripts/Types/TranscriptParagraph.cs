@@ -20,7 +20,7 @@ public class TranscriptParagraph
     public double Confidence { get; init; }
 
     [JsonPropertyName("words")]
-    public List<TranscriptWord> Words { get; init; }
+    public IEnumerable<TranscriptWord> Words { get; init; }
 
     /// <summary>
     /// The speaker of the sentence if [Speaker Diarization](https://www.assemblyai.com/docs/models/speaker-diarization) is enabled, else null

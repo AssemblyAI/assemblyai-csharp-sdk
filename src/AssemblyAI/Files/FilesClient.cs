@@ -27,6 +27,6 @@ public class FilesClient
         {
             return JsonSerializer.Deserialize<UploadedFile>(responseBody);
         }
-        throw new Exception();
+        throw new Exception(responseBody);
     }
 }

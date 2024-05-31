@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using AssemblyAI;
+using AssemblyAI.Core;
 using OneOf;
 
 #nullable enable
@@ -13,7 +14,7 @@ public class LemurBaseParams
     /// Use either transcript_ids or input_text as input into LeMUR.
     /// </summary>
     [JsonPropertyName("transcript_ids")]
-    public List<string>? TranscriptIds { get; init; }
+    public IEnumerable<string>? TranscriptIds { get; init; }
 
     /// <summary>
     /// Custom formatted transcript data. Maximum size is the context limit of the selected model, which defaults to 100000.
@@ -26,6 +27,7 @@ public class LemurBaseParams
     /// Context to provide the model. This can be a string or a free-form JSON value.
     /// </summary>
     [JsonPropertyName("context")]
+    [JsonConverter(typeof(OneOfSerializer<OneOf<string, Dictionary<string, object>>>))]
     public OneOf<string, Dictionary<string, object>>? Context { get; init; }
 
     /// <summary>

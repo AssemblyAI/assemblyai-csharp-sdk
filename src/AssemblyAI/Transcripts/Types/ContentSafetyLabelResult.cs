@@ -17,7 +17,7 @@ public class ContentSafetyLabelResult
     /// An array of safety labels, one per sensitive topic that was detected in the section
     /// </summary>
     [JsonPropertyName("labels")]
-    public List<ContentSafetyLabel> Labels { get; init; }
+    public IEnumerable<ContentSafetyLabel> Labels { get; init; }
 
     /// <summary>
     /// The sentence index at which the section begins

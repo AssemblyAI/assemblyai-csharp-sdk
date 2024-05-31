@@ -35,7 +35,7 @@ public class TranscriptUtterance
     /// The words in the utterance.
     /// </summary>
     [JsonPropertyName("words")]
-    public List<TranscriptWord> Words { get; init; }
+    public IEnumerable<TranscriptWord> Words { get; init; }
 
     /// <summary>
     /// The speaker of this utterance, where each speaker is assigned a sequential capital letter - e.g. "A" for Speaker A, "B" for Speaker B, etc.

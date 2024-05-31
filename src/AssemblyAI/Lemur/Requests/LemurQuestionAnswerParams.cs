@@ -11,5 +11,5 @@ public class LemurQuestionAnswerParams
     /// A list of questions to ask
     /// </summary>
     [JsonPropertyName("questions")]
-    public List<LemurQuestion> Questions { get; init; }
+    public IEnumerable<LemurQuestion> Questions { get; init; }
 }

@@ -29,5 +29,5 @@ public class AutoHighlightResult
     /// The timestamp of the of the key phrase
     /// </summary>
     [JsonPropertyName("timestamps")]
-    public List<Timestamp> Timestamps { get; init; }
+    public IEnumerable<Timestamp> Timestamps { get; init; }
 }

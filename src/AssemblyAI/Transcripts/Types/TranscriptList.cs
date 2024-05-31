@@ -11,5 +11,5 @@ public class TranscriptList
     public PageDetails PageDetails { get; init; }
 
     [JsonPropertyName("transcripts")]
-    public List<TranscriptListItem> Transcripts { get; init; }
+    public IEnumerable<TranscriptListItem> Transcripts { get; init; }
 }

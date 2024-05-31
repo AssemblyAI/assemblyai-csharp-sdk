@@ -17,5 +17,5 @@ public class AutoHighlightsResult
     /// A temporally-sequential array of Key Phrases
     /// </summary>
     [JsonPropertyName("results")]
-    public List<AutoHighlightResult> Results { get; init; }
+    public IEnumerable<AutoHighlightResult> Results { get; init; }
 }

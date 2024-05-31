@@ -32,7 +32,7 @@ public class LemurClient
         {
             return JsonSerializer.Deserialize<LemurTaskResponse>(responseBody);
         }
-        throw new Exception();
+        throw new Exception(responseBody);
     }
 
     /// <summary>
@@ -54,7 +54,7 @@ public class LemurClient
         {
             return JsonSerializer.Deserialize<LemurSummaryResponse>(responseBody);
         }
-        throw new Exception();
+        throw new Exception(responseBody);
     }
 
     /// <summary>
@@ -78,7 +78,7 @@ public class LemurClient
         {
             return JsonSerializer.Deserialize<LemurQuestionAnswerResponse>(responseBody);
         }
-        throw new Exception();
+        throw new Exception(responseBody);
     }
 
     /// <summary>
@@ -99,7 +99,7 @@ public class LemurClient
         {
             return JsonSerializer.Deserialize<LemurActionItemsResponse>(responseBody);
         }
-        throw new Exception();
+        throw new Exception(responseBody);
     }
 
     /// <summary>
@@ -116,6 +116,6 @@ public class LemurClient
         {
             return JsonSerializer.Deserialize<PurgeLemurRequestDataResponse>(responseBody);
         }
-        throw new Exception();
+        throw new Exception(responseBody);
     }
 }

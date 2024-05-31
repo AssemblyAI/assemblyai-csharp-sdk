@@ -71,7 +71,7 @@ public class TranscriptOptionalParams
     /// The list of custom vocabulary to boost transcription probability for
     /// </summary>
     [JsonPropertyName("word_boost")]
-    public List<string>? WordBoost { get; init; }
+    public IEnumerable<string>? WordBoost { get; init; }
 
     /// <summary>
     /// The word boost parameter value
@@ -107,7 +107,7 @@ public class TranscriptOptionalParams
     /// The list of PII Redaction policies to enable. See [PII redaction](https://www.assemblyai.com/docs/models/pii-redaction) for more details.
     /// </summary>
     [JsonPropertyName("redact_pii_policies")]
-    public List<PiiPolicy>? RedactPiiPolicies { get; init; }
+    public IEnumerable<PiiPolicy>? RedactPiiPolicies { get; init; }
 
     [JsonPropertyName("redact_pii_sub")]
     public SubstitutionPolicy? RedactPiiSub { get; init; }
@@ -152,7 +152,7 @@ public class TranscriptOptionalParams
     /// Customize how words are spelled and formatted using to and from values
     /// </summary>
     [JsonPropertyName("custom_spelling")]
-    public List<TranscriptCustomSpelling>? CustomSpelling { get; init; }
+    public IEnumerable<TranscriptCustomSpelling>? CustomSpelling { get; init; }
 
     /// <summary>
     /// Transcribe Filler Words, like "umm", in your media file; can be true or false
@@ -213,5 +213,5 @@ public class TranscriptOptionalParams
     /// The list of custom topics
     /// </summary>
     [JsonPropertyName("topics")]
-    public List<string>? Topics { get; init; }
+    public IEnumerable<string>? Topics { get; init; }
 }

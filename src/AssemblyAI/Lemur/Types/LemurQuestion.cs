@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using AssemblyAI.Core;
 using OneOf;
 
 #nullable enable
@@ -17,6 +18,7 @@ public class LemurQuestion
     /// Any context about the transcripts you wish to provide. This can be a string or any object.
     /// </summary>
     [JsonPropertyName("context")]
+    [JsonConverter(typeof(OneOfSerializer<OneOf<string, Dictionary<string, object>>>))]
     public OneOf<string, Dictionary<string, object>>? Context { get; init; }
 
     /// <summary>
@@ -29,5 +31,5 @@ public class LemurQuestion
     /// What discrete options to return. Useful for precise responses. Can't be used with answer_format. Example: ["Yes", "No"]
     /// </summary>
     [JsonPropertyName("answer_options")]
-    public List<string>? AnswerOptions { get; init; }
+    public IEnumerable<string>? AnswerOptions { get; init; }
 }

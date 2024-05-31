@@ -34,6 +34,6 @@ public class RealtimeClient
         {
             return JsonSerializer.Deserialize<RealtimeTemporaryTokenResponse>(responseBody);
         }
-        throw new Exception();
+        throw new Exception(responseBody);
     }
 }

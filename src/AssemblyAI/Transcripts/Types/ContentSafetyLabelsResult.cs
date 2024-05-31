@@ -14,7 +14,7 @@ public class ContentSafetyLabelsResult
     public AudioIntelligenceModelStatus Status { get; init; }
 
     [JsonPropertyName("results")]
-    public List<ContentSafetyLabelResult> Results { get; init; }
+    public IEnumerable<ContentSafetyLabelResult> Results { get; init; }
 
     /// <summary>
     /// A summary of the Content Moderation confidence results for the entire audio file

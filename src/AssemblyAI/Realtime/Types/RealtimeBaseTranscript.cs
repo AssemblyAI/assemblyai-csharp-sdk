@@ -36,7 +36,7 @@ public class RealtimeBaseTranscript
     /// Includes the start and end time of the word in milliseconds, the confidence score of the word, and the text, which is the word itself.
     /// </summary>
     [JsonPropertyName("words")]
-    public List<Word> Words { get; init; }
+    public IEnumerable<Word> Words { get; init; }
 
     /// <summary>
     /// The timestamp for the partial transcript

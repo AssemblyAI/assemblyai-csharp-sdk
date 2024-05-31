@@ -23,5 +23,5 @@ public class WordSearchResponse
     /// The matches of the search
     /// </summary>
     [JsonPropertyName("matches")]
-    public List<WordSearchMatch> Matches { get; init; }
+    public IEnumerable<WordSearchMatch> Matches { get; init; }
 }
