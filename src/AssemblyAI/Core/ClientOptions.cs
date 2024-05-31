@@ -1,13 +1,28 @@
-namespace AssemblyAI.Core;
+using AssemblyAI.Core;
 
-public class ClientOptions
+#nullable enable
+
+namespace AssemblyAI;
+
+public partial class ClientOptions
 {
-    public HttpClient HttpClient { get; init;} = new HttpClient();
+    /// <summary>
+    /// The Base URL for the API.
+    /// </summary>
+    public string BaseUrl { get; init; } = Environments.DEFAULT;
 
+    /// <summary>
+    /// The http client used to make requests.
+    /// </summary>
+    public HttpClient HttpClient { get; init; } = new HttpClient();
+
+    /// <summary>
+    /// The http client used to make requests.
+    /// </summary>
     public int MaxRetries { get; init; } = 2;
 
-    public int TimeoutInSeconds { get; init; } = 60;
-
-    public IReadOnlyDictionary<string, string> Headers { get; init; } = new Dictionary<string, string>();
-    public string BaseUrl { get; init; } = Environment.Production.Url;
+    /// <summary>
+    /// The timeout for the request in seconds.
+    /// </summary>
+    public int TimeoutInSeconds { get; init; } = 30;
 }
