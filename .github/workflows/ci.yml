@@ -10,13 +10,38 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
+      - uses: actions/checkout@master
+
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 8.0.201
+          dotnet-version: 8.x
 
-      - name: Restore dependencies
-        run: dotnet restore src
+      - name: Install tools
+        run: |
+          dotnet tool restore
 
-      - name: Build solution
-        run: dotnet build src --no-restore
+      - name: Build Release
+        run: dotnet build src -c Release /p:ContinuousIntegrationBuild=true
+
+
+  publish:
+    needs: [compile]
+    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 8.x
+
+      - name: Publish
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          dotnet pack src -c Release
+          dotnet nuget push src/AssemblyAI/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source "nuget.org"

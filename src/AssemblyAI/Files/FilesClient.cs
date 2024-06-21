@@ -1,33 +1,37 @@
 using System.Text.Json;
-using AssemblyAI.Core;
+using AssemblyAI;
 
-namespace AssemblyAI.Files;
+#nullable enable
 
-public partial class FilesClient
+namespace AssemblyAI;
+
+public class FilesClient
 {
-    private readonly ClientWrapper _clientWrapper;
+    private RawClient _client;
 
-    public FilesClient(ClientWrapper clientWrapper)
+    public FilesClient(RawClient client)
     {
-        _clientWrapper = clientWrapper;
+        _client = client;
     }
 
-    public async Task<UploadedFile> Upload(byte[] request, RequestOptions? requestOptions = null)
+    /// <summary>
+    /// Upload a media file to AssemblyAI's servers.
+    /// </summary>
+    public async Task<UploadedFile> UploadAsync(Stream request)
     {
-        var url = new URLBuilder(this._clientWrapper.BaseUrl)
-            .AddPathSegment("v2/upload")
-            .build();
-        var response = await this._clientWrapper.HttpClient.PostAsync(
-            url,
-            new ByteArrayContent(request));
-        if (response.IsSuccessStatusCode)
+        var response = await _client.MakeRequestAsync(
+            new RawClient.StreamApiRequest
+            {
+                Method = HttpMethod.Post,
+                Path = "v2/upload",
+                Body = request
+            }
+        );
+        string responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode >= 200 && response.StatusCode < 400)
         {
-            return JsonSerializer.Deserialize<UploadedFile>(await response.Content.ReadAsStringAsync());
+            return JsonSerializer.Deserialize<UploadedFile>(responseBody);
         }
-
-        throw new ApiException
-        {
-            StatusCode = (int)response.StatusCode,
-        };
+        throw new Exception(responseBody);
     }
 }

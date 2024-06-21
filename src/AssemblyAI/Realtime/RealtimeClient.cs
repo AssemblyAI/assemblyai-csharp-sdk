@@ -1,37 +1,39 @@
-using System.Text;
 using System.Text.Json;
-using AssemblyAI.Core;
+using AssemblyAI;
 
-namespace AssemblyAI.Realtime;
+#nullable enable
+
+namespace AssemblyAI;
 
 public class RealtimeClient
 {
-    private readonly ClientWrapper _clientWrapper;
+    private RawClient _client;
 
-    public RealtimeClient(ClientWrapper clientWrapper)
+    public RealtimeClient(RawClient client)
     {
-            _clientWrapper = clientWrapper;
-        }
-        
-    /**
-     * Retrieve a list of transcripts you have created.
-     */
-    public async Task<RealtimeTemporaryTokenResponse> CreateTemporaryToken(
-        CreateRealtimeTemporaryTokenParameters request, RequestOptions? options = null)
+        _client = client;
+    }
+
+    /// <summary>
+    /// Create a temporary authentication token for Streaming Speech-to-Text
+    /// </summary>
+    public async Task<RealtimeTemporaryTokenResponse> CreateTemporaryTokenAsync(
+        CreateRealtimeTemporaryTokenParams request
+    )
     {
-            var url = new URLBuilder(this._clientWrapper.BaseUrl)
-                .AddPathSegment("v2/realtime/token")
-                .build();
-            var response = await this._clientWrapper.HttpClient.PostAsync(
-                url,
-                new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json"));
-            if (response.IsSuccessStatusCode)
+        var response = await _client.MakeRequestAsync(
+            new RawClient.JsonApiRequest
             {
-                return JsonSerializer.Deserialize<RealtimeTemporaryTokenResponse>(await response.Content.ReadAsStringAsync());
+                Method = HttpMethod.Post,
+                Path = "v2/realtime/token",
+                Body = request
             }
-            throw new ApiException
-            {
-                StatusCode = (int) response.StatusCode,
-            };
+        );
+        string responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        {
+            return JsonSerializer.Deserialize<RealtimeTemporaryTokenResponse>(responseBody);
         }
+        throw new Exception(responseBody);
+    }
 }

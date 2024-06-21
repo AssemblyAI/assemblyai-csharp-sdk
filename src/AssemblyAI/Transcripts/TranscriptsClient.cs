@@ -1,180 +1,238 @@
 using System.Text.Json;
-using AssemblyAI.Core;
+using AssemblyAI;
 
-namespace AssemblyAI.Transcripts;
+#nullable enable
 
-public partial class TranscriptsClient
+namespace AssemblyAI;
+
+public class TranscriptsClient
 {
-    private readonly ClientWrapper _clientWrapper;
+    private RawClient _client;
 
-    public TranscriptsClient(ClientWrapper clientWrapper)
+    public TranscriptsClient(RawClient client)
     {
-            _clientWrapper = clientWrapper;
-        }
-        
-    /**
-    * Retrieve a IEnumerable of transcripts you have created.
-    */
-    public async Task<TranscriptIEnumerable> IEnumerable()
-    {
-            return await IEnumerable(new TranscriptIEnumerableRequest{});
-        }
+        _client = client;
+    }
 
-    /**
-    * Retrieve a IEnumerable of transcripts you have created.
-    */
-    public async Task<TranscriptIEnumerable> IEnumerable(TranscriptIEnumerableRequest request, RequestOptions? options = null)
+    /// <summary>
+    /// Retrieve a list of transcripts you created.
+    /// Transcripts are sorted from newest to oldest. The previous URL always points to a page with older transcripts.
+    /// </summary>
+    public async Task<TranscriptList> ListAsync(ListTranscriptParams request)
     {
-            var urlBuilder = new URLBuilder(this._clientWrapper.BaseUrl);
-            urlBuilder.AddPathSegment("v2/transcript");
-            if (request.Limit.HasValue)
-            {
-                var a = request.Limit;
-                urlBuilder.AddQueryParameter("limit", request.Limit.Value.ToString());
-            }
-            if (request.CreatedOn != null)
-            {
-                urlBuilder.AddQueryParameter("after_id", request.CreatedOn);
-            }
-            if (request.BeforeId != null)
-            {
-                urlBuilder.AddQueryParameter("after_id", request.BeforeId);
-            }
-            if (request.AfterId != null)
-            {
-                urlBuilder.AddQueryParameter("after_id", request.AfterId);
-            }
-            if (request.ThrottledOnly.HasValue)
-            {
-                urlBuilder.AddQueryParameter("after_id", request.ThrottledOnly.Value.ToString());
-            }
-            HttpResponseMessage response = 
-                await this._clientWrapper.HttpClient.GetAsync(urlBuilder.build());
-            if (response.IsSuccessStatusCode)
-            {
-                return JsonSerializer.Deserialize<TranscriptIEnumerable>(await response.Content.ReadAsStringAsync());
-            }
-            throw new ApiException
-            {
-                StatusCode = (int) response.StatusCode,
-            };
+        var _query = new Dictionary<string, object>() { };
+        if (request.Limit != null)
+        {
+            _query["limit"] = request.Limit.ToString();
         }
+        if (request.Status != null)
+        {
+            _query["status"] = request.Status.ToString();
+        }
+        if (request.CreatedOn != null)
+        {
+            _query["created_on"] = request.CreatedOn;
+        }
+        if (request.BeforeId != null)
+        {
+            _query["before_id"] = request.BeforeId;
+        }
+        if (request.AfterId != null)
+        {
+            _query["after_id"] = request.AfterId;
+        }
+        if (request.ThrottledOnly != null)
+        {
+            _query["throttled_only"] = request.ThrottledOnly.ToString();
+        }
+        var response = await _client.MakeRequestAsync(
+            new RawClient.JsonApiRequest
+            {
+                Method = HttpMethod.Get,
+                Path = "v2/transcript",
+                Query = _query
+            }
+        );
+        string responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        {
+            return JsonSerializer.Deserialize<TranscriptList>(responseBody);
+        }
+        throw new Exception(responseBody);
+    }
 
-    /**
-    * Create a transcript from an audio or video file that is accessible via a URL.
-    */
-    public async Task<Transcript> Create(CreateTranscriptParameters request, RequestOptions? options = null)
+    /// <summary>
+    /// Create a transcript from a media file that is accessible via a URL.
+    /// </summary>
+    public async Task<Transcript> SubmitAsync(TranscriptParams request)
     {
-            var url = new URLBuilder(this._clientWrapper.BaseUrl)
-                .AddPathSegment("v2/transcript")
-                .build();
-            var response = await this._clientWrapper.HttpClient.PostAsync(
-                url, 
-                new StringContent(JsonSerializer.Serialize(request)));
-            if (response.IsSuccessStatusCode)
+        var response = await _client.MakeRequestAsync(
+            new RawClient.JsonApiRequest
             {
-                return JsonSerializer.Deserialize<Transcript>(await response.Content.ReadAsStringAsync());
+                Method = HttpMethod.Post,
+                Path = "v2/transcript",
+                Body = request
             }
-            throw new ApiException
-            {
-                StatusCode = (int) response.StatusCode,
-            };
+        );
+        string responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        {
+            return JsonSerializer.Deserialize<Transcript>(responseBody);
         }
-        
-    /**
-     * Get the transcript resource. The transcript is ready when the &quot;status&quot; is &quot;completed&quot;.
-     */
-    public async Task<Transcript> Get(string transcriptId, RequestOptions? options = null)
+        throw new Exception(responseBody);
+    }
+
+    /// <summary>
+    /// Get the transcript resource. The transcript is ready when the "status" is "completed".
+    /// </summary>
+    public async Task<Transcript> GetAsync(string transcriptId)
     {
-            var url = new URLBuilder(this._clientWrapper.BaseUrl)
-                .AddPathSegment("v2/transcript")
-                .AddPathSegment(transcriptId)
-                .build();
-            var response = await this._clientWrapper.HttpClient.GetAsync(url);
-            if (response.IsSuccessStatusCode)
+        var response = await _client.MakeRequestAsync(
+            new RawClient.JsonApiRequest
             {
-                return JsonSerializer.Deserialize<Transcript>(await response.Content.ReadAsStringAsync());
+                Method = HttpMethod.Get,
+                Path = $"v2/transcript/{transcriptId}"
             }
-            throw new ApiException
-            {
-                StatusCode = (int) response.StatusCode,
-            };
+        );
+        string responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        {
+            return JsonSerializer.Deserialize<Transcript>(responseBody);
         }
-        
-    /**
-    * Delete the transcript
-    */
-    public async Task<Transcript> Delete(string transcriptId, RequestOptions? options = null)
+        throw new Exception(responseBody);
+    }
+
+    /// <summary>
+    /// Delete the transcript.
+    /// Deleting does not delete the resource itself, but removes the data from the resource and marks it as deleted.
+    /// </summary>
+    public async Task<Transcript> DeleteAsync(string transcriptId)
     {
-            var url = new URLBuilder(this._clientWrapper.BaseUrl)
-                .AddPathSegment("v2/transcript")
-                .AddPathSegment(transcriptId)
-                .build();
-            var response = await this._clientWrapper.HttpClient.DeleteAsync(url);
-            if (response.IsSuccessStatusCode)
+        var response = await _client.MakeRequestAsync(
+            new RawClient.JsonApiRequest
             {
-                return JsonSerializer.Deserialize<Transcript>(await response.Content.ReadAsStringAsync());
+                Method = HttpMethod.Delete,
+                Path = $"v2/transcript/{transcriptId}"
             }
-            throw new ApiException
-            {
-                StatusCode = (int) response.StatusCode,
-            };
+        );
+        string responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        {
+            return JsonSerializer.Deserialize<Transcript>(responseBody);
         }
-        
-    /**
-     * Export your transcript in SRT or VTT format, to be plugged into a video player for subtitles and closed captions.
-     */
-    public async Task<string> GetSubtitles(string transcriptId, SubtitleFormat subtitleFormat)
+        throw new Exception(responseBody);
+    }
+
+    /// <summary>
+    /// Export your transcript in SRT or VTT format to use with a video player for subtitles and closed captions.
+    /// </summary>
+    public async void GetSubtitlesAsync(
+        string transcriptId,
+        SubtitleFormat subtitleFormat,
+        GetSubtitlesParams request
+    )
     {
-            return await GetSubtitles(transcriptId, subtitleFormat, new TranscriptGetSubtitlesRequest() { });
+        var _query = new Dictionary<string, object>() { };
+        if (request.CharsPerCaption != null)
+        {
+            _query["chars_per_caption"] = request.CharsPerCaption.ToString();
         }
-        
-    /**
-     * Export your transcript in SRT or VTT format, to be plugged into a video player for subtitles and closed captions.
-     */
-    public async Task<string> GetSubtitles(
-        string transcriptId, 
-        SubtitleFormat subtitleFormat, 
-        TranscriptGetSubtitlesRequest request, 
-        RequestOptions? options = null)
+        var response = await _client.MakeRequestAsync(
+            new RawClient.JsonApiRequest
+            {
+                Method = HttpMethod.Get,
+                Path = $"v2/transcript/{transcriptId}/{subtitleFormat}",
+                Query = _query
+            }
+        );
+    }
+
+    /// <summary>
+    /// Get the transcript split by sentences. The API will attempt to semantically segment the transcript into sentences to create more reader-friendly transcripts.
+    /// </summary>
+    public async Task<SentencesResponse> GetSentencesAsync(string transcriptId)
     {
-            var urlBuilder = new URLBuilder(this._clientWrapper.BaseUrl)
-                .AddPathSegment("v2/transcript")
-                .AddPathSegment(transcriptId)
-                .AddPathSegment(subtitleFormat.ToString());
-            if (request.CharsPerCaption.HasValue)
+        var response = await _client.MakeRequestAsync(
+            new RawClient.JsonApiRequest
             {
-                urlBuilder.AddQueryParameter("chars_per_caption", request.CharsPerCaption.Value.ToString());
+                Method = HttpMethod.Get,
+                Path = $"v2/transcript/{transcriptId}/sentences"
             }
-            var response = await this._clientWrapper.HttpClient.GetAsync(urlBuilder.build());
-            if (response.IsSuccessStatusCode)
-            {
-                return JsonSerializer.Deserialize<string>(await response.Content.ReadAsStringAsync());
-            }
-            throw new ApiException
-            {
-                StatusCode = (int) response.StatusCode,
-            };
+        );
+        string responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        {
+            return JsonSerializer.Deserialize<SentencesResponse>(responseBody);
         }
-        
-    /**
-    * Get the transcript split by sentences. The API will attempt to semantically segment the transcript into sentences to create more reader-friendly transcripts.
-    */
-    public async Task<string> GetSentences(string transcriptId, RequestOptions? options = null)
+        throw new Exception(responseBody);
+    }
+
+    /// <summary>
+    /// Get the transcript split by paragraphs. The API will attempt to semantically segment your transcript into paragraphs to create more reader-friendly transcripts.
+    /// </summary>
+    public async Task<ParagraphsResponse> GetParagraphsAsync(string transcriptId)
     {
-            var url = new URLBuilder(this._clientWrapper.BaseUrl)
-                .AddPathSegment("v2/transcript")
-                .AddPathSegment(transcriptId)
-                .AddPathSegment("sentences")
-                .build();
-            var response = await this._clientWrapper.HttpClient.GetAsync(url);
-            if (response.IsSuccessStatusCode)
+        var response = await _client.MakeRequestAsync(
+            new RawClient.JsonApiRequest
             {
-                return JsonSerializer.Deserialize<string>(await response.Content.ReadAsStringAsync());
+                Method = HttpMethod.Get,
+                Path = $"v2/transcript/{transcriptId}/paragraphs"
             }
-            throw new ApiException
-            {
-                StatusCode = (int) response.StatusCode,
-            };
+        );
+        string responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        {
+            return JsonSerializer.Deserialize<ParagraphsResponse>(responseBody);
         }
+        throw new Exception(responseBody);
+    }
+
+    /// <summary>
+    /// Search through the transcript for keywords. You can search for individual words, numbers, or phrases containing up to five words or numbers.
+    /// </summary>
+    public async Task<WordSearchResponse> WordSearchAsync(
+        string transcriptId,
+        WordSearchParams request
+    )
+    {
+        var _query = new Dictionary<string, object>() { };
+        if (request.Words != null)
+        {
+            _query["words"] = request.Words;
+        }
+        var response = await _client.MakeRequestAsync(
+            new RawClient.JsonApiRequest
+            {
+                Method = HttpMethod.Get,
+                Path = $"v2/transcript/{transcriptId}/word-search",
+                Query = _query
+            }
+        );
+        string responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        {
+            return JsonSerializer.Deserialize<WordSearchResponse>(responseBody);
+        }
+        throw new Exception(responseBody);
+    }
+
+    /// <summary>
+    /// Retrieve the redacted audio object containing the status and URL to the redacted audio.
+    /// </summary>
+    public async Task<RedactedAudioResponse> GetRedactedAudioAsync(string transcriptId)
+    {
+        var response = await _client.MakeRequestAsync(
+            new RawClient.JsonApiRequest
+            {
+                Method = HttpMethod.Get,
+                Path = $"v2/transcript/{transcriptId}/redacted-audio"
+            }
+        );
+        string responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        {
+            return JsonSerializer.Deserialize<RedactedAudioResponse>(responseBody);
+        }
+        throw new Exception(responseBody);
+    }
 }
