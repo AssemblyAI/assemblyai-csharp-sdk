@@ -1,113 +1,156 @@
 using System.Text.Json;
-using AssemblyAI.Core;
+using AssemblyAI;
+using OneOf;
 
-namespace AssemblyAI.Lemur;
+#nullable enable
 
-public partial class LemurClient
+namespace AssemblyAI;
+
+public class LemurClient
 {
-    private readonly ClientWrapper _clientWrapper;
+    private RawClient _client;
 
-    public LemurClient(ClientWrapper clientWrapper)
+    public LemurClient(RawClient client)
     {
-        _clientWrapper = clientWrapper;
+        _client = client;
     }
 
-    public async Task<LemurSummaryResponse> Summary(LemurSummaryParameters request, RequestOptions? options = null)
+    /// <summary>
+    /// Use the LeMUR task endpoint to input your own LLM prompt.
+    /// </summary>
+    public async Task<LemurTaskResponse> TaskAsync(LemurTaskParams request)
     {
-        var url = new URLBuilder(this._clientWrapper.BaseUrl)
-            .AddPathSegment("lemur/v3/generate/summary")
-            .build();
-        var response = await this._clientWrapper.HttpClient.PostAsync(
-            url,
-            new StringContent(JsonSerializer.Serialize(request)));
-        if (response.IsSuccessStatusCode)
+        var response = await _client.MakeRequestAsync(
+            new RawClient.JsonApiRequest
+            {
+                Method = HttpMethod.Post,
+                Path = "lemur/v3/generate/task",
+                Body = request
+            }
+        );
+        string responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode >= 200 && response.StatusCode < 400)
         {
-            return JsonSerializer.Deserialize<LemurSummaryResponse>(await response.Content.ReadAsStringAsync());
+            return JsonSerializer.Deserialize<LemurTaskResponse>(responseBody);
         }
-
-        throw new ApiException
-        {
-            StatusCode = (int)response.StatusCode,
-        };
+        throw new Exception(responseBody);
     }
 
-    public async Task<LemurQuestionAnswerResponse> QuestionAnswer(
-        LemurSummaryParameters request, RequestOptions? options = null)
+    /// <summary>
+    /// Custom Summary allows you to distill a piece of audio into a few impactful sentences.
+    /// You can give the model context to obtain more targeted results while outputting the results in a variety of formats described in human language.
+    /// </summary>
+    public async Task<LemurSummaryResponse> SummaryAsync(LemurSummaryParams request)
     {
-        var url = new URLBuilder(this._clientWrapper.BaseUrl)
-            .AddPathSegment("lemur/v3/generate/question-answer")
-            .build();
-        var response = await this._clientWrapper.HttpClient.PostAsync(
-            url,
-            new StringContent(JsonSerializer.Serialize(request)));
-        if (response.IsSuccessStatusCode)
+        var response = await _client.MakeRequestAsync(
+            new RawClient.JsonApiRequest
+            {
+                Method = HttpMethod.Post,
+                Path = "lemur/v3/generate/summary",
+                Body = request
+            }
+        );
+        string responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode >= 200 && response.StatusCode < 400)
         {
-            return JsonSerializer.Deserialize<LemurQuestionAnswerResponse>(await response.Content.ReadAsStringAsync());
+            return JsonSerializer.Deserialize<LemurSummaryResponse>(responseBody);
         }
-
-        throw new ApiException
-        {
-            StatusCode = (int)response.StatusCode,
-        };
+        throw new Exception(responseBody);
     }
 
-    public async Task<LemurActionItemsResponse> ActionItems(
-        LemurBaseParameters request, RequestOptions? options = null)
+    /// <summary>
+    /// Question & Answer allows you to ask free-form questions about a single transcript or a group of transcripts.
+    /// The questions can be any whose answers you find useful, such as judging whether a caller is likely to become a customer or whether all items on a meeting's agenda were covered.
+    /// </summary>
+    public async Task<LemurQuestionAnswerResponse> QuestionAnswerAsync(
+        LemurQuestionAnswerParams request
+    )
     {
-        var url = new URLBuilder(this._clientWrapper.BaseUrl)
-            .AddPathSegment("lemur/v3/generate/action-items")
-            .build();
-        var response = await this._clientWrapper.HttpClient.PostAsync(
-            url,
-            new StringContent(JsonSerializer.Serialize(request)));
-        if (response.IsSuccessStatusCode)
+        var response = await _client.MakeRequestAsync(
+            new RawClient.JsonApiRequest
+            {
+                Method = HttpMethod.Post,
+                Path = "lemur/v3/generate/question-answer",
+                Body = request
+            }
+        );
+        string responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode >= 200 && response.StatusCode < 400)
         {
-            return JsonSerializer.Deserialize<LemurActionItemsResponse>(await response.Content.ReadAsStringAsync());
+            return JsonSerializer.Deserialize<LemurQuestionAnswerResponse>(responseBody);
         }
-
-        throw new ApiException
-        {
-            StatusCode = (int)response.StatusCode,
-        };
+        throw new Exception(responseBody);
     }
 
-    public async Task<LemurTaskResponse> Task(
-        LemurTaskParameters request, RequestOptions? options = null)
+    /// <summary>
+    /// Use LeMUR to generate a list of action items from a transcript
+    /// </summary>
+    public async Task<LemurActionItemsResponse> ActionItemsAsync(LemurActionItemsParams request)
     {
-        var url = new URLBuilder(this._clientWrapper.BaseUrl)
-            .AddPathSegment("v2/realtime/token")
-            .build();
-        var response = await this._clientWrapper.HttpClient.PostAsync(
-            url,
-            new StringContent(JsonSerializer.Serialize(request)));
-        if (response.IsSuccessStatusCode)
+        var response = await _client.MakeRequestAsync(
+            new RawClient.JsonApiRequest
+            {
+                Method = HttpMethod.Post,
+                Path = "lemur/v3/generate/action-items",
+                Body = request
+            }
+        );
+        string responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode >= 200 && response.StatusCode < 400)
         {
-            return JsonSerializer.Deserialize<LemurTaskResponse>(await response.Content.ReadAsStringAsync());
+            return JsonSerializer.Deserialize<LemurActionItemsResponse>(responseBody);
         }
-
-        throw new ApiException
-        {
-            StatusCode = (int)response.StatusCode,
-        };
+        throw new Exception(responseBody);
     }
 
-    public async Task<PurgeLemurRequestDataResponse> Task(
-        string requestId, RequestOptions? options = null)
+    /// <summary>
+    /// Retrieve a LeMUR response that was previously generated.
+    /// </summary>
+    public async Task<
+        OneOf<
+            LemurTaskResponse,
+            LemurSummaryResponse,
+            LemurQuestionAnswerResponse,
+            LemurActionItemsResponse
+        >
+    > GetResponseAsync(string requestId)
     {
-        var url = new URLBuilder(this._clientWrapper.BaseUrl)
-            .AddPathSegment("lemur/v3")
-            .AddPathSegment(requestId)
-            .build();
-        var response = await this._clientWrapper.HttpClient.DeleteAsync(url);
-        if (response.IsSuccessStatusCode)
+        var response = await _client.MakeRequestAsync(
+            new RawClient.JsonApiRequest { Method = HttpMethod.Get, Path = $"lemur/v3/{requestId}" }
+        );
+        string responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode >= 200 && response.StatusCode < 400)
         {
-            return JsonSerializer.Deserialize<PurgeLemurRequestDataResponse>(
-                await response.Content.ReadAsStringAsync());
+            return JsonSerializer.Deserialize<
+                OneOf<
+                    LemurTaskResponse,
+                    LemurSummaryResponse,
+                    LemurQuestionAnswerResponse,
+                    LemurActionItemsResponse
+                >
+            >(responseBody);
         }
+        throw new Exception(responseBody);
+    }
 
-        throw new ApiException
+    /// <summary>
+    /// Delete the data for a previously submitted LeMUR request.
+    /// The LLM response data, as well as any context provided in the original request will be removed.
+    /// </summary>
+    public async Task<PurgeLemurRequestDataResponse> PurgeRequestDataAsync(string requestId)
+    {
+        var response = await _client.MakeRequestAsync(
+            new RawClient.JsonApiRequest
+            {
+                Method = HttpMethod.Delete,
+                Path = $"lemur/v3/{requestId}"
+            }
+        );
+        string responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode >= 200 && response.StatusCode < 400)
         {
-            StatusCode = (int)response.StatusCode,
-        };
+            return JsonSerializer.Deserialize<PurgeLemurRequestDataResponse>(responseBody);
+        }
+        throw new Exception(responseBody);
     }
 }
