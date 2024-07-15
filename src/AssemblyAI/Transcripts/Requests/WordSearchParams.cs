@@ -1,6 +1,6 @@
 namespace AssemblyAI;
 
-public class WordSearchParams
+public record WordSearchParams
 {
     /// <summary>
     /// Keywords to search for

@@ -5,23 +5,24 @@ using AssemblyAI;
 
 namespace AssemblyAI;
 
-public class TopicDetectionModelResult
+public record TopicDetectionModelResult
 {
     /// <summary>
     /// The status of the Topic Detection model. Either success, or unavailable in the rare case that the model failed.
     /// </summary>
     [JsonPropertyName("status")]
-    public AudioIntelligenceModelStatus Status { get; init; }
+    public required AudioIntelligenceModelStatus Status { get; init; }
 
     /// <summary>
     /// An array of results for the Topic Detection model
     /// </summary>
     [JsonPropertyName("results")]
-    public IEnumerable<TopicDetectionResult> Results { get; init; }
+    public IEnumerable<TopicDetectionResult> Results { get; init; } =
+        new List<TopicDetectionResult>();
 
     /// <summary>
     /// The overall relevance of topic to the entire audio file
     /// </summary>
     [JsonPropertyName("summary")]
-    public Dictionary<string, double> Summary { get; init; }
+    public Dictionary<string, double> Summary { get; init; } = new Dictionary<string, double>();
 }

@@ -4,7 +4,7 @@ using AssemblyAI;
 
 namespace AssemblyAI;
 
-public class ListTranscriptParams
+public record ListTranscriptParams
 {
     /// <summary>
     /// Maximum amount of transcripts to retrieve

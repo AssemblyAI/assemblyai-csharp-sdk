@@ -4,11 +4,11 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI;
 
-public class TranscriptParams
+public record TranscriptParams
 {
     /// <summary>
     /// The URL of the audio or video file to transcribe.
     /// </summary>
     [JsonPropertyName("audio_url")]
-    public string AudioUrl { get; init; }
+    public required string AudioUrl { get; init; }
 }

@@ -4,29 +4,29 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI;
 
-public class Word
+public record Word
 {
     /// <summary>
     /// Start time of the word in milliseconds
     /// </summary>
     [JsonPropertyName("start")]
-    public int Start { get; init; }
+    public required int Start { get; init; }
 
     /// <summary>
     /// End time of the word in milliseconds
     /// </summary>
     [JsonPropertyName("end")]
-    public int End { get; init; }
+    public required int End { get; init; }
 
     /// <summary>
     /// Confidence score of the word
     /// </summary>
     [JsonPropertyName("confidence")]
-    public double Confidence { get; init; }
+    public required double Confidence { get; init; }
 
     /// <summary>
     /// The word itself
     /// </summary>
     [JsonPropertyName("text")]
-    public string Text { get; init; }
+    public required string Text { get; init; }
 }

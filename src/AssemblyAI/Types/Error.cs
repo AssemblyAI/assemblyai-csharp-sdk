@@ -4,13 +4,13 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI;
 
-public class Error
+public record Error
 {
     /// <summary>
     /// Error message
     /// </summary>
     [JsonPropertyName("error")]
-    public string Error_ { get; init; }
+    public required string Error_ { get; init; }
 
     [JsonPropertyName("status")]
     public string? Status { get; init; }

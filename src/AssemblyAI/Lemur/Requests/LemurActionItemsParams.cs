@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI;
 
-public class LemurActionItemsParams
+public record LemurActionItemsParams
 {
     /// <summary>
     /// How you want the action items to be returned. This can be any text.

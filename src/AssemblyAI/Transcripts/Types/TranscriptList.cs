@@ -5,11 +5,12 @@ using AssemblyAI;
 
 namespace AssemblyAI;
 
-public class TranscriptList
+public record TranscriptList
 {
     [JsonPropertyName("page_details")]
-    public PageDetails PageDetails { get; init; }
+    public required PageDetails PageDetails { get; init; }
 
     [JsonPropertyName("transcripts")]
-    public IEnumerable<TranscriptListItem> Transcripts { get; init; }
+    public IEnumerable<TranscriptListItem> Transcripts { get; init; } =
+        new List<TranscriptListItem>();
 }

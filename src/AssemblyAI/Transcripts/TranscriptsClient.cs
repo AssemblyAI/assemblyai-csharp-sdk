@@ -1,5 +1,7 @@
+using System.Net.Http;
 using System.Text.Json;
 using AssemblyAI;
+using AssemblyAI.Core;
 
 #nullable enable
 
@@ -27,7 +29,7 @@ public class TranscriptsClient
         }
         if (request.Status != null)
         {
-            _query["status"] = request.Status.ToString();
+            _query["status"] = JsonSerializer.Serialize(request.Status.Value);
         }
         if (request.CreatedOn != null)
         {
@@ -53,10 +55,10 @@ public class TranscriptsClient
                 Query = _query
             }
         );
-        string responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        var responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode is >= 200 and < 400)
         {
-            return JsonSerializer.Deserialize<TranscriptList>(responseBody);
+            return JsonSerializer.Deserialize<TranscriptList>(responseBody)!;
         }
         throw new Exception(responseBody);
     }
@@ -74,10 +76,10 @@ public class TranscriptsClient
                 Body = request
             }
         );
-        string responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        var responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode is >= 200 and < 400)
         {
-            return JsonSerializer.Deserialize<Transcript>(responseBody);
+            return JsonSerializer.Deserialize<Transcript>(responseBody)!;
         }
         throw new Exception(responseBody);
     }
@@ -94,10 +96,10 @@ public class TranscriptsClient
                 Path = $"v2/transcript/{transcriptId}"
             }
         );
-        string responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        var responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode is >= 200 and < 400)
         {
-            return JsonSerializer.Deserialize<Transcript>(responseBody);
+            return JsonSerializer.Deserialize<Transcript>(responseBody)!;
         }
         throw new Exception(responseBody);
     }
@@ -115,10 +117,10 @@ public class TranscriptsClient
                 Path = $"v2/transcript/{transcriptId}"
             }
         );
-        string responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        var responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode is >= 200 and < 400)
         {
-            return JsonSerializer.Deserialize<Transcript>(responseBody);
+            return JsonSerializer.Deserialize<Transcript>(responseBody)!;
         }
         throw new Exception(responseBody);
     }
@@ -126,7 +128,7 @@ public class TranscriptsClient
     /// <summary>
     /// Export your transcript in SRT or VTT format to use with a video player for subtitles and closed captions.
     /// </summary>
-    public async void GetSubtitlesAsync(
+    public async Task GetSubtitlesAsync(
         string transcriptId,
         SubtitleFormat subtitleFormat,
         GetSubtitlesParams request
@@ -159,10 +161,10 @@ public class TranscriptsClient
                 Path = $"v2/transcript/{transcriptId}/sentences"
             }
         );
-        string responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        var responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode is >= 200 and < 400)
         {
-            return JsonSerializer.Deserialize<SentencesResponse>(responseBody);
+            return JsonSerializer.Deserialize<SentencesResponse>(responseBody)!;
         }
         throw new Exception(responseBody);
     }
@@ -179,10 +181,10 @@ public class TranscriptsClient
                 Path = $"v2/transcript/{transcriptId}/paragraphs"
             }
         );
-        string responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        var responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode is >= 200 and < 400)
         {
-            return JsonSerializer.Deserialize<ParagraphsResponse>(responseBody);
+            return JsonSerializer.Deserialize<ParagraphsResponse>(responseBody)!;
         }
         throw new Exception(responseBody);
     }
@@ -208,10 +210,10 @@ public class TranscriptsClient
                 Query = _query
             }
         );
-        string responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        var responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode is >= 200 and < 400)
         {
-            return JsonSerializer.Deserialize<WordSearchResponse>(responseBody);
+            return JsonSerializer.Deserialize<WordSearchResponse>(responseBody)!;
         }
         throw new Exception(responseBody);
     }
@@ -228,10 +230,10 @@ public class TranscriptsClient
                 Path = $"v2/transcript/{transcriptId}/redacted-audio"
             }
         );
-        string responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        var responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode is >= 200 and < 400)
         {
-            return JsonSerializer.Deserialize<RedactedAudioResponse>(responseBody);
+            return JsonSerializer.Deserialize<RedactedAudioResponse>(responseBody)!;
         }
         throw new Exception(responseBody);
     }

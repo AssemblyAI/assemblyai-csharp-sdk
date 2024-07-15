@@ -4,17 +4,17 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI;
 
-public class TopicDetectionResultLabelsItem
+public record TopicDetectionResultLabelsItem
 {
     /// <summary>
     /// How relevant the detected topic is of a detected topic
     /// </summary>
     [JsonPropertyName("relevance")]
-    public double Relevance { get; init; }
+    public required double Relevance { get; init; }
 
     /// <summary>
     /// The IAB taxonomical label for the label of the detected topic, where > denotes supertopic/subtopic relationship
     /// </summary>
     [JsonPropertyName("label")]
-    public string Label { get; init; }
+    public required string Label { get; init; }
 }

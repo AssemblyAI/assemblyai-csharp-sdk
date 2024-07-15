@@ -4,11 +4,11 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI;
 
-public class ConfigureEndUtteranceSilenceThreshold
+public record ConfigureEndUtteranceSilenceThreshold
 {
     /// <summary>
     /// The duration threshold in milliseconds
     /// </summary>
     [JsonPropertyName("end_utterance_silence_threshold")]
-    public int EndUtteranceSilenceThreshold { get; init; }
+    public required int EndUtteranceSilenceThreshold { get; init; }
 }

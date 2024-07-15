@@ -4,19 +4,19 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI;
 
-public class TranscriptWord
+public record TranscriptWord
 {
     [JsonPropertyName("confidence")]
-    public double Confidence { get; init; }
+    public required double Confidence { get; init; }
 
     [JsonPropertyName("start")]
-    public int Start { get; init; }
+    public required int Start { get; init; }
 
     [JsonPropertyName("end")]
-    public int End { get; init; }
+    public required int End { get; init; }
 
     [JsonPropertyName("text")]
-    public string Text { get; init; }
+    public required string Text { get; init; }
 
     /// <summary>
     /// The speaker of the sentence if [Speaker Diarization](https://www.assemblyai.com/docs/models/speaker-diarization) is enabled, else null

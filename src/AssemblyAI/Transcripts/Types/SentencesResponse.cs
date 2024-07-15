@@ -5,17 +5,18 @@ using AssemblyAI;
 
 namespace AssemblyAI;
 
-public class SentencesResponse
+public record SentencesResponse
 {
     [JsonPropertyName("id")]
-    public string Id { get; init; }
+    public required string Id { get; init; }
 
     [JsonPropertyName("confidence")]
-    public double Confidence { get; init; }
+    public required double Confidence { get; init; }
 
     [JsonPropertyName("audio_duration")]
-    public double AudioDuration { get; init; }
+    public required double AudioDuration { get; init; }
 
     [JsonPropertyName("sentences")]
-    public IEnumerable<TranscriptSentence> Sentences { get; init; }
+    public IEnumerable<TranscriptSentence> Sentences { get; init; } =
+        new List<TranscriptSentence>();
 }

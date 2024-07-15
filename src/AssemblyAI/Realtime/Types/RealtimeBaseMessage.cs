@@ -5,11 +5,11 @@ using AssemblyAI;
 
 namespace AssemblyAI;
 
-public class RealtimeBaseMessage
+public record RealtimeBaseMessage
 {
     /// <summary>
     /// Describes the type of the message
     /// </summary>
     [JsonPropertyName("message_type")]
-    public MessageType MessageType { get; init; }
+    public required MessageType MessageType { get; init; }
 }

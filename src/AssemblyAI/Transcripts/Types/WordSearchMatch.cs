@@ -4,29 +4,29 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI;
 
-public class WordSearchMatch
+public record WordSearchMatch
 {
     /// <summary>
     /// The matched word
     /// </summary>
     [JsonPropertyName("text")]
-    public string Text { get; init; }
+    public required string Text { get; init; }
 
     /// <summary>
     /// The total amount of times the word is in the transcript
     /// </summary>
     [JsonPropertyName("count")]
-    public int Count { get; init; }
+    public required int Count { get; init; }
 
     /// <summary>
     /// An array of timestamps
     /// </summary>
     [JsonPropertyName("timestamps")]
-    public IEnumerable<IEnumerable<int>> Timestamps { get; init; }
+    public IEnumerable<IEnumerable<int>> Timestamps { get; init; } = new List<IEnumerable<int>>();
 
     /// <summary>
     /// An array of all index locations for that word within the `words` array of the completed transcript
     /// </summary>
     [JsonPropertyName("indexes")]
-    public IEnumerable<int> Indexes { get; init; }
+    public IEnumerable<int> Indexes { get; init; } = new List<int>();
 }

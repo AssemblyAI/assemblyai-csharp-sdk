@@ -4,11 +4,11 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI;
 
-public class RealtimeTemporaryTokenResponse
+public record RealtimeTemporaryTokenResponse
 {
     /// <summary>
     /// The temporary authentication token for Streaming Speech-to-Text
     /// </summary>
     [JsonPropertyName("token")]
-    public string Token { get; init; }
+    public required string Token { get; init; }
 }

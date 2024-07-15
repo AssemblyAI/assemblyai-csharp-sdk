@@ -7,8 +7,8 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI;
 
-[JsonConverter(typeof(StringEnumSerializer<Streaming>))]
-public enum Streaming
+[JsonConverter(typeof(StringEnumSerializer<Realtime>))]
+public enum Realtime
 {
     [EnumMember(Value = "pcm_s16le")]
     PcmS16le,

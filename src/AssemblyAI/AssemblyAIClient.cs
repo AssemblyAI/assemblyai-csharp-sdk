@@ -1,4 +1,5 @@
 using AssemblyAI;
+using AssemblyAI.Core;
 
 #nullable enable
 
@@ -8,7 +9,7 @@ public partial class AssemblyAIClient
 {
     private RawClient _client;
 
-    public AssemblyAIClient(string apiKey = null, ClientOptions clientOptions = null)
+    public AssemblyAIClient(string? apiKey = null, ClientOptions? clientOptions = null)
     {
         _client = new RawClient(
             new Dictionary<string, string>()
@@ -16,7 +17,7 @@ public partial class AssemblyAIClient
                 { "Authorization", apiKey },
                 { "X-Fern-Language", "C#" },
                 { "X-Fern-SDK-Name", "AssemblyAI" },
-                { "X-Fern-SDK-Version", "0.0.1-alpha" },
+                { "X-Fern-SDK-Version", "0.0.2-alpha" },
             },
             clientOptions ?? new ClientOptions()
         );
@@ -24,26 +25,13 @@ public partial class AssemblyAIClient
         Transcripts = new TranscriptsClient(_client);
         Realtime = new RealtimeClient(_client);
         Lemur = new LemurClient(_client);
-        Streaming = new StreamingClient(_client);
     }
 
-    public FilesClient Files { get; }
+    public FilesClient Files { get; init; }
 
-    public TranscriptsClient Transcripts { get; }
+    public TranscriptsClient Transcripts { get; init; }
 
-    public RealtimeClient Realtime { get; }
+    public RealtimeClient Realtime { get; init; }
 
-    public LemurClient Lemur { get; }
-
-    public StreamingClient Streaming { get; }
-
-    private string GetFromEnvironmentOrThrow(string env, string message)
-    {
-        var value = System.Environment.GetEnvironmentVariable(env);
-        if (value == null)
-        {
-            throw new Exception(message);
-        }
-        return value;
-    }
+    public LemurClient Lemur { get; init; }
 }

@@ -6,13 +6,13 @@ using OneOf;
 
 namespace AssemblyAI;
 
-public class LemurQuestion
+public record LemurQuestion
 {
     /// <summary>
     /// The question you wish to ask. For more complex questions use default model.
     /// </summary>
     [JsonPropertyName("question")]
-    public string Question { get; init; }
+    public required string Question { get; init; }
 
     /// <summary>
     /// Any context about the transcripts you wish to provide. This can be a string or any object.

@@ -1,5 +1,7 @@
+using System.Net.Http;
 using System.Text.Json;
 using AssemblyAI;
+using AssemblyAI.Core;
 using OneOf;
 
 #nullable enable
@@ -28,10 +30,10 @@ public class LemurClient
                 Body = request
             }
         );
-        string responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        var responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode is >= 200 and < 400)
         {
-            return JsonSerializer.Deserialize<LemurTaskResponse>(responseBody);
+            return JsonSerializer.Deserialize<LemurTaskResponse>(responseBody)!;
         }
         throw new Exception(responseBody);
     }
@@ -50,10 +52,10 @@ public class LemurClient
                 Body = request
             }
         );
-        string responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        var responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode is >= 200 and < 400)
         {
-            return JsonSerializer.Deserialize<LemurSummaryResponse>(responseBody);
+            return JsonSerializer.Deserialize<LemurSummaryResponse>(responseBody)!;
         }
         throw new Exception(responseBody);
     }
@@ -74,10 +76,10 @@ public class LemurClient
                 Body = request
             }
         );
-        string responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        var responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode is >= 200 and < 400)
         {
-            return JsonSerializer.Deserialize<LemurQuestionAnswerResponse>(responseBody);
+            return JsonSerializer.Deserialize<LemurQuestionAnswerResponse>(responseBody)!;
         }
         throw new Exception(responseBody);
     }
@@ -95,10 +97,10 @@ public class LemurClient
                 Body = request
             }
         );
-        string responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        var responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode is >= 200 and < 400)
         {
-            return JsonSerializer.Deserialize<LemurActionItemsResponse>(responseBody);
+            return JsonSerializer.Deserialize<LemurActionItemsResponse>(responseBody)!;
         }
         throw new Exception(responseBody);
     }
@@ -106,29 +108,19 @@ public class LemurClient
     /// <summary>
     /// Retrieve a LeMUR response that was previously generated.
     /// </summary>
-    public async Task<
-        OneOf<
-            LemurTaskResponse,
-            LemurSummaryResponse,
-            LemurQuestionAnswerResponse,
-            LemurActionItemsResponse
-        >
-    > GetResponseAsync(string requestId)
+    public async Task<OneOf<LemurStringResponse, LemurQuestionAnswerResponse>> GetResponseAsync(
+        string requestId
+    )
     {
         var response = await _client.MakeRequestAsync(
             new RawClient.JsonApiRequest { Method = HttpMethod.Get, Path = $"lemur/v3/{requestId}" }
         );
-        string responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        var responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode is >= 200 and < 400)
         {
             return JsonSerializer.Deserialize<
-                OneOf<
-                    LemurTaskResponse,
-                    LemurSummaryResponse,
-                    LemurQuestionAnswerResponse,
-                    LemurActionItemsResponse
-                >
-            >(responseBody);
+                OneOf<LemurStringResponse, LemurQuestionAnswerResponse>
+            >(responseBody)!;
         }
         throw new Exception(responseBody);
     }
@@ -146,10 +138,10 @@ public class LemurClient
                 Path = $"lemur/v3/{requestId}"
             }
         );
-        string responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        var responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode is >= 200 and < 400)
         {
-            return JsonSerializer.Deserialize<PurgeLemurRequestDataResponse>(responseBody);
+            return JsonSerializer.Deserialize<PurgeLemurRequestDataResponse>(responseBody)!;
         }
         throw new Exception(responseBody);
     }

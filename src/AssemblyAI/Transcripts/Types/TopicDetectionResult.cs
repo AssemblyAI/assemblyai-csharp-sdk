@@ -5,13 +5,13 @@ using AssemblyAI;
 
 namespace AssemblyAI;
 
-public class TopicDetectionResult
+public record TopicDetectionResult
 {
     /// <summary>
     /// The text in the transcript in which a detected topic occurs
     /// </summary>
     [JsonPropertyName("text")]
-    public string Text { get; init; }
+    public required string Text { get; init; }
 
     [JsonPropertyName("labels")]
     public IEnumerable<TopicDetectionResultLabelsItem>? Labels { get; init; }
