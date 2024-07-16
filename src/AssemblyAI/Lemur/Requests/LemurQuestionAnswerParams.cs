@@ -5,11 +5,11 @@ using AssemblyAI;
 
 namespace AssemblyAI;
 
-public class LemurQuestionAnswerParams
+public record LemurQuestionAnswerParams
 {
     /// <summary>
     /// A list of questions to ask
     /// </summary>
     [JsonPropertyName("questions")]
-    public IEnumerable<LemurQuestion> Questions { get; init; }
+    public IEnumerable<LemurQuestion> Questions { get; init; } = new List<LemurQuestion>();
 }

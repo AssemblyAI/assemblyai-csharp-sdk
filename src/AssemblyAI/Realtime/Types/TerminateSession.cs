@@ -4,11 +4,11 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI;
 
-public class TerminateSession
+public record TerminateSession
 {
     /// <summary>
     /// Set to true to end your streaming session forever
     /// </summary>
     [JsonPropertyName("terminate_session")]
-    public bool TerminateSession_ { get; init; }
+    public required bool TerminateSession_ { get; init; }
 }

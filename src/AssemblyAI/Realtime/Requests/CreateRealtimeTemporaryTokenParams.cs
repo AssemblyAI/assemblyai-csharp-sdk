@@ -4,11 +4,11 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI;
 
-public class CreateRealtimeTemporaryTokenParams
+public record CreateRealtimeTemporaryTokenParams
 {
     /// <summary>
     /// The amount of time until the token expires in seconds
     /// </summary>
     [JsonPropertyName("expires_in")]
-    public int ExpiresIn { get; init; }
+    public required int ExpiresIn { get; init; }
 }

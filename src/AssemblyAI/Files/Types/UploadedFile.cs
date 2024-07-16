@@ -4,11 +4,11 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI;
 
-public class UploadedFile
+public record UploadedFile
 {
     /// <summary>
     /// A URL that points to your audio file, accessible only by AssemblyAI's servers
     /// </summary>
     [JsonPropertyName("upload_url")]
-    public string UploadUrl { get; init; }
+    public required string UploadUrl { get; init; }
 }

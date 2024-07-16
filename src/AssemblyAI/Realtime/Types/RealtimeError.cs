@@ -4,8 +4,8 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI;
 
-public class RealtimeError
+public record RealtimeError
 {
     [JsonPropertyName("error")]
-    public string Error { get; init; }
+    public required string Error { get; init; }
 }

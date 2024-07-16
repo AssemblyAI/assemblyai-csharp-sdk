@@ -5,25 +5,25 @@ using AssemblyAI;
 
 namespace AssemblyAI;
 
-public class TranscriptListItem
+public record TranscriptListItem
 {
     [JsonPropertyName("id")]
-    public string Id { get; init; }
+    public required string Id { get; init; }
 
     [JsonPropertyName("resource_url")]
-    public string ResourceUrl { get; init; }
+    public required string ResourceUrl { get; init; }
 
     [JsonPropertyName("status")]
-    public TranscriptStatus Status { get; init; }
+    public required TranscriptStatus Status { get; init; }
 
     [JsonPropertyName("created")]
-    public DateTime Created { get; init; }
+    public required DateTime Created { get; init; }
 
     [JsonPropertyName("completed")]
-    public DateTime Completed { get; init; }
+    public required DateTime Completed { get; init; }
 
     [JsonPropertyName("audio_url")]
-    public string AudioUrl { get; init; }
+    public required string AudioUrl { get; init; }
 
     /// <summary>
     /// Error message of why the transcript failed

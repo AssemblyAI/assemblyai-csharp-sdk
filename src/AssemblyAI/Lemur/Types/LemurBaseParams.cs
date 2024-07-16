@@ -7,7 +7,7 @@ using OneOf;
 
 namespace AssemblyAI;
 
-public class LemurBaseParams
+public record LemurBaseParams
 {
     /// <summary>
     /// A list of completed transcripts with text. Up to a maximum of 100 files or 100 hours, whichever is lower.
@@ -32,7 +32,6 @@ public class LemurBaseParams
 
     /// <summary>
     /// The model that is used for the final prompt after compression is performed.
-    /// Defaults to "default".
     /// </summary>
     [JsonPropertyName("final_model")]
     public LemurModel? FinalModel { get; init; }

@@ -5,31 +5,31 @@ using AssemblyAI;
 
 namespace AssemblyAI;
 
-public class Transcript
+public record Transcript
 {
     /// <summary>
     /// The unique identifier of your transcript
     /// </summary>
     [JsonPropertyName("id")]
-    public string Id { get; init; }
+    public required string Id { get; init; }
 
     /// <summary>
     /// The language model that was used for the transcript
     /// </summary>
     [JsonPropertyName("language_model")]
-    public string LanguageModel { get; init; }
+    public required string LanguageModel { get; init; }
 
     /// <summary>
     /// The acoustic model that was used for the transcript
     /// </summary>
     [JsonPropertyName("acoustic_model")]
-    public string AcousticModel { get; init; }
+    public required string AcousticModel { get; init; }
 
     /// <summary>
     /// The status of your transcript. Possible values are queued, processing, completed, or error.
     /// </summary>
     [JsonPropertyName("status")]
-    public TranscriptStatus Status { get; init; }
+    public required TranscriptStatus Status { get; init; }
 
     /// <summary>
     /// The language of your audio file.
@@ -43,7 +43,7 @@ public class Transcript
     /// The URL of the media that was transcribed
     /// </summary>
     [JsonPropertyName("audio_url")]
-    public string AudioUrl { get; init; }
+    public required string AudioUrl { get; init; }
 
     /// <summary>
     /// The textual transcript of your media file
@@ -75,7 +75,7 @@ public class Transcript
     /// The duration of this transcript object's media file, in seconds
     /// </summary>
     [JsonPropertyName("audio_duration")]
-    public double? AudioDuration { get; init; }
+    public int? AudioDuration { get; init; }
 
     /// <summary>
     /// Whether Automatic Punctuation is enabled, either true or false
@@ -99,13 +99,15 @@ public class Transcript
     public SpeechModel? SpeechModel { get; init; }
 
     /// <summary>
-    /// The URL to which we send webhooks upon transcription completion
+    /// The URL to which we send webhook requests.
+    /// We sends two different types of webhook requests.
+    /// One request when a transcript is completed or failed, and one request when the redacted audio is ready if redact_pii_audio is enabled.
     /// </summary>
     [JsonPropertyName("webhook_url")]
     public string? WebhookUrl { get; init; }
 
     /// <summary>
-    /// The status code we received from your server when delivering your webhook, if a webhook URL was provided
+    /// The status code we received from your server when delivering the transcript completed or failed webhook request, if a webhook URL was provided
     /// </summary>
     [JsonPropertyName("webhook_status_code")]
     public int? WebhookStatusCode { get; init; }
@@ -114,10 +116,10 @@ public class Transcript
     /// Whether webhook authentication details were provided
     /// </summary>
     [JsonPropertyName("webhook_auth")]
-    public bool WebhookAuth { get; init; }
+    public required bool WebhookAuth { get; init; }
 
     /// <summary>
-    /// The header name which should be sent back with webhook calls
+    /// The header name to be sent with the transcript completed or failed webhook requests
     /// </summary>
     [JsonPropertyName("webhook_auth_header_name")]
     public string? WebhookAuthHeaderName { get; init; }
@@ -132,7 +134,7 @@ public class Transcript
     /// Whether Key Phrases is enabled, either true or false
     /// </summary>
     [JsonPropertyName("auto_highlights")]
-    public bool AutoHighlights { get; init; }
+    public required bool AutoHighlights { get; init; }
 
     [JsonPropertyName("auto_highlights_result")]
     public AutoHighlightsResult? AutoHighlightsResult { get; init; }
@@ -171,7 +173,7 @@ public class Transcript
     /// Whether [PII Redaction](https://www.assemblyai.com/docs/models/pii-redaction) is enabled, either true or false
     /// </summary>
     [JsonPropertyName("redact_pii")]
-    public bool RedactPii { get; init; }
+    public required bool RedactPii { get; init; }
 
     /// <summary>
     /// Whether a redacted version of the audio file was generated,
@@ -254,7 +256,7 @@ public class Transcript
     /// Whether [Summarization](https://www.assemblyai.com/docs/models/summarization) is enabled, either true or false
     /// </summary>
     [JsonPropertyName("summarization")]
-    public bool Summarization { get; init; }
+    public required bool Summarization { get; init; }
 
     /// <summary>
     /// The type of summary generated, if [Summarization](https://www.assemblyai.com/docs/models/summarization) is enabled

@@ -1,8 +1,9 @@
+using System.Net.Http;
 using AssemblyAI.Core;
 
 #nullable enable
 
-namespace AssemblyAI;
+namespace AssemblyAI.Core;
 
 public partial class ClientOptions
 {

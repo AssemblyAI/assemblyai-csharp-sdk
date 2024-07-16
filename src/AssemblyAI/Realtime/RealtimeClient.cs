@@ -1,5 +1,7 @@
+using System.Net.Http;
 using System.Text.Json;
 using AssemblyAI;
+using AssemblyAI.Core;
 
 #nullable enable
 
@@ -29,10 +31,10 @@ public class RealtimeClient
                 Body = request
             }
         );
-        string responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode >= 200 && response.StatusCode < 400)
+        var responseBody = await response.Raw.Content.ReadAsStringAsync();
+        if (response.StatusCode is >= 200 and < 400)
         {
-            return JsonSerializer.Deserialize<RealtimeTemporaryTokenResponse>(responseBody);
+            return JsonSerializer.Deserialize<RealtimeTemporaryTokenResponse>(responseBody)!;
         }
         throw new Exception(responseBody);
     }

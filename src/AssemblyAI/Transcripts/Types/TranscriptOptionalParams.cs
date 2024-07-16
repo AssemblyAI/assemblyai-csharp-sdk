@@ -5,7 +5,7 @@ using AssemblyAI;
 
 namespace AssemblyAI;
 
-public class TranscriptOptionalParams
+public record TranscriptOptionalParams
 {
     [JsonPropertyName("language_code")]
     public TranscriptLanguageCode? LanguageCode { get; init; }
@@ -32,19 +32,19 @@ public class TranscriptOptionalParams
     public SpeechModel? SpeechModel { get; init; }
 
     /// <summary>
-    /// The URL to which AssemblyAI send webhooks upon transcription completion
+    /// The URL to which we send webhook requests. We sends two different types of webhook requests. One request when a transcript is completed or failed, and one request when the redacted audio is ready if redact_pii_audio is enabled.
     /// </summary>
     [JsonPropertyName("webhook_url")]
     public string? WebhookUrl { get; init; }
 
     /// <summary>
-    /// The header name which should be sent back with webhook calls
+    /// The header name to be sent with the transcript completed or failed webhook requests
     /// </summary>
     [JsonPropertyName("webhook_auth_header_name")]
     public string? WebhookAuthHeaderName { get; init; }
 
     /// <summary>
-    /// Specify a header name and value to send back with a webhook call for added security
+    /// The header value to send back with the transcript completed or failed webhook requests for added security
     /// </summary>
     [JsonPropertyName("webhook_auth_header_value")]
     public string? WebhookAuthHeaderValue { get; init; }

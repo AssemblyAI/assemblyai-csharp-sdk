@@ -4,17 +4,17 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI;
 
-public class Timestamp
+public record Timestamp
 {
     /// <summary>
     /// The start time in milliseconds
     /// </summary>
     [JsonPropertyName("start")]
-    public int Start { get; init; }
+    public required int Start { get; init; }
 
     /// <summary>
     /// The end time in milliseconds
     /// </summary>
     [JsonPropertyName("end")]
-    public int End { get; init; }
+    public required int End { get; init; }
 }

@@ -1,6 +1,6 @@
 namespace AssemblyAI;
 
-public class GetSubtitlesParams
+public record GetSubtitlesParams
 {
     /// <summary>
     /// The maximum number of characters per caption

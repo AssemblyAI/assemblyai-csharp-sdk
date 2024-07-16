@@ -4,17 +4,17 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI;
 
-public class TranscriptCustomSpelling
+public record TranscriptCustomSpelling
 {
     /// <summary>
     /// Words or phrases to replace
     /// </summary>
     [JsonPropertyName("from")]
-    public IEnumerable<string> From { get; init; }
+    public IEnumerable<string> From { get; init; } = new List<string>();
 
     /// <summary>
     /// Word or phrase to replace with
     /// </summary>
     [JsonPropertyName("to")]
-    public string To { get; init; }
+    public required string To { get; init; }
 }

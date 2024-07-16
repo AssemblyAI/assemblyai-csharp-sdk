@@ -4,17 +4,17 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI;
 
-public class SessionInformation
+public record SessionInformation
 {
     /// <summary>
     /// Describes the type of the message
     /// </summary>
     [JsonPropertyName("message_type")]
-    public string MessageType { get; init; }
+    public required string MessageType { get; init; }
 
     /// <summary>
     /// The total duration of the audio in seconds
     /// </summary>
     [JsonPropertyName("audio_duration_seconds")]
-    public double AudioDurationSeconds { get; init; }
+    public required double AudioDurationSeconds { get; init; }
 }

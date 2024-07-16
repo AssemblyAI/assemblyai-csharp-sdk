@@ -10,15 +10,33 @@ namespace AssemblyAI;
 [JsonConverter(typeof(StringEnumSerializer<LemurModel>))]
 public enum LemurModel
 {
+    [EnumMember(Value = "anthropic/claude-3-5-sonnet")]
+    AnthropicClaude3_5_Sonnet,
+
+    [EnumMember(Value = "anthropic/claude-3-opus")]
+    AnthropicClaude3_Opus,
+
+    [EnumMember(Value = "anthropic/claude-3-haiku")]
+    AnthropicClaude3_Haiku,
+
+    [EnumMember(Value = "anthropic/claude-3-sonnet")]
+    AnthropicClaude3_Sonnet,
+
+    [EnumMember(Value = "anthropic/claude-2-1")]
+    AnthropicClaude2_1,
+
+    [EnumMember(Value = "anthropic/claude-2")]
+    AnthropicClaude2,
+
     [EnumMember(Value = "default")]
     Default,
+
+    [EnumMember(Value = "anthropic/claude-instant-1-2")]
+    AnthropicClaudeInstant1_2,
 
     [EnumMember(Value = "basic")]
     Basic,
 
     [EnumMember(Value = "assemblyai/mistral-7b")]
-    AssemblyaiMistral7b,
-
-    [EnumMember(Value = "anthropic/claude-2-1")]
-    AnthropicClaude2_1
+    AssemblyaiMistral7b
 }

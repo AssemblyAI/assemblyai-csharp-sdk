@@ -4,17 +4,17 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI;
 
-public class RedactedAudioResponse
+public record RedactedAudioResponse
 {
     /// <summary>
     /// The status of the redacted audio
     /// </summary>
     [JsonPropertyName("status")]
-    public string Status { get; init; }
+    public required string Status { get; init; }
 
     /// <summary>
     /// The URL of the redacted audio file
     /// </summary>
     [JsonPropertyName("redacted_audio_url")]
-    public string RedactedAudioUrl { get; init; }
+    public required string RedactedAudioUrl { get; init; }
 }

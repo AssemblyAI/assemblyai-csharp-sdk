@@ -4,11 +4,11 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI;
 
-public class SessionTerminated
+public record SessionTerminated
 {
     /// <summary>
     /// Describes the type of the message
     /// </summary>
     [JsonPropertyName("message_type")]
-    public string MessageType { get; init; }
+    public required string MessageType { get; init; }
 }

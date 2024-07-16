@@ -5,17 +5,18 @@ using AssemblyAI;
 
 namespace AssemblyAI;
 
-public class AutoHighlightsResult
+public record AutoHighlightsResult
 {
     /// <summary>
     /// The status of the Key Phrases model. Either success, or unavailable in the rare case that the model failed.
     /// </summary>
     [JsonPropertyName("status")]
-    public AudioIntelligenceModelStatus Status { get; init; }
+    public required AudioIntelligenceModelStatus Status { get; init; }
 
     /// <summary>
     /// A temporally-sequential array of Key Phrases
     /// </summary>
     [JsonPropertyName("results")]
-    public IEnumerable<AutoHighlightResult> Results { get; init; }
+    public IEnumerable<AutoHighlightResult> Results { get; init; } =
+        new List<AutoHighlightResult>();
 }

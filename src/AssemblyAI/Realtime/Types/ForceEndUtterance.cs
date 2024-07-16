@@ -4,11 +4,11 @@ using System.Text.Json.Serialization;
 
 namespace AssemblyAI;
 
-public class ForceEndUtterance
+public record ForceEndUtterance
 {
     /// <summary>
     /// A boolean value to communicate that you wish to force the end of the utterance
     /// </summary>
     [JsonPropertyName("force_end_utterance")]
-    public bool ForceEndUtterance_ { get; init; }
+    public required bool ForceEndUtterance_ { get; init; }
 }
