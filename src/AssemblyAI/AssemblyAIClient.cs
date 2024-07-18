@@ -9,18 +9,26 @@ public partial class AssemblyAIClient
 {
     private RawClient _client;
 
-    public AssemblyAIClient(string? apiKey = null, ClientOptions? clientOptions = null)
+    public AssemblyAIClient(string apiKey) : this(apiKey, new ClientOptions())
+    {
+    }
+
+    public AssemblyAIClient(string apiKey, ClientOptions clientOptions)
     {
         _client = new RawClient(
-            new Dictionary<string, string>()
-            {
-                { "Authorization", apiKey },
-                { "X-Fern-Language", "C#" },
-                { "X-Fern-SDK-Name", "AssemblyAI" },
-                { "X-Fern-SDK-Version", "0.0.2-alpha" },
-            },
-            clientOptions ?? new ClientOptions()
+            new Dictionary<string, string>(),
+            clientOptions
         );
+        clientOptions.HttpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", apiKey);
+        clientOptions.HttpClient.DefaultRequestHeaders.Add("X-Fern-Language", "C#");
+        clientOptions.HttpClient.DefaultRequestHeaders.Add("X-Fern-SDK-Name", "AssemblyAI");
+        clientOptions.HttpClient.DefaultRequestHeaders.Add("X-Fern-SDK-Version", Constants.Version);
+        if (clientOptions.UserAgent != null)
+        {
+            clientOptions.HttpClient.DefaultRequestHeaders.Add("User-Agent",
+                clientOptions.UserAgent.ToAssemblyAIUserAgentString());
+        }
+
         Files = new FilesClient(_client);
         Transcripts = new TranscriptsClient(_client);
         Realtime = new RealtimeClient(_client);
