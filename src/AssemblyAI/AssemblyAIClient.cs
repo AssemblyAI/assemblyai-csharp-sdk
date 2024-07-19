@@ -1,3 +1,4 @@
+using System.Net.Http;
 using AssemblyAI;
 using AssemblyAI.Core;
 
@@ -9,17 +10,25 @@ public partial class AssemblyAIClient
 {
     private RawClient _client;
 
-    public AssemblyAIClient(string? apiKey = null, ClientOptions? clientOptions = null)
+    public AssemblyAIClient(string apiKey) : this(new ClientOptions
     {
+        ApiKey = apiKey
+    })
+    {
+    }
+
+    public AssemblyAIClient(ClientOptions clientOptions)
+    {
+        clientOptions.HttpClient ??= new HttpClient();
         _client = new RawClient(
             new Dictionary<string, string>()
             {
-                { "Authorization", apiKey },
+                { "Authorization", clientOptions.ApiKey },
                 { "X-Fern-Language", "C#" },
                 { "X-Fern-SDK-Name", "AssemblyAI" },
                 { "X-Fern-SDK-Version", "0.0.2-alpha" },
             },
-            clientOptions ?? new ClientOptions()
+            clientOptions
         );
         Files = new FilesClient(_client);
         Transcripts = new TranscriptsClient(_client);

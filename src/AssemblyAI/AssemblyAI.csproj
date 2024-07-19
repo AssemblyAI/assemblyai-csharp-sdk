@@ -31,6 +31,14 @@
         </PackageReference>
     </ItemGroup>
 
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0' Or '$(TargetFramework)' == 'net7.0' Or '$(TargetFramework)' == 'net6.0' Or '$(TargetFramework)' == 'netstandard2.0'">
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
+        <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
+    </ItemGroup>
+
     <ItemGroup>
         <PackageReference Include="OneOf" Version="3.0.263" />
         <PackageReference Include="OneOf.Extended" Version="3.0.263" />
