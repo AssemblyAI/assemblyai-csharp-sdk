@@ -7,13 +7,15 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI;
 
-public class TranscriptsClient
+public partial class TranscriptsClient
 {
     private RawClient _client;
+    private readonly AssemblyAIClient _assemblyAIClient;
 
-    public TranscriptsClient(RawClient client)
+    public TranscriptsClient(RawClient client, AssemblyAIClient assemblyAIClient)
     {
         _client = client;
+        _assemblyAIClient = assemblyAIClient;
     }
 
     /// <summary>

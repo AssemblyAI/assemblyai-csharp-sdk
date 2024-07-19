@@ -7,7 +7,7 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI;
 
-public class FilesClient
+public partial class FilesClient
 {
     private RawClient _client;
 
