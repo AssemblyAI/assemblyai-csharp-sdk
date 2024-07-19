@@ -8,6 +8,7 @@ src/AssemblyAI/AssemblyAIClient.cs
 src/AssemblyAI/Files/FilesCustomClient.cs
 src/AssemblyAI/Transcripts/TranscriptsCustomClient.cs
 src/AssemblyAI/Transcripts/TranscriptsClient.cs
+src/AssemblyAI/Transcripts/Requests/ListTranscriptParams.cs
 
 
 AssemblyAI.Test

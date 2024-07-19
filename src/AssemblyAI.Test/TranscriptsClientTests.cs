@@ -130,4 +130,20 @@ public class TranscriptsClientTests
         Assert.That(transcript.Id, Is.Not.Null);
         Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Completed));
     }
+
+    [Test]
+    public async Task Should_Paginate_Transcripts()
+    {
+        // Assuming there's a method to create a configured RawClient instance
+        var client = new AssemblyAIClient(_apiKey);
+        var transcriptPage = await client.Transcripts.ListAsync().ConfigureAwait(false);
+        Assert.That(transcriptPage, Is.Not.Null);
+        Assert.That(transcriptPage.PageDetails.PrevUrl, Is.Not.Null);
+        Assert.That(transcriptPage.Transcripts, Is.Not.Empty);
+
+        var prevPage = await client.Transcripts.ListAsync(transcriptPage.PageDetails.PrevUrl);
+        Assert.That(transcriptPage, Is.Not.Null);
+        Assert.That(transcriptPage.PageDetails.NextUrl, Is.Not.Null);
+        Assert.That(transcriptPage.Transcripts, Is.Not.Empty);
+    }
 }
