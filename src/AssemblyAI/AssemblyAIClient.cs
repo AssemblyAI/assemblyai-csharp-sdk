@@ -19,6 +19,11 @@ public partial class AssemblyAIClient
 
     public AssemblyAIClient(ClientOptions clientOptions)
     {
+        if (string.IsNullOrEmpty(clientOptions.ApiKey))
+        {
+            throw new ArgumentException("AssemblyAI API Key is required.");
+        }
+        
         clientOptions.HttpClient ??= new HttpClient();
         _client = new RawClient(
             new Dictionary<string, string>()

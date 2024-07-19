@@ -1,10 +1,11 @@
 #nullable enable
 
 using System.Net.Http;
+using AssemblyAI.Core;
 
-namespace AssemblyAI.Core;
+namespace AssemblyAI;
 
-public partial class ClientOptions
+public class ClientOptions
 {
     /// <summary>
     /// The AssemblyAI API key
