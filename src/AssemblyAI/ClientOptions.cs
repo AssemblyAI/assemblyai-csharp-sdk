@@ -1,16 +1,21 @@
+#nullable enable
+
 using System.Net.Http;
 using AssemblyAI.Core;
 
-#nullable enable
+namespace AssemblyAI;
 
-namespace AssemblyAI.Core;
-
-public partial class ClientOptions
+public class ClientOptions
 {
+    /// <summary>
+    /// The AssemblyAI API key
+    /// </summary>
+    public required string ApiKey { get; set; }
+    
     /// <summary>
     /// The Base URL for the API.
     /// </summary>
-    public string BaseUrl { get; init; } = Environments.DEFAULT;
+    public string BaseUrl { get; set; } = Environments.DEFAULT;
 
     private UserAgent? _userAgent = UserAgent.Default;
     
@@ -34,15 +39,15 @@ public partial class ClientOptions
     /// <summary>
     /// The http client used to make requests.
     /// </summary>
-    public HttpClient HttpClient { get; init; } = new HttpClient();
+    public HttpClient? HttpClient { get; set; }
 
     /// <summary>
     /// The http client used to make requests.
     /// </summary>
-    public int MaxRetries { get; init; } = 2;
+    public int MaxRetries { get; set; } = 2;
 
     /// <summary>
     /// The timeout for the request in seconds.
     /// </summary>
-    public int TimeoutInSeconds { get; init; } = 30;
+    public int TimeoutInSeconds { get; set; } = 30;
 }

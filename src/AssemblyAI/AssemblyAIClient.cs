@@ -1,3 +1,4 @@
+using System.Net.Http;
 using AssemblyAI;
 using AssemblyAI.Core;
 
@@ -7,19 +8,26 @@ namespace AssemblyAI;
 
 public partial class AssemblyAIClient
 {
-    private RawClient _client;
-
-    public AssemblyAIClient(string apiKey) : this(apiKey, new ClientOptions())
+    public AssemblyAIClient(string apiKey) : this(new ClientOptions
+    {
+        ApiKey = apiKey
+    })
     {
     }
 
-    public AssemblyAIClient(string apiKey, ClientOptions clientOptions)
+    public AssemblyAIClient(ClientOptions clientOptions)
     {
-        _client = new RawClient(
+        if (string.IsNullOrEmpty(clientOptions.ApiKey))
+        {
+            throw new ArgumentException("AssemblyAI API Key is required.");
+        }
+        
+        clientOptions.HttpClient ??= new HttpClient();
+        var client = new RawClient(
             new Dictionary<string, string>(),
             clientOptions
         );
-        clientOptions.HttpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", apiKey);
+        clientOptions.HttpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", clientOptions.ApiKey);
         clientOptions.HttpClient.DefaultRequestHeaders.Add("X-Fern-Language", "C#");
         clientOptions.HttpClient.DefaultRequestHeaders.Add("X-Fern-SDK-Name", "AssemblyAI");
         clientOptions.HttpClient.DefaultRequestHeaders.Add("X-Fern-SDK-Version", Constants.Version);
@@ -29,10 +37,10 @@ public partial class AssemblyAIClient
                 clientOptions.UserAgent.ToAssemblyAIUserAgentString());
         }
 
-        Files = new FilesClient(_client);
-        Transcripts = new TranscriptsClient(_client);
-        Realtime = new RealtimeClient(_client);
-        Lemur = new LemurClient(_client);
+        Files = new FilesClient(client);
+        Transcripts = new TranscriptsClient(client);
+        Realtime = new RealtimeClient(client);
+        Lemur = new LemurClient(client);
     }
 
     public FilesClient Files { get; init; }
