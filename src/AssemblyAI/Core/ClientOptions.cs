@@ -12,6 +12,25 @@ public partial class ClientOptions
     /// </summary>
     public string BaseUrl { get; init; } = Environments.DEFAULT;
 
+    private UserAgent? _userAgent = UserAgent.Default;
+    
+    /// <summary>
+    /// The AssemblyAI user agent
+    /// </summary>
+    public UserAgent? UserAgent
+    {
+        get => _userAgent;
+        set
+        {
+            if (value == null)
+            {
+                _userAgent = null;
+                return;
+            }
+            _userAgent = new UserAgent(UserAgent.Default, value);
+        }
+    }
+
     /// <summary>
     /// The http client used to make requests.
     /// </summary>
