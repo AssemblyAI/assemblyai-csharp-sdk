@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <TestRunParameters>
+    <Parameter name="ASSEMBLYAI_API_KEY" value="" />
+    <Parameter name="TEST_TRANSCRIPT_ID" value="" />
+  </TestRunParameters>
+</RunSettings>

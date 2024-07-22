@@ -1,8 +1,9 @@
+#nullable enable
+
 using System.Net.Http;
 using AssemblyAI;
 using AssemblyAI.Core;
 
-#nullable enable
 
 namespace AssemblyAI;
 
@@ -38,14 +39,14 @@ public partial class AssemblyAIClient
         }
 
         Files = new FilesClient(client);
-        Transcripts = new TranscriptsClient(client);
+        Transcripts = new ExtendedTranscriptsClient(client, this);
         Realtime = new RealtimeClient(client);
         Lemur = new LemurClient(client);
     }
 
     public FilesClient Files { get; init; }
 
-    public TranscriptsClient Transcripts { get; init; }
+    public ExtendedTranscriptsClient Transcripts { get; init; }
 
     public RealtimeClient Realtime { get; init; }
 
