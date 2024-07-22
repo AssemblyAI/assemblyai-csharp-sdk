@@ -22,14 +22,14 @@ public partial class AssemblyAIClient
             clientOptions ?? new ClientOptions()
         );
         Files = new FilesClient(_client);
-        Transcripts = new TranscriptsClient(_client, this);
+        Transcripts = new ExtendedTranscriptsClient(_client, this);
         Realtime = new RealtimeClient(_client);
         Lemur = new LemurClient(_client);
     }
 
     public FilesClient Files { get; init; }
 
-    public TranscriptsClient Transcripts { get; init; }
+    public ExtendedTranscriptsClient Transcripts { get; init; }
 
     public RealtimeClient Realtime { get; init; }
 
