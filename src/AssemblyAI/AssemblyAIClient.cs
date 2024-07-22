@@ -1,30 +1,47 @@
+#nullable enable
+
+using System.Net.Http;
 using AssemblyAI;
 using AssemblyAI.Core;
 
-#nullable enable
 
 namespace AssemblyAI;
 
 public partial class AssemblyAIClient
 {
-    private RawClient _client;
-
-    public AssemblyAIClient(string? apiKey = null, ClientOptions? clientOptions = null)
+    public AssemblyAIClient(string apiKey) : this(new ClientOptions
     {
-        _client = new RawClient(
-            new Dictionary<string, string>()
-            {
-                { "Authorization", apiKey },
-                { "X-Fern-Language", "C#" },
-                { "X-Fern-SDK-Name", "AssemblyAI" },
-                { "X-Fern-SDK-Version", "0.0.2-alpha" },
-            },
-            clientOptions ?? new ClientOptions()
+        ApiKey = apiKey
+    })
+    {
+    }
+
+    public AssemblyAIClient(ClientOptions clientOptions)
+    {
+        if (string.IsNullOrEmpty(clientOptions.ApiKey))
+        {
+            throw new ArgumentException("AssemblyAI API Key is required.");
+        }
+        
+        clientOptions.HttpClient ??= new HttpClient();
+        var client = new RawClient(
+            new Dictionary<string, string>(),
+            clientOptions
         );
-        Files = new FilesClient(_client);
-        Transcripts = new ExtendedTranscriptsClient(_client, this);
-        Realtime = new RealtimeClient(_client);
-        Lemur = new LemurClient(_client);
+        clientOptions.HttpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", clientOptions.ApiKey);
+        clientOptions.HttpClient.DefaultRequestHeaders.Add("X-Fern-Language", "C#");
+        clientOptions.HttpClient.DefaultRequestHeaders.Add("X-Fern-SDK-Name", "AssemblyAI");
+        clientOptions.HttpClient.DefaultRequestHeaders.Add("X-Fern-SDK-Version", Constants.Version);
+        if (clientOptions.UserAgent != null)
+        {
+            clientOptions.HttpClient.DefaultRequestHeaders.Add("User-Agent",
+                clientOptions.UserAgent.ToAssemblyAIUserAgentString());
+        }
+
+        Files = new FilesClient(client);
+        Transcripts = new ExtendedTranscriptsClient(client, this);
+        Realtime = new RealtimeClient(client);
+        Lemur = new LemurClient(client);
     }
 
     public FilesClient Files { get; init; }

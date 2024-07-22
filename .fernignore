@@ -2,14 +2,16 @@
 
 README.md
 LICENSE.md
-AssemblyAI/Realtime/RealtimeTranscriber.cs
-AssemblyAI/Realtime/WebSocketClient
+src/AssemblyAI/AssemblyAI.csproj
+src/AssemblyAI/ClientOptions.cs
+src/AssemblyAI/Constants.cs
+src/AssemblyAI/UserAgent.cs
 src/AssemblyAI/AssemblyAIClient.cs
+src/AssemblyAI/DependencyInjectionExtensions.cs
 src/AssemblyAI/Files/FilesCustomClient.cs
 src/AssemblyAI/Transcripts/TranscriptsCustomClient.cs
-src/AssemblyAI/Transcripts/Requests/ListTranscriptParams.cs
+src/AssemblyAI/Realtime/RealtimeTranscriber.cs
+src/AssemblyAI/Realtime/WebSocketClient
+src/AssemblyAI.Test
 
-
-AssemblyAI.Test
 Samples
-**/*.fernignore.*
