@@ -142,8 +142,8 @@ public class TranscriptsClientTests
         Assert.That(transcriptPage.Transcripts, Is.Not.Empty);
 
         var prevPage = await client.Transcripts.ListAsync(transcriptPage.PageDetails.PrevUrl);
-        Assert.That(transcriptPage, Is.Not.Null);
-        Assert.That(transcriptPage.PageDetails.NextUrl, Is.Not.Null);
-        Assert.That(transcriptPage.Transcripts, Is.Not.Empty);
+        Assert.That(prevPage, Is.Not.Null);
+        Assert.That(prevPage.PageDetails.NextUrl, Is.Not.Null);
+        Assert.That(prevPage.Transcripts, Is.Not.Empty);
     }
 }
