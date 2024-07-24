@@ -74,7 +74,7 @@ public static class DependencyInjectionExtensions
     private static void AddServices(IServiceCollection services)
     {
         services.AddHttpClient(AssemblyAIHttpClientName);
-        services.AddScoped(CreateAssemblyAIClient);
+        services.AddTransient(CreateAssemblyAIClient);
     }
 
     private static void Validate(OptionsBuilder<ClientOptions> optionsBuilder)
