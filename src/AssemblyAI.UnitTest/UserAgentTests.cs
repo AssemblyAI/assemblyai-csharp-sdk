@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace AssemblyAI.Test;
+namespace AssemblyAI.UnitTest;
 
 [TestFixture]
 public class UserAgentTests

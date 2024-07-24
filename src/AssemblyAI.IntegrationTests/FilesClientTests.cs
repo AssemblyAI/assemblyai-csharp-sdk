@@ -1,6 +1,4 @@
-using NUnit.Framework;
-
-namespace AssemblyAI.Test;
+namespace AssemblyAI.IntegrationTests;
 
 [TestFixture]
 public class FilesClientTests

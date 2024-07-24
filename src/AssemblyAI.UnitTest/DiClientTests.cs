@@ -1,9 +1,9 @@
-using NUnit.Framework;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using NUnit.Framework;
 
-namespace AssemblyAI.Test;
+namespace AssemblyAI.UnitTest;
 
 [TestFixture]
 public class DiClientTests

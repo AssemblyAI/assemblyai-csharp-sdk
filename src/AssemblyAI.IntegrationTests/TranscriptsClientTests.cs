@@ -1,6 +1,4 @@
-using NUnit.Framework;
-
-namespace AssemblyAI.Test;
+namespace AssemblyAI.IntegrationTests;
 
 [TestFixture]
 public class TranscriptsClientTests
@@ -27,18 +25,6 @@ public class TranscriptsClientTests
             if (string.IsNullOrEmpty(transcriptId))
                 throw new Exception("TEST_TRANSCRIPT_ID .runsettings parameter is not set.");
             return transcriptId;
-        }
-    }
-
-
-    private string[] TranscriptIds
-    {
-        get
-        {
-            var transcriptIds = TestContext.Parameters.Get("TEST_TRANSCRIPT_IDS");
-            if (string.IsNullOrEmpty(transcriptIds))
-                throw new Exception("TEST_TRANSCRIPT_IDS .runsettings parameter is not set.");
-            return transcriptIds.Split(',').ToArray();
         }
     }
 
