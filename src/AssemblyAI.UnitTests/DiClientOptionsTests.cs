@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using NUnit.Framework;
 
-namespace AssemblyAI.UnitTest;
+namespace AssemblyAI.UnitTests;
 
 [TestFixture]
 public class DependencyInjectionClientOptionsTests
