@@ -3,5 +3,6 @@
   <TestRunParameters>
     <Parameter name="ASSEMBLYAI_API_KEY" value="" />
     <Parameter name="TEST_TRANSCRIPT_ID" value="" />
+    <Parameter name="TEST_TRANSCRIPT_IDS" value="" />
   </TestRunParameters>
 </RunSettings>

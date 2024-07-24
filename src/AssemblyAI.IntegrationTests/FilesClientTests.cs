@@ -3,21 +3,13 @@ namespace AssemblyAI.IntegrationTests;
 [TestFixture]
 public class FilesClientTests
 {
-    private string _apiKey;
-
-    [SetUp]
-    public void Setup()
-    {
-        // Retrieve the API key from the .runsettings file
-        _apiKey = TestContext.Parameters.Get("ASSEMBLYAI_API_KEY");
-        if(string.IsNullOrEmpty(_apiKey)) throw new Exception("ASSEMBLYAI_API_KEY .runsetting parameter is not set.");
-    }
+    private static string ApiKey => AssemblyAITestParameters.ApiKey;
     
     [Test]
     public async Task Should_Upload_File_Using_FileInfo()
     {
         // Assuming there's a method to create a configured RawClient instance
-        var client = new AssemblyAIClient(_apiKey);
+        var client = new AssemblyAIClient(ApiKey);
 
         // Adjust the path to where your test file is located
         var testFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "nbc.mp3");
@@ -33,7 +25,7 @@ public class FilesClientTests
     public async Task Should_Upload_File_Using_Stream()
     {
         // Assuming there's a method to create a configured RawClient instance
-        var client = new AssemblyAIClient(_apiKey);
+        var client = new AssemblyAIClient(ApiKey);
 
         // Adjust the path to where your test file is located
         var testFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "nbc.mp3");

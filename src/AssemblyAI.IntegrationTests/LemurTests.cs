@@ -3,27 +3,8 @@ namespace AssemblyAI.IntegrationTests;
 [TestFixture]
 public class LemurTests
 {
-    private string ApiKey
-    {
-        get
-        {
-            var apiKey = TestContext.Parameters.Get("ASSEMBLYAI_API_KEY");
-            if (string.IsNullOrEmpty(apiKey))
-                throw new Exception("ASSEMBLYAI_API_KEY .runsettings parameter is not set.");
-            return apiKey;
-        }
-    }
-
-    private string[] TranscriptIds
-    {
-        get
-        {
-            var transcriptIds = TestContext.Parameters.Get("TEST_TRANSCRIPT_IDS");
-            if (string.IsNullOrEmpty(transcriptIds))
-                throw new Exception("TEST_TRANSCRIPT_IDS .runsettings parameter is not set.");
-            return transcriptIds.Split(',');
-        }
-    }
+    private static string ApiKey => AssemblyAITestParameters.ApiKey;
+    private static string[] TranscriptIds => AssemblyAITestParameters.TranscriptIds;
 
     // TODO: uncomment when Fern fixes params generation
     /*[Test]

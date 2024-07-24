@@ -6,27 +6,8 @@ public class TranscriptsClientTests
     private const string RemoteAudioUrl = "https://storage.googleapis.com/aai-web-samples/espn-bears.m4a";
     private const string BadRemoteAudioUrl = "https://storage.googleapis.com/aai-web-samples/does-not-exist.m4a";
 
-    private string ApiKey
-    {
-        get
-        {
-            var apiKey = TestContext.Parameters.Get("ASSEMBLYAI_API_KEY");
-            if (string.IsNullOrEmpty(apiKey))
-                throw new Exception("ASSEMBLYAI_API_KEY .runsettings parameter is not set.");
-            return apiKey;
-        }
-    }
-
-    private string TranscriptId
-    {
-        get
-        {
-            var transcriptId = TestContext.Parameters.Get("TEST_TRANSCRIPT_ID");
-            if (string.IsNullOrEmpty(transcriptId))
-                throw new Exception("TEST_TRANSCRIPT_ID .runsettings parameter is not set.");
-            return transcriptId;
-        }
-    }
+    private static string ApiKey => AssemblyAITestParameters.ApiKey;
+    private static string TranscriptId => AssemblyAITestParameters.TranscriptId;
 
     [Test]
     public async Task Should_Submit_Using_Uri()
