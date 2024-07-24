@@ -131,4 +131,37 @@ public class ExtendedTranscriptsClient(RawClient client, AssemblyAIClient assemb
 
         return await ListAsync(listTranscriptParams).ConfigureAwait(false);
     }
+
+    /// <summary>
+    /// Export your transcript in SRT or VTT format to use with a video player for subtitles and closed captions.
+    /// </summary>
+    public Task GetSubtitlesAsync(
+        string transcriptId,
+        SubtitleFormat subtitleFormat
+    )
+        => GetSubtitlesAsync(transcriptId, subtitleFormat, new GetSubtitlesParams());
+    
+    /// <summary>
+    /// Export your transcript in SRT or VTT format to use with a video player for subtitles and closed captions.
+    /// </summary>
+    public Task GetSubtitlesAsync(
+        string transcriptId,
+        SubtitleFormat subtitleFormat,
+        int charsPerCaption
+    )
+        => GetSubtitlesAsync(transcriptId, subtitleFormat, new GetSubtitlesParams
+        {
+            CharsPerCaption = charsPerCaption
+        });
+
+    /// <summary>
+    /// Search through the transcript for keywords. You can search for individual words, numbers, or phrases containing up to five words or numbers.
+    /// </summary>
+    public Task<WordSearchResponse> WordSearchAsync(
+        string transcriptId,
+        string[] words
+    ) => WordSearchAsync(transcriptId, new WordSearchParams
+    {
+        Words = string.Join(",", words)
+    });
 }
