@@ -20,7 +20,10 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
     private WebSocket? _socket;
     private TaskCompletionSource<SessionInformation>? _sessionTerminatedTaskCompletionSource;
 
-    public string Endpoint { get; set; } = "wss://localhost:10000/v2/realtime/ws";
+    /// <summary>
+    /// The Streaming STT endpoint to connect to. 
+    /// </summary>
+    public string Endpoint { get; set; } = "wss://api.assemblyai.com/v2/realtime/ws";
 
     /// <summary>
     /// Use your AssemblyAI API key to authenticate with the AssemblyAI real-time transcriber.
