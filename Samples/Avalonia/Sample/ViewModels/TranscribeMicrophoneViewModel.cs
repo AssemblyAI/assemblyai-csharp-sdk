@@ -121,7 +121,7 @@ public class TranscribeMicrophoneViewModel : ViewModelBase, IAsyncDisposable
 
     private void OnErrorReceived(RealtimeError error)
     {
-        Error = error.Text;
+        Error = error.Error;
     }
 
     private void OnClosed(ClosedEventArgs closedEvent)
@@ -172,7 +172,7 @@ public class TranscribeMicrophoneViewModel : ViewModelBase, IAsyncDisposable
 
         try
         {
-            _transcriber.Token = (await _client.Realtime.CreateTemporaryToken(new CreateRealtimeTemporaryTokenParameters
+            _transcriber.Token = (await _client.Realtime.CreateTemporaryTokenAsync(new CreateRealtimeTemporaryTokenParams
             {
                 ExpiresIn = 360
             })).Token;

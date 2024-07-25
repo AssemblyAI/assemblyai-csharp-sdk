@@ -31,7 +31,10 @@ transcriber.FinalTranscriptReceived.Subscribe(
 );
 
 transcriber.TranscriptReceived.Subscribe(
-    transcript => Console.WriteLine("Transcript: {0}", transcript)
+    transcript => Console.WriteLine("Transcript: {0}", transcript.Match(
+        partialTranscript => partialTranscript.Text,
+        finalTranscript => finalTranscript.Text
+    ))
 );
 
 transcriber.ErrorReceived.Subscribe(

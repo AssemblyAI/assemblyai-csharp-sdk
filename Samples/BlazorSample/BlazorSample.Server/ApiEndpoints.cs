@@ -24,9 +24,12 @@ public static class ApiEndpoints
         AssemblyAIClient assemblyAIClient)
     {
         await using var fileStream = model.File.OpenReadStream();
-        var fileUpload = await assemblyAIClient.Files.Upload(await ReadToEndAsync(fileStream));
-        var transcript = await assemblyAIClient.Transcripts.Create(new CreateTranscriptParameters
-            { AudioUrl = fileUpload.UploadUrl, LanguageCode = new TranscriptLanguageCode(model.LanguageCode) });
+        var fileUpload = await assemblyAIClient.Files.UploadAsync(fileStream);
+        var transcript = await assemblyAIClient.Transcripts.SubmitAsync(new TranscriptParams
+        {
+            AudioUrl = fileUpload.UploadUrl, 
+            LanguageCode = Enum.Parse<TranscriptLanguageCode>(model.LanguageCode) 
+        });
         return transcript;
     }
 
@@ -36,7 +39,7 @@ public static class ApiEndpoints
         AssemblyAIClient assemblyAIClient
     )
     {
-        var response = await assemblyAIClient.Lemur.Task(new LemurTaskParameters
+        var response = await assemblyAIClient.Lemur.TaskAsync(new LemurTaskParams
         {
             TranscriptIds = [transcriptId],
             Prompt = question
@@ -47,7 +50,7 @@ public static class ApiEndpoints
     private static async Task<RealtimeTemporaryTokenResponse> GetRealtimeToken(AssemblyAIClient assemblyAIClient)
     {
         var tokenResponse = await assemblyAIClient.Realtime
-            .CreateTemporaryToken(new CreateRealtimeTemporaryTokenParameters { ExpiresIn = 360 });
+            .CreateTemporaryTokenAsync(new CreateRealtimeTemporaryTokenParams { ExpiresIn = 360 });
         return tokenResponse;
     }
 

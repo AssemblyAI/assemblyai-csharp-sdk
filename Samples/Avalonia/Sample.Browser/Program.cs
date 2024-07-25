@@ -20,13 +20,11 @@ internal sealed partial class Program
         {
             services.AddTransient<ICaptureAudio, CaptureAudio>();
             services.AddSingleton<ApiKeyContainer>();
-            services.AddTransient<AssemblyAIClient>(services =>
+            services.AddAssemblyAIClient((services, options) =>
             {
                 var apiContainer = services.GetRequiredService<ApiKeyContainer>();
-                return new AssemblyAIClient(apiContainer.ApiKey, new ClientOptions
-                {
-                    BaseUrl = "https://localhost:7030/api"
-                });
+                options.ApiKey = apiContainer.ApiKey;
+                options.BaseUrl = "https://localhost:7030/api";
             });
         });
         return BuildAvaloniaApp()

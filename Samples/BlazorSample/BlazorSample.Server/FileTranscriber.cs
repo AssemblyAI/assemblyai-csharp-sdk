@@ -17,11 +17,11 @@ public class FileTranscriber : IFileTranscriber
     public async Task<Transcript> TranscribeFileAsync(TranscribeFileFormModel model)
     {
         await using var fileStream = model.File.OpenReadStream(maxAllowedSize: 2_306_867_200);
-        var fileUpload = await _assemblyAIClient.Files.Upload(await ReadToEndAsync(fileStream));
-        var transcript = await _assemblyAIClient.Transcripts.Create(new CreateTranscriptParameters
+        var fileUpload = await _assemblyAIClient.Files.UploadAsync(fileStream);
+        var transcript = await _assemblyAIClient.Transcripts.SubmitAsync(new TranscriptParams
         {
             AudioUrl = fileUpload.UploadUrl,
-            LanguageCode = new TranscriptLanguageCode(model.LanguageCode)
+            LanguageCode = Enum.Parse<TranscriptLanguageCode>(model.LanguageCode)
         });
         return transcript;
     }

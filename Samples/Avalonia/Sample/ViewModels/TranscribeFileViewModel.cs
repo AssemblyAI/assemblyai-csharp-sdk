@@ -68,10 +68,10 @@ public class TranscribeFileViewModel : ViewModelBase
     }
 
     private Transcript _transcript = new Transcript
-        {
-            Text =
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n"
-        };
+    {
+        Text =
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n"
+    };
 
     public Transcript Transcript
     {
@@ -97,18 +97,20 @@ public class TranscribeFileViewModel : ViewModelBase
     {
         IsTranscribing = true;
         await using var fileStream = await _selectedFile.OpenReadAsync();
-        var uploadedFile = await _client.Files.Upload(ReadToEnd(fileStream));
-        var transcript = await _client.Transcripts.Create(new CreateTranscriptParameters
+        var uploadedFile = await _client.Files.UploadAsync(fileStream);
+        var transcript = await _client.Transcripts.SubmitAsync(new TranscriptParams
         {
             AudioUrl = uploadedFile.UploadUrl,
-            LanguageCode = SelectedLanguage != null ? new TranscriptLanguageCode(SelectedLanguage.Value.Value) : null
+            LanguageCode = SelectedLanguage != null
+                ? Enum.Parse<TranscriptLanguageCode>(SelectedLanguage.Value.Value)
+                : null
         });
         while (true)
         {
             if (transcript.Status == TranscriptStatus.Error) throw new Exception();
             if (transcript.Status == TranscriptStatus.Completed) break;
             await Task.Delay(500);
-            transcript = await _client.Transcripts.Get(transcript.Id);
+            transcript = await _client.Transcripts.GetAsync(transcript.Id);
         }
 
         Transcript = transcript;

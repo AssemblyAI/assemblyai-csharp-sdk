@@ -10,7 +10,7 @@ public class AskLemur(AssemblyAIClient assemblyAIClient)
 {
     public async Task<string> AskQuestionAsync(string transcriptId, string question)
     {
-        var response = await assemblyAIClient.Lemur.Task(new LemurTaskParameters
+        var response = await assemblyAIClient.Lemur.TaskAsync(new LemurTaskParams
         {
             TranscriptIds = [transcriptId],
             Prompt = question
