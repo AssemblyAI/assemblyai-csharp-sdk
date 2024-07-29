@@ -79,9 +79,10 @@ internal partial class WebsocketClient
 
     public Uri Url { get; set; }
 
-    public Func<Stream, Task> TextMessageReceived { get; set; }
-    public Func<Stream, Task> BinaryMessageReceived { get; set; }
-    public Func<DisconnectionInfo, Task> DisconnectionHappened { get; set; }
+    public Func<Stream, Task>? TextMessageReceived { get; set; }
+    public Func<Stream, Task>? BinaryMessageReceived { get; set; }
+    public Func<DisconnectionInfo, Task>? DisconnectionHappened { get; set; }
+    public Func<Exception, Task>? ExceptionOccurred { get; set; }
 
     private Task OnTextMessageReceived(Stream stream)
         => TextMessageReceived == null ? Task.CompletedTask : TextMessageReceived.Invoke(stream);
@@ -91,6 +92,9 @@ internal partial class WebsocketClient
 
     private Task OnDisconnectionHappened(DisconnectionInfo info)
         => DisconnectionHappened == null ? Task.CompletedTask : DisconnectionHappened.Invoke(info);
+    
+    private Task OnExceptionOccurred(Exception exception)
+        => ExceptionOccurred == null ? Task.CompletedTask : ExceptionOccurred.Invoke(exception);
 
     /// <summary>
     /// Get or set the name of the current websocket client instance.
@@ -313,9 +317,10 @@ internal partial class WebsocketClient
         return _client?.State == WebSocketState.Open;
     }
 
+    internal Exception ListenException { get; set; }
+
     private async Task Listen(WebSocket client, CancellationToken token)
     {
-        Exception? causedException = null;
         try
         {
             // define buffer here and reuse, to avoid more allocation
@@ -363,22 +368,19 @@ internal partial class WebsocketClient
         catch (TaskCanceledException e)
         {
             // task was canceled, ignore
-            causedException = e;
         }
         catch (OperationCanceledException e)
         {
             // operation was canceled, ignore
-            causedException = e;
         }
         catch (ObjectDisposedException e)
         {
             // client was disposed, ignore
-            causedException = e;
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "Error while listening to websocket stream, error: '{error}'", e.Message);
-            causedException = e;
+            _logger.LogError(e, "Error while listening to WebSocket stream, error: '{error}'", e.Message);
+            await OnExceptionOccurred(e).ConfigureAwait(false);
         }
     }
 

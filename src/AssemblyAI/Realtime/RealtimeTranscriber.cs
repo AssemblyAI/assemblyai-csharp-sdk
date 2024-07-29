@@ -71,6 +71,7 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
     public readonly Event<RealtimeTranscript> TranscriptReceived = new();
     public readonly Event<SessionInformation> SessionInformationReceived = new();
     public readonly Event<RealtimeError> ErrorReceived = new();
+    public readonly Event<Exception> ExceptionOccurred = new();
     public readonly Event<ClosedEventArgs> Closed = new();
     private SessionInformation? _sessionInformation;
 
@@ -128,6 +129,7 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
 
             return socket;
         });
+        _socket.ExceptionOccurred = OnExceptionOccurred;
         _socket.TextMessageReceived = async stream =>
         {
             var message = await JsonSerializer.DeserializeAsync<JsonDocument>(stream);
@@ -248,31 +250,71 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
         _sessionTerminatedTaskCompletionSource?.TrySetResult(_sessionInformation!);
     }
 
-    private async Task OnClosed(int? code, string reason)
+    private readonly Dictionary<int, string> _closeCodeErrorMessages = new()
+    {
+        { 4000, "Sample rate must be a positive integer" },
+        { 4001, "Not Authorized" },
+        { 4002, "Insufficient Funds" },
+        {
+            4003,
+            "This feature is paid-only and requires you to add a credit card. Please visit https://app.assemblyai.com/ to add a credit card to your account."
+        },
+        { 4004, "Session ID does not exist" },
+        { 4008, "Session has expired" },
+        { 4010, "Session is closed" },
+        { 4029, "Rate limited" },
+        { 4030, "Unique session violation" },
+        { 4031, "Session Timeout" },
+        { 4032, "Audio too short" },
+        { 4033, "Audio too long" },
+        { 4034, "Audio too small to transcode" },
+        { 4101, "Bad schema" },
+        { 4102, "Too many streams" },
+        { 4103, "Reconnected" },
+        { 4104, "Could not parse word boost parameter" }
+    };
+
+    private async Task OnClosed(int? code, string? reason)
     {
         Status = RealtimeTranscriberStatus.Disconnected;
+        if (
+            code != null && 
+            string.IsNullOrEmpty(reason) &&
+            _closeCodeErrorMessages.TryGetValue(code.Value, out var message))
+        {
+            reason = message;
+        }
+
         await Closed.RaiseEvent(new ClosedEventArgs
         {
             Code = code,
             Reason = reason
         }).ConfigureAwait(false);
     }
-
+    
     /// <summary>
     /// Called when an error message is received. Calls the ErrorReceived event.
     /// </summary>
-    /// <param name="error"></param>
+    /// <param name="error">The error sent by the realtime service.</param>
     private async Task OnError(RealtimeError error)
     {
         Status = RealtimeTranscriberStatus.Disconnected;
         await ErrorReceived.RaiseEvent(error).ConfigureAwait(false);
     }
-
+    
+    /// <summary>
+    /// Called when an exception is thrown while the transcriber listens for WebSocket messages.
+    /// </summary>
+    /// <param name="exception">The exception</param>
+    private async Task OnExceptionOccurred(Exception exception)
+    {
+        await ExceptionOccurred.RaiseEvent(exception).ConfigureAwait(false);
+    }
+    
     /// <summary>
     /// Send audio to the real-time service.
     /// </summary>
     /// <param name="audio">Audio to transcribe</param>
-    /// <returns></returns>
     public void SendAudio(ArraySegment<byte> audio)
     {
         if (_status != RealtimeTranscriberStatus.Connected)
