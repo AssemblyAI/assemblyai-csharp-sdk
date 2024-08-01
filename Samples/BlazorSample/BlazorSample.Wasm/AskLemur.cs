@@ -1,5 +1,6 @@
 using System.Net.Http.Json;
 using System.Text.Json;
+using AssemblyAI.Lemur;
 using BlazorSample.Shared;
 using Microsoft.AspNetCore.Components.Forms;
 
@@ -13,10 +14,10 @@ public class AskLemur(HttpClient httpClient, AntiforgeryStateProvider antiforger
         var csrfToken = antiforgeryStateProvider.GetAntiforgeryToken()!;
         var request = new HttpRequestMessage(HttpMethod.Post, "/api/ask-lemur");
         request.Headers.Add("RequestVerificationToken", csrfToken.Value);
-        request.Content = JsonContent.Create(new
+        request.Content = JsonContent.Create(new LemurTaskParams
         {
-            transcriptId,
-            question
+            TranscriptIds = [transcriptId],
+            Prompt = question
         });
         var response = await httpClient.SendAsync(request);
         response.EnsureSuccessStatusCode();
