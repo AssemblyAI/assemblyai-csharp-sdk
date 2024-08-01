@@ -49,5 +49,5 @@ public class ClientOptions
     /// <summary>
     /// The timeout for the request in seconds.
     /// </summary>
-    public int TimeoutInSeconds { get; set; } = 30;
+    public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(30);
 }

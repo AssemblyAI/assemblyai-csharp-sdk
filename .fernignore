@@ -4,6 +4,7 @@ README.md
 LICENSE.md
 .gitignore
 src/AssemblyAI/AssemblyAI.csproj
+src/AssemblyAI/Core/ClientOptions.cs
 src/AssemblyAI/ClientOptions.cs
 src/AssemblyAI/Constants.cs
 src/AssemblyAI/UserAgent.cs

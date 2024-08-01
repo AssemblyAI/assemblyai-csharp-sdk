@@ -14,7 +14,7 @@ public class DependencyInjectionClientOptionsTests
         ApiKey = "MyAssemblyAIApiKey",
         BaseUrl = "https://api.assemblyai.com",
         MaxRetries = 2,
-        TimeoutInSeconds = 30
+        Timeout = TimeSpan.FromSeconds(30)
     };
 
     [Test]
@@ -27,7 +27,7 @@ public class DependencyInjectionClientOptionsTests
             options.ApiKey = ValidAssemblyAIOptions.ApiKey;
             options.BaseUrl = ValidAssemblyAIOptions.BaseUrl;
             options.MaxRetries = ValidAssemblyAIOptions.MaxRetries;
-            options.TimeoutInSeconds = ValidAssemblyAIOptions.TimeoutInSeconds;
+            options.Timeout = ValidAssemblyAIOptions.Timeout;
         });
 
         var serviceProvider = serviceCollection.BuildServiceProvider();
@@ -62,7 +62,7 @@ public class DependencyInjectionClientOptionsTests
             ApiKey = "UpdatedApiKey",
             BaseUrl = "https://api.updated.assemblyai.com",
             MaxRetries = 3,
-            TimeoutInSeconds = 45
+            Timeout = TimeSpan.FromSeconds(45)
         };
 
         jsonText = JsonSerializer.Serialize(new { AssemblyAI = updatedOptions });
