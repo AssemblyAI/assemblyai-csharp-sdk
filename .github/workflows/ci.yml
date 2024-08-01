@@ -45,6 +45,10 @@ jobs:
       - name: Run Tests
         run: |
           dotnet test src
+        env:
+          ASSEMBLYAI_API_KEY: ${{ secrets.ASSEMBLYAI_API_KEY }}
+          TEST_TRANSCRIPT_ID: ${{ secrets.TEST_TRANSCRIPT_ID }}
+          TEST_TRANSCRIPT_IDS: ${{ secrets.TEST_TRANSCRIPT_IDS }}
 
 
   publish:

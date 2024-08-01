@@ -3,6 +3,7 @@
 README.md
 LICENSE.md
 .gitignore
+.github/workflows/ci.yml
 src/AssemblyAI/AssemblyAI.csproj
 src/AssemblyAI/Core/ClientOptions.cs
 src/AssemblyAI/Core/JsonConfiguration.cs
