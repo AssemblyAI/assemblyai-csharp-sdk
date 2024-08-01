@@ -15,7 +15,7 @@ public class ClientOptions
     /// <summary>
     /// The Base URL for the API.
     /// </summary>
-    public string BaseUrl { get; set; } = Environments.DEFAULT;
+    public string BaseUrl { get; set; } = AssemblyAIClientEnvironment.DEFAULT;
 
     private UserAgent? _userAgent = UserAgent.Default;
     
