@@ -106,9 +106,29 @@ public class LemurTests
         }).ConfigureAwait(false);
 
         var taskResponse2OneOf = await client.Lemur.GetResponseAsync(taskResponse.RequestId).ConfigureAwait(false);
-        var taskResponse2 = (LemurStringResponse)taskResponse2OneOf.Value;
+        var taskResponse2 = taskResponse2OneOf.AsT0;
         Assert.That(taskResponse2.RequestId, Is.EqualTo(taskResponse.RequestId));
         Assert.That(taskResponse2.Response, Is.EqualTo(taskResponse.Response));
+
+
+        var qaResponse = await client.Lemur.QuestionAnswerAsync(new LemurQuestionAnswerParams
+        {
+            FinalModel = LemurModel.Basic,
+            TranscriptIds = TranscriptIds,
+            Questions =
+            [
+                new LemurQuestion
+                {
+                    Question = "What are they discussing?",
+                    AnswerFormat = "text"
+                }
+            ]
+        }).ConfigureAwait(false);
+
+        var qaResponse2OneOf = await client.Lemur.GetResponseAsync(qaResponse.RequestId).ConfigureAwait(false);
+        var qaResponse2 = qaResponse2OneOf.AsT1;
+        Assert.That(qaResponse2.RequestId, Is.EqualTo(qaResponse.RequestId));
+        Assert.That(qaResponse2.Response.Count(), Is.EqualTo(qaResponse.Response.Count()));
     }
 
     [Test]

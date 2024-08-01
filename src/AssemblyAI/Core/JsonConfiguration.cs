@@ -1,5 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using AssemblyAI.Lemur;
+using OneOf;
 
 namespace AssemblyAI.Core;
 
@@ -11,7 +13,11 @@ public static class JsonOptions
     {
         JsonSerializerOptions = new JsonSerializerOptions
         {
-            Converters = { new DateTimeSerializer() },
+            Converters =
+            {
+                new DateTimeSerializer(),
+                new OneOfSerializer<OneOf<LemurStringResponse, LemurQuestionAnswerResponse>>()
+            },
             WriteIndented = true,
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         };

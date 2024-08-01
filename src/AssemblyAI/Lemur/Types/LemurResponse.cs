@@ -4,7 +4,6 @@ using OneOf;
 
 namespace AssemblyAI.Lemur;
 
-[JsonConverter(typeof(LemurResponseConverter))]
 public class LemurResponse : OneOfBase<LemurStringResponse, LemurQuestionAnswerResponse>
 {
     private LemurResponse(OneOf<LemurStringResponse, LemurQuestionAnswerResponse> response) : base(response)
