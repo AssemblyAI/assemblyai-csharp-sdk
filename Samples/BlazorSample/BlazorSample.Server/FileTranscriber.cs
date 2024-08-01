@@ -5,21 +5,25 @@ using BlazorSample.Shared.Models;
 
 namespace BlazorSample.Server;
 
-public class FileTranscriber : IFileTranscriber
+public class FileTranscriber(AssemblyAIClient assemblyAIClient) : IFileTranscriber
 {
-    private readonly AssemblyAIClient _assemblyAIClient;
-
-    public FileTranscriber(AssemblyAIClient assemblyAIClient)
-    {
-        _assemblyAIClient = assemblyAIClient;
-    }
-
     public async Task<Transcript> TranscribeFileAsync(TranscribeFileFormModel model)
     {
         await using var fileStream = model.File.OpenReadStream(maxAllowedSize: 2_306_867_200);
-        var transcript = await _assemblyAIClient.Transcripts.SubmitAsync(fileStream, new TranscriptOptionalParams
+        TranscriptLanguageCode? langCode = null;
+        bool? useAld = null;
+        if (model.LanguageCode == "ALD")
         {
-            LanguageCode = EnumConverter.ToEnum<TranscriptLanguageCode>(model.LanguageCode)
+            useAld = true;
+        }
+        else
+        {
+            langCode = EnumConverter.ToEnum<TranscriptLanguageCode>(model.LanguageCode);
+        }
+        var transcript = await assemblyAIClient.Transcripts.SubmitAsync(fileStream, new TranscriptOptionalParams
+        {
+            LanguageCode = langCode,
+            LanguageDetection = useAld
         });
         return transcript;
     }

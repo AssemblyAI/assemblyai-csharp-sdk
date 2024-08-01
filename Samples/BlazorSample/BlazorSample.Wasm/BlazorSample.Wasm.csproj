@@ -33,4 +33,8 @@
       <ProjectReference Include="..\..\..\src\AssemblyAI\AssemblyAI.csproj" />
       <ProjectReference Include="..\BlazorSample.Shared\BlazorSample.Shared.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Properties\launchSettings.json" />
+    </ItemGroup>
 </Project>
