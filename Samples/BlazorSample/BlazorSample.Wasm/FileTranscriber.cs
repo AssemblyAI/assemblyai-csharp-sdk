@@ -1,5 +1,6 @@
 using System.Net.Http.Json;
 using AssemblyAI;
+using AssemblyAI.Transcripts;
 using BlazorSample.Shared;
 using BlazorSample.Shared.Models;
 using Microsoft.AspNetCore.Components.Forms;

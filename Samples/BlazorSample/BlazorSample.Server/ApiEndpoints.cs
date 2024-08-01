@@ -9,7 +9,6 @@ namespace BlazorSample.Server;
 
 public static class ApiEndpoints
 {
-    // TODO: Replace when stream is supported by SDK
     public static WebApplication MapApiEndpoints(this WebApplication webApplication)
     {
         var api = webApplication.MapGroup("/api");
@@ -24,11 +23,9 @@ public static class ApiEndpoints
         AssemblyAIClient assemblyAIClient)
     {
         await using var fileStream = model.File.OpenReadStream();
-        var fileUpload = await assemblyAIClient.Files.UploadAsync(fileStream);
-        var transcript = await assemblyAIClient.Transcripts.SubmitAsync(new TranscriptParams
+        var transcript = await assemblyAIClient.Transcripts.SubmitAsync(fileStream, new TranscriptOptionalParams
         {
-            AudioUrl = fileUpload.UploadUrl, 
-            LanguageCode = Enum.Parse<TranscriptLanguageCode>(model.LanguageCode) 
+            LanguageCode = EnumConverter.ToEnum<TranscriptLanguageCode>(model.LanguageCode)
         });
         return transcript;
     }
@@ -52,54 +49,5 @@ public static class ApiEndpoints
         var tokenResponse = await assemblyAIClient.Realtime
             .CreateTemporaryTokenAsync(new CreateRealtimeTemporaryTokenParams { ExpiresIn = 360 });
         return tokenResponse;
-    }
-
-    private static async Task<byte[]> ReadToEndAsync(Stream stream)
-    {
-        long originalPosition = 0;
-
-        if (stream.CanSeek)
-        {
-            originalPosition = stream.Position;
-            stream.Position = 0;
-        }
-
-        var totalBytesRead = 0;
-        try
-        {
-            var readBuffer = new byte[4096];
-
-            int bytesRead;
-
-            while ((bytesRead = await stream
-                       .ReadAsync(readBuffer, totalBytesRead, readBuffer.Length - totalBytesRead)
-                       .ConfigureAwait(false)) > 0)
-            {
-                totalBytesRead += bytesRead;
-
-                if (totalBytesRead != readBuffer.Length) continue;
-                var nextByte = stream.ReadByte();
-                if (nextByte == -1) continue;
-                var temp = new byte[readBuffer.Length * 2];
-                Buffer.BlockCopy(readBuffer, 0, temp, 0, readBuffer.Length);
-                Buffer.SetByte(temp, totalBytesRead, (byte)nextByte);
-                readBuffer = temp;
-                totalBytesRead++;
-            }
-
-            var buffer = readBuffer;
-            if (readBuffer.Length == totalBytesRead) return buffer;
-            buffer = new byte[totalBytesRead];
-            Buffer.BlockCopy(readBuffer, 0, buffer, 0, totalBytesRead);
-
-            return buffer;
-        }
-        finally
-        {
-            if (stream.CanSeek)
-            {
-                stream.Position = originalPosition;
-            }
-        }
     }
 }

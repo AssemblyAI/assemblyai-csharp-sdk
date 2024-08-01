@@ -61,6 +61,24 @@ public class TranscriptsClientTests
     }
 
     [Test]
+    public async Task Should_Transcribe_Using_Params()
+    {
+        var client = new AssemblyAIClient(ApiKey);
+
+        var transcript = await client.Transcripts.TranscribeAsync(new TranscriptParams
+        {
+            AudioUrl = RemoteAudioUrl
+        }
+        ).ConfigureAwait(false);
+
+        Assert.That(transcript, Is.Not.Null);
+        Assert.That(transcript.Id, Is.Not.Null);
+        Assert.That(transcript.Text, Is.Not.Empty);
+        Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Completed));
+    }
+
+
+    [Test]
     public async Task Should_Transcribe_Using_Uri()
     {
         var client = new AssemblyAIClient(ApiKey);
@@ -209,37 +227,33 @@ public class TranscriptsClientTests
         Assert.That(paragraphsResponse.Paragraphs, Is.Not.Empty);
     }
 
-    // TODO: uncomment when Fern fixes generation of SRT subtitles
-    /*
-     [Test]
+    [Test]
     public async Task Should_Get_Srt_Subtitles()
     {
         var client = new AssemblyAIClient(ApiKey);
         var srtSubtitles = await client.Transcripts.GetSubtitlesAsync(
-            TranscriptId, 
+            TranscriptId,
             SubtitleFormat.Srt,
             new GetSubtitlesParams { CharsPerCaption = 32 }
         ).ConfigureAwait(false);
 
         Assert.That(srtSubtitles, Is.Not.Empty);
     }
-    
+
     [Test]
-   public async Task Should_Get_Vtt_Subtitles()
-   {
-       var client = new AssemblyAIClient(ApiKey);
-       var srtSubtitles = await client.Transcripts.GetSubtitlesAsync(
-           TranscriptId, 
-           SubtitleFormat.Vtt,
-           new GetSubtitlesParams { CharsPerCaption = 32 }
-       ).ConfigureAwait(false);
+    public async Task Should_Get_Vtt_Subtitles()
+    {
+        var client = new AssemblyAIClient(ApiKey);
+        var srtSubtitles = await client.Transcripts.GetSubtitlesAsync(
+            TranscriptId,
+            SubtitleFormat.Vtt,
+            new GetSubtitlesParams { CharsPerCaption = 32 }
+        ).ConfigureAwait(false);
 
-       Assert.That(srtSubtitles, Is.Not.Empty);
-   }
-    */
+        Assert.That(srtSubtitles, Is.Not.Empty);
+    }
 
-    // TODO: uncomment when Fern fixes generation of TranscriptParams
-    /* 
+
     [Test]
     [Timeout(30000)]
     public async Task Should_Get_Redacted_Audio()
@@ -259,14 +273,14 @@ public class TranscriptsClientTests
 
         Assert.That(redactedAudioResponse.Status, Is.EqualTo("redacted_audio_ready"));
         Assert.That(redactedAudioResponse.RedactedAudioUrl, Is.Not.Empty);
-    }*/
+    }
 
     [Test]
     public async Task Should_Word_Search()
     {
         var client = new AssemblyAIClient(ApiKey);
         var searchResponse = await client.Transcripts.WordSearchAsync(
-                TranscriptId,  
+                TranscriptId,
                 ["Giants"]
             )
             .ConfigureAwait(false);

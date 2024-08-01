@@ -17,61 +17,10 @@ public class FileTranscriber : IFileTranscriber
     public async Task<Transcript> TranscribeFileAsync(TranscribeFileFormModel model)
     {
         await using var fileStream = model.File.OpenReadStream(maxAllowedSize: 2_306_867_200);
-        var fileUpload = await _assemblyAIClient.Files.UploadAsync(fileStream);
-        var transcript = await _assemblyAIClient.Transcripts.SubmitAsync(new TranscriptParams
+        var transcript = await _assemblyAIClient.Transcripts.SubmitAsync(fileStream, new TranscriptOptionalParams
         {
-            AudioUrl = fileUpload.UploadUrl,
-            LanguageCode = Enum.Parse<TranscriptLanguageCode>(model.LanguageCode)
+            LanguageCode = EnumConverter.ToEnum<TranscriptLanguageCode>(model.LanguageCode)
         });
         return transcript;
-    }
-    
-    // TODO: Replace when stream is supported by SDK
-    private static async Task<byte[]> ReadToEndAsync(Stream stream)
-    {
-        long originalPosition = 0;
-
-        if (stream.CanSeek)
-        {
-            originalPosition = stream.Position;
-            stream.Position = 0;
-        }
-
-        var totalBytesRead = 0;
-        try
-        {
-            var readBuffer = new byte[4096];
-
-            int bytesRead;
-
-            while ((bytesRead = await stream.ReadAsync(readBuffer, totalBytesRead, readBuffer.Length - totalBytesRead)
-                       .ConfigureAwait(false)) > 0)
-            {
-                totalBytesRead += bytesRead;
-
-                if (totalBytesRead != readBuffer.Length) continue;
-                var nextByte = stream.ReadByte();
-                if (nextByte == -1) continue;
-                var temp = new byte[readBuffer.Length * 2];
-                Buffer.BlockCopy(readBuffer, 0, temp, 0, readBuffer.Length);
-                Buffer.SetByte(temp, totalBytesRead, (byte)nextByte);
-                readBuffer = temp;
-                totalBytesRead++;
-            }
-
-            var buffer = readBuffer;
-            if (readBuffer.Length == totalBytesRead) return buffer;
-            buffer = new byte[totalBytesRead];
-            Buffer.BlockCopy(readBuffer, 0, buffer, 0, totalBytesRead);
-
-            return buffer;
-        }
-        finally
-        {
-            if (stream.CanSeek)
-            {
-                stream.Position = originalPosition;
-            }
-        }
     }
 }

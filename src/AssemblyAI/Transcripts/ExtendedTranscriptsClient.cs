@@ -1,5 +1,7 @@
 #nullable enable
 
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using AssemblyAI.Core;
 
 namespace AssemblyAI.Transcripts;
@@ -51,9 +53,12 @@ public class ExtendedTranscriptsClient(RawClient client, AssemblyAIClient assemb
     public Task<Transcript> TranscribeAsync(Uri audioFileUrl) =>
         TranscribeAsync(audioFileUrl, new TranscriptOptionalParams());
 
-    public async Task<Transcript> TranscribeAsync(Uri audioFileUrl, TranscriptOptionalParams transcriptParams)
+    public Task<Transcript> TranscribeAsync(Uri audioFileUrl, TranscriptOptionalParams transcriptParams)
+        => TranscribeAsync(CreateParams(audioFileUrl, transcriptParams));
+    
+    public async Task<Transcript> TranscribeAsync(TranscriptParams transcriptParams)
     {
-        var transcript = await SubmitAsync(CreateParams(audioFileUrl, transcriptParams)).ConfigureAwait(false);
+        var transcript = await SubmitAsync(transcriptParams).ConfigureAwait(false);
         transcript = await WaitUntilReady(transcript.Id).ConfigureAwait(false);
         return transcript;
     }
@@ -70,13 +75,13 @@ public class ExtendedTranscriptsClient(RawClient client, AssemblyAIClient assemb
         return transcript;
     }
 
-    private TranscriptParams CreateParams(Uri audioFileUrl, TranscriptOptionalParams transcriptParams)
+    private static TranscriptParams CreateParams(Uri audioFileUrl, TranscriptOptionalParams optionalTranscriptParams)
     {
-        return new TranscriptParams
-        {
-            AudioUrl = audioFileUrl.ToString()
-            // TODO: map other parameters
-        };
+        var json = JsonUtils.Serialize(optionalTranscriptParams);
+        var jsonObject = JsonUtils.Deserialize<JsonObject>(json);
+        jsonObject["audio_url"] = audioFileUrl.ToString();
+        var transcriptParams = jsonObject.Deserialize<TranscriptParams>()!;
+        return transcriptParams;
     }
 
     public Task<TranscriptList> ListAsync() => ListAsync(new ListTranscriptParams());

@@ -22,7 +22,7 @@ public class LemurMessageViewModel(string message, LemurMessageType type) : Reac
     public string Message
     {
         get => message;
-        set => this.RaiseAndSetIfChanged(ref message, value, nameof(Message));
+        set => this.RaiseAndSetIfChanged(ref message, value);
     }
 
     public static LemurMessageViewModel FromUser(string message)
