@@ -1,3 +1,7 @@
+<img src="https://github.com/AssemblyAI/assemblyai-python-sdk/blob/master/assemblyai.png?raw=true" width="500" alt="AssemblyAI logo"/>
+
+---
+
 # AssemblyAI C# .NET SDK
 
 [![NuGet](https://img.shields.io/nuget/v/AssemblyAI.svg)](https://www.nuget.org/packages/AssemblyAI.net/)
@@ -7,7 +11,7 @@
 [![Discord](https://img.shields.io/discord/875120158014853141?logo=discord&label=Discord&link=https%3A%2F%2Fdiscord.com%2Fchannels%2F875120158014853141&style=social)
 ](https://assemblyai.com/discord)
 
-The AssemblyAI C# SDK provides an easy-to-use interface for interacting with the AssemblyAI API from .NET, which supports async and real-time transcription, as well as the latest audio intelligence and LeMUR models. 
+The AssemblyAI C# SDK provides an easy-to-use interface for interacting with the AssemblyAI API from .NET, which supports async and real-time transcription, as well as the latest audio intelligence and LeMUR models.
 The C# SDK is compatible with `.NET 6.0` and up, `.NET Framework 4.6.2` and up, and `.NET Standard 2.0`.
 
 ## Documentation
@@ -35,7 +39,7 @@ You can now use the `client` object to interact with the AssemblyAI API.
 
 ## Add the AssemblyAIClient to the dependency injection container
 
-The AssemblyAI SDK has built-in support for default .NET dependency injection container. 
+The AssemblyAI SDK has built-in support for default .NET dependency injection container.
 Add the `AssemblyAIClient` to the service collection like this:
 
 ```csharp
@@ -118,7 +122,7 @@ var client = new AssemblyAIClient(Environment.GetEnvironmentVariable("ASSEMBLYAI
 
 // Transcribe file using file info
 var transcript = await client.Transcripts.TranscribeAsync(
-    new FileInfo("./news.mp4"), 
+    new FileInfo("./news.mp4"),
     new TranscriptOptionalParams
     {
         LanguageCode = TranscriptLanguageCode.EnUs
@@ -128,7 +132,7 @@ var transcript = await client.Transcripts.TranscribeAsync(
 // Transcribe file from stream
 await using var stream = new FileStream("./news.mp4", FileMode.Open);
 transcript = await client.Transcripts.TranscribeAsync(
-    stream, 
+    stream,
     new TranscriptOptionalParams
     {
         LanguageCode = TranscriptLanguageCode.EnUs
@@ -142,7 +146,7 @@ If you don't want to wait until the transcript is ready, you can use `submit`:
 
 ```csharp
 transcript = await client.Transcripts.SubmitAsync(
-    new FileInfo("./news.mp4"), 
+    new FileInfo("./news.mp4"),
     new TranscriptOptionalParams
     {
         LanguageCode = TranscriptLanguageCode.EnUs
@@ -273,7 +277,7 @@ using AssemblyAI.Realtime;
 await using var transcriber = client.Realtime.Transcriber(new RealtimeTranscriberOptions
 {
     // If ApiKey is null, the API key passed to `AssemblyAIClient` will be
-    ApiKey: Environment.GetEnvironmentVariable("ASSEMBLYAI_API_KEY"), 
+    ApiKey: Environment.GetEnvironmentVariable("ASSEMBLYAI_API_KEY"),
     RealtimeUrl = "wss://localhost/override",
     SampleRate = 16_000,
     WordBoost = new[] { "foo", "bar" }
@@ -289,13 +293,13 @@ await using var transcriber = client.Realtime.Transcriber(new RealtimeTranscribe
 > var token = await client.Realtime.CreateTemporaryTokenAsync(expiresIn: 60);
 > // TODO: return token to client
 > ```
-> 
+>
 > _Client code_:
 >
 > ```csharp
 > using AssemblyAI;
 > using AssemblyAI.Realtime;
-> 
+>
 > var token = await GetToken();
 > await using var transcriber = new RealtimeTranscriber {
 >    Token = token.Token

@@ -1,4 +1,4 @@
- 
+
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
@@ -7,23 +7,53 @@
         <NuGetAudit>false</NuGetAudit>
         <LangVersion>12</LangVersion>
         <Nullable>enable</Nullable>
-        <Version>1.0.0-beta</Version>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <RootNamespace>AssemblyAI</RootNamespace>
+        <AssemblyName>AssemblyAI</AssemblyName>
+        <PackageId>AssemblyAI</PackageId>
+        <Version>1.0.0-beta1</Version>
+        <Title>AssemblyAI C# .NET SDK</Title>
+        <Authors>AssemblyAI</Authors>
+        <Description>The AssemblyAI C# .NET SDK provides an easy-to-use interface for interacting with the AssemblyAI API, which supports async and real-time transcription, audio intelligence models, as well as the latest LeMUR models.</Description>
+        <Copyright>Copyright 2024 (c) AssemblyAI, Inc. All rights reserved.</Copyright>
+        <PackageTags>ASR;Speech-To-Text;STT;Speech;AI;AssemblyAI</PackageTags>
+        <Company>AssemblyAI</Company>
+        <Product>AssemblyAI</Product>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <FileVersion>1.0.0.0</FileVersion>
+        <PackageVersion>1.0.0-beta1</PackageVersion>
+        <OutputType>Library</OutputType>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/AssemblyAI/assemblyai-csharp-sdk</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/AssemblyAI/assemblyai-csharp-sdk.git</RepositoryUrl>
+        <PackageIconUrl>https://www.assemblyai.com/favicon.png</PackageIconUrl>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <RepositoryType>git</RepositoryType>
     </PropertyGroup>
-    
+    <PropertyGroup Condition="'$(CI)' == 'true'">
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
+    </ItemGroup>
+
     <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0' Or '$(TargetFramework)' == 'net462' Or '$(TargetFramework)' == 'netstandard2.0'">
         <PolySharpIncludeRuntimeSupportedAttributes>true</PolySharpIncludeRuntimeSupportedAttributes>
     </PropertyGroup>
-    
+
     <ItemGroup Condition="'$(TargetFramework)' == 'net462' Or '$(TargetFramework)' == 'netstandard2.0'">
         <PackageReference Include="Portable.System.DateTimeOnly" Version="8.0.1" />
     </ItemGroup>
-    
+
     <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
         <Reference Include="System.Net.Http" />
     </ItemGroup>
-    
+
     <ItemGroup Condition="'$(TargetFramework)' == 'net7.0' Or '$(TargetFramework)' == 'net6.0' Or '$(TargetFramework)' == 'net462' Or '$(TargetFramework)' == 'netstandard2.0'">
         <PackageReference Include="PolySharp" Version="1.14.1">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -42,15 +72,15 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
         <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="3.0.1" />
-        <PackageReference Include="OneOf" Version="3.0.263" />
-        <PackageReference Include="OneOf.Extended" Version="3.0.263" />
+        <PackageReference Include="OneOf" Version="3.0.271" />
+        <PackageReference Include="OneOf.Extended" Version="3.0.271" />
         <PackageReference Include="System.Text.Json" Version="8.0.4" />
         <PackageReference Include="System.Threading.Channels" Version="8.0.0" />
     </ItemGroup>
 
-    <ItemGroup>
-        <None Include="..\..\README.md" Pack="true" PackagePath=""/>
-    </ItemGroup>
-
+  <ItemGroup>
+    <None Include="..\..\icon.png" Pack="true" PackagePath="\" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
 </Project>
