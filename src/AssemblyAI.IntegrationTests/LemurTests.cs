@@ -1,3 +1,5 @@
+using AssemblyAI.Lemur;
+
 namespace AssemblyAI.IntegrationTests;
 
 [TestFixture]
@@ -6,8 +8,7 @@ public class LemurTests
     private static string ApiKey => AssemblyAITestParameters.ApiKey;
     private static string[] TranscriptIds => AssemblyAITestParameters.TranscriptIds;
 
-    // TODO: uncomment when Fern fixes params generation
-    /*[Test]
+    [Test]
     public async Task Should_Generate_Summary()
     {
         var client = new AssemblyAIClient(ApiKey);
@@ -105,7 +106,7 @@ public class LemurTests
         }).ConfigureAwait(false);
 
         var taskResponse2OneOf = await client.Lemur.GetResponseAsync(taskResponse.RequestId).ConfigureAwait(false);
-        var taskResponse2 = (LemurStringResponse) taskResponse2OneOf.Value;
+        var taskResponse2 = (LemurStringResponse)taskResponse2OneOf.Value;
         Assert.That(taskResponse2.RequestId, Is.EqualTo(taskResponse.RequestId));
         Assert.That(taskResponse2.Response, Is.EqualTo(taskResponse.Response));
     }
@@ -124,5 +125,5 @@ public class LemurTests
         var deletionRequest = await client.Lemur.PurgeRequestDataAsync(summaryResponse.RequestId).ConfigureAwait(false);
         Assert.That(deletionRequest.Deleted, Is.True);
         Assert.That(summaryResponse.RequestId, Is.EqualTo(deletionRequest.RequestIdToPurge));
-    }*/
+    }
 }

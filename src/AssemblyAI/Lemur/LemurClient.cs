@@ -271,7 +271,7 @@ public class LemurClient
     /// <summary>
     /// Retrieve a LeMUR response that was previously generated.
     /// </summary>
-    public async Task<OneOf<LemurStringResponse, LemurQuestionAnswerResponse>> GetResponseAsync(
+    public async Task<LemurResponse> GetResponseAsync(
         string requestId,
         RequestOptions? options = null
     )
@@ -290,9 +290,7 @@ public class LemurClient
         {
             try
             {
-                return JsonUtils.Deserialize<
-                    OneOf<LemurStringResponse, LemurQuestionAnswerResponse>
-                >(responseBody)!;
+                return JsonUtils.Deserialize<LemurResponse>(responseBody)!;
             }
             catch (JsonException e)
             {

@@ -14,6 +14,7 @@ src/AssemblyAI/AssemblyAIClient.cs
 src/AssemblyAI/DependencyInjectionExtensions.cs
 src/AssemblyAI/Files/ExtendedFilesClient.cs
 src/AssemblyAI/Transcripts/ExtendedTranscriptsClient.cs
+src/AssemblyAI/Lemur/Types/LemurResponse.cs
 src/AssemblyAI/Realtime/RealtimeTranscriber.cs
 src/AssemblyAI/Realtime/WebsocketClient
 src/AssemblyAI/Realtime/Types/RealtimeTranscript.cs
