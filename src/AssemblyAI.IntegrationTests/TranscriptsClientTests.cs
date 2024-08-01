@@ -22,6 +22,7 @@ public class TranscriptsClientTests
 
         Assert.That(transcript, Is.Not.Null);
         Assert.That(transcript.Id, Is.Not.Null);
+        Assert.That(transcript.Text, Is.Null);
         Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Queued));
     }
 
@@ -38,6 +39,7 @@ public class TranscriptsClientTests
 
         Assert.That(transcript, Is.Not.Null);
         Assert.That(transcript.Id, Is.Not.Null);
+        Assert.That(transcript.Text, Is.Null);
         Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Queued));
     }
 
@@ -54,6 +56,7 @@ public class TranscriptsClientTests
 
         Assert.That(transcript, Is.Not.Null);
         Assert.That(transcript.Id, Is.Not.Null);
+        Assert.That(transcript.Text, Is.Null);
         Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Queued));
     }
 
@@ -68,7 +71,8 @@ public class TranscriptsClientTests
 
         Assert.That(transcript, Is.Not.Null);
         Assert.That(transcript.Id, Is.Not.Null);
-        Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Queued));
+        Assert.That(transcript.Text, Is.Not.Empty);
+        Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Completed));
     }
 
     [Test]
@@ -84,6 +88,7 @@ public class TranscriptsClientTests
 
         Assert.That(transcript, Is.Not.Null);
         Assert.That(transcript.Id, Is.Not.Null);
+        Assert.That(transcript.Text, Is.Not.Empty);
         Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Completed));
     }
 
@@ -100,6 +105,7 @@ public class TranscriptsClientTests
 
         Assert.That(transcript, Is.Not.Null);
         Assert.That(transcript.Id, Is.Not.Null);
+        Assert.That(transcript.Text, Is.Not.Empty);
         Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Completed));
     }
 
@@ -113,7 +119,7 @@ public class TranscriptsClientTests
 
         Assert.That(transcript, Is.Not.Null);
         Assert.That(transcript.Id, Is.Not.Null);
-        Assert.That(transcript.Text, Is.Empty);
+        Assert.That(transcript.Text, Is.Null);
         Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Error));
         Assert.That(transcript.Error, Is.Not.Empty);
     }
@@ -132,6 +138,7 @@ public class TranscriptsClientTests
 
         Assert.That(transcript, Is.Not.Null);
         Assert.That(transcript.Id, Is.Not.Null);
+        Assert.That(transcript.Text, Is.Not.Empty);
         Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Completed));
     }
 
@@ -159,7 +166,7 @@ public class TranscriptsClientTests
 
         Assert.That(transcript, Is.Not.Null);
         Assert.That(transcript.Id, Is.Not.Null);
-        Assert.That(transcript.Text, Is.Empty);
+        Assert.That(transcript.Text, Is.EqualTo("Deleted by user."));
         Assert.That(transcript.AudioUrl, Is.EqualTo("http://deleted_by_user"));
     }
 

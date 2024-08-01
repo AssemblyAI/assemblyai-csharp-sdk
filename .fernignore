@@ -5,6 +5,7 @@ LICENSE.md
 .gitignore
 src/AssemblyAI/AssemblyAI.csproj
 src/AssemblyAI/Core/ClientOptions.cs
+src/AssemblyAI/Core/JsonConfiguration.cs
 src/AssemblyAI/ClientOptions.cs
 src/AssemblyAI/Constants.cs
 src/AssemblyAI/UserAgent.cs
@@ -19,5 +20,9 @@ src/AssemblyAI/Realtime/Types/RealtimeTranscript.cs
 src/AssemblyAI.Test
 src/AssemblyAI.UnitTests
 src/AssemblyAI.IntegrationTests
+
+# TODO: remove these ignores when AssemblyAI fixes the API
+src/AssemblyAI/Transcripts/Types/ContentSafetyLabelsResult.cs
+src/AssemblyAI/Transcripts/Types/TopicDetectionModelResult.cs
 
 Samples

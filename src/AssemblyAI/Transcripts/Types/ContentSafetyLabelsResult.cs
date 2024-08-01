@@ -11,7 +11,7 @@ public record ContentSafetyLabelsResult
     /// The status of the Content Moderation model. Either success, or unavailable in the rare case that the model failed.
     /// </summary>
     [JsonPropertyName("status")]
-    public required AudioIntelligenceModelStatus Status { get; set; }
+    public AudioIntelligenceModelStatus Status { get; set; }
 
     [JsonPropertyName("results")]
     public IEnumerable<ContentSafetyLabelResult> Results { get; set; } =
