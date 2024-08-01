@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using AssemblyAI;
+using AssemblyAI.Lemur;
 using AssemblyAI.Transcripts;
 using Avalonia;
 using Avalonia.Controls;
@@ -67,10 +68,18 @@ public class TranscribeFileViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _isTranscribing, value);
     }
 
-    private Transcript _transcript = new Transcript
+    private Transcript _transcript = new()
     {
-        Text =
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n"
+        Text = "Your transcript will appear here.",
+        Id = null,
+        LanguageModel = null,
+        AcousticModel = null,
+        Status = TranscriptStatus.Queued,
+        AudioUrl = null,
+        WebhookAuth = false,
+        AutoHighlights = false,
+        RedactPii = false,
+        Summarization = false
     };
 
     public Transcript Transcript
@@ -95,82 +104,26 @@ public class TranscribeFileViewModel : ViewModelBase
 
     public async Task Transcribe()
     {
-        IsTranscribing = true;
-        await using var fileStream = await _selectedFile.OpenReadAsync();
-        var uploadedFile = await _client.Files.UploadAsync(fileStream);
-        var transcript = await _client.Transcripts.SubmitAsync(new TranscriptParams
-        {
-            AudioUrl = uploadedFile.UploadUrl,
-            LanguageCode = SelectedLanguage != null
-                ? Enum.Parse<TranscriptLanguageCode>(SelectedLanguage.Value.Value)
-                : null
-        });
-        while (true)
-        {
-            if (transcript.Status == TranscriptStatus.Error) throw new Exception();
-            if (transcript.Status == TranscriptStatus.Completed) break;
-            await Task.Delay(500);
-            transcript = await _client.Transcripts.GetAsync(transcript.Id);
-        }
-
-        Transcript = transcript;
-        IsTranscribing = false;
-    }
-
-    // TODO: Replace when stream is supported by SDK
-    public static byte[] ReadToEnd(System.IO.Stream stream)
-    {
-        long originalPosition = 0;
-
-        if (stream.CanSeek)
-        {
-            originalPosition = stream.Position;
-            stream.Position = 0;
-        }
-
         try
         {
-            byte[] readBuffer = new byte[4096];
-
-            int totalBytesRead = 0;
-            int bytesRead;
-
-            while ((bytesRead = stream.Read(readBuffer, totalBytesRead, readBuffer.Length - totalBytesRead)) > 0)
+            IsTranscribing = true;
+            await using var fileStream = await _selectedFile.OpenReadAsync();
+            var transcript = await _client.Transcripts.TranscribeAsync(fileStream, new TranscriptOptionalParams
             {
-                totalBytesRead += bytesRead;
-
-                if (totalBytesRead == readBuffer.Length)
-                {
-                    int nextByte = stream.ReadByte();
-                    if (nextByte != -1)
-                    {
-                        byte[] temp = new byte[readBuffer.Length * 2];
-                        Buffer.BlockCopy(readBuffer, 0, temp, 0, readBuffer.Length);
-                        Buffer.SetByte(temp, totalBytesRead, (byte)nextByte);
-                        readBuffer = temp;
-                        totalBytesRead++;
-                    }
-                }
-            }
-
-            byte[] buffer = readBuffer;
-            if (readBuffer.Length != totalBytesRead)
-            {
-                buffer = new byte[totalBytesRead];
-                Buffer.BlockCopy(readBuffer, 0, buffer, 0, totalBytesRead);
-            }
-
-            return buffer;
+                LanguageCode = SelectedLanguage != null
+                    ? EnumConverter.ToEnum<TranscriptLanguageCode>(SelectedLanguage.Value.Key)
+                    : null
+            });
+            Transcript = transcript;
         }
-        finally
+        catch (Exception e)
         {
-            if (stream.CanSeek)
-            {
-                stream.Position = originalPosition;
-            }
+            Transcript.Text = $"Error: {e.Message}";
+            Console.WriteLine(e);
         }
+        IsTranscribing = false;
     }
-
+    
     private string _prompt = "";
 
     public string Prompt
@@ -193,11 +146,16 @@ public class TranscribeFileViewModel : ViewModelBase
 
     public async Task AskQuestion()
     {
-        LemurMessages.Add(LemurMessageViewModel.FromUser(Prompt));
+        var prompt = Prompt;
         Prompt = "";
+        LemurMessages.Add(LemurMessageViewModel.FromUser(prompt));
         IsLemurThinking = true;
-        await Task.Delay(1_000);
-        LemurMessages.Add(LemurMessageViewModel.FromAssistant("Response"));
+        var response = await _client.Lemur.TaskAsync(new LemurTaskParams
+        {
+            TranscriptIds = new[] {Transcript.Id},
+            Prompt = prompt
+        });
+        LemurMessages.Add(LemurMessageViewModel.FromAssistant(response.Response.Trim()));
         IsLemurThinking = false;
     }
 }

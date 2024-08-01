@@ -3,6 +3,7 @@
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.Extensions.Logging
 @using AssemblyAI
+@using AssemblyAI.Transcripts
 
 <PageTitle>Transcribe file</PageTitle>
 <div class="row flex-fill">
@@ -52,7 +53,8 @@
             placeholder="Upload a file to transcribe."
             rows="20"
             style="width: 100%"
-        >@Transcript</textarea>
+            value="@TranscriptText"
+        >@TranscriptText</textarea>
     </div>
     <div class="col d-flex flex-column">
         <div class="p-2 flex-grow-1">
@@ -80,17 +82,18 @@
         }
         <EditForm Model="LemurFormModel" OnValidSubmit="AskQuestion">
             <div class="input-group p-2">
-                    @* disabled="@(Transcript == null)" *@
                 <InputText
                     type="text"
                     class="form-control"
                     placeholder="Ask Question"
                     @bind-Value="LemurFormModel!.Question"
-                    required="required"/>
-                    @* disabled="@(Transcript == null)" *@
+                    required="required"
+                    disabled="@(Transcript == null)"
+                    />
                 <button
                     class="btn btn-outline-secondary"
-                    type="submit">
+                    type="submit"
+                    disabled="@(Transcript == null)">
                     Send
                 </button>
             </div>
@@ -106,6 +109,7 @@
     [Inject] private IFileTranscriber FileTranscriber { get; set; }
     [Inject] private IAskLemur AskLemur { get; set; }
     private Transcript? Transcript { get; set; }
+    private string TranscriptText { get; set; }
     private List<LemurMessage> LemurMessages { get; } = [LemurMessage.FromAssistant("Ask a question about your transcript.")];
     private bool IsLemurThinking { get; set; }
 
@@ -122,7 +126,9 @@
 
     private async Task Submit()
     {
-        Transcript = await FileTranscriber.TranscribeFileAsync(FormModel!).ConfigureAwait(false);
+        Transcript = await FileTranscriber.TranscribeFileAsync(FormModel!);
+        TranscriptText = Transcript!.Text;
+         _ = InvokeAsync(StateHasChanged);
     }
 
     private async Task AskQuestion()
@@ -131,9 +137,11 @@
         LemurFormModel.Question = "";
         LemurMessages.Add(LemurMessage.FromUser(question));
         IsLemurThinking = true;
+        StateHasChanged();
         var response = await AskLemur.AskQuestionAsync(Transcript!.Id, question).ConfigureAwait(false);
         IsLemurThinking = false;
         LemurMessages.Add(LemurMessage.FromAssistant(response));
+        await InvokeAsync(StateHasChanged).ConfigureAwait(false);
     }
 
 }
