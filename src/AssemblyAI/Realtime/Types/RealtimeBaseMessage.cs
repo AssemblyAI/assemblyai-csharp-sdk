@@ -1,9 +1,9 @@
 using System.Text.Json.Serialization;
-using AssemblyAI;
+using AssemblyAI.Realtime;
 
 #nullable enable
 
-namespace AssemblyAI;
+namespace AssemblyAI.Realtime;
 
 public record RealtimeBaseMessage
 {
@@ -11,5 +11,5 @@ public record RealtimeBaseMessage
     /// Describes the type of the message
     /// </summary>
     [JsonPropertyName("message_type")]
-    public required MessageType MessageType { get; init; }
+    public required MessageType MessageType { get; set; }
 }

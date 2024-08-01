@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 #nullable enable
 
-namespace AssemblyAI;
+namespace AssemblyAI.Transcripts;
 
 public record Timestamp
 {
@@ -10,11 +10,11 @@ public record Timestamp
     /// The start time in milliseconds
     /// </summary>
     [JsonPropertyName("start")]
-    public required int Start { get; init; }
+    public required int Start { get; set; }
 
     /// <summary>
     /// The end time in milliseconds
     /// </summary>
     [JsonPropertyName("end")]
-    public required int End { get; init; }
+    public required int End { get; set; }
 }

@@ -1,9 +1,9 @@
 using System.Text.Json.Serialization;
-using AssemblyAI;
+using AssemblyAI.Transcripts;
 
 #nullable enable
 
-namespace AssemblyAI;
+namespace AssemblyAI.Transcripts;
 
 public record TranscriptReadyNotification
 {
@@ -11,11 +11,11 @@ public record TranscriptReadyNotification
     /// The ID of the transcript
     /// </summary>
     [JsonPropertyName("transcript_id")]
-    public required string TranscriptId { get; init; }
+    public required string TranscriptId { get; set; }
 
     /// <summary>
     /// The status of the transcript. Either completed or error.
     /// </summary>
     [JsonPropertyName("status")]
-    public required TranscriptReadyStatus Status { get; init; }
+    public required TranscriptReadyStatus Status { get; set; }
 }

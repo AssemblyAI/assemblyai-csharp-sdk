@@ -1,11 +1,11 @@
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
-using AssemblyAI;
 using AssemblyAI.Core;
+using AssemblyAI.Transcripts;
 
 #nullable enable
 
-namespace AssemblyAI;
+namespace AssemblyAI.Transcripts;
 
 [JsonConverter(typeof(StringEnumSerializer<SubtitleFormat>))]
 public enum SubtitleFormat

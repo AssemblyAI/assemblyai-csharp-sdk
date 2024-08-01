@@ -2,7 +2,7 @@
 
 using AssemblyAI.Core;
 
-namespace AssemblyAI;
+namespace AssemblyAI.Transcripts;
 
 public class ExtendedTranscriptsClient(RawClient client, AssemblyAIClient assemblyAIClient) : TranscriptsClient(client)
 {
@@ -140,7 +140,7 @@ public class ExtendedTranscriptsClient(RawClient client, AssemblyAIClient assemb
         SubtitleFormat subtitleFormat
     )
         => GetSubtitlesAsync(transcriptId, subtitleFormat, new GetSubtitlesParams());
-    
+
     /// <summary>
     /// Export your transcript in SRT or VTT format to use with a video player for subtitles and closed captions.
     /// </summary>
@@ -162,6 +162,6 @@ public class ExtendedTranscriptsClient(RawClient client, AssemblyAIClient assemb
         string[] words
     ) => WordSearchAsync(transcriptId, new WordSearchParams
     {
-        Words = string.Join(",", words)
+        Words = words
     });
 }

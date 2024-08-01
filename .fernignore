@@ -2,20 +2,29 @@
 
 README.md
 LICENSE.md
+.gitignore
+.github/workflows/ci.yml
 src/AssemblyAI/AssemblyAI.csproj
+src/AssemblyAI/Core/ClientOptions.cs
+src/AssemblyAI/Core/JsonConfiguration.cs
 src/AssemblyAI/ClientOptions.cs
 src/AssemblyAI/Constants.cs
 src/AssemblyAI/UserAgent.cs
 src/AssemblyAI/Event.cs
 src/AssemblyAI/AssemblyAIClient.cs
 src/AssemblyAI/DependencyInjectionExtensions.cs
-src/AssemblyAI/Files/FilesCustomClient.cs
-src/AssemblyAI/Transcripts/TranscriptsCustomClient.cs
+src/AssemblyAI/Files/ExtendedFilesClient.cs
+src/AssemblyAI/Transcripts/ExtendedTranscriptsClient.cs
+src/AssemblyAI/Lemur/Types/LemurResponse.cs
 src/AssemblyAI/Realtime/RealtimeTranscriber.cs
 src/AssemblyAI/Realtime/WebsocketClient
 src/AssemblyAI/Realtime/Types/RealtimeTranscript.cs
+src/AssemblyAI.Test
 src/AssemblyAI.UnitTests
 src/AssemblyAI.IntegrationTests
 
+# TODO: remove these ignores when AssemblyAI fixes the API
+src/AssemblyAI/Transcripts/Types/ContentSafetyLabelsResult.cs
+src/AssemblyAI/Transcripts/Types/TopicDetectionModelResult.cs
 
 Samples

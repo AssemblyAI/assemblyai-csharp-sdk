@@ -64,7 +64,7 @@ public static class DependencyInjectionExtensions
             optionsToConfigure.HttpClient = options.HttpClient;
             optionsToConfigure.BaseUrl = options.BaseUrl;
             optionsToConfigure.MaxRetries = options.MaxRetries;
-            optionsToConfigure.TimeoutInSeconds = options.TimeoutInSeconds;
+            optionsToConfigure.Timeout = options.Timeout;
         });
         Validate(optionsBuilder);
         AddServices(services);

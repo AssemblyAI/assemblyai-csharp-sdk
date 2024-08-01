@@ -1,30 +1,30 @@
 using System.Text.Json.Serialization;
-using AssemblyAI;
+using AssemblyAI.Transcripts;
 
 #nullable enable
 
-namespace AssemblyAI;
+namespace AssemblyAI.Transcripts;
 
 public record TranscriptSentence
 {
     [JsonPropertyName("text")]
-    public required string Text { get; init; }
+    public required string Text { get; set; }
 
     [JsonPropertyName("start")]
-    public required int Start { get; init; }
+    public required int Start { get; set; }
 
     [JsonPropertyName("end")]
-    public required int End { get; init; }
+    public required int End { get; set; }
 
     [JsonPropertyName("confidence")]
-    public required double Confidence { get; init; }
+    public required double Confidence { get; set; }
 
     [JsonPropertyName("words")]
-    public IEnumerable<TranscriptWord> Words { get; init; } = new List<TranscriptWord>();
+    public IEnumerable<TranscriptWord> Words { get; set; } = new List<TranscriptWord>();
 
     /// <summary>
     /// The speaker of the sentence if [Speaker Diarization](https://www.assemblyai.com/docs/models/speaker-diarization) is enabled, else null
     /// </summary>
     [JsonPropertyName("speaker")]
-    public string? Speaker { get; init; }
+    public string? Speaker { get; set; }
 }

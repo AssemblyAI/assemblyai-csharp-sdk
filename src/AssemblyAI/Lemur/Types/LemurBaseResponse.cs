@@ -1,9 +1,9 @@
 using System.Text.Json.Serialization;
-using AssemblyAI;
+using AssemblyAI.Lemur;
 
 #nullable enable
 
-namespace AssemblyAI;
+namespace AssemblyAI.Lemur;
 
 public record LemurBaseResponse
 {
@@ -11,11 +11,11 @@ public record LemurBaseResponse
     /// The ID of the LeMUR request
     /// </summary>
     [JsonPropertyName("request_id")]
-    public required string RequestId { get; init; }
+    public required string RequestId { get; set; }
 
     /// <summary>
     /// The usage numbers for the LeMUR request
     /// </summary>
     [JsonPropertyName("usage")]
-    public required LemurUsage Usage { get; init; }
+    public required LemurUsage Usage { get; set; }
 }

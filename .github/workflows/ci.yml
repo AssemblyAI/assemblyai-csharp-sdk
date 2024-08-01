@@ -24,6 +24,32 @@ jobs:
       - name: Build Release
         run: dotnet build src -c Release /p:ContinuousIntegrationBuild=true
 
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - uses: actions/checkout@master
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 8.x
+
+      - name: Install tools
+        run: |
+          dotnet tool restore
+
+      - name: Run Tests
+        run: |
+          dotnet test src
+        env:
+          ASSEMBLYAI_API_KEY: ${{ secrets.ASSEMBLYAI_API_KEY }}
+          TEST_TRANSCRIPT_ID: ${{ secrets.TEST_TRANSCRIPT_ID }}
+          TEST_TRANSCRIPT_IDS: ${{ secrets.TEST_TRANSCRIPT_IDS }}
+
 
   publish:
     needs: [compile]

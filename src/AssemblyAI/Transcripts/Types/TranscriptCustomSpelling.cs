@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 #nullable enable
 
-namespace AssemblyAI;
+namespace AssemblyAI.Transcripts;
 
 public record TranscriptCustomSpelling
 {
@@ -10,11 +10,11 @@ public record TranscriptCustomSpelling
     /// Words or phrases to replace
     /// </summary>
     [JsonPropertyName("from")]
-    public IEnumerable<string> From { get; init; } = new List<string>();
+    public IEnumerable<string> From { get; set; } = new List<string>();
 
     /// <summary>
     /// Word or phrase to replace with
     /// </summary>
     [JsonPropertyName("to")]
-    public required string To { get; init; }
+    public required string To { get; set; }
 }

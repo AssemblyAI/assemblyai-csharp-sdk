@@ -1,9 +1,9 @@
 using System.Text.Json.Serialization;
-using AssemblyAI;
+using AssemblyAI.Transcripts;
 
 #nullable enable
 
-namespace AssemblyAI;
+namespace AssemblyAI.Transcripts;
 
 public record TopicDetectionModelResult
 {
@@ -11,18 +11,18 @@ public record TopicDetectionModelResult
     /// The status of the Topic Detection model. Either success, or unavailable in the rare case that the model failed.
     /// </summary>
     [JsonPropertyName("status")]
-    public required AudioIntelligenceModelStatus Status { get; init; }
+    public AudioIntelligenceModelStatus Status { get; set; }
 
     /// <summary>
     /// An array of results for the Topic Detection model
     /// </summary>
     [JsonPropertyName("results")]
-    public IEnumerable<TopicDetectionResult> Results { get; init; } =
+    public IEnumerable<TopicDetectionResult> Results { get; set; } =
         new List<TopicDetectionResult>();
 
     /// <summary>
     /// The overall relevance of topic to the entire audio file
     /// </summary>
     [JsonPropertyName("summary")]
-    public Dictionary<string, double> Summary { get; init; } = new Dictionary<string, double>();
+    public Dictionary<string, double> Summary { get; set; } = new Dictionary<string, double>();
 }

@@ -1,33 +1,33 @@
 using System.Text.Json.Serialization;
-using AssemblyAI;
+using AssemblyAI.Transcripts;
 
 #nullable enable
 
-namespace AssemblyAI;
+namespace AssemblyAI.Transcripts;
 
 public record TranscriptListItem
 {
     [JsonPropertyName("id")]
-    public required string Id { get; init; }
+    public required string Id { get; set; }
 
     [JsonPropertyName("resource_url")]
-    public required string ResourceUrl { get; init; }
+    public required string ResourceUrl { get; set; }
 
     [JsonPropertyName("status")]
-    public required TranscriptStatus Status { get; init; }
+    public required TranscriptStatus Status { get; set; }
 
     [JsonPropertyName("created")]
-    public required DateTime Created { get; init; }
+    public required DateTime Created { get; set; }
 
     [JsonPropertyName("completed")]
-    public required DateTime Completed { get; init; }
+    public DateTime? Completed { get; set; }
 
     [JsonPropertyName("audio_url")]
-    public required string AudioUrl { get; init; }
+    public required string AudioUrl { get; set; }
 
     /// <summary>
     /// Error message of why the transcript failed
     /// </summary>
     [JsonPropertyName("error")]
-    public string? Error { get; init; }
+    public string? Error { get; set; }
 }
