@@ -3,6 +3,10 @@
 using System.Net.Http;
 using AssemblyAI;
 using AssemblyAI.Core;
+using AssemblyAI.Files;
+using AssemblyAI.Lemur;
+using AssemblyAI.Realtime;
+using AssemblyAI.Transcripts;
 
 
 namespace AssemblyAI;
@@ -26,6 +30,7 @@ public partial class AssemblyAIClient
         clientOptions.HttpClient ??= new HttpClient();
         var client = new RawClient(
             new Dictionary<string, string>(),
+            new Dictionary<string, Func<string>>(),
             clientOptions
         );
         clientOptions.HttpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", clientOptions.ApiKey);

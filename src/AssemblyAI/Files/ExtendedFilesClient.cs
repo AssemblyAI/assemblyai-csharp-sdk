@@ -5,7 +5,7 @@ using AssemblyAI.Core;
 
 #nullable enable
 
-namespace AssemblyAI;
+namespace AssemblyAI.Files;
 
 public partial class FilesClient
 {

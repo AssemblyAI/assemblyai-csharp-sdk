@@ -1,3 +1,5 @@
+using AssemblyAI.Transcripts;
+
 namespace AssemblyAI.IntegrationTests;
 
 [TestFixture]

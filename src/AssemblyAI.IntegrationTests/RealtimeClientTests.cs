@@ -1,3 +1,5 @@
+using AssemblyAI.Realtime;
+
 namespace AssemblyAI.IntegrationTests;
 
 [TestFixture]
