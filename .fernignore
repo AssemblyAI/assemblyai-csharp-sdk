@@ -20,6 +20,8 @@ src/AssemblyAI/Lemur/Types/LemurResponse.cs
 src/AssemblyAI/Realtime/RealtimeTranscriber.cs
 src/AssemblyAI/Realtime/WebsocketClient
 src/AssemblyAI/Realtime/Types/RealtimeTranscript.cs
+src/AssemblyAI/Realtime/ExtendedRealtimeClient.cs
+src/AssemblyAI/Realtime/RealtimeTranscriberOptions.cs
 src/AssemblyAI.Test
 src/AssemblyAI.UnitTests
 src/AssemblyAI.IntegrationTests

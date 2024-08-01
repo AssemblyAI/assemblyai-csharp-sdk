@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyAI.UnitTests", "Ass
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyAI.IntegrationTests", "AssemblyAI.IntegrationTests\AssemblyAI.IntegrationTests.csproj", "{F68D755B-BF68-496C-860B-1F7CB8F579D3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{366B9916-D92A-4AFB-8F62-36F5B8D86AF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{F68D755B-BF68-496C-860B-1F7CB8F579D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F68D755B-BF68-496C-860B-1F7CB8F579D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F68D755B-BF68-496C-860B-1F7CB8F579D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{366B9916-D92A-4AFB-8F62-36F5B8D86AF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{366B9916-D92A-4AFB-8F62-36F5B8D86AF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{366B9916-D92A-4AFB-8F62-36F5B8D86AF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{366B9916-D92A-4AFB-8F62-36F5B8D86AF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

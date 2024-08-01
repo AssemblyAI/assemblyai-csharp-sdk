@@ -37,11 +37,11 @@ public partial class AssemblyAIClient
         clientOptions.HttpClient.DefaultRequestHeaders.Add("X-Fern-Language", "C#");
         clientOptions.HttpClient.DefaultRequestHeaders.Add("X-Fern-SDK-Name", "AssemblyAI");
         clientOptions.HttpClient.DefaultRequestHeaders.Add("X-Fern-SDK-Version", Constants.Version);
-        if (clientOptions.UserAgent != null)
-        {
-            clientOptions.HttpClient.DefaultRequestHeaders.Add("User-Agent",
-                clientOptions.UserAgent.ToAssemblyAIUserAgentString());
-        }
+        var userAgent = new UserAgent(UserAgent.Default, clientOptions.UserAgent);
+        clientOptions.HttpClient.DefaultRequestHeaders.Add(
+            "User-Agent",
+            userAgent.ToAssemblyAIUserAgentString()
+        );
 
         Files = new FilesClient(client);
         Transcripts = new ExtendedTranscriptsClient(client, this);

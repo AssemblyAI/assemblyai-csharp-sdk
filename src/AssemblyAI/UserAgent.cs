@@ -5,7 +5,11 @@ namespace AssemblyAI;
 public class UserAgent
 {
     public static readonly UserAgent Default = CreateDefaultUserAgent();
-    private readonly Dictionary<string, UserAgentItem?>? _userAgent;
+    private readonly Dictionary<string, UserAgentItem?> _userAgent;
+
+    public UserAgent() : this(new Dictionary<string, UserAgentItem?>())
+    {
+    }
 
     public UserAgent(Dictionary<string, UserAgentItem?> userAgent)
     {
@@ -16,14 +20,15 @@ public class UserAgent
     {
         _userAgent = Merge(a._userAgent, b._userAgent);
     }
+    
+    public UserAgentItem? this[string index]
+    {
+        get => _userAgent[index];
+        set => _userAgent[index] = value;
+    }
 
     public string ToAssemblyAIUserAgentString()
     {
-        if (_userAgent == null || !_userAgent.Any())
-        {
-            return string.Empty;
-        }
-
         var sb = new System.Text.StringBuilder("AssemblyAI/1.0 (");
         sb.Append(string.Join(" ",
             _userAgent.Select(entry => $"{entry.Key}={entry.Value.Name}/{entry.Value.Version}")));
@@ -80,8 +85,10 @@ public class UserAgent
         return (name, version);
     }
 
-    private static Dictionary<string, UserAgentItem> Merge(Dictionary<string, UserAgentItem?> a,
-        Dictionary<string, UserAgentItem?> b)
+    private static Dictionary<string, UserAgentItem> Merge(
+        Dictionary<string, UserAgentItem?> a,
+        Dictionary<string, UserAgentItem?> b
+    )
     {
         var newUserAgent = new Dictionary<string, UserAgentItem?>(a);
 

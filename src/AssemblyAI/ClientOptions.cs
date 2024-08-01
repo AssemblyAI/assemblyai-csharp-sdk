@@ -11,30 +11,16 @@ public class ClientOptions
     /// The AssemblyAI API key
     /// </summary>
     public required string ApiKey { get; set; }
-    
+
     /// <summary>
     /// The Base URL for the API.
     /// </summary>
     public string BaseUrl { get; set; } = AssemblyAIClientEnvironment.DEFAULT;
 
-    private UserAgent? _userAgent = UserAgent.Default;
-    
     /// <summary>
     /// The AssemblyAI user agent
     /// </summary>
-    public UserAgent? UserAgent
-    {
-        get => _userAgent;
-        set
-        {
-            if (value == null)
-            {
-                _userAgent = null;
-                return;
-            }
-            _userAgent = new UserAgent(UserAgent.Default, value);
-        }
-    }
+    public UserAgent UserAgent { get; set; } = new();
 
     /// <summary>
     /// The http client used to make requests.

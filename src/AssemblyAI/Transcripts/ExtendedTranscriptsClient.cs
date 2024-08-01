@@ -63,12 +63,40 @@ public class ExtendedTranscriptsClient(RawClient client, AssemblyAIClient assemb
         return transcript;
     }
 
-    public async Task<Transcript> WaitUntilReady(string id)
+    /// <summary>
+    /// Wait until the transcript status is either "completed" or "error".
+    /// </summary>
+    /// <param name="id">The transcript ID</param>
+    /// <param name="pollingInterval">How frequently the transcript is polled. Defaults to 3s.</param>
+    /// <param name="pollingTimeout">How long to wait until the timeout exception thrown. Defaults to infinite.</param>
+    /// <returns>The transcript with status "completed" or "error"</returns>
+    public async Task<Transcript> WaitUntilReady(
+        string id, 
+        TimeSpan? pollingInterval = null, 
+        TimeSpan? pollingTimeout = null
+    )
     {
+        var ct = pollingTimeout == null ? 
+            CancellationToken.None : 
+            new CancellationTokenSource(pollingTimeout.Value).Token;
+        
         var transcript = await GetAsync(id).ConfigureAwait(false);
         while (transcript.Status != TranscriptStatus.Completed && transcript.Status != TranscriptStatus.Error)
         {
-            await Task.Delay(1000).ConfigureAwait(false);
+            if (ct.IsCancellationRequested)
+            {
+                throw new TimeoutException("The transcript did not complete within the given timeout.");
+            }
+
+            try
+            {
+                await Task.Delay(pollingInterval ?? TimeSpan.FromSeconds(3), ct).ConfigureAwait(false);
+            }
+            catch (TaskCanceledException e)
+            {
+                throw new TimeoutException("The transcript did not complete within the given timeout.", e);
+            }
+            
             transcript = await GetAsync(transcript.Id).ConfigureAwait(false);
         }
 
@@ -90,8 +118,12 @@ public class ExtendedTranscriptsClient(RawClient client, AssemblyAIClient assemb
     /// Retrieve a list of transcripts you created.
     /// Transcripts are sorted from newest to oldest. The previous URL always points to a page with older transcripts.
     /// </summary>
+    /// <param name="listUrl">The next or previous page URL to query the transcript list.</param>
     public async Task<TranscriptList> ListAsync(string listUrl)
     {
+        if (string.IsNullOrEmpty(listUrl))
+            throw new ArgumentNullException(nameof(listUrl), "listUrl parameter is null or empty.");
+        
         // this would be easier to just call the given URL,
         // but the raw client doesn't let us make requests to full URL
         // so we'll parse the querystring and pass it to `ListAsync`.
@@ -140,7 +172,7 @@ public class ExtendedTranscriptsClient(RawClient client, AssemblyAIClient assemb
     /// <summary>
     /// Export your transcript in SRT or VTT format to use with a video player for subtitles and closed captions.
     /// </summary>
-    public Task GetSubtitlesAsync(
+    public Task<string> GetSubtitlesAsync(
         string transcriptId,
         SubtitleFormat subtitleFormat
     )
@@ -149,7 +181,7 @@ public class ExtendedTranscriptsClient(RawClient client, AssemblyAIClient assemb
     /// <summary>
     /// Export your transcript in SRT or VTT format to use with a video player for subtitles and closed captions.
     /// </summary>
-    public Task GetSubtitlesAsync(
+    public Task<string> GetSubtitlesAsync(
         string transcriptId,
         SubtitleFormat subtitleFormat,
         int charsPerCaption

@@ -8,7 +8,7 @@ using AssemblyAI.Realtime;
 
 namespace AssemblyAI.Realtime;
 
-public class RealtimeClient
+public partial class RealtimeClient
 {
     private RawClient _client;
 
