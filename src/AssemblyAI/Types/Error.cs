@@ -10,8 +10,8 @@ public record Error
     /// Error message
     /// </summary>
     [JsonPropertyName("error")]
-    public required string Error_ { get; init; }
+    public required string Error_ { get; set; }
 
     [JsonPropertyName("status")]
-    public string? Status { get; init; }
+    public string? Status { get; set; }
 }

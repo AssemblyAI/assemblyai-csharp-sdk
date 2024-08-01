@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 #nullable enable
 
-namespace AssemblyAI;
+namespace AssemblyAI.Realtime;
 
 public record CreateRealtimeTemporaryTokenParams
 {
@@ -10,5 +10,5 @@ public record CreateRealtimeTemporaryTokenParams
     /// The amount of time until the token expires in seconds
     /// </summary>
     [JsonPropertyName("expires_in")]
-    public required int ExpiresIn { get; init; }
+    public required int ExpiresIn { get; set; }
 }

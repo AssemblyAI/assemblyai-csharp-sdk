@@ -1,9 +1,9 @@
 using System.Text.Json.Serialization;
-using AssemblyAI;
+using AssemblyAI.Transcripts;
 
 #nullable enable
 
-namespace AssemblyAI;
+namespace AssemblyAI.Transcripts;
 
 public record ContentSafetyLabelResult
 {
@@ -11,29 +11,29 @@ public record ContentSafetyLabelResult
     /// The transcript of the section flagged by the Content Moderation model
     /// </summary>
     [JsonPropertyName("text")]
-    public required string Text { get; init; }
+    public required string Text { get; set; }
 
     /// <summary>
     /// An array of safety labels, one per sensitive topic that was detected in the section
     /// </summary>
     [JsonPropertyName("labels")]
-    public IEnumerable<ContentSafetyLabel> Labels { get; init; } = new List<ContentSafetyLabel>();
+    public IEnumerable<ContentSafetyLabel> Labels { get; set; } = new List<ContentSafetyLabel>();
 
     /// <summary>
     /// The sentence index at which the section begins
     /// </summary>
     [JsonPropertyName("sentences_idx_start")]
-    public required int SentencesIdxStart { get; init; }
+    public required int SentencesIdxStart { get; set; }
 
     /// <summary>
     /// The sentence index at which the section ends
     /// </summary>
     [JsonPropertyName("sentences_idx_end")]
-    public required int SentencesIdxEnd { get; init; }
+    public required int SentencesIdxEnd { get; set; }
 
     /// <summary>
     /// Timestamp information for the section
     /// </summary>
     [JsonPropertyName("timestamp")]
-    public required Timestamp Timestamp { get; init; }
+    public required Timestamp Timestamp { get; set; }
 }

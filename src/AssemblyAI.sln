@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyAI", "AssemblyAI\AssemblyAI.csproj", "{6908A082-04F2-4B91-92F1-671DEA06C378}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyAI", "AssemblyAI\AssemblyAI.csproj", "{B2E2B823-FB0F-4DA2-9FF3-91B73BDA8C08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyAI.UnitTests", "AssemblyAI.UnitTests\AssemblyAI.UnitTests.csproj", "{4C5A0575-B891-42AA-8F7A-92424E2E27C0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyAI.IntegrationTests", "AssemblyAI.IntegrationTests\AssemblyAI.IntegrationTests.csproj", "{F68D755B-BF68-496C-860B-1F7CB8F579D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyAI.Test", "AssemblyAI.Test\AssemblyAI.Test.csproj", "{2D62C667-A356-46C8-920E-589231969C89}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,17 +16,13 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6908A082-04F2-4B91-92F1-671DEA06C378}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6908A082-04F2-4B91-92F1-671DEA06C378}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6908A082-04F2-4B91-92F1-671DEA06C378}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6908A082-04F2-4B91-92F1-671DEA06C378}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4C5A0575-B891-42AA-8F7A-92424E2E27C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4C5A0575-B891-42AA-8F7A-92424E2E27C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4C5A0575-B891-42AA-8F7A-92424E2E27C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4C5A0575-B891-42AA-8F7A-92424E2E27C0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F68D755B-BF68-496C-860B-1F7CB8F579D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F68D755B-BF68-496C-860B-1F7CB8F579D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F68D755B-BF68-496C-860B-1F7CB8F579D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F68D755B-BF68-496C-860B-1F7CB8F579D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2E2B823-FB0F-4DA2-9FF3-91B73BDA8C08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2E2B823-FB0F-4DA2-9FF3-91B73BDA8C08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2E2B823-FB0F-4DA2-9FF3-91B73BDA8C08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2E2B823-FB0F-4DA2-9FF3-91B73BDA8C08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D62C667-A356-46C8-920E-589231969C89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D62C667-A356-46C8-920E-589231969C89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D62C667-A356-46C8-920E-589231969C89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D62C667-A356-46C8-920E-589231969C89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

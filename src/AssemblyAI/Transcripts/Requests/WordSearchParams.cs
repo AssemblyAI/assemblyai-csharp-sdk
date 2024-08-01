@@ -1,9 +1,9 @@
-namespace AssemblyAI;
+namespace AssemblyAI.Transcripts;
 
 public record WordSearchParams
 {
     /// <summary>
     /// Keywords to search for
     /// </summary>
-    public string? Words { get; init; }
+    public IEnumerable<string> Words { get; set; } = new List<string>();
 }

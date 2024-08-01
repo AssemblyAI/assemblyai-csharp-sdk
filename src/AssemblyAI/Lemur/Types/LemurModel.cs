@@ -1,11 +1,11 @@
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
-using AssemblyAI;
 using AssemblyAI.Core;
+using AssemblyAI.Lemur;
 
 #nullable enable
 
-namespace AssemblyAI;
+namespace AssemblyAI.Lemur;
 
 [JsonConverter(typeof(StringEnumSerializer<LemurModel>))]
 public enum LemurModel

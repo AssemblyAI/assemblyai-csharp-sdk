@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 #nullable enable
 
-namespace AssemblyAI;
+namespace AssemblyAI.Realtime;
 
 public record SessionTerminated
 {
@@ -10,5 +10,5 @@ public record SessionTerminated
     /// Describes the type of the message
     /// </summary>
     [JsonPropertyName("message_type")]
-    public required string MessageType { get; init; }
+    public required string MessageType { get; set; }
 }

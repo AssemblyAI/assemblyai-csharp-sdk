@@ -1,11 +1,11 @@
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
-using AssemblyAI;
 using AssemblyAI.Core;
+using AssemblyAI.Transcripts;
 
 #nullable enable
 
-namespace AssemblyAI;
+namespace AssemblyAI.Transcripts;
 
 [JsonConverter(typeof(StringEnumSerializer<SpeechModel>))]
 public enum SpeechModel
@@ -14,8 +14,5 @@ public enum SpeechModel
     Best,
 
     [EnumMember(Value = "nano")]
-    Nano,
-
-    [EnumMember(Value = "conformer-2")]
-    Conformer2
+    Nano
 }

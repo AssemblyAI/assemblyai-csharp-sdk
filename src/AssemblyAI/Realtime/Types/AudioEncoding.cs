@@ -1,11 +1,11 @@
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
-using AssemblyAI;
 using AssemblyAI.Core;
+using AssemblyAI.Realtime;
 
 #nullable enable
 
-namespace AssemblyAI;
+namespace AssemblyAI.Realtime;
 
 [JsonConverter(typeof(StringEnumSerializer<AudioEncoding>))]
 public enum AudioEncoding

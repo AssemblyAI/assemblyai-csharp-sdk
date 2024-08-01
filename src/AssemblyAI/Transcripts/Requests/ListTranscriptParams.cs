@@ -1,15 +1,15 @@
-using AssemblyAI;
+using AssemblyAI.Transcripts;
 
 #nullable enable
 
-namespace AssemblyAI;
+namespace AssemblyAI.Transcripts;
 
 public record ListTranscriptParams
 {
     /// <summary>
     /// Maximum amount of transcripts to retrieve
     /// </summary>
-    public int? Limit { get; set; }
+    public long? Limit { get; set; }
 
     /// <summary>
     /// Filter by transcript status

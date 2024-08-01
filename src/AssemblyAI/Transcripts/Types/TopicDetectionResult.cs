@@ -1,9 +1,9 @@
 using System.Text.Json.Serialization;
-using AssemblyAI;
+using AssemblyAI.Transcripts;
 
 #nullable enable
 
-namespace AssemblyAI;
+namespace AssemblyAI.Transcripts;
 
 public record TopicDetectionResult
 {
@@ -11,11 +11,11 @@ public record TopicDetectionResult
     /// The text in the transcript in which a detected topic occurs
     /// </summary>
     [JsonPropertyName("text")]
-    public required string Text { get; init; }
+    public required string Text { get; set; }
 
     [JsonPropertyName("labels")]
-    public IEnumerable<TopicDetectionResultLabelsItem>? Labels { get; init; }
+    public IEnumerable<TopicDetectionResultLabelsItem>? Labels { get; set; }
 
     [JsonPropertyName("timestamp")]
-    public Timestamp? Timestamp { get; init; }
+    public Timestamp? Timestamp { get; set; }
 }
