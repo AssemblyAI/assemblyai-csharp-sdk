@@ -2,6 +2,7 @@
 
 README.md
 LICENSE.md
+.gitignore
 src/AssemblyAI/AssemblyAI.csproj
 src/AssemblyAI/ClientOptions.cs
 src/AssemblyAI/Constants.cs
@@ -14,6 +15,7 @@ src/AssemblyAI/Transcripts/TranscriptsCustomClient.cs
 src/AssemblyAI/Realtime/RealtimeTranscriber.cs
 src/AssemblyAI/Realtime/WebsocketClient
 src/AssemblyAI/Realtime/Types/RealtimeTranscript.cs
+src/AssemblyAI.Test
 src/AssemblyAI.UnitTests
 src/AssemblyAI.IntegrationTests
 
