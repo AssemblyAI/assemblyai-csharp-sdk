@@ -17,7 +17,7 @@ builder.Services.AddTransient<RealtimeTranscriber>(provider =>
     {
         ApiKey = config["AssemblyAI:ApiKey"]!,
         SampleRate = 8000,
-        Encoding = "pcm_mulaw"
+        Encoding = AudioEncoding.PcmMulaw
     };
     return realtimeTranscriber;
 });

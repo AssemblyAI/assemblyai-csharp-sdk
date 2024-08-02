@@ -10,7 +10,8 @@ await using var transcriber = new RealtimeTranscriber
 {
     ApiKey = config["AssemblyAI:ApiKey"]!,
     SampleRate = 16_000,
-    WordBoost = ["word1", "word2"]
+    WordBoost = ["word1", "word2"],
+    Encoding = AudioEncoding.PcmMulaw
 };
 
 transcriber.SessionBegins.Subscribe(

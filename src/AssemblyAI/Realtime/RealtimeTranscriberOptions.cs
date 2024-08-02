@@ -33,7 +33,7 @@ public sealed class RealtimeTranscriberOptions
     /// <summary>
     /// The encoding of the audio data
     /// </summary>
-    public string? Encoding { get; set; }
+    public AudioEncoding? Encoding { get; set; }
 
     /// <summary>
     /// Disable partial transcripts.

@@ -2,6 +2,7 @@
 using System.Net.WebSockets;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using WebSocket = AssemblyAI.Realtime.WebsocketClient.WebsocketClient;
 
@@ -77,7 +78,7 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
     /// <summary>
     /// The encoding of the audio data
     /// </summary>
-    public string? Encoding
+    public AudioEncoding? Encoding
     {
         get => _options.Encoding;
         set => _options.Encoding = value;
@@ -130,7 +131,7 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
         }
 
         var urlBuilder = new StringBuilder(RealtimeUrl);
-        urlBuilder.AppendFormat("?sample_rate={0}", SampleRate);
+        urlBuilder.Append($"?sample_rate={SampleRate}");
 
         if (DisablePartialTranscripts)
         {
@@ -141,17 +142,19 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
 
         if (WordBoost.Any())
         {
-            urlBuilder.AppendFormat("&word_boost={0}", JsonSerializer.Serialize(WordBoost));
+            urlBuilder.Append(
+                $"&word_boost={UrlEncoder.Default.Encode(JsonSerializer.Serialize(WordBoost))}"
+            );
         }
 
-        if (!string.IsNullOrEmpty(Encoding))
+        if (Encoding != null)
         {
-            urlBuilder.AppendFormat("&encoding={0}", Encoding);
+            urlBuilder.Append($"&encoding={EnumConverter.ToString(Encoding.Value)}");
         }
 
         if (!string.IsNullOrEmpty(Token))
         {
-            urlBuilder.AppendFormat("&token={0}", Token);
+            urlBuilder.Append($"&token={UrlEncoder.Default.Encode(Token)}");
         }
 
         _socket?.Dispose();
