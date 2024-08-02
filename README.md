@@ -17,6 +17,7 @@ The C# SDK is compatible with `.NET 6.0` and up, `.NET Framework 4.6.2` and up, 
 ## Documentation
 
 Visit the [AssemblyAI documentation](https://www.assemblyai.com/docs) for step-by-step instructions and a lot more details about our AI models and API.
+Explore [the SDK API reference](https://assemblyai.github.io/assemblyai-csharp-sdk/) for more details on the SDK types, functions, and classes.
 
 ## Quickstart
 
