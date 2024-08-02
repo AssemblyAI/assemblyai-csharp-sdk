@@ -379,6 +379,26 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
 
         _socket!.Send(audio);
     }
+    
+    /// <summary>
+    /// Manually end an utterance
+    /// </summary>
+    public void ForceEndUtterance()
+    {
+        _socket!.Send("{\"force_end_utterance\":true}");
+    }
+    
+    /// <summary>
+    /// Configure the threshold for how long to wait before ending an utterance. Default is 700ms.
+    /// </summary>
+    /// <param name="threshold">
+    /// The duration of the end utterance silence threshold in milliseconds.
+    /// This value must be an integer between 0 and 20_000.
+    /// </param>
+    public void ConfigureEndUtteranceThreshold(uint threshold)
+    {
+        _socket!.Send($"{{\"end_utterance_silence_threshold\":{threshold}}}");
+    }
 
     /// <summary>
     /// Terminates the real-time transcription session, closes the connection, and disposes the real-time transcriber.
