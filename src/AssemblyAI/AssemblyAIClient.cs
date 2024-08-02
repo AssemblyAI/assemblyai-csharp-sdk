@@ -26,7 +26,7 @@ public partial class AssemblyAIClient
         {
             throw new ArgumentException("AssemblyAI API Key is required.");
         }
-        
+
         clientOptions.HttpClient ??= new HttpClient();
         var client = new RawClient(
             new Dictionary<string, string>(),
@@ -49,11 +49,11 @@ public partial class AssemblyAIClient
         Lemur = new LemurClient(client);
     }
 
-    public FilesClient Files { get; init; }
+    public FilesClient Files { get; private init; }
 
-    public ExtendedTranscriptsClient Transcripts { get; init; }
+    public ExtendedTranscriptsClient Transcripts { get; private init; }
 
-    public RealtimeClient Realtime { get; init; }
+    public RealtimeClient Realtime { get; private init; }
 
-    public LemurClient Lemur { get; init; }
+    public LemurClient Lemur { get; private init; }
 }
