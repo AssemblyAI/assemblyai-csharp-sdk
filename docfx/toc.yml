@@ -1,0 +1,6 @@
+- name: API
+  href: api/
+- name: NuGet
+  href: https://www.nuget.org/packages/AssemblyAI/
+- name: Docs
+  href: https://www.assemblyai.com/docs/

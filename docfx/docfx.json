@@ -1,0 +1,60 @@
+{
+  "metadata": [
+    {
+      "src": [
+        {
+          "src": "../src/AssemblyAI",
+          "files": [
+            "**/*.csproj"
+          ]
+        }
+      ],
+      "dest": "api"
+    }
+  ],
+  "build": {
+    "content": [
+      {
+        "files": [
+          "**/*.{md,yml}"
+        ],
+        "exclude": [
+          "_site/**"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "images/**"
+        ]
+      },
+      {
+        "src": "../",
+        "files": [
+          "icon.png"
+        ]
+      }
+    ],
+    "output": "_site",
+    "template": [
+      "default",
+      "modern",
+      "my-template"
+    ],
+    "globalMetadata": {
+      "_appName": "C# .NET SDK Reference",
+      "_appTitle": "AssemblyAI C# .NET SDK Reference",
+      "_appLogoPath": "icon.png",
+      "_appFaviconPath": "https://www.assemblyai.com/favicon.png",
+      "_disableContribution": true,
+      "_googleAnalyticsTagId": "UA-162050763-1",
+      "_lang": "en",
+      "_enableSearch": true,
+      "_enableNewTab": true,
+      "_appFooter": "&copy; 2024 AssemblyAI",
+      "pdf": false,
+      "pdfTocPage": true
+    }
+  }
+}

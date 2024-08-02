@@ -4,6 +4,7 @@ README.md
 LICENSE.md
 .gitignore
 .github/workflows/ci.yml
+.github/workflows/publish-reference.yml
 src/AssemblyAI/AssemblyAI.csproj
 src/AssemblyAI/Core/ClientOptions.cs
 src/AssemblyAI/Core/JsonConfiguration.cs
@@ -25,6 +26,7 @@ src/AssemblyAI/Realtime/RealtimeTranscriberOptions.cs
 src/AssemblyAI.Test
 src/AssemblyAI.UnitTests
 src/AssemblyAI.IntegrationTests
+docfx
 
 
 # TODO: remove these ignores when AssemblyAI fixes the API
