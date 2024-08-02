@@ -1,3 +1,3 @@
 ---
-redirect_url: /api/AssemblyAI.html
+redirect_url: api/AssemblyAI.html
 ---
