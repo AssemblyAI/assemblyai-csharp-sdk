@@ -94,6 +94,11 @@ var transcript = await client.Transcripts.TranscribeAsync(new TranscriptParams
     AudioUrl = "https://storage.googleapis.com/aai-web-samples/espn-bears.m4a",
     LanguageCode = TranscriptLanguageCode.EnUs
 });
+
+// checks if transcript.Status == TranscriptStatus.Completed, throws an exception if not
+transcript.EnsureStatusCompleted();
+
+Console.WriteLine(transcript.Text);
 ```
 
 `TranscribeAsync` queues a transcription job and polls it until the `transcript.Status` is `completed` or `error`.
@@ -169,6 +174,9 @@ var transcript = await client.Transcripts.TranscribeAsync(new TranscriptParams
     AudioUrl = "https://storage.googleapis.com/aai-web-samples/espn-bears.m4a",
     SpeakerLabels = true
 });
+
+// checks if transcript.Status == TranscriptStatus.Completed, throws an exception if not
+transcript.EnsureStatusCompleted();
 
 foreach (var utterance in transcript.Utterances)
 {

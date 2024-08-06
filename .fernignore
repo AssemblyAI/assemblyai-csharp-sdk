@@ -17,6 +17,8 @@ src/AssemblyAI/DependencyInjectionExtensions.cs
 src/AssemblyAI/EnumConverter.cs
 src/AssemblyAI/Files/ExtendedFilesClient.cs
 src/AssemblyAI/Transcripts/ExtendedTranscriptsClient.cs
+src/AssemblyAI/Transcripts/Types/TranscriptExtensions.cs
+src/AssemblyAI/Transcripts/TranscriptNotCompletedStatusException.cs
 src/AssemblyAI/Lemur/Types/LemurResponse.cs
 src/AssemblyAI/Realtime/RealtimeTranscriber.cs
 src/AssemblyAI/Realtime/WebsocketClient
