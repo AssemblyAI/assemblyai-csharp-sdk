@@ -31,26 +31,32 @@ public class TranscriptsClient
         {
             _query["limit"] = request.Limit.ToString();
         }
+
         if (request.Status != null)
         {
             _query["status"] = JsonSerializer.Serialize(request.Status.Value);
         }
+
         if (request.CreatedOn != null)
         {
             _query["created_on"] = request.CreatedOn;
         }
+
         if (request.BeforeId != null)
         {
             _query["before_id"] = request.BeforeId;
         }
+
         if (request.AfterId != null)
         {
             _query["after_id"] = request.AfterId;
         }
+
         if (request.ThrottledOnly != null)
         {
             _query["throttled_only"] = request.ThrottledOnly.ToString();
         }
+
         var response = await _client.MakeRequestAsync(
             new RawClient.JsonApiRequest
             {
@@ -62,47 +68,7 @@ public class TranscriptsClient
             }
         );
         var responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode is >= 200 and < 400)
-        {
-            try
-            {
-                return JsonUtils.Deserialize<TranscriptList>(responseBody)!;
-            }
-            catch (JsonException e)
-            {
-                throw new AssemblyAIClientException("Failed to deserialize response", e);
-            }
-        }
-
-        try
-        {
-            switch (response.StatusCode)
-            {
-                case 400:
-                    throw new BadRequestError(JsonUtils.Deserialize<Error>(responseBody));
-                case 401:
-                    throw new UnauthorizedError(JsonUtils.Deserialize<Error>(responseBody));
-                case 404:
-                    throw new NotFoundError(JsonUtils.Deserialize<Error>(responseBody));
-                case 429:
-                    throw new TooManyRequestsError(JsonUtils.Deserialize<Error>(responseBody));
-                case 500:
-                    throw new InternalServerError(JsonUtils.Deserialize<Error>(responseBody));
-                case 503:
-                    throw new ServiceUnavailableError(JsonUtils.Deserialize<object>(responseBody));
-                case 504:
-                    throw new GatewayTimeoutError(JsonUtils.Deserialize<object>(responseBody));
-            }
-        }
-        catch (JsonException)
-        {
-            // unable to map error response, throwing generic error
-        }
-        throw new AssemblyAIClientApiException(
-            $"Error with status code {response.StatusCode}",
-            response.StatusCode,
-            JsonUtils.Deserialize<object>(responseBody)
-        );
+        return JsonUtils.Deserialize<TranscriptList>(responseBody)!;
     }
 
     /// <summary>
@@ -124,47 +90,7 @@ public class TranscriptsClient
             }
         );
         var responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode is >= 200 and < 400)
-        {
-            try
-            {
-                return JsonUtils.Deserialize<Transcript>(responseBody)!;
-            }
-            catch (JsonException e)
-            {
-                throw new AssemblyAIClientException("Failed to deserialize response", e);
-            }
-        }
-
-        try
-        {
-            switch (response.StatusCode)
-            {
-                case 400:
-                    throw new BadRequestError(JsonUtils.Deserialize<Error>(responseBody));
-                case 401:
-                    throw new UnauthorizedError(JsonUtils.Deserialize<Error>(responseBody));
-                case 404:
-                    throw new NotFoundError(JsonUtils.Deserialize<Error>(responseBody));
-                case 429:
-                    throw new TooManyRequestsError(JsonUtils.Deserialize<Error>(responseBody));
-                case 500:
-                    throw new InternalServerError(JsonUtils.Deserialize<Error>(responseBody));
-                case 503:
-                    throw new ServiceUnavailableError(JsonUtils.Deserialize<object>(responseBody));
-                case 504:
-                    throw new GatewayTimeoutError(JsonUtils.Deserialize<object>(responseBody));
-            }
-        }
-        catch (JsonException)
-        {
-            // unable to map error response, throwing generic error
-        }
-        throw new AssemblyAIClientApiException(
-            $"Error with status code {response.StatusCode}",
-            response.StatusCode,
-            JsonUtils.Deserialize<object>(responseBody)
-        );
+        return JsonUtils.Deserialize<Transcript>(responseBody)!;
     }
 
     /// <summary>
@@ -182,47 +108,7 @@ public class TranscriptsClient
             }
         );
         var responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode is >= 200 and < 400)
-        {
-            try
-            {
-                return JsonUtils.Deserialize<Transcript>(responseBody)!;
-            }
-            catch (JsonException e)
-            {
-                throw new AssemblyAIClientException("Failed to deserialize response", e);
-            }
-        }
-
-        try
-        {
-            switch (response.StatusCode)
-            {
-                case 400:
-                    throw new BadRequestError(JsonUtils.Deserialize<Error>(responseBody));
-                case 401:
-                    throw new UnauthorizedError(JsonUtils.Deserialize<Error>(responseBody));
-                case 404:
-                    throw new NotFoundError(JsonUtils.Deserialize<Error>(responseBody));
-                case 429:
-                    throw new TooManyRequestsError(JsonUtils.Deserialize<Error>(responseBody));
-                case 500:
-                    throw new InternalServerError(JsonUtils.Deserialize<Error>(responseBody));
-                case 503:
-                    throw new ServiceUnavailableError(JsonUtils.Deserialize<object>(responseBody));
-                case 504:
-                    throw new GatewayTimeoutError(JsonUtils.Deserialize<object>(responseBody));
-            }
-        }
-        catch (JsonException)
-        {
-            // unable to map error response, throwing generic error
-        }
-        throw new AssemblyAIClientApiException(
-            $"Error with status code {response.StatusCode}",
-            response.StatusCode,
-            JsonUtils.Deserialize<object>(responseBody)
-        );
+        return JsonUtils.Deserialize<Transcript>(responseBody)!;
     }
 
     /// <summary>
@@ -241,47 +127,7 @@ public class TranscriptsClient
             }
         );
         var responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode is >= 200 and < 400)
-        {
-            try
-            {
-                return JsonUtils.Deserialize<Transcript>(responseBody)!;
-            }
-            catch (JsonException e)
-            {
-                throw new AssemblyAIClientException("Failed to deserialize response", e);
-            }
-        }
-
-        try
-        {
-            switch (response.StatusCode)
-            {
-                case 400:
-                    throw new BadRequestError(JsonUtils.Deserialize<Error>(responseBody));
-                case 401:
-                    throw new UnauthorizedError(JsonUtils.Deserialize<Error>(responseBody));
-                case 404:
-                    throw new NotFoundError(JsonUtils.Deserialize<Error>(responseBody));
-                case 429:
-                    throw new TooManyRequestsError(JsonUtils.Deserialize<Error>(responseBody));
-                case 500:
-                    throw new InternalServerError(JsonUtils.Deserialize<Error>(responseBody));
-                case 503:
-                    throw new ServiceUnavailableError(JsonUtils.Deserialize<object>(responseBody));
-                case 504:
-                    throw new GatewayTimeoutError(JsonUtils.Deserialize<object>(responseBody));
-            }
-        }
-        catch (JsonException)
-        {
-            // unable to map error response, throwing generic error
-        }
-        throw new AssemblyAIClientApiException(
-            $"Error with status code {response.StatusCode}",
-            response.StatusCode,
-            JsonUtils.Deserialize<object>(responseBody)
-        );
+        return JsonUtils.Deserialize<Transcript>(responseBody)!;
     }
 
     /// <summary>
@@ -299,6 +145,7 @@ public class TranscriptsClient
         {
             _query["chars_per_caption"] = request.CharsPerCaption.ToString();
         }
+
         var formatSlug = subtitleFormat == SubtitleFormat.Srt ? "srt" : "vtt";
         var response = await _client.MakeRequestAsync(
             new RawClient.JsonApiRequest
@@ -311,39 +158,7 @@ public class TranscriptsClient
             }
         );
         var responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode is >= 200 and < 400)
-        {
-            return responseBody;
-        }
-        try
-        {
-            switch (response.StatusCode)
-            {
-                case 400:
-                    throw new BadRequestError(JsonUtils.Deserialize<Error>(responseBody));
-                case 401:
-                    throw new UnauthorizedError(JsonUtils.Deserialize<Error>(responseBody));
-                case 404:
-                    throw new NotFoundError(JsonUtils.Deserialize<Error>(responseBody));
-                case 429:
-                    throw new TooManyRequestsError(JsonUtils.Deserialize<Error>(responseBody));
-                case 500:
-                    throw new InternalServerError(JsonUtils.Deserialize<Error>(responseBody));
-                case 503:
-                    throw new ServiceUnavailableError(JsonUtils.Deserialize<object>(responseBody));
-                case 504:
-                    throw new GatewayTimeoutError(JsonUtils.Deserialize<object>(responseBody));
-            }
-        }
-        catch (JsonException)
-        {
-            // unable to map error response, throwing generic error
-        }
-        throw new AssemblyAIClientApiException(
-            $"Error with status code {response.StatusCode}",
-            response.StatusCode,
-            JsonUtils.Deserialize<object>(responseBody)
-        );
+        return responseBody;
     }
 
     /// <summary>
@@ -364,47 +179,7 @@ public class TranscriptsClient
             }
         );
         var responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode is >= 200 and < 400)
-        {
-            try
-            {
-                return JsonUtils.Deserialize<SentencesResponse>(responseBody)!;
-            }
-            catch (JsonException e)
-            {
-                throw new AssemblyAIClientException("Failed to deserialize response", e);
-            }
-        }
-
-        try
-        {
-            switch (response.StatusCode)
-            {
-                case 400:
-                    throw new BadRequestError(JsonUtils.Deserialize<Error>(responseBody));
-                case 401:
-                    throw new UnauthorizedError(JsonUtils.Deserialize<Error>(responseBody));
-                case 404:
-                    throw new NotFoundError(JsonUtils.Deserialize<Error>(responseBody));
-                case 429:
-                    throw new TooManyRequestsError(JsonUtils.Deserialize<Error>(responseBody));
-                case 500:
-                    throw new InternalServerError(JsonUtils.Deserialize<Error>(responseBody));
-                case 503:
-                    throw new ServiceUnavailableError(JsonUtils.Deserialize<object>(responseBody));
-                case 504:
-                    throw new GatewayTimeoutError(JsonUtils.Deserialize<object>(responseBody));
-            }
-        }
-        catch (JsonException)
-        {
-            // unable to map error response, throwing generic error
-        }
-        throw new AssemblyAIClientApiException(
-            $"Error with status code {response.StatusCode}",
-            response.StatusCode,
-            JsonUtils.Deserialize<object>(responseBody)
-        );
+        return JsonUtils.Deserialize<SentencesResponse>(responseBody)!;
     }
 
     /// <summary>
@@ -425,47 +200,7 @@ public class TranscriptsClient
             }
         );
         var responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode is >= 200 and < 400)
-        {
-            try
-            {
-                return JsonUtils.Deserialize<ParagraphsResponse>(responseBody)!;
-            }
-            catch (JsonException e)
-            {
-                throw new AssemblyAIClientException("Failed to deserialize response", e);
-            }
-        }
-
-        try
-        {
-            switch (response.StatusCode)
-            {
-                case 400:
-                    throw new BadRequestError(JsonUtils.Deserialize<Error>(responseBody));
-                case 401:
-                    throw new UnauthorizedError(JsonUtils.Deserialize<Error>(responseBody));
-                case 404:
-                    throw new NotFoundError(JsonUtils.Deserialize<Error>(responseBody));
-                case 429:
-                    throw new TooManyRequestsError(JsonUtils.Deserialize<Error>(responseBody));
-                case 500:
-                    throw new InternalServerError(JsonUtils.Deserialize<Error>(responseBody));
-                case 503:
-                    throw new ServiceUnavailableError(JsonUtils.Deserialize<object>(responseBody));
-                case 504:
-                    throw new GatewayTimeoutError(JsonUtils.Deserialize<object>(responseBody));
-            }
-        }
-        catch (JsonException)
-        {
-            // unable to map error response, throwing generic error
-        }
-        throw new AssemblyAIClientApiException(
-            $"Error with status code {response.StatusCode}",
-            response.StatusCode,
-            JsonUtils.Deserialize<object>(responseBody)
-        );
+        return JsonUtils.Deserialize<ParagraphsResponse>(responseBody)!;
     }
 
     /// <summary>
@@ -490,47 +225,7 @@ public class TranscriptsClient
             }
         );
         var responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode is >= 200 and < 400)
-        {
-            try
-            {
-                return JsonUtils.Deserialize<WordSearchResponse>(responseBody)!;
-            }
-            catch (JsonException e)
-            {
-                throw new AssemblyAIClientException("Failed to deserialize response", e);
-            }
-        }
-
-        try
-        {
-            switch (response.StatusCode)
-            {
-                case 400:
-                    throw new BadRequestError(JsonUtils.Deserialize<Error>(responseBody));
-                case 401:
-                    throw new UnauthorizedError(JsonUtils.Deserialize<Error>(responseBody));
-                case 404:
-                    throw new NotFoundError(JsonUtils.Deserialize<Error>(responseBody));
-                case 429:
-                    throw new TooManyRequestsError(JsonUtils.Deserialize<Error>(responseBody));
-                case 500:
-                    throw new InternalServerError(JsonUtils.Deserialize<Error>(responseBody));
-                case 503:
-                    throw new ServiceUnavailableError(JsonUtils.Deserialize<object>(responseBody));
-                case 504:
-                    throw new GatewayTimeoutError(JsonUtils.Deserialize<object>(responseBody));
-            }
-        }
-        catch (JsonException)
-        {
-            // unable to map error response, throwing generic error
-        }
-        throw new AssemblyAIClientApiException(
-            $"Error with status code {response.StatusCode}",
-            response.StatusCode,
-            JsonUtils.Deserialize<object>(responseBody)
-        );
+        return JsonUtils.Deserialize<WordSearchResponse>(responseBody)!;
     }
 
     /// <summary>
@@ -551,46 +246,6 @@ public class TranscriptsClient
             }
         );
         var responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode is >= 200 and < 400)
-        {
-            try
-            {
-                return JsonUtils.Deserialize<RedactedAudioResponse>(responseBody)!;
-            }
-            catch (JsonException e)
-            {
-                throw new AssemblyAIClientException("Failed to deserialize response", e);
-            }
-        }
-
-        try
-        {
-            switch (response.StatusCode)
-            {
-                case 400:
-                    throw new BadRequestError(JsonUtils.Deserialize<Error>(responseBody));
-                case 401:
-                    throw new UnauthorizedError(JsonUtils.Deserialize<Error>(responseBody));
-                case 404:
-                    throw new NotFoundError(JsonUtils.Deserialize<Error>(responseBody));
-                case 429:
-                    throw new TooManyRequestsError(JsonUtils.Deserialize<Error>(responseBody));
-                case 500:
-                    throw new InternalServerError(JsonUtils.Deserialize<Error>(responseBody));
-                case 503:
-                    throw new ServiceUnavailableError(JsonUtils.Deserialize<object>(responseBody));
-                case 504:
-                    throw new GatewayTimeoutError(JsonUtils.Deserialize<object>(responseBody));
-            }
-        }
-        catch (JsonException)
-        {
-            // unable to map error response, throwing generic error
-        }
-        throw new AssemblyAIClientApiException(
-            $"Error with status code {response.StatusCode}",
-            response.StatusCode,
-            JsonUtils.Deserialize<object>(responseBody)
-        );
+        return JsonUtils.Deserialize<RedactedAudioResponse>(responseBody)!;
     }
 }

@@ -1,5 +1,7 @@
+using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 
 namespace AssemblyAI.Core;
 
@@ -8,7 +10,7 @@ namespace AssemblyAI.Core;
 /// <summary>
 /// Utility class for making raw HTTP requests to the API.
 /// </summary>
-public class RawClient(
+public partial class RawClient(
     Dictionary<string, string> headers,
     Dictionary<string, Func<string>> headerSuppliers,
     ClientOptions clientOptions
@@ -24,6 +26,8 @@ public class RawClient(
     /// </summary>
     private readonly Dictionary<string, string> _headers = headers;
 
+    private partial Task OnResponseErrorAsync(HttpResponseMessage response);
+
     public async Task<ApiResponse> MakeRequestAsync(BaseApiRequest request)
     {
         var url = BuildUrl(request);
@@ -32,21 +36,25 @@ public class RawClient(
         {
             request.Headers.Add("Content-Type", request.ContentType);
         }
+
         // Add global headers to the request
         foreach (var header in _headers)
         {
             httpRequest.Headers.Add(header.Key, header.Value);
         }
+
         // Add global headers to the request from supplier
         foreach (var header in headerSuppliers)
         {
             httpRequest.Headers.Add(header.Key, header.Value.Invoke());
         }
+
         // Add request headers to the request
         foreach (var header in request.Headers)
         {
             httpRequest.Headers.Add(header.Key, header.Value);
         }
+
         // Add the request body to the request
         if (request is JsonApiRequest jsonRequest)
         {
@@ -63,10 +71,18 @@ public class RawClient(
         {
             httpRequest.Content = new StreamContent(streamRequest.Body);
         }
+
         // Send the request
-        var httpClient = request.Options?.HttpClient ?? Options.HttpClient;
+        var httpClient = request.Options?.HttpClient ?? Options.HttpClient
+            ?? throw new Exception("No HttpClient provided in request or client options");
         var response = await httpClient.SendAsync(httpRequest);
-        return new ApiResponse { StatusCode = (int)response.StatusCode, Raw = response };
+        if (!response.IsSuccessStatusCode)
+        {
+            await OnResponseErrorAsync(response).ConfigureAwait(false);
+        }
+        
+        var apiResponse = new ApiResponse { StatusCode = response.StatusCode, Raw = response };
+        return apiResponse;
     }
 
     public record BaseApiRequest
@@ -107,7 +123,7 @@ public class RawClient(
     /// </summary>
     public record ApiResponse
     {
-        public required int StatusCode { get; init; }
+        public required HttpStatusCode StatusCode { get; init; }
 
         public required HttpResponseMessage Raw { get; init; }
     }
@@ -140,6 +156,7 @@ public class RawClient(
                 {
                     current += $"{queryItem.Key}={queryItem.Value}&";
                 }
+
                 return current;
             }
         );

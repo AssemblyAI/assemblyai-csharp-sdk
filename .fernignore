@@ -8,6 +8,7 @@ LICENSE.md
 src/AssemblyAI/AssemblyAI.csproj
 src/AssemblyAI/Core/ClientOptions.cs
 src/AssemblyAI/Core/JsonConfiguration.cs
+src/AssemblyAI/Core/ExtendedRawClient.cs
 src/AssemblyAI/ClientOptions.cs
 src/AssemblyAI/Constants.cs
 src/AssemblyAI/UserAgent.cs
