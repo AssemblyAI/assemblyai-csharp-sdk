@@ -37,47 +37,7 @@ public class LemurClient
             }
         );
         var responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode is >= 200 and < 400)
-        {
-            try
-            {
-                return JsonUtils.Deserialize<LemurTaskResponse>(responseBody)!;
-            }
-            catch (JsonException e)
-            {
-                throw new AssemblyAIClientException("Failed to deserialize response", e);
-            }
-        }
-
-        try
-        {
-            switch (response.StatusCode)
-            {
-                case 400:
-                    throw new BadRequestError(JsonUtils.Deserialize<Error>(responseBody));
-                case 401:
-                    throw new UnauthorizedError(JsonUtils.Deserialize<Error>(responseBody));
-                case 404:
-                    throw new NotFoundError(JsonUtils.Deserialize<Error>(responseBody));
-                case 429:
-                    throw new TooManyRequestsError(JsonUtils.Deserialize<Error>(responseBody));
-                case 500:
-                    throw new InternalServerError(JsonUtils.Deserialize<Error>(responseBody));
-                case 503:
-                    throw new ServiceUnavailableError(JsonUtils.Deserialize<object>(responseBody));
-                case 504:
-                    throw new GatewayTimeoutError(JsonUtils.Deserialize<object>(responseBody));
-            }
-        }
-        catch (JsonException)
-        {
-            // unable to map error response, throwing generic error
-        }
-        throw new AssemblyAIClientApiException(
-            $"Error with status code {response.StatusCode}",
-            response.StatusCode,
-            JsonUtils.Deserialize<object>(responseBody)
-        );
+        return JsonUtils.Deserialize<LemurTaskResponse>(responseBody)!;
     }
 
     /// <summary>
@@ -100,47 +60,7 @@ public class LemurClient
             }
         );
         var responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode is >= 200 and < 400)
-        {
-            try
-            {
-                return JsonUtils.Deserialize<LemurSummaryResponse>(responseBody)!;
-            }
-            catch (JsonException e)
-            {
-                throw new AssemblyAIClientException("Failed to deserialize response", e);
-            }
-        }
-
-        try
-        {
-            switch (response.StatusCode)
-            {
-                case 400:
-                    throw new BadRequestError(JsonUtils.Deserialize<Error>(responseBody));
-                case 401:
-                    throw new UnauthorizedError(JsonUtils.Deserialize<Error>(responseBody));
-                case 404:
-                    throw new NotFoundError(JsonUtils.Deserialize<Error>(responseBody));
-                case 429:
-                    throw new TooManyRequestsError(JsonUtils.Deserialize<Error>(responseBody));
-                case 500:
-                    throw new InternalServerError(JsonUtils.Deserialize<Error>(responseBody));
-                case 503:
-                    throw new ServiceUnavailableError(JsonUtils.Deserialize<object>(responseBody));
-                case 504:
-                    throw new GatewayTimeoutError(JsonUtils.Deserialize<object>(responseBody));
-            }
-        }
-        catch (JsonException)
-        {
-            // unable to map error response, throwing generic error
-        }
-        throw new AssemblyAIClientApiException(
-            $"Error with status code {response.StatusCode}",
-            response.StatusCode,
-            JsonUtils.Deserialize<object>(responseBody)
-        );
+        return JsonUtils.Deserialize<LemurSummaryResponse>(responseBody)!;
     }
 
     /// <summary>
@@ -163,47 +83,7 @@ public class LemurClient
             }
         );
         var responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode is >= 200 and < 400)
-        {
-            try
-            {
-                return JsonUtils.Deserialize<LemurQuestionAnswerResponse>(responseBody)!;
-            }
-            catch (JsonException e)
-            {
-                throw new AssemblyAIClientException("Failed to deserialize response", e);
-            }
-        }
-
-        try
-        {
-            switch (response.StatusCode)
-            {
-                case 400:
-                    throw new BadRequestError(JsonUtils.Deserialize<Error>(responseBody));
-                case 401:
-                    throw new UnauthorizedError(JsonUtils.Deserialize<Error>(responseBody));
-                case 404:
-                    throw new NotFoundError(JsonUtils.Deserialize<Error>(responseBody));
-                case 429:
-                    throw new TooManyRequestsError(JsonUtils.Deserialize<Error>(responseBody));
-                case 500:
-                    throw new InternalServerError(JsonUtils.Deserialize<Error>(responseBody));
-                case 503:
-                    throw new ServiceUnavailableError(JsonUtils.Deserialize<object>(responseBody));
-                case 504:
-                    throw new GatewayTimeoutError(JsonUtils.Deserialize<object>(responseBody));
-            }
-        }
-        catch (JsonException)
-        {
-            // unable to map error response, throwing generic error
-        }
-        throw new AssemblyAIClientApiException(
-            $"Error with status code {response.StatusCode}",
-            response.StatusCode,
-            JsonUtils.Deserialize<object>(responseBody)
-        );
+        return JsonUtils.Deserialize<LemurQuestionAnswerResponse>(responseBody)!;
     }
 
     /// <summary>
@@ -225,47 +105,7 @@ public class LemurClient
             }
         );
         var responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode is >= 200 and < 400)
-        {
-            try
-            {
-                return JsonUtils.Deserialize<LemurActionItemsResponse>(responseBody)!;
-            }
-            catch (JsonException e)
-            {
-                throw new AssemblyAIClientException("Failed to deserialize response", e);
-            }
-        }
-
-        try
-        {
-            switch (response.StatusCode)
-            {
-                case 400:
-                    throw new BadRequestError(JsonUtils.Deserialize<Error>(responseBody));
-                case 401:
-                    throw new UnauthorizedError(JsonUtils.Deserialize<Error>(responseBody));
-                case 404:
-                    throw new NotFoundError(JsonUtils.Deserialize<Error>(responseBody));
-                case 429:
-                    throw new TooManyRequestsError(JsonUtils.Deserialize<Error>(responseBody));
-                case 500:
-                    throw new InternalServerError(JsonUtils.Deserialize<Error>(responseBody));
-                case 503:
-                    throw new ServiceUnavailableError(JsonUtils.Deserialize<object>(responseBody));
-                case 504:
-                    throw new GatewayTimeoutError(JsonUtils.Deserialize<object>(responseBody));
-            }
-        }
-        catch (JsonException)
-        {
-            // unable to map error response, throwing generic error
-        }
-        throw new AssemblyAIClientApiException(
-            $"Error with status code {response.StatusCode}",
-            response.StatusCode,
-            JsonUtils.Deserialize<object>(responseBody)
-        );
+        return JsonUtils.Deserialize<LemurActionItemsResponse>(responseBody)!;
     }
 
     /// <summary>
@@ -286,47 +126,7 @@ public class LemurClient
             }
         );
         var responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode is >= 200 and < 400)
-        {
-            try
-            {
-                return JsonUtils.Deserialize<OneOf<LemurStringResponse, LemurQuestionAnswerResponse>>(responseBody)!;
-            }
-            catch (JsonException e)
-            {
-                throw new AssemblyAIClientException("Failed to deserialize response", e);
-            }
-        }
-
-        try
-        {
-            switch (response.StatusCode)
-            {
-                case 400:
-                    throw new BadRequestError(JsonUtils.Deserialize<Error>(responseBody));
-                case 401:
-                    throw new UnauthorizedError(JsonUtils.Deserialize<Error>(responseBody));
-                case 404:
-                    throw new NotFoundError(JsonUtils.Deserialize<Error>(responseBody));
-                case 429:
-                    throw new TooManyRequestsError(JsonUtils.Deserialize<Error>(responseBody));
-                case 500:
-                    throw new InternalServerError(JsonUtils.Deserialize<Error>(responseBody));
-                case 503:
-                    throw new ServiceUnavailableError(JsonUtils.Deserialize<object>(responseBody));
-                case 504:
-                    throw new GatewayTimeoutError(JsonUtils.Deserialize<object>(responseBody));
-            }
-        }
-        catch (JsonException)
-        {
-            // unable to map error response, throwing generic error
-        }
-        throw new AssemblyAIClientApiException(
-            $"Error with status code {response.StatusCode}",
-            response.StatusCode,
-            JsonUtils.Deserialize<object>(responseBody)
-        );
+        return JsonUtils.Deserialize<OneOf<LemurStringResponse, LemurQuestionAnswerResponse>>(responseBody)!;
     }
 
     /// <summary>
@@ -348,46 +148,6 @@ public class LemurClient
             }
         );
         var responseBody = await response.Raw.Content.ReadAsStringAsync();
-        if (response.StatusCode is >= 200 and < 400)
-        {
-            try
-            {
-                return JsonUtils.Deserialize<PurgeLemurRequestDataResponse>(responseBody)!;
-            }
-            catch (JsonException e)
-            {
-                throw new AssemblyAIClientException("Failed to deserialize response", e);
-            }
-        }
-
-        try
-        {
-            switch (response.StatusCode)
-            {
-                case 400:
-                    throw new BadRequestError(JsonUtils.Deserialize<Error>(responseBody));
-                case 401:
-                    throw new UnauthorizedError(JsonUtils.Deserialize<Error>(responseBody));
-                case 404:
-                    throw new NotFoundError(JsonUtils.Deserialize<Error>(responseBody));
-                case 429:
-                    throw new TooManyRequestsError(JsonUtils.Deserialize<Error>(responseBody));
-                case 500:
-                    throw new InternalServerError(JsonUtils.Deserialize<Error>(responseBody));
-                case 503:
-                    throw new ServiceUnavailableError(JsonUtils.Deserialize<object>(responseBody));
-                case 504:
-                    throw new GatewayTimeoutError(JsonUtils.Deserialize<object>(responseBody));
-            }
-        }
-        catch (JsonException)
-        {
-            // unable to map error response, throwing generic error
-        }
-        throw new AssemblyAIClientApiException(
-            $"Error with status code {response.StatusCode}",
-            response.StatusCode,
-            JsonUtils.Deserialize<object>(responseBody)
-        );
+        return JsonUtils.Deserialize<PurgeLemurRequestDataResponse>(responseBody)!;
     }
 }

@@ -1,3 +1,4 @@
+using System.Net;
 using AssemblyAI.Core;
 using AssemblyAI.Lemur;
 
@@ -82,17 +83,18 @@ public class LemurTests
     }
 
     [Test]
-    [Ignore("Ignore until fixed")]
+    //[Ignore("Ignore until fixed")]
     public void Should_Fail_To_Generate_Summary()
     {
         var client = new AssemblyAIClient(ApiKey);
-        var ex = Assert.ThrowsAsync<BadRequestError>(async () => await client.Lemur.SummaryAsync(new LemurSummaryParams
+        var ex = Assert.ThrowsAsync<HttpOperationException>(async () => await client.Lemur.SummaryAsync(new LemurSummaryParams
         {
             FinalModel = LemurModel.Basic,
             TranscriptIds = ["bad-id"],
             AnswerFormat = "one sentence"
         }).ConfigureAwait(false));
 
+        Assert.That(ex.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
         Assert.That(ex.Message, Is.EqualTo("each transcript source id must be valid"));
     }
 
