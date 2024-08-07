@@ -10,7 +10,7 @@ namespace AssemblyAI.Core;
 /// <summary>
 /// Utility class for making raw HTTP requests to the API.
 /// </summary>
-public class RawClient(
+public partial class RawClient(
     Dictionary<string, string> headers,
     Dictionary<string, Func<string>> headerSuppliers,
     ClientOptions clientOptions
@@ -25,6 +25,8 @@ public class RawClient(
     /// Global headers to be sent with every request.
     /// </summary>
     private readonly Dictionary<string, string> _headers = headers;
+
+    private partial Task OnResponseErrorAsync(HttpResponseMessage response);
 
     public async Task<ApiResponse> MakeRequestAsync(BaseApiRequest request)
     {
@@ -74,38 +76,13 @@ public class RawClient(
         var httpClient = request.Options?.HttpClient ?? Options.HttpClient
             ?? throw new Exception("No HttpClient provided in request or client options");
         var response = await httpClient.SendAsync(httpRequest);
+        if (!response.IsSuccessStatusCode)
+        {
+            await OnResponseErrorAsync(response).ConfigureAwait(false);
+        }
+        
         var apiResponse = new ApiResponse { StatusCode = response.StatusCode, Raw = response };
-        if (response.IsSuccessStatusCode) return apiResponse;
-        
-        var responseContentString = await response.Content.ReadAsStringAsync();
-        if (string.IsNullOrEmpty(responseContentString))
-        {
-            throw new HttpOperationException(
-                $"Error with status code {response.StatusCode}", 
-                response.StatusCode, 
-                responseContentString
-            ); 
-        }
-
-        try
-        {
-            var error = JsonUtils.Deserialize<AssemblyAI.Error>(responseContentString);
-            throw new HttpOperationException(
-                error.Error_, 
-                response.StatusCode, 
-                responseContentString
-            );
-        }
-        catch (JsonException)
-        {
-        }
-        
-        // use response content as error message if error object cannot be deserialized
-        throw new HttpOperationException(
-            responseContentString, 
-            response.StatusCode, 
-            responseContentString
-        );
+        return apiResponse;
     }
 
     public record BaseApiRequest
