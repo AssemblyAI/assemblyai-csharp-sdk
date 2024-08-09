@@ -16,7 +16,7 @@ public class TranscribeMicrophoneViewModel : ViewModelBase, IAsyncDisposable
 {
     private readonly ICaptureAudio _captureAudio;
     private readonly AssemblyAIClient _client = DiContainer.Services.GetRequiredService<AssemblyAIClient>();
-    private readonly SortedDictionary<int, string> _transcriptWords = new();
+    private readonly SortedDictionary<int, string> _transcripts = new();
     private readonly RealtimeTranscriber _transcriber;
 
     private string _transcript = "Your transcript will appear here.";
@@ -112,9 +112,9 @@ public class TranscribeMicrophoneViewModel : ViewModelBase, IAsyncDisposable
         _captureAudio.OnAudioData += CaptureAudioOnOnAudioData;
     }
 
-    private void CaptureAudioOnOnAudioData(byte[] audio)
+    private async Task CaptureAudioOnOnAudioData(byte[] audio)
     {
-        _transcriber.SendAudio(audio);
+        await _transcriber.SendAudioAsync(audio).ConfigureAwait(false);
     }
 
     private void OnErrorReceived(RealtimeError error)
@@ -128,23 +128,17 @@ public class TranscribeMicrophoneViewModel : ViewModelBase, IAsyncDisposable
         Error = $"Socket closed with code {closedEvent.Code}: {closedEvent.Reason}";
     }
 
-    private void OnPartialTranscriptReceived(PartialTranscript partialTranscript)
+    private void OnPartialTranscriptReceived(PartialTranscript transcript)
     {
-        if (partialTranscript.Text == "") return;
-        foreach (var word in partialTranscript.Words)
-        {
-            _transcriptWords[word.Start] = word.Text;
-        }
+        if (transcript.Text == "") return;
+        _transcripts[transcript.AudioStart] = transcript.Text;
 
         BuildTranscript();
     }
 
-    private void OnFinalTranscriptReceived(FinalTranscript finalTranscript)
+    private void OnFinalTranscriptReceived(FinalTranscript transcript)
     {
-        foreach (var word in finalTranscript.Words)
-        {
-            _transcriptWords[word.Start] = word.Text;
-        }
+        _transcripts[transcript.AudioStart] = transcript.Text;
 
         BuildTranscript();
     }
@@ -152,7 +146,7 @@ public class TranscribeMicrophoneViewModel : ViewModelBase, IAsyncDisposable
     private void BuildTranscript()
     {
         var stringBuilder = new StringBuilder();
-        foreach (var word in _transcriptWords.Values)
+        foreach (var word in _transcripts.Values)
         {
             stringBuilder.Append($"{word} ");
         }

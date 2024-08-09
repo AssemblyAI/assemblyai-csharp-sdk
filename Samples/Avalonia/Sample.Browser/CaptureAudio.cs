@@ -15,7 +15,7 @@ public class CaptureAudio : ICaptureAudio, IDisposable
         JsMicrophone.OnAudioData += JsMicrophoneOnOnAudioData;
     }
 
-    private void JsMicrophoneOnOnAudioData(byte[] audio) => OnAudioData?.Invoke(audio);
+    private Task JsMicrophoneOnOnAudioData(byte[] audio) => OnAudioData?.Invoke(audio);
 
     public Task<bool> HasPermission() => JsMicrophone.HasPermission();
 

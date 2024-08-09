@@ -1,6 +1,19 @@
-﻿using AssemblyAI;
+﻿using System.Text;
 using Microsoft.Extensions.Configuration;
 using AssemblyAI.Realtime;
+
+var transcriptWords = new SortedDictionary<int, string>();
+
+string BuildTranscript()
+{
+    var stringBuilder = new StringBuilder();
+    foreach (var word in transcriptWords.Values)
+    {
+        stringBuilder.Append($"{word} ");
+    }
+
+    return stringBuilder.ToString();
+}
 
 var config = new ConfigurationBuilder()
     .AddUserSecrets<Program>()
@@ -23,20 +36,22 @@ transcriber.SessionBegins.Subscribe(
          """)
 );
 
-transcriber.PartialTranscriptReceived.Subscribe(
-    transcript => Console.WriteLine("Partial transcript: {0}", transcript.Text)
-);
+transcriber.PartialTranscriptReceived.Subscribe(transcript =>
+{
+    // don't do anything if nothing was said
+    if (string.IsNullOrEmpty(transcript.Text)) return;
+    transcriptWords[transcript.AudioStart] = transcript.Text;
 
-transcriber.FinalTranscriptReceived.Subscribe(
-    transcript => Console.WriteLine("Final transcript: {0}", transcript.Text)
-);
+    Console.Clear();
+    Console.WriteLine(BuildTranscript());
+});
+transcriber.FinalTranscriptReceived.Subscribe(transcript =>
+{
+    transcriptWords[transcript.AudioStart] = transcript.Text;
 
-transcriber.TranscriptReceived.Subscribe(
-    transcript => Console.WriteLine("Transcript: {0}", transcript.Match(
-        partialTranscript => partialTranscript.Text,
-        finalTranscript => finalTranscript.Text
-    ))
-);
+    Console.Clear();
+    Console.WriteLine(BuildTranscript());
+});
 
 transcriber.ErrorReceived.Subscribe(
     error => Console.WriteLine("Error: {0}", error)
@@ -49,11 +64,11 @@ await transcriber.ConnectAsync().ConfigureAwait(false);
 
 // Mock of streaming audio from a microphone
 await using var fileStream = File.OpenRead("./gore-short.wav");
-var audio = new byte[8192];
-while (fileStream.Read(audio, 0, audio.Length) > 0)
+var audio = new Memory<byte>(new byte[8192]);
+while (await fileStream.ReadAsync(audio).ConfigureAwait(false) > 0)
 {
-    transcriber.SendAudio(audio);
-    await Task.Delay(100);
+    await transcriber.SendAudioAsync(audio).ConfigureAwait(false);
+    await Task.Delay(100).ConfigureAwait(false);
 }
 
 await transcriber.CloseAsync().ConfigureAwait(false);
