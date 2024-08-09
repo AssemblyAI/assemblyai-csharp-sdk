@@ -139,8 +139,6 @@ internal partial class WebsocketClient
         _disposing = true;
         try
         {
-            _messagesTextToSendQueue.Writer.Complete();
-            _messagesBinaryToSendQueue.Writer.Complete();
             _lastChanceTimer?.Dispose();
             _errorReconnectTimer?.Dispose();
             _cancellation?.Cancel();
@@ -252,9 +250,6 @@ internal partial class WebsocketClient
         _cancellationTotal = new CancellationTokenSource();
 
         await StartClient(Url, _cancellation.Token).ConfigureAwait(false);
-
-        StartBackgroundThreadForSendingText();
-        StartBackgroundThreadForSendingBinary();
     }
 
     private async Task<bool> StopInternal(WebSocket client, WebSocketCloseStatus status, string statusDescription,

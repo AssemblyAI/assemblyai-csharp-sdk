@@ -13,13 +13,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="gore-short.wav">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
+      <ProjectReference Include="..\..\src\AssemblyAI\AssemblyAI.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\AssemblyAI\AssemblyAI.csproj" />
+      <None Remove="gore-short.wav" />
+      <Content Include="gore-short.wav">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

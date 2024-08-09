@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Sample;
 
-public delegate void OnAudioData(byte[] audio);
+public delegate Task OnAudioData(byte[] audio);
 
 public interface ICaptureAudio
 {

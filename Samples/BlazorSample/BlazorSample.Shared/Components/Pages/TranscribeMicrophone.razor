@@ -78,13 +78,13 @@
         if (firstRender)
         {
             _jsMicrophone = await JsMicrophone.CreateAsync(JsRuntime);
-            _jsMicrophone.OnAudioData += JsMicrophoneOnOnAudioData;
+            _jsMicrophone.OnAudioData = JsMicrophoneOnOnAudioData;
         }
     }
 
-    private void JsMicrophoneOnOnAudioData(byte[] audio)
+    private async Task JsMicrophoneOnOnAudioData(byte[] audio)
     {
-        _transcriber.SendAudio(audio);
+        await _transcriber.SendAudioAsync(audio);
     }
 
     private async Task TranscribeToggleClick()
@@ -115,24 +115,17 @@
         Error = $"Socket closed with code {closedEvent.Code}: {closedEvent.Reason}";
     }
 
-    private void OnPartialTranscriptReceived(PartialTranscript partialTranscript)
+    private void OnPartialTranscriptReceived(PartialTranscript transcript)
     {
-        if (partialTranscript.Text == "") return;
-        foreach (var word in partialTranscript.Words)
-        {
-            _transcriptWords[word.Start] = word.Text;
-        }
+        if (transcript.Text == "") return;
+        _transcriptWords[transcript.AudioStart] = transcript.Text;
 
         BuildTranscript();
     }
 
-    private void OnFinalTranscriptReceived(FinalTranscript finalTranscript)
+    private void OnFinalTranscriptReceived(FinalTranscript transcript)
     {
-        foreach (var word in finalTranscript.Words)
-        {
-            _transcriptWords[word.Start] = word.Text;
-        }
-
+        _transcriptWords[transcript.AudioStart] = transcript.Text;
         BuildTranscript();
     }
 

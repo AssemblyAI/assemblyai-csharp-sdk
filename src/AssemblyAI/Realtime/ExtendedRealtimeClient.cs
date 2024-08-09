@@ -22,14 +22,14 @@ public partial class RealtimeClient
     /// Create a real-time transcriber
     /// </summary>
     /// <returns>The real-time transcriber</returns>
-    public RealtimeTranscriber Transcriber() => Transcriber(new RealtimeTranscriberOptions());
+    public RealtimeTranscriber CreateTranscriber() => CreateTranscriber(new RealtimeTranscriberOptions());
 
     /// <summary>
     /// Create a real-time transcriber with options
     /// </summary>
     /// <param name="options">Options for the real-time transcriber</param>
     /// <returns>The real-time transcriber</returns>
-    public RealtimeTranscriber Transcriber(RealtimeTranscriberOptions options)
+    public RealtimeTranscriber CreateTranscriber(RealtimeTranscriberOptions options)
     {
         if (options.Token == null && options.ApiKey == null)
         {

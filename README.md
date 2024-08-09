@@ -274,7 +274,7 @@ using AssemblyAI;
 using AssemblyAI.Realtime;
 
 var client = new AssemblyAIClient(Environment.GetEnvironmentVariable("ASSEMBLYAI_API_KEY")!);
-await using var transcriber = client.Realtime.Transcriber();
+await using var transcriber = client.Realtime.CreateTranscriber();
 ```
 
 You can also pass in the following options.
@@ -283,7 +283,7 @@ You can also pass in the following options.
 using AssemblyAI;
 using AssemblyAI.Realtime;
 
-await using var transcriber = client.Realtime.Transcriber(new RealtimeTranscriberOptions
+await using var transcriber = client.Realtime.CreateTranscriber(new RealtimeTranscriberOptions
 {
     // If ApiKey is null, the API key passed to `AssemblyAIClient` will be
     ApiKey: Environment.GetEnvironmentVariable("ASSEMBLYAI_API_KEY"),

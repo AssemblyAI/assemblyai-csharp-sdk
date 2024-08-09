@@ -137,7 +137,7 @@ async Task TranscribeStream(
             case "media":
                 var payload = jsonDocument.RootElement.GetProperty("media").GetProperty("payload").GetString();
                 byte[] audio = Convert.FromBase64String(payload);
-                realtimeTranscriber.SendAudio(audio);
+                await realtimeTranscriber.SendAudioAsync(audio).ConfigureAwait(false);
                 break;
             case "stop":
                 app.Logger.LogInformation("Twilio media stream stopped");

@@ -3,11 +3,13 @@ using Microsoft.JSInterop;
 
 namespace BlazorSample.Shared;
 
+public delegate Task OnAudioData(byte[] audio);
+
 [SupportedOSPlatform("browser")]
 public class JsMicrophone : IAsyncDisposable
 {
     private IJSObjectReference _jsObjectReference;
-    public event Action<byte[]>? OnAudioData;
+    public OnAudioData? OnAudioData { get; set; }
 
     public static async Task<JsMicrophone> CreateAsync(IJSRuntime jsRuntime)
     {
@@ -27,7 +29,7 @@ public class JsMicrophone : IAsyncDisposable
     public void StopRecordingAsync() =>  _jsObjectReference.InvokeVoidAsync("stopRecording");
 
     [JSInvokable]
-    public void OnAudioDataFromJs(byte[] audio) => OnAudioData?.Invoke(audio);
+    public Task OnAudioDataFromJs(byte[] audio) => OnAudioData?.Invoke(audio) ?? Task.CompletedTask;
 
     public async ValueTask DisposeAsync()
     {

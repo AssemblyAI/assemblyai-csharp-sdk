@@ -7,7 +7,7 @@ namespace Sample.Browser;
 [SupportedOSPlatform("browser")]
 public static partial class JsMicrophone
 {
-    public static event OnAudioData? OnAudioData;
+    public static OnAudioData? OnAudioData { get; set; }
 
     [JSImport("hasPermission", "audio")]
     internal static partial Task<bool> HasPermission();
@@ -27,5 +27,5 @@ public static partial class JsMicrophone
     public static async Task LoadModule() => await JSHost.ImportAsync("audio", "/audio.mjs");
 
     [JSExport]
-    public static void OnAudioDataFromJs(byte[] audio) => OnAudioData?.Invoke(audio);
+    public static Task OnAudioDataFromJs(byte[] audio) => OnAudioData?.Invoke(audio) ?? Task.CompletedTask;
 }

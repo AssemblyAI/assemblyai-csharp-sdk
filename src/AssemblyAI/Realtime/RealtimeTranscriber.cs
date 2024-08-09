@@ -351,41 +351,55 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
     {
         await ExceptionOccurred.RaiseEvent(exception).ConfigureAwait(false);
     }
-
-    /// <summary>
-    /// Send audio to the real-time service.
-    /// </summary>
-    /// <param name="audio">Audio to transcribe</param>
-    public void SendAudio(ArraySegment<byte> audio)
-    {
-        if (_status != RealtimeTranscriberStatus.Connected)
-        {
-            throw new Exception($"Cannot send audio when status is {_status.ToString()}");
-        }
-
-        _socket!.Send(audio);
-    }
-
-    /// <summary>
-    /// Send audio to the real-time service.
-    /// </summary>
-    /// <param name="audio">Audio to transcribe</param>
-    public void SendAudio(byte[] audio)
-    {
-        if (_status != RealtimeTranscriberStatus.Connected)
-        {
-            throw new Exception($"Cannot send audio when status is {_status.ToString()}");
-        }
-
-        _socket!.Send(audio);
-    }
     
+    /// <summary>
+    /// Send audio to the real-time service.
+    /// </summary>
+    /// <param name="audio">Audio to transcribe</param>
+    public Task SendAudioAsync(Memory<byte> audio)
+    {
+        if (_status != RealtimeTranscriberStatus.Connected)
+        {
+            throw new Exception($"Cannot send audio when status is {_status.ToString()}");
+        }
+
+        return _socket!.SendInstant(audio);
+    }
+
+    /// <summary>
+    /// Send audio to the real-time service.
+    /// </summary>
+    /// <param name="audio">Audio to transcribe</param>
+    public Task SendAudioAsync(ArraySegment<byte> audio)
+    {
+        if (_status != RealtimeTranscriberStatus.Connected)
+        {
+            throw new Exception($"Cannot send audio when status is {_status.ToString()}");
+        }
+
+        return _socket!.SendInstant(audio.Array);
+    }
+
+    /// <summary>
+    /// Send audio to the real-time service.
+    /// </summary>
+    /// <param name="audio">Audio to transcribe</param>
+    public Task SendAudioAsync(byte[] audio)
+    {
+        if (_status != RealtimeTranscriberStatus.Connected)
+        {
+            throw new Exception($"Cannot send audio when status is {_status.ToString()}");
+        }
+
+        return _socket!.SendInstant(audio);
+    }
+
     /// <summary>
     /// Manually end an utterance
     /// </summary>
-    public void ForceEndUtterance()
+    public Task ForceEndUtteranceAsync()
     {
-        _socket!.Send("{\"force_end_utterance\":true}");
+        return _socket!.SendInstant("{\"force_end_utterance\":true}");
     }
     
     /// <summary>
@@ -395,9 +409,9 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
     /// The duration of the end utterance silence threshold in milliseconds.
     /// This value must be an integer between 0 and 20_000.
     /// </param>
-    public void ConfigureEndUtteranceThreshold(uint threshold)
+    public Task ConfigureEndUtteranceThresholdAsync(uint threshold)
     {
-        _socket!.Send($"{{\"end_utterance_silence_threshold\":{threshold}}}");
+        return _socket!.SendInstant($"{{\"end_utterance_silence_threshold\":{threshold}}}");
     }
 
     /// <summary>
@@ -473,7 +487,7 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
             _sessionTerminatedTaskCompletionSource = new TaskCompletionSource<SessionInformation>();
         }
 
-        _socket!.Send("{\"terminate_session\": true}");
+        await _socket!.SendInstant("{\"terminate_session\": true}").ConfigureAwait(false);
         if (waitForSessionTerminated)
         {
             await _sessionTerminatedTaskCompletionSource!.Task

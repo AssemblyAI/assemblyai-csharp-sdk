@@ -1,7 +1,7 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 using AssemblyAI.Realtime;
 using Microsoft.Extensions.Configuration;
-using OpenTK.Audio.OpenAL;
 
 var transcriptWords = new SortedDictionary<int, string>();
 string BuildTranscript()
@@ -19,90 +19,84 @@ var config = new ConfigurationBuilder()
     .AddUserSecrets<Program>()
     .Build();
 
+// Set up the cancellation token, so we can stop the program with Ctrl+C
 var cts = new CancellationTokenSource();
 var ct = cts.Token;
-var transcribeThread = new Thread(() =>
+Console.CancelKeyPress += (sender, e) => cts.Cancel();
+
+// Set up the realtime transcriber
+const int sampleRate = 16_000;
+await using var transcriber = new RealtimeTranscriber(new RealtimeTranscriberOptions
 {
-    const int sampleRate = 16_000;
-    using var transcriber = new RealtimeTranscriber
-    {
-        ApiKey = config["AssemblyAI:ApiKey"]!,
-        SampleRate = sampleRate
-    };
-    
-    transcriber.PartialTranscriptReceived.Subscribe(partialTranscript =>
-    {
-        // don't do anything if nothing was said
-        if (string.IsNullOrEmpty(partialTranscript.Text)) return;
-        foreach (var word in partialTranscript.Words)
-        {
-            transcriptWords[word.Start] = word.Text;
-        }
-
-        Console.Clear();
-        Console.WriteLine("Press any key to exit.");
-        Console.WriteLine(BuildTranscript());
-    });
-    transcriber.FinalTranscriptReceived.Subscribe(finalTranscript => 
-    {
-        foreach (var word in finalTranscript.Words)
-        {
-            transcriptWords[word.Start] = word.Text;
-        }
-
-        Console.Clear();
-        Console.WriteLine("Press any key to exit.");
-        Console.WriteLine(BuildTranscript());
-    });
-    transcriber.ErrorReceived.Subscribe(error => Console.WriteLine("Real-time error: {0}", error));
-    transcriber.Closed.Subscribe(closeEvent =>
-        Console.WriteLine("Real-time connection closed: {0} - {1}",
-            closeEvent.Code,
-            closeEvent.Reason
-        )
-    );
-
-    Console.WriteLine("Connecting to real-time transcript service");
-    var sessionBeginsMessage = transcriber.ConnectAsync().Result;
-    Console.WriteLine($"""
-                       Session begins:
-                       - Session ID: {sessionBeginsMessage.SessionId}
-                       - Expires at: {sessionBeginsMessage.ExpiresAt}
-                       """);
-    Console.WriteLine("Starting recording");
-
-    const int bufferSize = 1024;
-    var captureDevice = ALC.CaptureOpenDevice(null, sampleRate, ALFormat.Mono16, bufferSize);
-    ALC.CaptureStart(captureDevice);
-
-    var buffer = new byte[bufferSize];
-    while (true)
-    {
-        var current = 0;
-        while (current < buffer.Length && !ct.IsCancellationRequested)
-        {
-            var samplesAvailable = ALC.GetInteger(captureDevice, AlcGetInteger.CaptureSamples);
-            if (samplesAvailable < 512) continue;
-            var samplesToRead = Math.Min(samplesAvailable, buffer.Length - current);
-            ALC.CaptureSamples(captureDevice, ref buffer[current], samplesToRead);
-            current += samplesToRead;
-        }
-
-        if (ct.IsCancellationRequested) break;
-
-        transcriber.SendAudio(buffer.ToArray());
-    }
-
-    Console.WriteLine("Stopping recording");
-    ALC.CaptureStop(captureDevice);
-    ALC.CaptureCloseDevice(captureDevice);
-
-    Console.WriteLine("Closing real-time transcript connection");
-    transcriber.CloseAsync().Wait();
+    ApiKey = config["AssemblyAI:ApiKey"]!,
+    SampleRate = sampleRate
 });
 
-transcribeThread.IsBackground = true;
-transcribeThread.Start();
+transcriber.PartialTranscriptReceived.Subscribe(transcript =>
+{        // don't do anything if nothing was said
+    if (string.IsNullOrEmpty(transcript.Text)) return;
+    transcriptWords[transcript.AudioStart] = transcript.Text;
 
-Console.ReadKey();
-await cts.CancelAsync().ConfigureAwait(false);
+    Console.Clear();
+    Console.WriteLine(BuildTranscript());
+});
+transcriber.FinalTranscriptReceived.Subscribe(transcript =>
+{
+    transcriptWords[transcript.AudioStart] = transcript.Text;
+
+    Console.Clear();
+    Console.WriteLine(BuildTranscript());
+});
+transcriber.ErrorReceived.Subscribe(error => Console.WriteLine("Real-time error: {0}", error));
+transcriber.Closed.Subscribe(closeEvent =>
+    Console.WriteLine("Real-time connection closed: {0} - {1}",
+        closeEvent.Code,
+        closeEvent.Reason
+    )
+);
+
+Console.WriteLine("Connecting to real-time transcript service");
+var sessionBeginsMessage = await transcriber.ConnectAsync().ConfigureAwait(false);
+Console.WriteLine($"""
+                   Session begins:
+                   - Session ID: {sessionBeginsMessage.SessionId}
+                   - Expires at: {sessionBeginsMessage.ExpiresAt}
+                   """);
+Console.WriteLine("Starting recording");
+
+var soxArguments = string.Join(' ', [
+    "--default-device",
+    "--no-show-progress",
+    "--rate 16000",
+    "--channels 1",
+    "--encoding signed-integer",
+    "--bits 16",
+    "--type wav",
+    "-" // pipe
+]);
+Console.WriteLine($"sox {soxArguments}");
+using var soxProcess = new Process
+{
+    StartInfo = new ProcessStartInfo
+    {
+        FileName = "sox",
+        Arguments = soxArguments,
+        RedirectStandardOutput = true,
+        RedirectStandardError = true,
+        UseShellExecute = false,
+        CreateNoWindow = true
+    }
+};
+
+soxProcess.Start();
+soxProcess.BeginErrorReadLine();
+var soxOutputStream = soxProcess.StandardOutput.BaseStream;
+var buffer = new byte[4096];
+while (await soxOutputStream.ReadAsync(buffer, 0, buffer.Length, ct) > 0)
+{
+    if (ct.IsCancellationRequested) break;
+    await transcriber.SendAudioAsync(buffer);
+}
+
+soxProcess.Kill();
+await transcriber.CloseAsync();
