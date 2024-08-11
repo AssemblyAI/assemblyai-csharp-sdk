@@ -86,7 +86,7 @@ public class LemurTests
     public void Should_Fail_To_Generate_Summary()
     {
         var client = new AssemblyAIClient(ApiKey);
-        var ex = Assert.ThrowsAsync<BadRequestError>(async () => await client.Lemur.SummaryAsync(new LemurSummaryParams
+        var ex = Assert.ThrowsAsync<ApiException>(async () => await client.Lemur.SummaryAsync(new LemurSummaryParams
         {
             FinalModel = LemurModel.Basic,
             TranscriptIds = ["bad-id"],

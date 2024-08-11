@@ -6,8 +6,15 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI.Transcripts;
 
-public class ExtendedTranscriptsClient(RawClient client, AssemblyAIClient assemblyAIClient) : TranscriptsClient(client)
+public class ExtendedTranscriptsClient : TranscriptsClient
 {
+    private readonly AssemblyAIClient _assemblyAIClient;
+
+    internal ExtendedTranscriptsClient(RawClient client, AssemblyAIClient assemblyAIClient) : base(client)
+    {
+        _assemblyAIClient = assemblyAIClient;
+    }
+
     public Task<Transcript> SubmitAsync(FileInfo audioFile) => SubmitAsync(audioFile, new TranscriptOptionalParams());
 
     public async Task<Transcript> SubmitAsync(FileInfo audioFile, TranscriptOptionalParams transcriptParams)
@@ -21,7 +28,7 @@ public class ExtendedTranscriptsClient(RawClient client, AssemblyAIClient assemb
 
     public async Task<Transcript> SubmitAsync(Stream audioFileStream, TranscriptOptionalParams transcriptParams)
     {
-        var fileUpload = await assemblyAIClient.Files.UploadAsync(audioFileStream).ConfigureAwait(false);
+        var fileUpload = await _assemblyAIClient.Files.UploadAsync(audioFileStream).ConfigureAwait(false);
         return await SubmitAsync(new Uri(fileUpload.UploadUrl), transcriptParams).ConfigureAwait(false);
     }
 
@@ -46,7 +53,7 @@ public class ExtendedTranscriptsClient(RawClient client, AssemblyAIClient assemb
 
     public async Task<Transcript> TranscribeAsync(Stream audioFileStream, TranscriptOptionalParams transcriptParams)
     {
-        var fileUpload = await assemblyAIClient.Files.UploadAsync(audioFileStream).ConfigureAwait(false);
+        var fileUpload = await _assemblyAIClient.Files.UploadAsync(audioFileStream).ConfigureAwait(false);
         return await TranscribeAsync(new Uri(fileUpload.UploadUrl), transcriptParams).ConfigureAwait(false);
     }
 
@@ -55,7 +62,7 @@ public class ExtendedTranscriptsClient(RawClient client, AssemblyAIClient assemb
 
     public Task<Transcript> TranscribeAsync(Uri audioFileUrl, TranscriptOptionalParams transcriptParams)
         => TranscribeAsync(CreateParams(audioFileUrl, transcriptParams));
-    
+
     public async Task<Transcript> TranscribeAsync(TranscriptParams transcriptParams)
     {
         var transcript = await SubmitAsync(transcriptParams).ConfigureAwait(false);
@@ -71,15 +78,15 @@ public class ExtendedTranscriptsClient(RawClient client, AssemblyAIClient assemb
     /// <param name="pollingTimeout">How long to wait until the timeout exception thrown. Defaults to infinite.</param>
     /// <returns>The transcript with status "completed" or "error"</returns>
     public async Task<Transcript> WaitUntilReady(
-        string id, 
-        TimeSpan? pollingInterval = null, 
+        string id,
+        TimeSpan? pollingInterval = null,
         TimeSpan? pollingTimeout = null
     )
     {
-        var ct = pollingTimeout == null ? 
-            CancellationToken.None : 
-            new CancellationTokenSource(pollingTimeout.Value).Token;
-        
+        var ct = pollingTimeout == null
+            ? CancellationToken.None
+            : new CancellationTokenSource(pollingTimeout.Value).Token;
+
         var transcript = await GetAsync(id).ConfigureAwait(false);
         while (transcript.Status != TranscriptStatus.Completed && transcript.Status != TranscriptStatus.Error)
         {
@@ -96,7 +103,7 @@ public class ExtendedTranscriptsClient(RawClient client, AssemblyAIClient assemb
             {
                 throw new TimeoutException("The transcript did not complete within the given timeout.", e);
             }
-            
+
             transcript = await GetAsync(transcript.Id).ConfigureAwait(false);
         }
 
@@ -123,7 +130,7 @@ public class ExtendedTranscriptsClient(RawClient client, AssemblyAIClient assemb
     {
         if (string.IsNullOrEmpty(listUrl))
             throw new ArgumentNullException(nameof(listUrl), "listUrl parameter is null or empty.");
-        
+
         // this would be easier to just call the given URL,
         // but the raw client doesn't let us make requests to full URL
         // so we'll parse the querystring and pass it to `ListAsync`.

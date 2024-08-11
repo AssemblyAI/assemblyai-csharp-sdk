@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyAI", "AssemblyAI\AssemblyAI.csproj", "{081A506A-52A3-49CD-8D18-4EA149E81CCA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyAI", "AssemblyAI\AssemblyAI.csproj", "{32DE8FA1-0C40-4B27-875E-6281240031B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyAI.Test", "AssemblyAI.Test\AssemblyAI.Test.csproj", "{8173BF4C-658C-4205-A735-D790358C49A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyAI.IntegrationTests", "AssemblyAI.IntegrationTests\AssemblyAI.IntegrationTests.csproj", "{311AB518-6FCF-453B-A4B7-12E444C9479E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyAI.UnitTests", "AssemblyAI.UnitTests\AssemblyAI.UnitTests.csproj", "{F432A09F-C463-438F-AF0D-EB7951F0DBB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,13 +18,17 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{081A506A-52A3-49CD-8D18-4EA149E81CCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{081A506A-52A3-49CD-8D18-4EA149E81CCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{081A506A-52A3-49CD-8D18-4EA149E81CCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{081A506A-52A3-49CD-8D18-4EA149E81CCA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8173BF4C-658C-4205-A735-D790358C49A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8173BF4C-658C-4205-A735-D790358C49A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8173BF4C-658C-4205-A735-D790358C49A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8173BF4C-658C-4205-A735-D790358C49A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32DE8FA1-0C40-4B27-875E-6281240031B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32DE8FA1-0C40-4B27-875E-6281240031B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32DE8FA1-0C40-4B27-875E-6281240031B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32DE8FA1-0C40-4B27-875E-6281240031B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{311AB518-6FCF-453B-A4B7-12E444C9479E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{311AB518-6FCF-453B-A4B7-12E444C9479E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{311AB518-6FCF-453B-A4B7-12E444C9479E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{311AB518-6FCF-453B-A4B7-12E444C9479E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F432A09F-C463-438F-AF0D-EB7951F0DBB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F432A09F-C463-438F-AF0D-EB7951F0DBB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F432A09F-C463-438F-AF0D-EB7951F0DBB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F432A09F-C463-438F-AF0D-EB7951F0DBB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
