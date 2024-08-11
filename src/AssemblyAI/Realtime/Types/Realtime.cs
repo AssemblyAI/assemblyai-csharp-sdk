@@ -6,8 +6,8 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI.Realtime;
 
-[JsonConverter(typeof(StringEnumSerializer<AudioEncoding>))]
-public enum AudioEncoding
+[JsonConverter(typeof(StringEnumSerializer<Realtime>))]
+public enum Realtime
 {
     [EnumMember(Value = "pcm_s16le")]
     PcmS16le,

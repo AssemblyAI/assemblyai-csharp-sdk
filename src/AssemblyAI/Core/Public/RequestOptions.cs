@@ -3,7 +3,7 @@ using System.Net.Http;
 
 #nullable enable
 
-namespace AssemblyAI.Core;
+namespace AssemblyAI;
 
 public partial class RequestOptions
 {

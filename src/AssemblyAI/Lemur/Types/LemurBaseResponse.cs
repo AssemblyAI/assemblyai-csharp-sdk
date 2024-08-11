@@ -1,5 +1,4 @@
 using System.Text.Json.Serialization;
-using AssemblyAI.Lemur;
 
 #nullable enable
 

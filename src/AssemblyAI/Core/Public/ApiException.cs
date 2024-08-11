@@ -1,14 +1,10 @@
-using AssemblyAI.Core;
-
-#nullable enable
-
-namespace AssemblyAI.Core;
+namespace AssemblyAI;
 
 /// <summary>
 /// This exception type will be thrown for any non-2XX API responses.
 /// </summary>
-public class AssemblyAIClientApiException(string message, int statusCode, object body)
-    : AssemblyAIClientException(message)
+public class ApiException(string message, int statusCode, object body)
+    : AssemblyAIException(message)
 {
     /// <summary>
     /// The error code of the response that triggered the exception.

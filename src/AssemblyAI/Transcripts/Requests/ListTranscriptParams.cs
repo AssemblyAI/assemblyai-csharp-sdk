@@ -1,7 +1,3 @@
-using AssemblyAI.Transcripts;
-
-#nullable enable
-
 namespace AssemblyAI.Transcripts;
 
 public record ListTranscriptParams
