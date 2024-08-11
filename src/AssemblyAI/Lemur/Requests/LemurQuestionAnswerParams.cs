@@ -1,6 +1,5 @@
 using System.Text.Json.Serialization;
 using AssemblyAI.Core;
-using AssemblyAI.Lemur;
 using OneOf;
 
 #nullable enable
@@ -33,8 +32,8 @@ public record LemurQuestionAnswerParams
     /// Context to provide the model. This can be a string or a free-form JSON value.
     /// </summary>
     [JsonPropertyName("context")]
-    [JsonConverter(typeof(OneOfSerializer<OneOf<string, Dictionary<string, object?>>>))]
-    public OneOf<string, Dictionary<string, object?>>? Context { get; set; }
+    [JsonConverter(typeof(OneOfSerializer<OneOf<string, object>>))]
+    public OneOf<string, object>? Context { get; set; }
 
     /// <summary>
     /// The model that is used for the final prompt after compression is performed.

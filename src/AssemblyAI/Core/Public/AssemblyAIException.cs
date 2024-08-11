@@ -2,10 +2,10 @@ using System;
 
 #nullable enable
 
-namespace AssemblyAI.Core;
+namespace AssemblyAI;
 
 /// <summary>
 /// Base exception class for all exceptions thrown by the SDK.
 /// </summary>
-public class AssemblyAIClientException(string message, Exception? innerException = null)
+public class AssemblyAIException(string message, Exception? innerException = null)
     : Exception(message, innerException) { }

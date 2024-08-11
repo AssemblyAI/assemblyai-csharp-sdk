@@ -1,14 +1,17 @@
 # Specify files that shouldn't be modified by Fern
 
 README.md
-LICENSE.md
+LICENSE
+assemblyai.png
+icon.png
 .gitignore
 .github/workflows/ci.yml
 .github/workflows/publish-reference.yml
+src/AssemblyAI.sln
 src/AssemblyAI/AssemblyAI.csproj
 src/AssemblyAI/Core/ClientOptions.cs
 src/AssemblyAI/Core/JsonConfiguration.cs
-src/AssemblyAI/ClientOptions.cs
+src/AssemblyAI/Public/ClientOptions.cs
 src/AssemblyAI/Constants.cs
 src/AssemblyAI/UserAgent.cs
 src/AssemblyAI/Event.cs

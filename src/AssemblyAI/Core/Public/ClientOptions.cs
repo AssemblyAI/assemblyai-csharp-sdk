@@ -1,11 +1,11 @@
-#nullable enable
-
+using System;
 using System.Net.Http;
-using AssemblyAI.Core;
+
+#nullable enable
 
 namespace AssemblyAI;
 
-public class ClientOptions
+public partial class ClientOptions
 {
     /// <summary>
     /// The AssemblyAI API key
@@ -15,7 +15,7 @@ public class ClientOptions
     /// <summary>
     /// The Base URL for the API.
     /// </summary>
-    public string BaseUrl { get; set; } = AssemblyAIClientEnvironment.DEFAULT;
+    public string BaseUrl { get; set; } = AssemblyAIClientEnvironment.Default;
 
     /// <summary>
     /// The AssemblyAI user agent
@@ -33,7 +33,7 @@ public class ClientOptions
     public int MaxRetries { get; set; } = 2;
 
     /// <summary>
-    /// The timeout for the request in seconds.
+    /// The timeout for the request.
     /// </summary>
     public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(30);
 }

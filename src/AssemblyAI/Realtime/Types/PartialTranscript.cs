@@ -1,5 +1,4 @@
 using System.Text.Json.Serialization;
-using AssemblyAI.Realtime;
 
 #nullable enable
 

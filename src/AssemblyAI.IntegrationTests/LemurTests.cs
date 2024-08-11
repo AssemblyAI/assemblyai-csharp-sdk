@@ -12,7 +12,7 @@ public class LemurTests
     [Test]
     public async Task Should_Generate_Summary()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
         var response = await client.Lemur.SummaryAsync(new LemurSummaryParams
         {
             FinalModel = LemurModel.Basic,
@@ -28,7 +28,7 @@ public class LemurTests
     [Test]
     public async Task Should_Generate_Answer()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
         var response = await client.Lemur.QuestionAnswerAsync(new LemurQuestionAnswerParams
         {
             FinalModel = LemurModel.Basic,
@@ -53,7 +53,7 @@ public class LemurTests
     [Test]
     public async Task Should_Generate_Action_Items()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
         var response = await client.Lemur.ActionItemsAsync(new LemurActionItemsParams()
         {
             FinalModel = LemurModel.Basic,
@@ -68,7 +68,7 @@ public class LemurTests
     [Test]
     public async Task Should_Generate_Task()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
         var response = await client.Lemur.TaskAsync(new LemurTaskParams
         {
             FinalModel = LemurModel.Basic,
@@ -82,11 +82,11 @@ public class LemurTests
     }
 
     [Test]
-    [Ignore("Ignore until fixed")]
+    // [Ignore("Ignore until fixed")]
     public void Should_Fail_To_Generate_Summary()
     {
-        var client = new AssemblyAIClient(ApiKey);
-        var ex = Assert.ThrowsAsync<BadRequestError>(async () => await client.Lemur.SummaryAsync(new LemurSummaryParams
+        var client = Helpers.CreateClient();
+        var ex = Assert.ThrowsAsync<ApiException>(async () => await client.Lemur.SummaryAsync(new LemurSummaryParams
         {
             FinalModel = LemurModel.Basic,
             TranscriptIds = ["bad-id"],
@@ -99,7 +99,7 @@ public class LemurTests
     [Test]
     public async Task Should_Return_Response()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
         var taskResponse = await client.Lemur.TaskAsync(new LemurTaskParams
         {
             FinalModel = LemurModel.Basic,
@@ -136,7 +136,7 @@ public class LemurTests
     [Test]
     public async Task Should_Purge_Request_Data()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
         var summaryResponse = await client.Lemur.SummaryAsync(new LemurSummaryParams
         {
             FinalModel = LemurModel.Basic,

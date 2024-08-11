@@ -18,8 +18,8 @@ public record LemurQuestion
     /// Any context about the transcripts you wish to provide. This can be a string or any object.
     /// </summary>
     [JsonPropertyName("context")]
-    [JsonConverter(typeof(OneOfSerializer<OneOf<string, Dictionary<string, object?>>>))]
-    public OneOf<string, Dictionary<string, object?>>? Context { get; set; }
+    [JsonConverter(typeof(OneOfSerializer<OneOf<string, object>>))]
+    public OneOf<string, object>? Context { get; set; }
 
     /// <summary>
     /// How you want the answer to be returned. This can be any text. Can't be used with answer_options. Examples: "short sentence", "bullet points"
