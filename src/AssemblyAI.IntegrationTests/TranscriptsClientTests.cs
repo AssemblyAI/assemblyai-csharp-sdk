@@ -14,7 +14,7 @@ public class TranscriptsClientTests
     [Test]
     public async Task Should_Submit_Using_Uri()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
 
         var transcript = await client.Transcripts.SubmitAsync(
             new Uri(RemoteAudioUrl)
@@ -29,7 +29,7 @@ public class TranscriptsClientTests
     [Test]
     public async Task Should_Submit_Using_Stream()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
 
         // Adjust the path to where your test file is located
         var testFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "nbc.mp3");
@@ -46,7 +46,7 @@ public class TranscriptsClientTests
     [Test]
     public async Task Should_Submit_Using_FileInfo()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
 
         // Adjust the path to where your test file is located
         var testFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "nbc.mp3");
@@ -63,7 +63,7 @@ public class TranscriptsClientTests
     [Test]
     public async Task Should_Transcribe_Using_Params()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
 
         var transcript = await client.Transcripts.TranscribeAsync(new TranscriptParams
         {
@@ -81,7 +81,7 @@ public class TranscriptsClientTests
     [Test]
     public async Task Should_Transcribe_Using_Uri()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
 
         var transcript = await client.Transcripts.TranscribeAsync(
             new Uri(RemoteAudioUrl)
@@ -96,7 +96,7 @@ public class TranscriptsClientTests
     [Test]
     public async Task Should_Transcribe_From_FileInfo()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
 
         // Adjust the path to where your test file is located
         var testFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "nbc.mp3");
@@ -113,7 +113,7 @@ public class TranscriptsClientTests
     [Test]
     public async Task Should_Transcribe_Using_Stream()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
 
         // Adjust the path to where your test file is located
         var testFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "nbc.mp3");
@@ -130,7 +130,7 @@ public class TranscriptsClientTests
     [Test]
     public async Task Should_Fail_To_Transcribe()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
 
         var transcript = await client.Transcripts.TranscribeAsync(new Uri(BadRemoteAudioUrl))
             .ConfigureAwait(false);
@@ -145,7 +145,7 @@ public class TranscriptsClientTests
     [Test]
     public async Task Should_Wait_Until_Ready()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
 
         // Adjust the path to where your test file is located
         var testFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "nbc.mp3");
@@ -163,7 +163,7 @@ public class TranscriptsClientTests
     [Test]
     public async Task Should_Get_Transcript()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
 
         var transcript = await client.Transcripts.GetAsync(TranscriptId).ConfigureAwait(false);
 
@@ -176,7 +176,7 @@ public class TranscriptsClientTests
     [Test]
     public async Task Should_Delete_Transcript()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
 
         var transcript = await client.Transcripts.TranscribeAsync(new Uri(RemoteAudioUrl))
             .ConfigureAwait(false);
@@ -191,7 +191,7 @@ public class TranscriptsClientTests
     [Test]
     public async Task Should_Paginate_Transcripts()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
         var transcriptPage = await client.Transcripts.ListAsync().ConfigureAwait(false);
         Assert.That(transcriptPage, Is.Not.Null);
         Assert.That(transcriptPage.PageDetails.PrevUrl, Is.Not.Null);
@@ -206,7 +206,7 @@ public class TranscriptsClientTests
     [Test]
     public async Task Should_Get_Sentences()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
         var sentencesResponse = await client.Transcripts.GetSentencesAsync(TranscriptId)
             .ConfigureAwait(false);
 
@@ -218,7 +218,7 @@ public class TranscriptsClientTests
     [Test]
     public async Task Should_Get_Paragraphs()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
         var paragraphsResponse = await client.Transcripts.GetParagraphsAsync(TranscriptId)
             .ConfigureAwait(false);
 
@@ -230,7 +230,7 @@ public class TranscriptsClientTests
     [Test]
     public async Task Should_Get_Srt_Subtitles()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
         var srtSubtitles = await client.Transcripts.GetSubtitlesAsync(
             TranscriptId,
             SubtitleFormat.Srt,
@@ -243,7 +243,7 @@ public class TranscriptsClientTests
     [Test]
     public async Task Should_Get_Vtt_Subtitles()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
         var srtSubtitles = await client.Transcripts.GetSubtitlesAsync(
             TranscriptId,
             SubtitleFormat.Vtt,
@@ -258,7 +258,7 @@ public class TranscriptsClientTests
     [Timeout(30000)]
     public async Task Should_Get_Redacted_Audio()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
         var transcript = await client.Transcripts.TranscribeAsync(new TranscriptParams
         {
             AudioUrl = RemoteAudioUrl,
@@ -278,7 +278,7 @@ public class TranscriptsClientTests
     [Test]
     public async Task Should_Word_Search()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
         var searchResponse = await client.Transcripts.WordSearchAsync(
                 TranscriptId,
                 ["Giants"]

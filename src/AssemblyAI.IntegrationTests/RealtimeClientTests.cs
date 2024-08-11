@@ -10,7 +10,7 @@ public class RealtimeClientTests
     [Test]
     public async Task Should_Generate_TemporaryToken()
     {
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
         var tokenResponse = await client.Realtime.CreateTemporaryTokenAsync(new CreateRealtimeTemporaryTokenParams
             {
                 ExpiresIn = 480

@@ -9,7 +9,7 @@ public class FilesClientTests
     public async Task Should_Upload_File_Using_FileInfo()
     {
         // Assuming there's a method to create a configured RawClient instance
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
 
         // Adjust the path to where your test file is located
         var testFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "nbc.mp3");
@@ -25,7 +25,7 @@ public class FilesClientTests
     public async Task Should_Upload_File_Using_Stream()
     {
         // Assuming there's a method to create a configured RawClient instance
-        var client = new AssemblyAIClient(ApiKey);
+        var client = Helpers.CreateClient();
 
         // Adjust the path to where your test file is located
         var testFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "nbc.mp3");

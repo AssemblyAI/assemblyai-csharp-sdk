@@ -2,7 +2,11 @@ namespace AssemblyAI.IntegrationTests;
 
 internal static class AssemblyAITestParameters
 {
-    
+    internal static string AssemblyAIEndpoint =>
+        TestContext.Parameters.Get("ASSEMBLYAI_ENDPOINT")
+        ?? Environment.GetEnvironmentVariable("ASSEMBLYAI_ENDPOINT")
+        ?? AssemblyAIClientEnvironment.Default;
+
     internal static string ApiKey
     {
         get
