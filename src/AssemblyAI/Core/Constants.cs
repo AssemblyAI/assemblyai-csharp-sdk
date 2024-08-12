@@ -2,5 +2,6 @@ namespace AssemblyAI.Core;
 
 internal static class Constants
 {
-    public const string DateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.fffK";
+    internal const string Version = "1.0.0-beta3";
+    internal const string DateTimeFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.fffK";
 }
