@@ -107,12 +107,13 @@ public class LemurTests
             Prompt = "Write a haiku about this conversation."
         }).ConfigureAwait(false);
 
+        await Task.Delay(TimeSpan.FromSeconds(2)).ConfigureAwait(false);
+
         var taskResponse2OneOf = await client.Lemur.GetResponseAsync(taskResponse.RequestId).ConfigureAwait(false);
         var taskResponse2 = taskResponse2OneOf.AsT0;
         Assert.That(taskResponse2.RequestId, Is.EqualTo(taskResponse.RequestId));
         Assert.That(taskResponse2.Response, Is.EqualTo(taskResponse.Response));
-
-
+        
         var qaResponse = await client.Lemur.QuestionAnswerAsync(new LemurQuestionAnswerParams
         {
             FinalModel = LemurModel.Basic,
@@ -127,6 +128,8 @@ public class LemurTests
             ]
         }).ConfigureAwait(false);
 
+        await Task.Delay(TimeSpan.FromSeconds(2)).ConfigureAwait(false);
+        
         var qaResponse2OneOf = await client.Lemur.GetResponseAsync(qaResponse.RequestId).ConfigureAwait(false);
         var qaResponse2 = qaResponse2OneOf.AsT1;
         Assert.That(qaResponse2.RequestId, Is.EqualTo(qaResponse.RequestId));
