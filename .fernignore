@@ -11,7 +11,8 @@ src/AssemblyAI.sln
 src/AssemblyAI/AssemblyAI.csproj
 src/AssemblyAI/Core/ClientOptions.cs
 src/AssemblyAI/Core/JsonConfiguration.cs
-src/AssemblyAI/Public/ClientOptions.cs
+src/AssemblyAI/Core/Public/ApiException.cs
+src/AssemblyAI/Core/Public/ClientOptions.cs
 src/AssemblyAI/Constants.cs
 src/AssemblyAI/UserAgent.cs
 src/AssemblyAI/Event.cs

@@ -5,9 +5,9 @@ using OneOf;
 
 namespace AssemblyAI.Core;
 
-public static class JsonOptions
+internal static class JsonOptions
 {
-    public static readonly JsonSerializerOptions JsonSerializerOptions;
+    internal static readonly JsonSerializerOptions JsonSerializerOptions;
 
     static JsonOptions()
     {
@@ -24,14 +24,14 @@ public static class JsonOptions
     }
 }
 
-public static class JsonUtils
+internal static class JsonUtils
 {
-    public static string Serialize<T>(T obj)
+    internal static string Serialize<T>(T obj)
     {
         return JsonSerializer.Serialize(obj, JsonOptions.JsonSerializerOptions);
     }
 
-    public static T Deserialize<T>(string json)
+    internal static T Deserialize<T>(string json)
     {
         return JsonSerializer.Deserialize<T>(json, JsonOptions.JsonSerializerOptions)!;
     }
