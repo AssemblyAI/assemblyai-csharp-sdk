@@ -47,7 +47,7 @@ public partial class FilesClient
         throw new ApiException(
             $"Error with status code {response.StatusCode}",
             response.StatusCode,
-            JsonUtils.Deserialize<object>(responseBody)
+            responseBody
         );
     }
 }
