@@ -281,7 +281,7 @@ public class TranscriptsClientTests
         var client = Helpers.CreateClient();
         var searchResponse = await client.Transcripts.WordSearchAsync(
                 TranscriptId,
-                ["Giants"]
+                ["Giants", "Bears"]
             )
             .ConfigureAwait(false);
 
