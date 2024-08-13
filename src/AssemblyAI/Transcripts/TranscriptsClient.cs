@@ -309,7 +309,7 @@ public partial class TranscriptsClient
     )
     {
         var _query = new Dictionary<string, object>() { };
-        _query["words"] = request.Words;
+        _query["words"] = string.Join(",", request.Words);
         var response = await _client.MakeRequestAsync(
             new RawClient.JsonApiRequest
             {
