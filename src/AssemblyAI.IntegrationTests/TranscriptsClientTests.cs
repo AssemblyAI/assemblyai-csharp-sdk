@@ -8,7 +8,6 @@ public class TranscriptsClientTests
     private const string RemoteAudioUrl = "https://storage.googleapis.com/aai-web-samples/espn-bears.m4a";
     private const string BadRemoteAudioUrl = "https://storage.googleapis.com/aai-web-samples/does-not-exist.m4a";
 
-    private static string ApiKey => AssemblyAITestParameters.ApiKey;
     private static string TranscriptId => AssemblyAITestParameters.TranscriptId;
 
     [Test]
@@ -21,9 +20,12 @@ public class TranscriptsClientTests
         ).ConfigureAwait(false);
 
         Assert.That(transcript, Is.Not.Null);
-        Assert.That(transcript.Id, Is.Not.Null);
-        Assert.That(transcript.Text, Is.Null);
-        Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Queued));
+        Assert.Multiple(() =>
+        {
+            Assert.That(transcript.Id, Is.Not.Null);
+            Assert.That(transcript.Text, Is.Null);
+            Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Queued));
+        });
     }
 
     [Test]
@@ -38,9 +40,12 @@ public class TranscriptsClientTests
         var transcript = await client.Transcripts.SubmitAsync(stream).ConfigureAwait(false);
 
         Assert.That(transcript, Is.Not.Null);
-        Assert.That(transcript.Id, Is.Not.Null);
-        Assert.That(transcript.Text, Is.Null);
-        Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Queued));
+        Assert.Multiple(() =>
+        {
+            Assert.That(transcript.Id, Is.Not.Null);
+            Assert.That(transcript.Text, Is.Null);
+            Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Queued));
+        });
     }
 
     [Test]
@@ -55,9 +60,12 @@ public class TranscriptsClientTests
         var transcript = await client.Transcripts.SubmitAsync(fileInfo).ConfigureAwait(false);
 
         Assert.That(transcript, Is.Not.Null);
-        Assert.That(transcript.Id, Is.Not.Null);
-        Assert.That(transcript.Text, Is.Null);
-        Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Queued));
+        Assert.Multiple(() =>
+        {
+            Assert.That(transcript.Id, Is.Not.Null);
+            Assert.That(transcript.Text, Is.Null);
+            Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Queued));
+        });
     }
 
     [Test]
@@ -72,9 +80,12 @@ public class TranscriptsClientTests
         ).ConfigureAwait(false);
 
         Assert.That(transcript, Is.Not.Null);
-        Assert.That(transcript.Id, Is.Not.Null);
-        Assert.That(transcript.Text, Is.Not.Empty);
-        Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Completed));
+        Assert.Multiple(() =>
+        {
+            Assert.That(transcript.Id, Is.Not.Null);
+            Assert.That(transcript.Text, Is.Not.Empty);
+            Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Completed));
+        });
     }
 
 
@@ -88,9 +99,12 @@ public class TranscriptsClientTests
         ).ConfigureAwait(false);
 
         Assert.That(transcript, Is.Not.Null);
-        Assert.That(transcript.Id, Is.Not.Null);
-        Assert.That(transcript.Text, Is.Not.Empty);
-        Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Completed));
+        Assert.Multiple(() =>
+        {
+            Assert.That(transcript.Id, Is.Not.Null);
+            Assert.That(transcript.Text, Is.Not.Empty);
+            Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Completed));
+        });
     }
 
     [Test]
@@ -105,9 +119,12 @@ public class TranscriptsClientTests
         var transcript = await client.Transcripts.TranscribeAsync(fileInfo).ConfigureAwait(false);
 
         Assert.That(transcript, Is.Not.Null);
-        Assert.That(transcript.Id, Is.Not.Null);
-        Assert.That(transcript.Text, Is.Not.Empty);
-        Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Completed));
+        Assert.Multiple(() =>
+        {
+            Assert.That(transcript.Id, Is.Not.Null);
+            Assert.That(transcript.Text, Is.Not.Empty);
+            Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Completed));
+        });
     }
 
     [Test]
@@ -122,9 +139,12 @@ public class TranscriptsClientTests
         var transcript = await client.Transcripts.TranscribeAsync(stream).ConfigureAwait(false);
 
         Assert.That(transcript, Is.Not.Null);
-        Assert.That(transcript.Id, Is.Not.Null);
-        Assert.That(transcript.Text, Is.Not.Empty);
-        Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Completed));
+        Assert.Multiple(() =>
+        {
+            Assert.That(transcript.Id, Is.Not.Null);
+            Assert.That(transcript.Text, Is.Not.Empty);
+            Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Completed));
+        });
     }
 
     [Test]
@@ -136,10 +156,13 @@ public class TranscriptsClientTests
             .ConfigureAwait(false);
 
         Assert.That(transcript, Is.Not.Null);
-        Assert.That(transcript.Id, Is.Not.Null);
-        Assert.That(transcript.Text, Is.Null);
-        Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Error));
-        Assert.That(transcript.Error, Is.Not.Empty);
+        Assert.Multiple(() =>
+        {
+            Assert.That(transcript.Id, Is.Not.Null);
+            Assert.That(transcript.Text, Is.Null);
+            Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Error));
+            Assert.That(transcript.Error, Is.Not.Empty);
+        });
     }
 
     [Test]
@@ -155,9 +178,12 @@ public class TranscriptsClientTests
         transcript = await client.Transcripts.WaitUntilReady(transcript.Id).ConfigureAwait(false);
 
         Assert.That(transcript, Is.Not.Null);
-        Assert.That(transcript.Id, Is.Not.Null);
-        Assert.That(transcript.Text, Is.Not.Empty);
-        Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Completed));
+        Assert.Multiple(() =>
+        {
+            Assert.That(transcript.Id, Is.Not.Null);
+            Assert.That(transcript.Text, Is.Not.Empty);
+            Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Completed));
+        });
     }
 
     [Test]
@@ -168,9 +194,12 @@ public class TranscriptsClientTests
         var transcript = await client.Transcripts.GetAsync(TranscriptId).ConfigureAwait(false);
 
         Assert.That(transcript, Is.Not.Null);
-        Assert.That(transcript.Id, Is.Not.Null);
-        Assert.That(transcript.Text, Is.Not.Empty);
-        Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Completed));
+        Assert.Multiple(() =>
+        {
+            Assert.That(transcript.Id, Is.Not.Null);
+            Assert.That(transcript.Text, Is.Not.Empty);
+            Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Completed));
+        });
     }
 
     [Test]
@@ -183,9 +212,12 @@ public class TranscriptsClientTests
         transcript = await client.Transcripts.DeleteAsync(transcript.Id).ConfigureAwait(false);
 
         Assert.That(transcript, Is.Not.Null);
-        Assert.That(transcript.Id, Is.Not.Null);
-        Assert.That(transcript.Text, Is.EqualTo("Deleted by user."));
-        Assert.That(transcript.AudioUrl, Is.EqualTo("http://deleted_by_user"));
+        Assert.Multiple(() =>
+        {
+            Assert.That(transcript.Id, Is.Not.Null);
+            Assert.That(transcript.Text, Is.EqualTo("Deleted by user."));
+            Assert.That(transcript.AudioUrl, Is.EqualTo("http://deleted_by_user"));
+        });
     }
 
     [Test]
@@ -194,13 +226,19 @@ public class TranscriptsClientTests
         var client = Helpers.CreateClient();
         var transcriptPage = await client.Transcripts.ListAsync().ConfigureAwait(false);
         Assert.That(transcriptPage, Is.Not.Null);
-        Assert.That(transcriptPage.PageDetails.PrevUrl, Is.Not.Null);
-        Assert.That(transcriptPage.Transcripts, Is.Not.Empty);
+        Assert.Multiple(() =>
+        {
+            Assert.That(transcriptPage.PageDetails.PrevUrl, Is.Not.Null);
+            Assert.That(transcriptPage.Transcripts, Is.Not.Empty);
+        });
 
         var prevPage = await client.Transcripts.ListAsync(transcriptPage.PageDetails.PrevUrl);
         Assert.That(prevPage, Is.Not.Null);
-        Assert.That(prevPage.PageDetails.NextUrl, Is.Not.Null);
-        Assert.That(prevPage.Transcripts, Is.Not.Empty);
+        Assert.Multiple(() =>
+        {
+            Assert.That(prevPage.PageDetails.NextUrl, Is.Not.Null);
+            Assert.That(prevPage.Transcripts, Is.Not.Empty);
+        });
     }
 
     [Test]
@@ -211,8 +249,11 @@ public class TranscriptsClientTests
             .ConfigureAwait(false);
 
         Assert.That(sentencesResponse, Is.Not.Null);
-        Assert.That(sentencesResponse.Id, Is.Not.Empty);
-        Assert.That(sentencesResponse.Sentences, Is.Not.Empty);
+        Assert.Multiple(() =>
+        {
+            Assert.That(sentencesResponse.Id, Is.Not.Empty);
+            Assert.That(sentencesResponse.Sentences, Is.Not.Empty);
+        });
     }
 
     [Test]
@@ -223,8 +264,11 @@ public class TranscriptsClientTests
             .ConfigureAwait(false);
 
         Assert.That(paragraphsResponse, Is.Not.Null);
-        Assert.That(paragraphsResponse.Id, Is.Not.Empty);
-        Assert.That(paragraphsResponse.Paragraphs, Is.Not.Empty);
+        Assert.Multiple(() =>
+        {
+            Assert.That(paragraphsResponse.Id, Is.Not.Empty);
+            Assert.That(paragraphsResponse.Paragraphs, Is.Not.Empty);
+        });
     }
 
     [Test]
@@ -255,7 +299,7 @@ public class TranscriptsClientTests
 
 
     [Test]
-    [Timeout(30000)]
+    [CancelAfter(30000)]
     public async Task Should_Get_Redacted_Audio()
     {
         var client = Helpers.CreateClient();
@@ -271,8 +315,11 @@ public class TranscriptsClientTests
 
         var redactedAudioResponse = await client.Transcripts.GetRedactedAudioAsync(transcript.Id).ConfigureAwait(false);
 
-        Assert.That(redactedAudioResponse.Status, Is.EqualTo("redacted_audio_ready"));
-        Assert.That(redactedAudioResponse.RedactedAudioUrl, Is.Not.Empty);
+        Assert.Multiple(() =>
+        {
+            Assert.That(redactedAudioResponse.Status, Is.EqualTo("redacted_audio_ready"));
+            Assert.That(redactedAudioResponse.RedactedAudioUrl, Is.Not.Empty);
+        });
     }
 
     [Test]
@@ -286,8 +333,11 @@ public class TranscriptsClientTests
             .ConfigureAwait(false);
 
         Assert.That(searchResponse, Is.Not.Null);
-        Assert.That(searchResponse.Id, Is.Not.Empty);
-        Assert.That(searchResponse.TotalCount, Is.GreaterThan(0));
-        Assert.That(searchResponse.Matches, Is.Not.Empty);
+        Assert.Multiple(() =>
+        {
+            Assert.That(searchResponse.Id, Is.Not.Empty);
+            Assert.That(searchResponse.TotalCount, Is.GreaterThan(0));
+            Assert.That(searchResponse.Matches, Is.Not.Empty);
+        });
     }
 }

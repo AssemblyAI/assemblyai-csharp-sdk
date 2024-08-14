@@ -1,4 +1,5 @@
-﻿namespace AssemblyAI.Realtime.WebsocketClient;
+﻿// ReSharper disable All
+namespace AssemblyAI.Realtime.WebsocketClient;
 
 internal abstract class RequestMessage { }
 

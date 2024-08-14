@@ -5,6 +5,8 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using WebSocket = AssemblyAI.Realtime.WebsocketClient.WebsocketClient;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Global
 
 namespace AssemblyAI.Realtime;
 
@@ -154,7 +156,7 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
 
         if (!string.IsNullOrEmpty(Token))
         {
-            urlBuilder.Append($"&token={UrlEncoder.Default.Encode(Token)}");
+            urlBuilder.Append($"&token={UrlEncoder.Default.Encode(Token!)}");
         }
 
         _socket?.Dispose();
@@ -377,7 +379,7 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
             throw new Exception($"Cannot send audio when status is {_status.ToString()}");
         }
 
-        return _socket!.SendInstant(audio.Array);
+        return _socket!.SendInstant(audio);
     }
 
     /// <summary>

@@ -1,4 +1,6 @@
 using AssemblyAI.Core;
+// ReSharper disable UnusedMember.Global
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 
 namespace AssemblyAI;
 
@@ -18,7 +20,7 @@ public class UserAgent
 
     public UserAgent(UserAgent a, UserAgent b)
     {
-        _userAgent = Merge(a._userAgent, b._userAgent);
+        _userAgent = Merge(a._userAgent, b._userAgent) as Dictionary<string, UserAgentItem?>;
     }
     
     public UserAgentItem? this[string index]
@@ -31,7 +33,7 @@ public class UserAgent
     {
         var sb = new System.Text.StringBuilder("AssemblyAI/1.0 (");
         sb.Append(string.Join(" ",
-            _userAgent.Select(entry => $"{entry.Key}={entry.Value.Name}/{entry.Value.Version}")));
+            _userAgent.Select(entry => $"{entry.Key}={entry.Value!.Name}/{entry.Value.Version}")));
         sb.Append(')');
         return sb.ToString();
     }
@@ -39,18 +41,20 @@ public class UserAgent
     private static UserAgent CreateDefaultUserAgent()
     {
         var defaultUserAgent = new Dictionary<string, UserAgentItem?>();
-        defaultUserAgent["sdk"] = new("CSharp", Constants.Version);
+        defaultUserAgent["sdk"] = new UserAgentItem("CSharp", Constants.Version);
 #if NET462_OR_GREATER
-            defaultUserAgent["runtime_env"] = new(".NET Framework", $"{Environment.Version.ToString()}");
+            defaultUserAgent["runtime_env"] = new UserAgentItem(".NET Framework", $"{Environment.Version}");
 #else
         var (name, version) =
             ParseFrameworkDescription(System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription);
-        defaultUserAgent["runtime_env"] = new(name, version);
+        defaultUserAgent["runtime_env"] = new UserAgentItem(name, version);
 #endif
 
         return new UserAgent(defaultUserAgent);
     }
-
+    
+#if NET462_OR_GREATER
+#else
     private static (string Name, string Version) ParseFrameworkDescription(string frameworkDescription)
     {
         string name;
@@ -84,6 +88,7 @@ public class UserAgent
 
         return (name, version);
     }
+#endif
 
     private static Dictionary<string, UserAgentItem> Merge(
         Dictionary<string, UserAgentItem?> a,

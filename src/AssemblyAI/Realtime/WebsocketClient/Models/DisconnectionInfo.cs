@@ -1,4 +1,6 @@
 ﻿using System.Net.WebSockets;
+// ReSharper disable All
+#pragma warning disable CS8604 // Possible null reference argument.
 
 // ReSharper disable once CheckNamespace
 namespace Websocket.Client;

@@ -1,4 +1,5 @@
-﻿namespace AssemblyAI.Realtime.WebsocketClient.Threading;
+﻿// ReSharper disable All
+namespace AssemblyAI.Realtime.WebsocketClient.Threading;
 
 /// <summary>
 /// Class that wraps SemaphoreSlim and enables to use locking inside 'using' blocks easily

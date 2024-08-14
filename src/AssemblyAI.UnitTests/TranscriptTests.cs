@@ -44,22 +44,4 @@ public class TranscriptTests
         var ex = Assert.Throws<TranscriptNotCompletedStatusException>(() => transcript.EnsureStatusCompleted());
         Assert.That(ex.Message, Does.Contain(errorMessage));
     }
-
-    public async Task Test()
-    {
-        
-        var client = new AssemblyAIClient(Environment.GetEnvironmentVariable("ASSEMBLYAI_API_KEY")!);
-
-        // Transcribe file at remote URL
-        var transcript = await client.Transcripts.TranscribeAsync(new TranscriptParams
-        {
-            AudioUrl = "https://storage.googleapis.com/aai-web-samples/espn-bears.m4a",
-            LanguageCode = TranscriptLanguageCode.EnUs
-        });
-
-// checks if transcript.Status == TranscriptStatus.Completed, throws an exception if not
-transcript.EnsureStatusCompleted();
-
-        Console.WriteLine(transcript.Text);
-    }
 }

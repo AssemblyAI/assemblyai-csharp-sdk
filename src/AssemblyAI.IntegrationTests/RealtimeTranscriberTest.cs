@@ -16,7 +16,7 @@ public class RealtimeTranscriberTests
             Encoding = AudioEncoding.PcmS16le,
             WordBoost = ["foo", "bar"],
             SampleRate = 16_000,
-            DisablePartialTranscripts = false,
+            DisablePartialTranscripts = false
         });
         await TestTranscriber(transcriber).ConfigureAwait(false);
     }
@@ -34,12 +34,12 @@ public class RealtimeTranscriberTests
             Encoding = AudioEncoding.PcmS16le,
             WordBoost = ["foo", "bar"],
             SampleRate = 16_000,
-            DisablePartialTranscripts = false,
+            DisablePartialTranscripts = false
         });
         await TestTranscriber(transcriber).ConfigureAwait(false);
     }
 
-    public async Task TestTranscriber(RealtimeTranscriber transcriber)
+    private static async Task TestTranscriber(RealtimeTranscriber transcriber)
     {
         // Arrange
         var listener = Mock.Of<IRealtimeTranscriberListener>();

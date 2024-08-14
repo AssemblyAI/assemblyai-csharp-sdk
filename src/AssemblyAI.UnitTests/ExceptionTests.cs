@@ -20,9 +20,12 @@ public class ExceptionTests
             (int)HttpStatusCode.BadRequest,
             error
         );
-        Assert.That(exception.Message, Is.EqualTo("An error occurred."));
-        Assert.That(exception.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-        Assert.That(exception.ResponseContent, Is.EqualTo(error));
+        Assert.Multiple(() =>
+        {
+            Assert.That(exception.Message, Is.EqualTo("An error occurred."));
+            Assert.That(exception.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(exception.ResponseContent, Is.EqualTo(error));
+        });
     }
     
     [Test]
@@ -34,9 +37,12 @@ public class ExceptionTests
             (int)HttpStatusCode.NotFound,
             error
         );
-        Assert.That(exception.Message, Is.EqualTo(error));
-        Assert.That(exception.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
-        Assert.That(exception.ResponseContent, Is.EqualTo(error));
+        Assert.Multiple(() =>
+        {
+            Assert.That(exception.Message, Is.EqualTo(error));
+            Assert.That(exception.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+            Assert.That(exception.ResponseContent, Is.EqualTo(error));
+        });
     }
     
     [Test]
@@ -48,9 +54,12 @@ public class ExceptionTests
             (int)HttpStatusCode.NotFound,
             error
         );
-        Assert.That(exception.Message, Is.EqualTo("Error with HTTP status code 404"));
-        Assert.That(exception.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
-        Assert.That(exception.ResponseContent, Is.EqualTo(error));
+        Assert.Multiple(() =>
+        {
+            Assert.That(exception.Message, Is.EqualTo("Error with HTTP status code 404"));
+            Assert.That(exception.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+            Assert.That(exception.ResponseContent, Is.EqualTo(error));
+        });
     }
     
     [Test]
@@ -62,8 +71,11 @@ public class ExceptionTests
             (int)HttpStatusCode.NotFound,
             error!
         );
-        Assert.That(exception.Message, Is.EqualTo("Error with HTTP status code 404"));
-        Assert.That(exception.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
-        Assert.That(exception.ResponseContent, Is.EqualTo(""));
+        Assert.Multiple(() =>
+        {
+            Assert.That(exception.Message, Is.EqualTo("Error with HTTP status code 404"));
+            Assert.That(exception.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+            Assert.That(exception.ResponseContent, Is.EqualTo(""));
+        });
     }
 }

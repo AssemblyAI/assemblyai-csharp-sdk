@@ -1,4 +1,3 @@
-using AssemblyAI.Core;
 using AssemblyAI.Lemur;
 
 namespace AssemblyAI.IntegrationTests;
@@ -6,7 +5,6 @@ namespace AssemblyAI.IntegrationTests;
 [TestFixture]
 public class LemurTests
 {
-    private static string ApiKey => AssemblyAITestParameters.ApiKey;
     private static string[] TranscriptIds => AssemblyAITestParameters.TranscriptIds;
 
     [Test]
@@ -21,8 +19,11 @@ public class LemurTests
         }).ConfigureAwait(false);
 
         Assert.That(response, Is.Not.Null);
-        Assert.That(response.RequestId, Is.Not.Empty);
-        Assert.That(response.Response, Is.Not.Empty);
+        Assert.Multiple(() =>
+        {
+            Assert.That(response.RequestId, Is.Not.Empty);
+            Assert.That(response.Response, Is.Not.Empty);
+        });
     }
 
     [Test]
@@ -44,25 +45,34 @@ public class LemurTests
         }).ConfigureAwait(false);
 
         Assert.That(response, Is.Not.Null);
-        Assert.That(response.RequestId, Is.Not.Empty);
-        Assert.That(response.Response, Is.Not.Empty);
-        Assert.That(response.Response.First().Question, Is.Not.Empty);
-        Assert.That(response.Response.First().Answer, Is.Not.Empty);
+        Assert.Multiple(() =>
+        {
+            Assert.That(response.RequestId, Is.Not.Empty);
+            Assert.That(response.Response, Is.Not.Empty);
+        });
+        Assert.Multiple(() =>
+        {
+            Assert.That(response.Response.First().Question, Is.Not.Empty);
+            Assert.That(response.Response.First().Answer, Is.Not.Empty);
+        });
     }
 
     [Test]
     public async Task Should_Generate_Action_Items()
     {
         var client = Helpers.CreateClient();
-        var response = await client.Lemur.ActionItemsAsync(new LemurActionItemsParams()
+        var response = await client.Lemur.ActionItemsAsync(new LemurActionItemsParams
         {
             FinalModel = LemurModel.Basic,
             TranscriptIds = TranscriptIds
         }).ConfigureAwait(false);
 
         Assert.That(response, Is.Not.Null);
-        Assert.That(response.RequestId, Is.Not.Empty);
-        Assert.That(response.Response, Is.Not.Empty);
+        Assert.Multiple(() =>
+        {
+            Assert.That(response.RequestId, Is.Not.Empty);
+            Assert.That(response.Response, Is.Not.Empty);
+        });
     }
 
     [Test]
@@ -77,8 +87,11 @@ public class LemurTests
         }).ConfigureAwait(false);
 
         Assert.That(response, Is.Not.Null);
-        Assert.That(response.RequestId, Is.Not.Empty);
-        Assert.That(response.Response, Is.Not.Empty);
+        Assert.Multiple(() =>
+        {
+            Assert.That(response.RequestId, Is.Not.Empty);
+            Assert.That(response.Response, Is.Not.Empty);
+        });
     }
 
     [Test]
@@ -111,9 +124,12 @@ public class LemurTests
 
         var taskResponse2OneOf = await client.Lemur.GetResponseAsync(taskResponse.RequestId).ConfigureAwait(false);
         var taskResponse2 = taskResponse2OneOf.AsT0;
-        Assert.That(taskResponse2.RequestId, Is.EqualTo(taskResponse.RequestId));
-        Assert.That(taskResponse2.Response, Is.EqualTo(taskResponse.Response));
-        
+        Assert.Multiple(() =>
+        {
+            Assert.That(taskResponse2.RequestId, Is.EqualTo(taskResponse.RequestId));
+            Assert.That(taskResponse2.Response, Is.EqualTo(taskResponse.Response));
+        });
+
         var qaResponse = await client.Lemur.QuestionAnswerAsync(new LemurQuestionAnswerParams
         {
             FinalModel = LemurModel.Basic,
@@ -132,8 +148,11 @@ public class LemurTests
         
         var qaResponse2OneOf = await client.Lemur.GetResponseAsync(qaResponse.RequestId).ConfigureAwait(false);
         var qaResponse2 = qaResponse2OneOf.AsT1;
-        Assert.That(qaResponse2.RequestId, Is.EqualTo(qaResponse.RequestId));
-        Assert.That(qaResponse2.Response.Count(), Is.EqualTo(qaResponse.Response.Count()));
+        Assert.Multiple(() =>
+        {
+            Assert.That(qaResponse2.RequestId, Is.EqualTo(qaResponse.RequestId));
+            Assert.That(qaResponse2.Response.Count(), Is.EqualTo(qaResponse.Response.Count()));
+        });
     }
 
     [Test]
@@ -148,7 +167,10 @@ public class LemurTests
         }).ConfigureAwait(false);
 
         var deletionRequest = await client.Lemur.PurgeRequestDataAsync(summaryResponse.RequestId).ConfigureAwait(false);
-        Assert.That(deletionRequest.Deleted, Is.True);
-        Assert.That(summaryResponse.RequestId, Is.EqualTo(deletionRequest.RequestIdToPurge));
+        Assert.Multiple(() =>
+        {
+            Assert.That(deletionRequest.Deleted, Is.True);
+            Assert.That(summaryResponse.RequestId, Is.EqualTo(deletionRequest.RequestIdToPurge));
+        });
     }
 }

@@ -1,3 +1,5 @@
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+
 namespace AssemblyAI.Transcripts;
 
 /// <summary>

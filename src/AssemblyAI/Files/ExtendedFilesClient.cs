@@ -1,10 +1,3 @@
-using System.Net.Http;
-using System.Text.Json;
-using AssemblyAI;
-using AssemblyAI.Core;
-
-#nullable enable
-
 namespace AssemblyAI.Files;
 
 public partial class FilesClient

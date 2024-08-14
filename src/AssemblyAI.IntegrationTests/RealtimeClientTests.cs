@@ -5,8 +5,6 @@ namespace AssemblyAI.IntegrationTests;
 [TestFixture]
 public class RealtimeClientTests
 {
-    private static string ApiKey => AssemblyAITestParameters.ApiKey;
-
     [Test]
     public async Task Should_Generate_TemporaryToken()
     {

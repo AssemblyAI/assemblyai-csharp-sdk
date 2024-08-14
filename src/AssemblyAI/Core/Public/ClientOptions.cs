@@ -1,7 +1,7 @@
-using System;
 using System.Net.Http;
-
-#nullable enable
+// ReSharper disable PartialTypeWithSinglePart
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable CheckNamespace
 
 namespace AssemblyAI;
 

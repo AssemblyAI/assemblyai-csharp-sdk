@@ -1,4 +1,5 @@
-﻿namespace AssemblyAI.Realtime.WebsocketClient.Exceptions;
+﻿// ReSharper disable All
+namespace AssemblyAI.Realtime.WebsocketClient.Exceptions;
 
 /// <summary>
 /// Custom exception related to WebsocketClient

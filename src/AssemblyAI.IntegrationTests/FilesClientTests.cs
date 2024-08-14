@@ -3,8 +3,6 @@ namespace AssemblyAI.IntegrationTests;
 [TestFixture]
 public class FilesClientTests
 {
-    private static string ApiKey => AssemblyAITestParameters.ApiKey;
-    
     [Test]
     public async Task Should_Upload_File_Using_FileInfo()
     {

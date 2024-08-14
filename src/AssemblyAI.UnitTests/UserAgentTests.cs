@@ -22,7 +22,7 @@ public class UserAgentTests
     [Test]
     public void TestMergeUserAgent()
     {
-        var userAgent = new UserAgent(UserAgent.Default, new UserAgent(new Dictionary<string, UserAgentItem?>()
+        var userAgent = new UserAgent(UserAgent.Default, new UserAgent(new Dictionary<string, UserAgentItem?>
         {
             ["integration"] = new("SemanticKernel", "1.0"),
             ["runtime_env"] = null

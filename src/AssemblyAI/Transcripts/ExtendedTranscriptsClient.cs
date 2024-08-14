@@ -1,8 +1,8 @@
-#nullable enable
-
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using AssemblyAI.Core;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable UnusedMember.Global
 
 namespace AssemblyAI.Transcripts;
 
@@ -133,7 +133,7 @@ public class ExtendedTranscriptsClient : TranscriptsClient
 
         // this would be easier to just call the given URL,
         // but the raw client doesn't let us make requests to full URL
-        // so we'll parse the querystring and pass it to `ListAsync`.
+        // so, we'll parse the querystring and pass it to `ListAsync`.
 
         var queryString = listUrl.Substring(listUrl.IndexOf('?') + 1)
             .Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries)

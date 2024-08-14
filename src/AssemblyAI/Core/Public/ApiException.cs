@@ -1,6 +1,8 @@
 using System.Net;
 using System.Text.Json;
 using AssemblyAI.Core;
+// ReSharper disable CheckNamespace
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace AssemblyAI;
 

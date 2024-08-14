@@ -32,10 +32,13 @@ public class DiClientTests
 
         // Assert
         Assert.That(client, Is.Not.Null);
-        Assert.That(client.Files, Is.Not.Null);
-        Assert.That(client.Transcripts, Is.Not.Null);
-        Assert.That(client.Realtime, Is.Not.Null);
-        Assert.That(client.Lemur, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(client.Files, Is.Not.Null);
+            Assert.That(client.Transcripts, Is.Not.Null);
+            Assert.That(client.Realtime, Is.Not.Null);
+            Assert.That(client.Lemur, Is.Not.Null);
+        });
     }
 
     [Test]

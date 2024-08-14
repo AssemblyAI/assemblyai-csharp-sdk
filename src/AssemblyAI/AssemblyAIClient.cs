@@ -1,8 +1,6 @@
 #nullable enable
 
 using System.Net.Http;
-using System.Net.Http.Headers;
-using AssemblyAI;
 using AssemblyAI.Core;
 using AssemblyAI.Files;
 using AssemblyAI.Lemur;
@@ -39,7 +37,7 @@ public partial class AssemblyAIClient
         
         clientOptions.HttpClient ??= new HttpClient();
         var client = new RawClient(
-            new Dictionary<string, string>()
+            new Dictionary<string, string>
             {
                 ["Authorization"] = clientOptions.ApiKey,
                 ["User-Agent"] = new UserAgent(UserAgent.Default, clientOptions.UserAgent).ToAssemblyAIUserAgentString()

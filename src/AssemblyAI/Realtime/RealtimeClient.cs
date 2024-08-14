@@ -1,15 +1,12 @@
 using System.Net.Http;
 using System.Text.Json;
-using AssemblyAI;
 using AssemblyAI.Core;
-
-#nullable enable
 
 namespace AssemblyAI.Realtime;
 
 public partial class RealtimeClient
 {
-    private RawClient _client;
+    private readonly RawClient _client;
 
     internal RealtimeClient(RawClient client)
     {
@@ -39,7 +36,7 @@ public partial class RealtimeClient
         {
             try
             {
-                return JsonUtils.Deserialize<RealtimeTemporaryTokenResponse>(responseBody)!;
+                return JsonUtils.Deserialize<RealtimeTemporaryTokenResponse>(responseBody);
             }
             catch (JsonException e)
             {

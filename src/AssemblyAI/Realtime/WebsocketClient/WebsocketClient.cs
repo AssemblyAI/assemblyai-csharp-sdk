@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.IO;
 using Websocket.Client;
+// ReSharper disable All
 
 namespace AssemblyAI.Realtime.WebsocketClient;
 

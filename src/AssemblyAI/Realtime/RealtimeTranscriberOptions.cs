@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace AssemblyAI.Realtime;
+﻿namespace AssemblyAI.Realtime;
 
 public sealed class RealtimeTranscriberOptions
 {

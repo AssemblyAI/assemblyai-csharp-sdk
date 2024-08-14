@@ -1,5 +1,6 @@
 using OneOf;
 
+// ReSharper disable once CheckNamespace
 namespace AssemblyAI.Realtime;
 
 public class RealtimeTranscript : OneOfBase<PartialTranscript, FinalTranscript>

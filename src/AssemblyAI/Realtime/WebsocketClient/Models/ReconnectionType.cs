@@ -1,4 +1,4 @@
-﻿// ReSharper disable once CheckNamespace
+﻿// ReSharper disable All
 namespace Websocket.Client;
 
 /// <summary>

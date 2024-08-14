@@ -13,6 +13,7 @@ src/AssemblyAI/Core/ClientOptions.cs
 src/AssemblyAI/Core/JsonConfiguration.cs
 src/AssemblyAI/Core/Public/ApiException.cs
 src/AssemblyAI/Core/Public/ClientOptions.cs
+src/AssemblyAI/Types/Error.cs
 src/AssemblyAI/Constants.cs
 src/AssemblyAI/UserAgent.cs
 src/AssemblyAI/Event.cs
@@ -29,6 +30,8 @@ src/AssemblyAI/Realtime/WebsocketClient
 src/AssemblyAI/Realtime/Types/RealtimeTranscript.cs
 src/AssemblyAI/Realtime/ExtendedRealtimeClient.cs
 src/AssemblyAI/Realtime/RealtimeTranscriberOptions.cs
+src/AssemblyAI/Realtime/Types/TerminateSession.cs
+src/AssemblyAI/Realtime/Types/ForceEndUtterance.cs
 src/AssemblyAI.Test
 src/AssemblyAI.UnitTests
 src/AssemblyAI.IntegrationTests
