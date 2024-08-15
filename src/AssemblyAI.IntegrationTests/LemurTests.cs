@@ -166,6 +166,8 @@ public class LemurTests
             AnswerFormat = "one sentence"
         }).ConfigureAwait(false);
 
+        await Task.Delay(TimeSpan.FromSeconds(2)).ConfigureAwait(false);
+        
         var deletionRequest = await client.Lemur.PurgeRequestDataAsync(summaryResponse.RequestId).ConfigureAwait(false);
         Assert.Multiple(() =>
         {
