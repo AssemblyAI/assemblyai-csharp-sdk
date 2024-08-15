@@ -314,11 +314,17 @@ public class TranscriptsClientTests
         }).ConfigureAwait(false);
 
         var redactedAudioResponse = await client.Transcripts.GetRedactedAudioAsync(transcript.Id).ConfigureAwait(false);
+        
+        var redactedAudioFileStream = await client.Transcripts.GetRedactedAudioFileAsync(transcript.Id).ConfigureAwait(false);
+        var memoryStream = new MemoryStream();
+        await redactedAudioFileStream.CopyToAsync(memoryStream).ConfigureAwait(false);
 
         Assert.Multiple(() =>
         {
             Assert.That(redactedAudioResponse.Status, Is.EqualTo("redacted_audio_ready"));
             Assert.That(redactedAudioResponse.RedactedAudioUrl, Is.Not.Empty);
+            Assert.That(memoryStream, Is.Not.Null);
+            Assert.That(memoryStream.Length, Is.GreaterThan(0));
         });
     }
 

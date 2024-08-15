@@ -1,3 +1,4 @@
+using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using AssemblyAI.Core;
@@ -8,10 +9,12 @@ namespace AssemblyAI.Transcripts;
 
 public class ExtendedTranscriptsClient : TranscriptsClient
 {
+    private readonly RawClient _client;
     private readonly AssemblyAIClient _assemblyAIClient;
 
     internal ExtendedTranscriptsClient(RawClient client, AssemblyAIClient assemblyAIClient) : base(client)
     {
+        _client = client;
         _assemblyAIClient = assemblyAIClient;
     }
 
@@ -197,6 +200,19 @@ public class ExtendedTranscriptsClient : TranscriptsClient
         {
             CharsPerCaption = charsPerCaption
         });
+
+    /// <summary>
+    /// Retrieve the redacted audio file.
+    /// </summary>
+    public async Task<Stream> GetRedactedAudioFileAsync(
+        string transcriptId,
+        RequestOptions? options = null
+    )
+    {
+        var redactedAudioFileInfo = await GetRedactedAudioAsync(transcriptId, options).ConfigureAwait(false);
+        var httpClient = options?.HttpClient ?? _client.Options.HttpClient ?? new HttpClient();
+        return await httpClient.GetStreamAsync(redactedAudioFileInfo.RedactedAudioUrl).ConfigureAwait(false);
+    }
 
     /// <summary>
     /// Search through the transcript for keywords. You can search for individual words, numbers, or phrases containing up to five words or numbers.
