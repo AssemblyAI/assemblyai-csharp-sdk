@@ -1,9 +1,11 @@
 ﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Text;
 using AssemblyAI.Realtime;
 using Microsoft.Extensions.Configuration;
 
 var transcriptWords = new SortedDictionary<int, string>();
+
 string BuildTranscript()
 {
     var stringBuilder = new StringBuilder();
@@ -33,7 +35,8 @@ await using var transcriber = new RealtimeTranscriber(new RealtimeTranscriberOpt
 });
 
 transcriber.PartialTranscriptReceived.Subscribe(transcript =>
-{        // don't do anything if nothing was said
+{
+    // don't do anything if nothing was said
     if (string.IsNullOrEmpty(transcript.Text)) return;
     transcriptWords[transcript.AudioStart] = transcript.Text;
 
@@ -65,7 +68,8 @@ Console.WriteLine($"""
 Console.WriteLine("Starting recording");
 
 var soxArguments = string.Join(' ', [
-    "--default-device",
+    // --default-device doesn't work on Windows
+    RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "-t waveaudio default" : "--default-device",
     "--no-show-progress",
     "--rate 16000",
     "--channels 1",
