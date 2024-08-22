@@ -5,6 +5,7 @@ using AssemblyAI.Realtime;
 using Microsoft.Extensions.Configuration;
 
 var transcriptWords = new SortedDictionary<int, string>();
+
 string BuildTranscript()
 {
     var stringBuilder = new StringBuilder();
@@ -34,7 +35,8 @@ await using var transcriber = new RealtimeTranscriber(new RealtimeTranscriberOpt
 });
 
 transcriber.PartialTranscriptReceived.Subscribe(transcript =>
-{        // don't do anything if nothing was said
+{
+    // don't do anything if nothing was said
     if (string.IsNullOrEmpty(transcript.Text)) return;
     transcriptWords[transcript.AudioStart] = transcript.Text;
 
