@@ -10,7 +10,6 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
-      <PackageReference Include="OpenTK" Version="4.8.2" />
     </ItemGroup>
 
     <ItemGroup>

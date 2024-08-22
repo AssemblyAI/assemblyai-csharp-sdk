@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Text;
 using AssemblyAI.Realtime;
 using Microsoft.Extensions.Configuration;
@@ -65,7 +66,8 @@ Console.WriteLine($"""
 Console.WriteLine("Starting recording");
 
 var soxArguments = string.Join(' ', [
-    "--default-device",
+    // --default-device doesn't work on Windows
+    RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "-t waveaudio default" : "--default-device",
     "--no-show-progress",
     "--rate 16000",
     "--channels 1",
