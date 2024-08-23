@@ -1,3 +1,4 @@
+using AssemblyAI.Files;
 using AssemblyAI.Transcripts;
 
 namespace AssemblyAI.IntegrationTests;
@@ -49,6 +50,27 @@ public class TranscriptsClientTests
     }
 
     [Test]
+    public async Task Should_Submit_Using_Stream_With_Dispose()
+    {
+        var client = Helpers.CreateClient();
+
+        // Adjust the path to where your test file is located
+        var testFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "nbc.mp3");
+        var stream = File.OpenRead(testFilePath);
+
+        var transcript = await client.Transcripts.SubmitAsync(stream, disposeStream: true).ConfigureAwait(false);
+
+        Assert.That(transcript, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(transcript.Id, Is.Not.Null);
+            Assert.That(transcript.Text, Is.Null);
+            Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Queued));
+        });
+        Assert.Throws<ObjectDisposedException>(() => stream.ReadByte());
+    }
+
+    [Test]
     public async Task Should_Submit_Using_FileInfo()
     {
         var client = Helpers.CreateClient();
@@ -68,15 +90,35 @@ public class TranscriptsClientTests
         });
     }
 
+
+    [Test]
+    public async Task Should_Submit_Using_UploadedFile()
+    {
+        var client = Helpers.CreateClient();
+
+        var transcript = await client.Transcripts.SubmitAsync(new UploadedFile
+        {
+            UploadUrl = RemoteAudioUrl
+        }).ConfigureAwait(false);
+
+        Assert.That(transcript, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(transcript.Id, Is.Not.Null);
+            Assert.That(transcript.Text, Is.Null);
+            Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Queued));
+        });
+    }
+
     [Test]
     public async Task Should_Transcribe_Using_Params()
     {
         var client = Helpers.CreateClient();
 
         var transcript = await client.Transcripts.TranscribeAsync(new TranscriptParams
-        {
-            AudioUrl = RemoteAudioUrl
-        }
+            {
+                AudioUrl = RemoteAudioUrl
+            }
         ).ConfigureAwait(false);
 
         Assert.That(transcript, Is.Not.Null);
@@ -128,6 +170,25 @@ public class TranscriptsClientTests
     }
 
     [Test]
+    public async Task Should_Transcribe_From_UploadedFile()
+    {
+        var client = Helpers.CreateClient();
+
+        var transcript = await client.Transcripts.TranscribeAsync(new UploadedFile
+        {
+            UploadUrl = RemoteAudioUrl
+        }).ConfigureAwait(false);
+
+        Assert.That(transcript, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(transcript.Id, Is.Not.Null);
+            Assert.That(transcript.Text, Is.Not.Empty);
+            Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Completed));
+        });
+    }
+
+    [Test]
     public async Task Should_Transcribe_Using_Stream()
     {
         var client = Helpers.CreateClient();
@@ -145,6 +206,28 @@ public class TranscriptsClientTests
             Assert.That(transcript.Text, Is.Not.Empty);
             Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Completed));
         });
+    }
+
+    [Test]
+    public async Task Should_Transcribe_Using_Stream_With_Dispose()
+    {
+        var client = Helpers.CreateClient();
+
+        // Adjust the path to where your test file is located
+        var testFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "nbc.mp3");
+        var stream = File.OpenRead(testFilePath);
+
+        var transcript = await client.Transcripts.TranscribeAsync(stream, disposeStream: true).ConfigureAwait(false);
+
+        Assert.That(transcript, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(transcript.Id, Is.Not.Null);
+            Assert.That(transcript.Text, Is.Not.Empty);
+            Assert.That(transcript.Status, Is.EqualTo(TranscriptStatus.Completed));
+        });
+        
+        Assert.Throws<ObjectDisposedException>(() => stream.ReadByte());
     }
 
     [Test]
@@ -314,8 +397,9 @@ public class TranscriptsClientTests
         }).ConfigureAwait(false);
 
         var redactedAudioResponse = await client.Transcripts.GetRedactedAudioAsync(transcript.Id).ConfigureAwait(false);
-        
-        var redactedAudioFileStream = await client.Transcripts.GetRedactedAudioFileAsync(transcript.Id).ConfigureAwait(false);
+
+        var redactedAudioFileStream =
+            await client.Transcripts.GetRedactedAudioFileAsync(transcript.Id).ConfigureAwait(false);
         var memoryStream = new MemoryStream();
         await redactedAudioFileStream.CopyToAsync(memoryStream).ConfigureAwait(false);
 
