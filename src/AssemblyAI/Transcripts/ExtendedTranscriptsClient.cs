@@ -2,6 +2,8 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using AssemblyAI.Core;
+using AssemblyAI.Files;
+
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
 
@@ -22,17 +24,28 @@ public class ExtendedTranscriptsClient : TranscriptsClient
 
     public async Task<Transcript> SubmitAsync(FileInfo audioFile, TranscriptOptionalParams transcriptParams)
     {
-        using var audioFileStream = audioFile.OpenRead();
-        return await SubmitAsync(audioFileStream, transcriptParams).ConfigureAwait(false);
+        var uploadedFile = await _assemblyAIClient.Files.UploadAsync(audioFile).ConfigureAwait(false);
+        return await SubmitAsync(uploadedFile, transcriptParams).ConfigureAwait(false);
     }
 
     public Task<Transcript> SubmitAsync(Stream audioFileStream) =>
         SubmitAsync(audioFileStream, new TranscriptOptionalParams());
 
-    public async Task<Transcript> SubmitAsync(Stream audioFileStream, TranscriptOptionalParams transcriptParams)
+    public Task<Transcript> SubmitAsync(Stream audioFileStream, bool disposeStream) =>
+        SubmitAsync(audioFileStream, disposeStream, new TranscriptOptionalParams());
+
+    public Task<Transcript> SubmitAsync(Stream audioFileStream, TranscriptOptionalParams transcriptParams)
+        => SubmitAsync(audioFileStream, false, transcriptParams);
+
+    public async Task<Transcript> SubmitAsync(
+        Stream audioFileStream,
+        bool disposeStream,
+        TranscriptOptionalParams transcriptParams
+    )
     {
-        var fileUpload = await _assemblyAIClient.Files.UploadAsync(audioFileStream).ConfigureAwait(false);
-        return await SubmitAsync(new Uri(fileUpload.UploadUrl), transcriptParams).ConfigureAwait(false);
+        var fileUpload = await _assemblyAIClient.Files.UploadAsync(audioFileStream, disposeStream)
+            .ConfigureAwait(false);
+        return await SubmitAsync(fileUpload, transcriptParams).ConfigureAwait(false);
     }
 
     public Task<Transcript> SubmitAsync(Uri audioFileUrl) => SubmitAsync(audioFileUrl, new TranscriptOptionalParams());
@@ -40,6 +53,13 @@ public class ExtendedTranscriptsClient : TranscriptsClient
     public async Task<Transcript> SubmitAsync(Uri audioFileUrl, TranscriptOptionalParams transcriptParams)
     {
         return await SubmitAsync(CreateParams(audioFileUrl, transcriptParams)).ConfigureAwait(false);
+    }
+
+    public Task<Transcript> SubmitAsync(UploadedFile file) => SubmitAsync(file, new TranscriptOptionalParams());
+
+    public async Task<Transcript> SubmitAsync(UploadedFile file, TranscriptOptionalParams transcriptParams)
+    {
+        return await SubmitAsync(CreateParams(file.UploadUrl, transcriptParams)).ConfigureAwait(false);
     }
 
     public Task<Transcript> TranscribeAsync(FileInfo audioFile) =>
@@ -54,10 +74,21 @@ public class ExtendedTranscriptsClient : TranscriptsClient
     public Task<Transcript> TranscribeAsync(Stream audioFileStream) =>
         TranscribeAsync(audioFileStream, new TranscriptOptionalParams());
 
+    public Task<Transcript> TranscribeAsync(Stream audioFileStream, bool disposeStream) =>
+        TranscribeAsync(audioFileStream, disposeStream, new TranscriptOptionalParams());
+
     public async Task<Transcript> TranscribeAsync(Stream audioFileStream, TranscriptOptionalParams transcriptParams)
     {
         var fileUpload = await _assemblyAIClient.Files.UploadAsync(audioFileStream).ConfigureAwait(false);
         return await TranscribeAsync(new Uri(fileUpload.UploadUrl), transcriptParams).ConfigureAwait(false);
+    }
+
+    public async Task<Transcript> TranscribeAsync(Stream audioFileStream, bool disposeStream,
+        TranscriptOptionalParams transcriptParams)
+    {
+        var uploadedFile =
+            await _assemblyAIClient.Files.UploadAsync(audioFileStream, disposeStream).ConfigureAwait(false);
+        return await TranscribeAsync(uploadedFile, transcriptParams).ConfigureAwait(false);
     }
 
     public Task<Transcript> TranscribeAsync(Uri audioFileUrl) =>
@@ -65,6 +96,12 @@ public class ExtendedTranscriptsClient : TranscriptsClient
 
     public Task<Transcript> TranscribeAsync(Uri audioFileUrl, TranscriptOptionalParams transcriptParams)
         => TranscribeAsync(CreateParams(audioFileUrl, transcriptParams));
+
+    public Task<Transcript> TranscribeAsync(UploadedFile file) =>
+        TranscribeAsync(file, new TranscriptOptionalParams());
+
+    public Task<Transcript> TranscribeAsync(UploadedFile file, TranscriptOptionalParams transcriptParams)
+        => TranscribeAsync(CreateParams(file.UploadUrl, transcriptParams));
 
     public async Task<Transcript> TranscribeAsync(TranscriptParams transcriptParams)
     {
@@ -114,10 +151,13 @@ public class ExtendedTranscriptsClient : TranscriptsClient
     }
 
     private static TranscriptParams CreateParams(Uri audioFileUrl, TranscriptOptionalParams optionalTranscriptParams)
+        => CreateParams(audioFileUrl.ToString(), optionalTranscriptParams);
+
+    private static TranscriptParams CreateParams(string audioFileUrl, TranscriptOptionalParams optionalTranscriptParams)
     {
         var json = JsonUtils.Serialize(optionalTranscriptParams);
         var jsonObject = JsonUtils.Deserialize<JsonObject>(json);
-        jsonObject["audio_url"] = audioFileUrl.ToString();
+        jsonObject["audio_url"] = audioFileUrl;
         var transcriptParams = jsonObject.Deserialize<TranscriptParams>()!;
         return transcriptParams;
     }
