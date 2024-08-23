@@ -13,16 +13,10 @@ public record Transcript
     public required string Id { get; set; }
 
     /// <summary>
-    /// The language model that was used for the transcript
+    /// The URL of the media that was transcribed
     /// </summary>
-    [JsonPropertyName("language_model")]
-    public required string LanguageModel { get; set; }
-
-    /// <summary>
-    /// The acoustic model that was used for the transcript
-    /// </summary>
-    [JsonPropertyName("acoustic_model")]
-    public required string AcousticModel { get; set; }
+    [JsonPropertyName("audio_url")]
+    public required string AudioUrl { get; set; }
 
     /// <summary>
     /// The status of your transcript. Possible values are queued, processing, completed, or error.
@@ -39,10 +33,27 @@ public record Transcript
     public TranscriptLanguageCode? LanguageCode { get; set; }
 
     /// <summary>
-    /// The URL of the media that was transcribed
+    /// Whether [Automatic language detection](https://www.assemblyai.com/docs/models/speech-recognition#automatic-language-detection) is enabled, either true or false
     /// </summary>
-    [JsonPropertyName("audio_url")]
-    public required string AudioUrl { get; set; }
+    [JsonPropertyName("language_detection")]
+    public bool? LanguageDetection { get; set; }
+
+    /// <summary>
+    /// The confidence threshold for the automatically detected language.
+    /// An error will be returned if the language confidence is below this threshold.
+    /// Defaults to 0.
+    /// </summary>
+    [JsonPropertyName("language_confidence_threshold")]
+    public float? LanguageConfidenceThreshold { get; set; }
+
+    /// <summary>
+    /// The confidence score for the detected language, between 0.0 (low confidence) and 1.0 (high confidence)
+    /// </summary>
+    [JsonPropertyName("language_confidence")]
+    public double? LanguageConfidence { get; set; }
+
+    [JsonPropertyName("speech_model")]
+    public SpeechModel? SpeechModel { get; set; }
 
     /// <summary>
     /// The textual transcript of your media file
@@ -89,13 +100,16 @@ public record Transcript
     public bool? FormatText { get; set; }
 
     /// <summary>
+    /// Transcribe Filler Words, like "umm", in your media file; can be true or false
+    /// </summary>
+    [JsonPropertyName("disfluencies")]
+    public bool? Disfluencies { get; set; }
+
+    /// <summary>
     /// Whether [Dual channel transcription](https://www.assemblyai.com/docs/models/speech-recognition#dual-channel-transcription) was enabled in the transcription request, either true or false
     /// </summary>
     [JsonPropertyName("dual_channel")]
     public bool? DualChannel { get; set; }
-
-    [JsonPropertyName("speech_model")]
-    public SpeechModel? SpeechModel { get; set; }
 
     /// <summary>
     /// The URL to which we send webhook requests.
@@ -228,12 +242,6 @@ public record Transcript
     public TopicDetectionModelResult? IabCategoriesResult { get; set; }
 
     /// <summary>
-    /// Whether [Automatic language detection](https://www.assemblyai.com/docs/models/speech-recognition#automatic-language-detection) is enabled, either true or false
-    /// </summary>
-    [JsonPropertyName("language_detection")]
-    public bool? LanguageDetection { get; set; }
-
-    /// <summary>
     /// Customize how words are spelled and formatted using to and from values
     /// </summary>
     [JsonPropertyName("custom_spelling")]
@@ -289,12 +297,6 @@ public record Transcript
     public IEnumerable<string>? Topics { get; set; }
 
     /// <summary>
-    /// Transcribe Filler Words, like "umm", in your media file; can be true or false
-    /// </summary>
-    [JsonPropertyName("disfluencies")]
-    public bool? Disfluencies { get; set; }
-
-    /// <summary>
     /// Whether [Sentiment Analysis](https://www.assemblyai.com/docs/models/sentiment-analysis) is enabled, can be true or false
     /// </summary>
     [JsonPropertyName("sentiment_analysis")]
@@ -338,4 +340,16 @@ public record Transcript
     /// </summary>
     [JsonPropertyName("error")]
     public string? Error { get; set; }
+
+    /// <summary>
+    /// The language model that was used for the transcript
+    /// </summary>
+    [JsonPropertyName("language_model")]
+    public required string LanguageModel { get; set; }
+
+    /// <summary>
+    /// The acoustic model that was used for the transcript
+    /// </summary>
+    [JsonPropertyName("acoustic_model")]
+    public required string AcousticModel { get; set; }
 }

@@ -10,6 +10,23 @@ public record TranscriptOptionalParams
     public TranscriptLanguageCode? LanguageCode { get; set; }
 
     /// <summary>
+    /// Enable [Automatic language detection](https://www.assemblyai.com/docs/models/speech-recognition#automatic-language-detection), either true or false.
+    /// </summary>
+    [JsonPropertyName("language_detection")]
+    public bool? LanguageDetection { get; set; }
+
+    /// <summary>
+    /// The confidence threshold for the automatically detected language.
+    /// An error will be returned if the language confidence is below this threshold.
+    /// Defaults to 0.
+    /// </summary>
+    [JsonPropertyName("language_confidence_threshold")]
+    public float? LanguageConfidenceThreshold { get; set; }
+
+    [JsonPropertyName("speech_model")]
+    public SpeechModel? SpeechModel { get; set; }
+
+    /// <summary>
     /// Enable Automatic Punctuation, can be true or false
     /// </summary>
     [JsonPropertyName("punctuate")]
@@ -22,13 +39,16 @@ public record TranscriptOptionalParams
     public bool? FormatText { get; set; }
 
     /// <summary>
+    /// Transcribe Filler Words, like "umm", in your media file; can be true or false
+    /// </summary>
+    [JsonPropertyName("disfluencies")]
+    public bool? Disfluencies { get; set; }
+
+    /// <summary>
     /// Enable [Dual Channel](https://www.assemblyai.com/docs/models/speech-recognition#dual-channel-transcription) transcription, can be true or false.
     /// </summary>
     [JsonPropertyName("dual_channel")]
     public bool? DualChannel { get; set; }
-
-    [JsonPropertyName("speech_model")]
-    public SpeechModel? SpeechModel { get; set; }
 
     /// <summary>
     /// The URL to which we send webhook requests. We sends two different types of webhook requests. One request when a transcript is completed or failed, and one request when the redacted audio is ready if redact_pii_audio is enabled.
@@ -73,7 +93,7 @@ public record TranscriptOptionalParams
     public IEnumerable<string>? WordBoost { get; set; }
 
     /// <summary>
-    /// The word boost parameter value
+    /// How much to boost specified words
     /// </summary>
     [JsonPropertyName("boost_param")]
     public TranscriptBoostParam? BoostParam { get; set; }
@@ -142,22 +162,10 @@ public record TranscriptOptionalParams
     public bool? IabCategories { get; set; }
 
     /// <summary>
-    /// Enable [Automatic language detection](https://www.assemblyai.com/docs/models/speech-recognition#automatic-language-detection), either true or false.
-    /// </summary>
-    [JsonPropertyName("language_detection")]
-    public bool? LanguageDetection { get; set; }
-
-    /// <summary>
     /// Customize how words are spelled and formatted using to and from values
     /// </summary>
     [JsonPropertyName("custom_spelling")]
     public IEnumerable<TranscriptCustomSpelling>? CustomSpelling { get; set; }
-
-    /// <summary>
-    /// Transcribe Filler Words, like "umm", in your media file; can be true or false
-    /// </summary>
-    [JsonPropertyName("disfluencies")]
-    public bool? Disfluencies { get; set; }
 
     /// <summary>
     /// Enable [Sentiment Analysis](https://www.assemblyai.com/docs/models/sentiment-analysis), can be true or false

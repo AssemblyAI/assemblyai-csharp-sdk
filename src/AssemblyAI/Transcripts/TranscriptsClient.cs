@@ -153,8 +153,7 @@ public partial class TranscriptsClient
     }
 
     /// <summary>
-    /// Delete the transcript.
-    /// Deleting does not delete the resource itself, but removes the data from the resource and marks it as deleted.
+    /// Remove the data from the transcript and mark it as deleted.
     /// </summary>
     public async Task<Transcript> DeleteAsync(string transcriptId, RequestOptions? options = null)
     {
@@ -202,13 +201,12 @@ public partial class TranscriptsClient
         {
             _query["chars_per_caption"] = request.CharsPerCaption.ToString();
         }
-        var formatSlug = subtitleFormat == SubtitleFormat.Srt ? "srt" : "vtt";
         var response = await _client.MakeRequestAsync(
             new RawClient.JsonApiRequest
             {
                 BaseUrl = _client.Options.BaseUrl,
                 Method = HttpMethod.Get,
-                Path = $"v2/transcript/{transcriptId}/{formatSlug}",
+                Path = $"v2/transcript/{transcriptId}/{subtitleFormat}",
                 Query = _query,
                 Options = options
             }
@@ -309,7 +307,7 @@ public partial class TranscriptsClient
     )
     {
         var _query = new Dictionary<string, object>() { };
-        _query["words"] = string.Join(",", request.Words);
+        _query["words"] = request.Words;
         var response = await _client.MakeRequestAsync(
             new RawClient.JsonApiRequest
             {
