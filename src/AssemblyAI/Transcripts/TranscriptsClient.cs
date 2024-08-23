@@ -201,12 +201,13 @@ public partial class TranscriptsClient
         {
             _query["chars_per_caption"] = request.CharsPerCaption.ToString();
         }
+        var formatSlug = subtitleFormat == SubtitleFormat.Srt ? "srt" : "vtt";
         var response = await _client.MakeRequestAsync(
             new RawClient.JsonApiRequest
             {
                 BaseUrl = _client.Options.BaseUrl,
                 Method = HttpMethod.Get,
-                Path = $"v2/transcript/{transcriptId}/{subtitleFormat}",
+                Path = $"v2/transcript/{transcriptId}/{formatSlug}",
                 Query = _query,
                 Options = options
             }
@@ -307,7 +308,7 @@ public partial class TranscriptsClient
     )
     {
         var _query = new Dictionary<string, object>() { };
-        _query["words"] = request.Words;
+        _query["words"] = string.Join(",", request.Words);
         var response = await _client.MakeRequestAsync(
             new RawClient.JsonApiRequest
             {
