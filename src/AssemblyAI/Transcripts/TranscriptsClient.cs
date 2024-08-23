@@ -153,8 +153,7 @@ public partial class TranscriptsClient
     }
 
     /// <summary>
-    /// Delete the transcript.
-    /// Deleting does not delete the resource itself, but removes the data from the resource and marks it as deleted.
+    /// Remove the data from the transcript and mark it as deleted.
     /// </summary>
     public async Task<Transcript> DeleteAsync(string transcriptId, RequestOptions? options = null)
     {

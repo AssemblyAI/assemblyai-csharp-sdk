@@ -41,7 +41,7 @@ public class UserAgent
     private static UserAgent CreateDefaultUserAgent()
     {
         var defaultUserAgent = new Dictionary<string, UserAgentItem?>();
-        defaultUserAgent["sdk"] = new UserAgentItem("CSharp", Constants.Version);
+        defaultUserAgent["sdk"] = new UserAgentItem("CSharp", CustomConstants.Version);
 #if NET462_OR_GREATER
             defaultUserAgent["runtime_env"] = new UserAgentItem(".NET Framework", $"{Environment.Version}");
 #else
