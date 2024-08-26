@@ -35,16 +35,11 @@ public partial class AssemblyAIClient
             throw new ArgumentException("AssemblyAI API Key is required.");
         }
         
+        // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
         clientOptions.HttpClient ??= new HttpClient();
-        var client = new RawClient(
-            new Dictionary<string, string>
-            {
-                ["Authorization"] = clientOptions.ApiKey,
-                ["User-Agent"] = new UserAgent(UserAgent.Default, clientOptions.UserAgent).ToAssemblyAIUserAgentString()
-            },
-            new Dictionary<string, Func<string>>(),
-            clientOptions
-        );
+        clientOptions.Headers.Add("Authorization", clientOptions.ApiKey);
+        clientOptions.Headers.Add("User-Agent", new UserAgent(UserAgent.Default, clientOptions.UserAgent).ToAssemblyAIUserAgentString());
+        var client = new RawClient(clientOptions);
 
         Files = new FilesClient(client);
         Transcripts = new ExtendedTranscriptsClient(client, this);

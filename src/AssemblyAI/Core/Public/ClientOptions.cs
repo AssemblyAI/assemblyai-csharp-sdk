@@ -11,22 +11,22 @@ public partial class ClientOptions
     /// <summary>
     /// The Base URL for the API.
     /// </summary>
-    public string BaseUrl { get; init; } = AssemblyAIClientEnvironment.Default;
+    public string BaseUrl { get; set; } = AssemblyAIClientEnvironment.Default;
 
     /// <summary>
     /// The http client used to make requests.
     /// </summary>
-    public HttpClient HttpClient { get; init; } = new HttpClient();
+    public HttpClient HttpClient { get; set; } = new HttpClient();
 
     /// <summary>
-    /// The http client used to make requests.
+    /// The amount to retry sending the HTTP request if it fails.
     /// </summary>
-    public int MaxRetries { get; init; } = 2;
+    public int MaxRetries { get; set; } = 2;
 
     /// <summary>
     /// The timeout for the request.
     /// </summary>
-    public TimeSpan Timeout { get; init; } = TimeSpan.FromSeconds(30);
+    public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(30);
 
     /// <summary>
     /// The http headers sent with the request.

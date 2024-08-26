@@ -86,6 +86,7 @@ public static class DependencyInjectionExtensions
     private static AssemblyAIClient CreateAssemblyAIClient(IServiceProvider provider)
     {
         var options = provider.GetRequiredService<IOptionsSnapshot<ClientOptions>>().Value;
+        // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
         options.HttpClient ??= provider.GetRequiredService<IHttpClientFactory>().CreateClient(AssemblyAIHttpClientName);
         return new AssemblyAIClient(options);
     }
