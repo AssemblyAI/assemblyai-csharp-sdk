@@ -37,5 +37,5 @@ public enum LemurModel
     Basic,
 
     [EnumMember(Value = "assemblyai/mistral-7b")]
-    AssemblyaiMistral7b
+    AssemblyaiMistral7b,
 }

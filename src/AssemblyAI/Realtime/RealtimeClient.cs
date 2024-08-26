@@ -1,5 +1,6 @@
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading;
 using AssemblyAI;
 using AssemblyAI.Core;
 
@@ -19,9 +20,17 @@ public partial class RealtimeClient
     /// <summary>
     /// Create a temporary authentication token for Streaming Speech-to-Text
     /// </summary>
+    /// <example>
+    /// <code>
+    /// await client.Realtime.CreateTemporaryTokenAsync(
+    ///     new CreateRealtimeTemporaryTokenParams { ExpiresIn = 480 }
+    /// );
+    /// </code>
+    /// </example>
     public async Task<RealtimeTemporaryTokenResponse> CreateTemporaryTokenAsync(
         CreateRealtimeTemporaryTokenParams request,
-        RequestOptions? options = null
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
     )
     {
         var response = await _client.MakeRequestAsync(
@@ -31,8 +40,9 @@ public partial class RealtimeClient
                 Method = HttpMethod.Post,
                 Path = "v2/realtime/token",
                 Body = request,
-                Options = options
-            }
+                Options = options,
+            },
+            cancellationToken
         );
         var responseBody = await response.Raw.Content.ReadAsStringAsync();
         if (response.StatusCode is >= 200 and < 400)

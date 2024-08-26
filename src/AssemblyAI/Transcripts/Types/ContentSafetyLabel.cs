@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using AssemblyAI.Core;
 
 #nullable enable
 
@@ -23,4 +24,9 @@ public record ContentSafetyLabel
     /// </summary>
     [JsonPropertyName("severity")]
     public required double Severity { get; set; }
+
+    public override string ToString()
+    {
+        return JsonUtils.Serialize(this);
+    }
 }

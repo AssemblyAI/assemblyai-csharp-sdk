@@ -13,5 +13,5 @@ public enum RedactPiiAudioQuality
     Mp3,
 
     [EnumMember(Value = "wav")]
-    Wav
+    Wav,
 }

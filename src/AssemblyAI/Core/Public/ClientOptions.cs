@@ -1,39 +1,35 @@
+using System;
 using System.Net.Http;
-// ReSharper disable PartialTypeWithSinglePart
-// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
-// ReSharper disable CheckNamespace
+using AssemblyAI.Core;
+
+#nullable enable
 
 namespace AssemblyAI;
 
 public partial class ClientOptions
 {
     /// <summary>
-    /// The AssemblyAI API key
-    /// </summary>
-    public required string ApiKey { get; set; }
-
-    /// <summary>
     /// The Base URL for the API.
     /// </summary>
-    public string BaseUrl { get; set; } = AssemblyAIClientEnvironment.Default;
-
-    /// <summary>
-    /// The AssemblyAI user agent
-    /// </summary>
-    public UserAgent UserAgent { get; set; } = new();
+    public string BaseUrl { get; init; } = AssemblyAIClientEnvironment.Default;
 
     /// <summary>
     /// The http client used to make requests.
     /// </summary>
-    public HttpClient? HttpClient { get; set; }
+    public HttpClient HttpClient { get; init; } = new HttpClient();
 
     /// <summary>
     /// The http client used to make requests.
     /// </summary>
-    public int MaxRetries { get; set; } = 2;
+    public int MaxRetries { get; init; } = 2;
 
     /// <summary>
     /// The timeout for the request.
     /// </summary>
-    public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(30);
+    public TimeSpan Timeout { get; init; } = TimeSpan.FromSeconds(30);
+
+    /// <summary>
+    /// The http headers sent with the request.
+    /// </summary>
+    internal Headers Headers { get; init; } = new();
 }

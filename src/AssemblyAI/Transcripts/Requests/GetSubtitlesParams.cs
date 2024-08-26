@@ -1,3 +1,7 @@
+using AssemblyAI.Core;
+
+#nullable enable
+
 namespace AssemblyAI.Transcripts;
 
 public record GetSubtitlesParams
@@ -6,4 +10,9 @@ public record GetSubtitlesParams
     /// The maximum number of characters per caption
     /// </summary>
     public int? CharsPerCaption { get; set; }
+
+    public override string ToString()
+    {
+        return JsonUtils.Serialize(this);
+    }
 }

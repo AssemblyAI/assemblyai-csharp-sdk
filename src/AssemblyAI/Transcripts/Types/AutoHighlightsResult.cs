@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using AssemblyAI.Core;
 
 #nullable enable
 
@@ -17,4 +18,9 @@ public record AutoHighlightsResult
     /// </summary>
     [JsonPropertyName("results")]
     public IEnumerable<AutoHighlightResult> Results { get; set; } = new List<AutoHighlightResult>();
+
+    public override string ToString()
+    {
+        return JsonUtils.Serialize(this);
+    }
 }

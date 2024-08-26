@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using AssemblyAI.Core;
 
 #nullable enable
 
@@ -35,4 +36,9 @@ public record Chapter
     /// </summary>
     [JsonPropertyName("end")]
     public required int End { get; set; }
+
+    public override string ToString()
+    {
+        return JsonUtils.Serialize(this);
+    }
 }

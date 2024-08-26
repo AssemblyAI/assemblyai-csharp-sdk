@@ -13,5 +13,5 @@ public enum AudioIntelligenceModelStatus
     Success,
 
     [EnumMember(Value = "unavailable")]
-    Unavailable
+    Unavailable,
 }

@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using AssemblyAI.Core;
 
 #nullable enable
 
@@ -23,4 +24,9 @@ public record SessionBegins
     /// </summary>
     [JsonPropertyName("expires_at")]
     public required DateTime ExpiresAt { get; set; }
+
+    public override string ToString()
+    {
+        return JsonUtils.Serialize(this);
+    }
 }

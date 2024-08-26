@@ -139,5 +139,5 @@ public enum PiiPolicy
     VehicleId,
 
     [EnumMember(Value = "zodiac_sign")]
-    ZodiacSign
+    ZodiacSign,
 }

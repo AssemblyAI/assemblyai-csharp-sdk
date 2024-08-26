@@ -22,5 +22,5 @@ public enum MessageType
     SessionInformation,
 
     [EnumMember(Value = "SessionTerminated")]
-    SessionTerminated
+    SessionTerminated,
 }

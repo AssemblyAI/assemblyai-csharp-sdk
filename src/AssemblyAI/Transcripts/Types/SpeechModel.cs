@@ -13,5 +13,5 @@ public enum SpeechModel
     Best,
 
     [EnumMember(Value = "nano")]
-    Nano
+    Nano,
 }

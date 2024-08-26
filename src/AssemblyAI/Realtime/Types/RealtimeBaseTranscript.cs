@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using AssemblyAI.Core;
 
 #nullable enable
 
@@ -42,4 +43,9 @@ public record RealtimeBaseTranscript
     /// </summary>
     [JsonPropertyName("created")]
     public required DateTime Created { get; set; }
+
+    public override string ToString()
+    {
+        return JsonUtils.Serialize(this);
+    }
 }

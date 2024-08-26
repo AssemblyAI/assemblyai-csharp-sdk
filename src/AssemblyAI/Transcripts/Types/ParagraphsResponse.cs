@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using AssemblyAI.Core;
 
 #nullable enable
 
@@ -18,4 +19,9 @@ public record ParagraphsResponse
     [JsonPropertyName("paragraphs")]
     public IEnumerable<TranscriptParagraph> Paragraphs { get; set; } =
         new List<TranscriptParagraph>();
+
+    public override string ToString()
+    {
+        return JsonUtils.Serialize(this);
+    }
 }

@@ -313,5 +313,5 @@ public enum TranscriptLanguageCode
     Yi,
 
     [EnumMember(Value = "yo")]
-    Yo
+    Yo,
 }

@@ -1,3 +1,7 @@
+using AssemblyAI.Core;
+
+#nullable enable
+
 namespace AssemblyAI.Transcripts;
 
 public record ListTranscriptParams
@@ -31,4 +35,9 @@ public record ListTranscriptParams
     /// Only get throttled transcripts, overrides the status filter
     /// </summary>
     public bool? ThrottledOnly { get; set; }
+
+    public override string ToString()
+    {
+        return JsonUtils.Serialize(this);
+    }
 }

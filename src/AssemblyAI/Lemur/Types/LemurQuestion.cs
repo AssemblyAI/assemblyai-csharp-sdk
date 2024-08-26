@@ -32,4 +32,9 @@ public record LemurQuestion
     /// </summary>
     [JsonPropertyName("answer_options")]
     public IEnumerable<string>? AnswerOptions { get; set; }
+
+    public override string ToString()
+    {
+        return JsonUtils.Serialize(this);
+    }
 }

@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using AssemblyAI.Core;
 
 #nullable enable
 
@@ -11,4 +12,9 @@ public record CreateRealtimeTemporaryTokenParams
     /// </summary>
     [JsonPropertyName("expires_in")]
     public required int ExpiresIn { get; set; }
+
+    public override string ToString()
+    {
+        return JsonUtils.Serialize(this);
+    }
 }

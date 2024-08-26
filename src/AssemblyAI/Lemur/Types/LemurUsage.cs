@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using AssemblyAI.Core;
 
 #nullable enable
 
@@ -17,4 +18,9 @@ public record LemurUsage
     /// </summary>
     [JsonPropertyName("output_tokens")]
     public required int OutputTokens { get; set; }
+
+    public override string ToString()
+    {
+        return JsonUtils.Serialize(this);
+    }
 }

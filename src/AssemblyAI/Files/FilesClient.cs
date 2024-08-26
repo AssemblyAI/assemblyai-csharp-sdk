@@ -1,5 +1,6 @@
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading;
 using AssemblyAI;
 using AssemblyAI.Core;
 
@@ -19,7 +20,11 @@ public partial class FilesClient
     /// <summary>
     /// Upload a media file to AssemblyAI's servers.
     /// </summary>
-    public async Task<UploadedFile> UploadAsync(Stream request, RequestOptions? options = null)
+    public async Task<UploadedFile> UploadAsync(
+        Stream request,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    )
     {
         var response = await _client.MakeRequestAsync(
             new RawClient.StreamApiRequest
@@ -28,8 +33,9 @@ public partial class FilesClient
                 Method = HttpMethod.Post,
                 Path = "v2/upload",
                 Body = request,
-                Options = options
-            }
+                Options = options,
+            },
+            cancellationToken
         );
         var responseBody = await response.Raw.Content.ReadAsStringAsync();
         if (response.StatusCode is >= 200 and < 400)

@@ -13,5 +13,5 @@ public enum TranscriptReadyStatus
     Completed,
 
     [EnumMember(Value = "error")]
-    Error
+    Error,
 }

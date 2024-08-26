@@ -16,5 +16,5 @@ public enum Sentiment
     Neutral,
 
     [EnumMember(Value = "NEGATIVE")]
-    Negative
+    Negative,
 }
