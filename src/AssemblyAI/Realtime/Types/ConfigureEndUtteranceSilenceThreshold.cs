@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using AssemblyAI.Core;
 
 #nullable enable
 
@@ -11,4 +12,9 @@ public record ConfigureEndUtteranceSilenceThreshold
     /// </summary>
     [JsonPropertyName("end_utterance_silence_threshold")]
     public required int EndUtteranceSilenceThreshold { get; set; }
+
+    public override string ToString()
+    {
+        return JsonUtils.Serialize(this);
+    }
 }

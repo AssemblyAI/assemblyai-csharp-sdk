@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using AssemblyAI.Core;
 
 #nullable enable
 
@@ -17,4 +18,9 @@ public record LemurQuestionAnswer
     /// </summary>
     [JsonPropertyName("answer")]
     public required string Answer { get; set; }
+
+    public override string ToString()
+    {
+        return JsonUtils.Serialize(this);
+    }
 }

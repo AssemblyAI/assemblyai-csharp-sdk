@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using AssemblyAI.Core;
 
 #nullable enable
 
@@ -352,4 +353,9 @@ public record Transcript
     /// </summary>
     [JsonPropertyName("acoustic_model")]
     public required string AcousticModel { get; set; }
+
+    public override string ToString()
+    {
+        return JsonUtils.Serialize(this);
+    }
 }

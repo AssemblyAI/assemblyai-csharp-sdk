@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using AssemblyAI.Core;
 
 #nullable enable
 
@@ -41,4 +42,9 @@ public record TranscriptUtterance
     /// </summary>
     [JsonPropertyName("speaker")]
     public required string Speaker { get; set; }
+
+    public override string ToString()
+    {
+        return JsonUtils.Serialize(this);
+    }
 }

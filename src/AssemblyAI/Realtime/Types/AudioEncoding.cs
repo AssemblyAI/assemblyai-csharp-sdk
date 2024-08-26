@@ -13,5 +13,5 @@ public enum AudioEncoding
     PcmS16le,
 
     [EnumMember(Value = "pcm_mulaw")]
-    PcmMulaw
+    PcmMulaw,
 }

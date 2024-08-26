@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using AssemblyAI.Core;
 
 #nullable enable
 
@@ -23,4 +24,9 @@ public record WordSearchResponse
     /// </summary>
     [JsonPropertyName("matches")]
     public IEnumerable<WordSearchMatch> Matches { get; set; } = new List<WordSearchMatch>();
+
+    public override string ToString()
+    {
+        return JsonUtils.Serialize(this);
+    }
 }

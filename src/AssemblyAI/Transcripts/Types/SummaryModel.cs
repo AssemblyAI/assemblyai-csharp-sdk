@@ -16,5 +16,5 @@ public enum SummaryModel
     Conversational,
 
     [EnumMember(Value = "catchy")]
-    Catchy
+    Catchy,
 }

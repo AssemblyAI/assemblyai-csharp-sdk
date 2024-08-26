@@ -16,5 +16,5 @@ public enum TranscriptBoostParam
     Default,
 
     [EnumMember(Value = "high")]
-    High
+    High,
 }

@@ -13,5 +13,5 @@ public enum SubstitutionPolicy
     EntityName,
 
     [EnumMember(Value = "hash")]
-    Hash
+    Hash,
 }

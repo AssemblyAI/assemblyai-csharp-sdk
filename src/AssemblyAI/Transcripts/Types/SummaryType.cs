@@ -22,5 +22,5 @@ public enum SummaryType
     Headline,
 
     [EnumMember(Value = "paragraph")]
-    Paragraph
+    Paragraph,
 }

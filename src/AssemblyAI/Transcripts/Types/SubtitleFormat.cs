@@ -13,5 +13,5 @@ public enum SubtitleFormat
     Srt,
 
     [EnumMember(Value = "vtt")]
-    Vtt
+    Vtt,
 }

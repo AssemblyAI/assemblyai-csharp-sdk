@@ -13,5 +13,5 @@ public enum RealtimeTranscriptType
     PartialTranscript,
 
     [EnumMember(Value = "FinalTranscript")]
-    FinalTranscript
+    FinalTranscript,
 }

@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using AssemblyAI.Core;
 
 #nullable enable
 
@@ -29,4 +30,9 @@ public record TranscriptListItem
     /// </summary>
     [JsonPropertyName("error")]
     public string? Error { get; set; }
+
+    public override string ToString()
+    {
+        return JsonUtils.Serialize(this);
+    }
 }

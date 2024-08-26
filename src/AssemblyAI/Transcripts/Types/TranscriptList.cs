@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using AssemblyAI.Core;
 
 #nullable enable
 
@@ -12,4 +13,9 @@ public record TranscriptList
     [JsonPropertyName("transcripts")]
     public IEnumerable<TranscriptListItem> Transcripts { get; set; } =
         new List<TranscriptListItem>();
+
+    public override string ToString()
+    {
+        return JsonUtils.Serialize(this);
+    }
 }

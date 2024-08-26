@@ -55,4 +55,9 @@ public record LemurSummaryParams
     /// </summary>
     [JsonPropertyName("temperature")]
     public float? Temperature { get; set; }
+
+    public override string ToString()
+    {
+        return JsonUtils.Serialize(this);
+    }
 }
