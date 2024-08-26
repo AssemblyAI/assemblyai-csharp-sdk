@@ -9,10 +9,8 @@ icon.png
 .github/workflows/publish-reference.yml
 src/AssemblyAI.sln
 src/AssemblyAI/AssemblyAI.csproj
-src/AssemblyAI/Core/ClientOptions.cs
 src/AssemblyAI/Core/JsonConfiguration.cs
 src/AssemblyAI/Core/Public/ApiException.cs
-src/AssemblyAI/Core/Public/ClientOptions.cs
 src/AssemblyAI/Core/CustomConstants.cs
 src/AssemblyAI/Types/Error.cs
 src/AssemblyAI/UserAgent.cs
