@@ -1,5 +1,3 @@
-#nullable enable
-
 using System.Net.Http;
 using AssemblyAI.Core;
 using AssemblyAI.Files;
@@ -10,9 +8,8 @@ using AssemblyAI.Transcripts;
 
 namespace AssemblyAI;
 
-public partial class AssemblyAIClient
+public class AssemblyAIClient
 {
-
     public FilesClient Files { get; private init; }
 
     public ExtendedTranscriptsClient Transcripts { get; private init; }

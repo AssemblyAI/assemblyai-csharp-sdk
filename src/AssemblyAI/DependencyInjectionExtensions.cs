@@ -1,8 +1,8 @@
 #if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
-using AssemblyAI.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+// ReSharper disable UnusedMember.Global
 
 namespace AssemblyAI;
 

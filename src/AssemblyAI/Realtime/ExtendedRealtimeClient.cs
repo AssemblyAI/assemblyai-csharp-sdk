@@ -1,4 +1,5 @@
 // ReSharper disable UnusedMember.Global
+
 namespace AssemblyAI.Realtime;
 
 public partial class RealtimeClient
@@ -8,12 +9,13 @@ public partial class RealtimeClient
     /// </summary>
     public Task<RealtimeTemporaryTokenResponse> CreateTemporaryTokenAsync(
         int expiresIn,
-        RequestOptions? options = null
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
     )
         => CreateTemporaryTokenAsync(new CreateRealtimeTemporaryTokenParams
         {
             ExpiresIn = expiresIn
-        }, options);
+        }, options, cancellationToken);
 
     /// <summary>
     /// Create a real-time transcriber
