@@ -1,7 +1,4 @@
-using System;
-
-#nullable enable
-
+// ReSharper disable CheckNamespace
 namespace AssemblyAI;
 
 /// <summary>

@@ -1,5 +1,3 @@
-using System.Net.Http;
-// ReSharper disable PartialTypeWithSinglePart
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 // ReSharper disable CheckNamespace
 

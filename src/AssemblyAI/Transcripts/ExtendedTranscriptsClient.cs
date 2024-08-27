@@ -20,93 +20,193 @@ public class ExtendedTranscriptsClient : TranscriptsClient
         _assemblyAIClient = assemblyAIClient;
     }
 
-    public Task<Transcript> SubmitAsync(FileInfo audioFile) => SubmitAsync(audioFile, new TranscriptOptionalParams());
+    public Task<Transcript> SubmitAsync(
+        FileInfo audioFile,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    ) => SubmitAsync(audioFile, new TranscriptOptionalParams(), options, cancellationToken);
 
-    public async Task<Transcript> SubmitAsync(FileInfo audioFile, TranscriptOptionalParams transcriptParams)
+    public async Task<Transcript> SubmitAsync(
+        FileInfo audioFile,
+        TranscriptOptionalParams transcriptParams,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    )
     {
-        var uploadedFile = await _assemblyAIClient.Files.UploadAsync(audioFile).ConfigureAwait(false);
-        return await SubmitAsync(uploadedFile, transcriptParams).ConfigureAwait(false);
+        var uploadedFile = await _assemblyAIClient.Files.UploadAsync(audioFile, options, cancellationToken)
+            .ConfigureAwait(false);
+        return await SubmitAsync(uploadedFile, transcriptParams, options, cancellationToken).ConfigureAwait(false);
     }
 
-    public Task<Transcript> SubmitAsync(Stream audioFileStream) =>
-        SubmitAsync(audioFileStream, new TranscriptOptionalParams());
+    public Task<Transcript> SubmitAsync(
+        Stream audioFileStream,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    ) => SubmitAsync(audioFileStream, new TranscriptOptionalParams(), options, cancellationToken);
 
-    public Task<Transcript> SubmitAsync(Stream audioFileStream, bool disposeStream) =>
-        SubmitAsync(audioFileStream, disposeStream, new TranscriptOptionalParams());
+    public Task<Transcript> SubmitAsync(
+        Stream audioFileStream,
+        bool disposeStream,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    ) => SubmitAsync(audioFileStream, disposeStream, new TranscriptOptionalParams(), options, cancellationToken);
 
-    public Task<Transcript> SubmitAsync(Stream audioFileStream, TranscriptOptionalParams transcriptParams)
-        => SubmitAsync(audioFileStream, false, transcriptParams);
+    public Task<Transcript> SubmitAsync(
+        Stream audioFileStream,
+        TranscriptOptionalParams transcriptParams,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    ) => SubmitAsync(audioFileStream, false, transcriptParams, options, cancellationToken);
 
     public async Task<Transcript> SubmitAsync(
         Stream audioFileStream,
         bool disposeStream,
-        TranscriptOptionalParams transcriptParams
+        TranscriptOptionalParams transcriptParams,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
     )
     {
-        var fileUpload = await _assemblyAIClient.Files.UploadAsync(audioFileStream, disposeStream)
+        var fileUpload = await _assemblyAIClient.Files
+            .UploadAsync(audioFileStream, disposeStream, options, cancellationToken)
             .ConfigureAwait(false);
-        return await SubmitAsync(fileUpload, transcriptParams).ConfigureAwait(false);
+        return await SubmitAsync(fileUpload, transcriptParams, options, cancellationToken).ConfigureAwait(false);
     }
 
-    public Task<Transcript> SubmitAsync(Uri audioFileUrl) => SubmitAsync(audioFileUrl, new TranscriptOptionalParams());
+    public Task<Transcript> SubmitAsync(
+        Uri audioFileUrl,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    ) => SubmitAsync(audioFileUrl, new TranscriptOptionalParams(), options, cancellationToken);
 
-    public async Task<Transcript> SubmitAsync(Uri audioFileUrl, TranscriptOptionalParams transcriptParams)
+    public async Task<Transcript> SubmitAsync(
+        Uri audioFileUrl,
+        TranscriptOptionalParams transcriptParams,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    )
     {
-        return await SubmitAsync(CreateParams(audioFileUrl, transcriptParams)).ConfigureAwait(false);
+        return await SubmitAsync(CreateParams(audioFileUrl, transcriptParams), options, cancellationToken)
+            .ConfigureAwait(false);
     }
 
-    public Task<Transcript> SubmitAsync(UploadedFile file) => SubmitAsync(file, new TranscriptOptionalParams());
+    public Task<Transcript> SubmitAsync(
+        UploadedFile file,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    ) => SubmitAsync(file, new TranscriptOptionalParams(), options, cancellationToken);
 
-    public async Task<Transcript> SubmitAsync(UploadedFile file, TranscriptOptionalParams transcriptParams)
+    public async Task<Transcript> SubmitAsync(
+        UploadedFile file,
+        TranscriptOptionalParams transcriptParams,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    )
     {
-        return await SubmitAsync(CreateParams(file.UploadUrl, transcriptParams)).ConfigureAwait(false);
+        return await SubmitAsync(CreateParams(file.UploadUrl, transcriptParams), options, cancellationToken)
+            .ConfigureAwait(false);
     }
 
-    public Task<Transcript> TranscribeAsync(FileInfo audioFile) =>
-        TranscribeAsync(audioFile, new TranscriptOptionalParams());
+    public Task<Transcript> TranscribeAsync(
+        FileInfo audioFile,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    ) => TranscribeAsync(audioFile, new TranscriptOptionalParams(), options, cancellationToken);
 
-    public async Task<Transcript> TranscribeAsync(FileInfo audioFile, TranscriptOptionalParams transcriptParams)
+    public async Task<Transcript> TranscribeAsync(
+        FileInfo audioFile,
+        TranscriptOptionalParams transcriptParams,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    )
     {
+#if NET6_0_OR_GREATER
+        await using var audioFileStream = audioFile.OpenRead();
+#else
         using var audioFileStream = audioFile.OpenRead();
-        return await TranscribeAsync(audioFileStream, transcriptParams).ConfigureAwait(false);
+#endif
+        return await TranscribeAsync(audioFileStream, transcriptParams, options, cancellationToken)
+            .ConfigureAwait(false);
     }
 
-    public Task<Transcript> TranscribeAsync(Stream audioFileStream) =>
-        TranscribeAsync(audioFileStream, new TranscriptOptionalParams());
+    public Task<Transcript> TranscribeAsync(
+        Stream audioFileStream,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    ) => TranscribeAsync(audioFileStream, new TranscriptOptionalParams(), options, cancellationToken);
 
-    public Task<Transcript> TranscribeAsync(Stream audioFileStream, bool disposeStream) =>
-        TranscribeAsync(audioFileStream, disposeStream, new TranscriptOptionalParams());
+    public Task<Transcript> TranscribeAsync(
+        Stream audioFileStream,
+        bool disposeStream,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    ) => TranscribeAsync(audioFileStream, disposeStream, new TranscriptOptionalParams(), options, cancellationToken);
 
-    public async Task<Transcript> TranscribeAsync(Stream audioFileStream, TranscriptOptionalParams transcriptParams)
+    public async Task<Transcript> TranscribeAsync(
+        Stream audioFileStream,
+        TranscriptOptionalParams transcriptParams,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    )
     {
-        var fileUpload = await _assemblyAIClient.Files.UploadAsync(audioFileStream).ConfigureAwait(false);
-        return await TranscribeAsync(new Uri(fileUpload.UploadUrl), transcriptParams).ConfigureAwait(false);
+        var fileUpload = await _assemblyAIClient.Files
+            .UploadAsync(audioFileStream, options, cancellationToken).ConfigureAwait(false);
+        return await TranscribeAsync(new Uri(fileUpload.UploadUrl), transcriptParams, options, cancellationToken)
+            .ConfigureAwait(false);
     }
 
-    public async Task<Transcript> TranscribeAsync(Stream audioFileStream, bool disposeStream,
-        TranscriptOptionalParams transcriptParams)
+    public async Task<Transcript> TranscribeAsync(
+        Stream audioFileStream,
+        bool disposeStream,
+        TranscriptOptionalParams transcriptParams,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    )
     {
-        var uploadedFile =
-            await _assemblyAIClient.Files.UploadAsync(audioFileStream, disposeStream).ConfigureAwait(false);
-        return await TranscribeAsync(uploadedFile, transcriptParams).ConfigureAwait(false);
+        var uploadedFile = await _assemblyAIClient.Files.UploadAsync(
+                audioFileStream,
+                disposeStream,
+                options,
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+        return await TranscribeAsync(uploadedFile, transcriptParams, options, cancellationToken).ConfigureAwait(false);
     }
 
-    public Task<Transcript> TranscribeAsync(Uri audioFileUrl) =>
-        TranscribeAsync(audioFileUrl, new TranscriptOptionalParams());
+    public Task<Transcript> TranscribeAsync(
+        Uri audioFileUrl,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    ) => TranscribeAsync(audioFileUrl, new TranscriptOptionalParams(), options, cancellationToken);
 
-    public Task<Transcript> TranscribeAsync(Uri audioFileUrl, TranscriptOptionalParams transcriptParams)
-        => TranscribeAsync(CreateParams(audioFileUrl, transcriptParams));
+    public Task<Transcript> TranscribeAsync(
+        Uri audioFileUrl,
+        TranscriptOptionalParams transcriptParams,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    ) => TranscribeAsync(CreateParams(audioFileUrl, transcriptParams), options, cancellationToken);
 
-    public Task<Transcript> TranscribeAsync(UploadedFile file) =>
-        TranscribeAsync(file, new TranscriptOptionalParams());
+    public Task<Transcript> TranscribeAsync(
+        UploadedFile file,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    ) => TranscribeAsync(file, new TranscriptOptionalParams(), options, cancellationToken);
 
-    public Task<Transcript> TranscribeAsync(UploadedFile file, TranscriptOptionalParams transcriptParams)
-        => TranscribeAsync(CreateParams(file.UploadUrl, transcriptParams));
+    public Task<Transcript> TranscribeAsync(
+        UploadedFile file,
+        TranscriptOptionalParams transcriptParams,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    ) => TranscribeAsync(CreateParams(file.UploadUrl, transcriptParams), options, cancellationToken);
 
-    public async Task<Transcript> TranscribeAsync(TranscriptParams transcriptParams)
+    public async Task<Transcript> TranscribeAsync(
+        TranscriptParams transcriptParams,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    )
     {
-        var transcript = await SubmitAsync(transcriptParams).ConfigureAwait(false);
-        transcript = await WaitUntilReady(transcript.Id).ConfigureAwait(false);
+        var transcript = await SubmitAsync(transcriptParams, options, cancellationToken).ConfigureAwait(false);
+        transcript = await WaitUntilReady(transcript.Id, null, null, options, cancellationToken)
+            .ConfigureAwait(false);
         return transcript;
     }
 
@@ -116,18 +216,25 @@ public class ExtendedTranscriptsClient : TranscriptsClient
     /// <param name="id">The transcript ID</param>
     /// <param name="pollingInterval">How frequently the transcript is polled. Defaults to 3s.</param>
     /// <param name="pollingTimeout">How long to wait until the timeout exception thrown. Defaults to infinite.</param>
+    /// <param name="options"></param>
+    /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The transcript with status "completed" or "error"</returns>
     public async Task<Transcript> WaitUntilReady(
         string id,
         TimeSpan? pollingInterval = null,
-        TimeSpan? pollingTimeout = null
+        TimeSpan? pollingTimeout = null,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
     )
     {
-        var ct = pollingTimeout == null
-            ? CancellationToken.None
-            : new CancellationTokenSource(pollingTimeout.Value).Token;
+        using var combinedCts = CancellationTokenSource.CreateLinkedTokenSource(
+            cancellationToken, pollingTimeout == null
+                ? CancellationToken.None
+                : new CancellationTokenSource(pollingTimeout.Value).Token
+        );
+        var ct = combinedCts.Token;
 
-        var transcript = await GetAsync(id).ConfigureAwait(false);
+        var transcript = await GetAsync(id, options, ct).ConfigureAwait(false);
         while (transcript.Status != TranscriptStatus.Completed && transcript.Status != TranscriptStatus.Error)
         {
             if (ct.IsCancellationRequested)
@@ -144,7 +251,7 @@ public class ExtendedTranscriptsClient : TranscriptsClient
                 throw new TimeoutException("The transcript did not complete within the given timeout.", e);
             }
 
-            transcript = await GetAsync(transcript.Id).ConfigureAwait(false);
+            transcript = await GetAsync(transcript.Id, options, ct).ConfigureAwait(false);
         }
 
         return transcript;
@@ -162,14 +269,23 @@ public class ExtendedTranscriptsClient : TranscriptsClient
         return transcriptParams;
     }
 
-    public Task<TranscriptList> ListAsync() => ListAsync(new ListTranscriptParams());
+    /// <summary>
+    /// Get the transcript resource. The transcript is ready when the "status" is "completed".
+    /// </summary>
+    public Task<TranscriptList> ListAsync(
+        RequestOptions? options = null, CancellationToken cancellationToken = default)
+        => ListAsync(new ListTranscriptParams(), options, cancellationToken);
 
     /// <summary>
     /// Retrieve a list of transcripts you created.
     /// Transcripts are sorted from newest to oldest. The previous URL always points to a page with older transcripts.
     /// </summary>
     /// <param name="listUrl">The next or previous page URL to query the transcript list.</param>
-    public async Task<TranscriptList> ListAsync(string listUrl)
+    /// <param name="options"></param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    public async Task<TranscriptList> ListAsync(string listUrl,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrEmpty(listUrl))
             throw new ArgumentNullException(nameof(listUrl), "listUrl parameter is null or empty.");
@@ -216,17 +332,8 @@ public class ExtendedTranscriptsClient : TranscriptsClient
             listTranscriptParams.ThrottledOnly = bool.Parse(queryString["throttled_only"].First());
         }
 
-        return await ListAsync(listTranscriptParams).ConfigureAwait(false);
+        return await ListAsync(listTranscriptParams, options, cancellationToken).ConfigureAwait(false);
     }
-
-    /// <summary>
-    /// Export your transcript in SRT or VTT format to use with a video player for subtitles and closed captions.
-    /// </summary>
-    public Task<string> GetSubtitlesAsync(
-        string transcriptId,
-        SubtitleFormat subtitleFormat
-    )
-        => GetSubtitlesAsync(transcriptId, subtitleFormat, new GetSubtitlesParams());
 
     /// <summary>
     /// Export your transcript in SRT or VTT format to use with a video player for subtitles and closed captions.
@@ -234,24 +341,46 @@ public class ExtendedTranscriptsClient : TranscriptsClient
     public Task<string> GetSubtitlesAsync(
         string transcriptId,
         SubtitleFormat subtitleFormat,
-        int charsPerCaption
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    )
+        => GetSubtitlesAsync(transcriptId, subtitleFormat, new GetSubtitlesParams(), options, cancellationToken);
+
+    /// <summary>
+    /// Export your transcript in SRT or VTT format to use with a video player for subtitles and closed captions.
+    /// </summary>
+    public Task<string> GetSubtitlesAsync(
+        string transcriptId,
+        SubtitleFormat subtitleFormat,
+        int charsPerCaption,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
     )
         => GetSubtitlesAsync(transcriptId, subtitleFormat, new GetSubtitlesParams
         {
             CharsPerCaption = charsPerCaption
-        });
+        }, options, cancellationToken);
 
     /// <summary>
     /// Retrieve the redacted audio file.
     /// </summary>
     public async Task<Stream> GetRedactedAudioFileAsync(
         string transcriptId,
-        RequestOptions? options = null
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
     )
     {
-        var redactedAudioFileInfo = await GetRedactedAudioAsync(transcriptId, options).ConfigureAwait(false);
+        var redactedAudioFileInfo =
+            await GetRedactedAudioAsync(transcriptId, options, cancellationToken).ConfigureAwait(false);
+        // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
         var httpClient = options?.HttpClient ?? _client.Options.HttpClient ?? new HttpClient();
-        return await httpClient.GetStreamAsync(redactedAudioFileInfo.RedactedAudioUrl).ConfigureAwait(false);
+#if NET6_0_OR_GREATER
+        return await httpClient.GetStreamAsync(redactedAudioFileInfo.RedactedAudioUrl, cancellationToken)
+            .ConfigureAwait(false);
+#else
+        return await httpClient.GetStreamAsync(redactedAudioFileInfo.RedactedAudioUrl)
+            .ConfigureAwait(false);
+#endif
     }
 
     /// <summary>
@@ -259,9 +388,11 @@ public class ExtendedTranscriptsClient : TranscriptsClient
     /// </summary>
     public Task<WordSearchResponse> WordSearchAsync(
         string transcriptId,
-        string[] words
+        string[] words,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
     ) => WordSearchAsync(transcriptId, new WordSearchParams
     {
         Words = words
-    });
+    }, options, cancellationToken);
 }
