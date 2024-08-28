@@ -5,12 +5,13 @@ using AssemblyAI.Lemur;
 using AssemblyAI.Realtime;
 using AssemblyAI.Transcripts;
 
+
 namespace AssemblyAI;
 
 /// <summary>
 /// The client to interact with the AssemblyAI API.
 /// </summary>
-public partial class AssemblyAIClient
+public class AssemblyAIClient
 {
     /// <inheritdoc cref="FilesClient"/>
     public FilesClient Files { get; private init; }

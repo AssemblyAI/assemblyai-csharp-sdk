@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+// ReSharper disable UnusedMember.Global
 
 namespace AssemblyAI;
 
