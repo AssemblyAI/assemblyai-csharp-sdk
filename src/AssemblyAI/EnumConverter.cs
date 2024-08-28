@@ -2,6 +2,9 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI;
 
+/// <summary>
+/// Convert an AssemblyAI enum to a string and vice versa.
+/// </summary>
 public static class EnumConverter
 {
     /// <summary>

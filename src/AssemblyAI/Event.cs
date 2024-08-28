@@ -27,16 +27,24 @@ public class Event<T> : IDisposable
         }
     }
 
+    /// <summary>
+    /// Subscribe to the event
+    /// </summary>
     public void Subscribe(Action<T> eventHandler)
     {
         _subscribers.Add(eventHandler);
     }
 
+    /// <inheritdoc cref="Subscribe(System.Action{T})"/>
     public void Subscribe(Func<T, Task> eventHandler)
     {
         _subscribersAsync.Add(eventHandler);
     }
 
+    /// <summary>
+    /// Unsubscribe from the event
+    /// </summary>
+    /// <param name="eventHandler"></param>
     public void Unsubscribe(Action<T> eventHandler)
     {
         if (_subscribers.Contains(eventHandler))
@@ -45,6 +53,7 @@ public class Event<T> : IDisposable
         }
     }
 
+    /// <inheritdoc cref="Unsubscribe(System.Action{T})"/>
     public void Unsubscribe(Func<T, Task> eventHandler)
     {
         if (_subscribersAsync.Contains(eventHandler))
@@ -53,11 +62,18 @@ public class Event<T> : IDisposable
         }
     }
 
+    /// <summary>
+    /// Unsubscribe all event handlers
+    /// </summary>
     public void UnsubscribeAll()
     {
         _subscribers.Clear();
         _subscribersAsync.Clear();
     }
-
+    
+    /// <summary>
+    /// Dispose of the event.
+    /// Unsubscribes all event handlers.
+    /// </summary>
     public void Dispose() => UnsubscribeAll();
 }

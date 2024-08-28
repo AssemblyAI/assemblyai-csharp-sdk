@@ -258,7 +258,6 @@ while(page.PageDetails.PrevUrl != null)
 <details>
 <summary>Delete a transcript</summary>
 
-
 ```csharp
 var transcript = await client.Transcripts.DeleteAsync(transcript.Id);
 ```

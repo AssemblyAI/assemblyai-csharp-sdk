@@ -1,8 +1,6 @@
-using System;
 using System.Net.Http;
 using AssemblyAI.Core;
-
-#nullable enable
+// ReSharper disable CheckNamespace
 
 namespace AssemblyAI;
 
@@ -16,7 +14,7 @@ public partial class ClientOptions
     /// <summary>
     /// The http client used to make requests.
     /// </summary>
-    public HttpClient HttpClient { get; set; } = new HttpClient();
+    public HttpClient HttpClient { get; set; } = new();
 
     /// <summary>
     /// The amount to retry sending the HTTP request if it fails.

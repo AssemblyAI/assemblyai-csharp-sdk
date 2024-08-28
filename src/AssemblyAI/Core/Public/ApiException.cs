@@ -35,6 +35,11 @@ public class ApiException: AssemblyAIException
     }
     
     // TODO: Remove when Fern generator can set this property
+    /// <summary>
+    /// Serialize the HTTP response body to a string.
+    /// </summary>
+    /// <param name="body">The HTTP response body</param>
+    /// <returns>The serialized HTTP response body</returns>
     private static string GetResponseContentFromBody(object body)
     {
         return body switch
@@ -45,6 +50,12 @@ public class ApiException: AssemblyAIException
         };
     }
     
+    /// <summary>
+    /// Retrieves the error message from the JSON body of the response.
+    /// </summary>
+    /// <param name="message">The default error message to fallback to</param>
+    /// <param name="body">The HTTP response body</param>
+    /// <returns>The error message</returns>
     private static string GetMessageFromJsonBody(string message, object body)
     {
         if (body is not string stringBody) return message;

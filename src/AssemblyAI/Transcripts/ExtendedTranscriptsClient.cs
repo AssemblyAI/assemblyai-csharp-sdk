@@ -9,6 +9,9 @@ using AssemblyAI.Files;
 
 namespace AssemblyAI.Transcripts;
 
+/// <summary>
+/// The client to interact with the AssemblyAI Transcripts API.
+/// </summary>
 public class ExtendedTranscriptsClient : TranscriptsClient
 {
     private readonly RawClient _client;
@@ -20,12 +23,27 @@ public class ExtendedTranscriptsClient : TranscriptsClient
         _assemblyAIClient = assemblyAIClient;
     }
 
+    /// <summary>
+    /// Create a transcript from a local file.
+    /// </summary>
+    /// <param name="audioFile">The audio file to transcribe</param>
+    /// <param name="options">HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Returns a task that resolves to a queued transcript</returns>
     public Task<Transcript> SubmitAsync(
         FileInfo audioFile,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     ) => SubmitAsync(audioFile, new TranscriptOptionalParams(), options, cancellationToken);
 
+    /// <summary>
+    /// Create a transcript from a local file.
+    /// </summary>
+    /// <param name="audioFile">The audio file to transcribe</param>
+    /// <param name="transcriptParams">The transcript parameters</param>
+    /// <param name="options">HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Returns a task that resolves to a queued transcript</returns>
     public async Task<Transcript> SubmitAsync(
         FileInfo audioFile,
         TranscriptOptionalParams transcriptParams,
@@ -38,12 +56,27 @@ public class ExtendedTranscriptsClient : TranscriptsClient
         return await SubmitAsync(uploadedFile, transcriptParams, options, cancellationToken).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Create a transcript from a file stream.
+    /// </summary>
+    /// <param name="audioFileStream">The audio file stream to transcribe</param>
+    /// <param name="options">HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Returns a task that resolves to a queued transcript</returns>
     public Task<Transcript> SubmitAsync(
         Stream audioFileStream,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     ) => SubmitAsync(audioFileStream, new TranscriptOptionalParams(), options, cancellationToken);
 
+    /// <summary>
+    /// Create a transcript from a file stream.
+    /// </summary>
+    /// <param name="audioFileStream">The audio file stream to transcribe</param>
+    /// <param name="disposeStream">Dispose the stream as soon as possible</param>
+    /// <param name="options">HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Returns a task that resolves to a queued transcript</returns>
     public Task<Transcript> SubmitAsync(
         Stream audioFileStream,
         bool disposeStream,
@@ -51,6 +84,14 @@ public class ExtendedTranscriptsClient : TranscriptsClient
         CancellationToken cancellationToken = default
     ) => SubmitAsync(audioFileStream, disposeStream, new TranscriptOptionalParams(), options, cancellationToken);
 
+    /// <summary>
+    /// Create a transcript from a file stream.
+    /// </summary>
+    /// <param name="audioFileStream">The audio file stream to transcribe</param>
+    /// <param name="transcriptParams">The transcript parameters</param>
+    /// <param name="options">HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Returns a task that resolves to a queued transcript</returns>
     public Task<Transcript> SubmitAsync(
         Stream audioFileStream,
         TranscriptOptionalParams transcriptParams,
@@ -58,6 +99,16 @@ public class ExtendedTranscriptsClient : TranscriptsClient
         CancellationToken cancellationToken = default
     ) => SubmitAsync(audioFileStream, false, transcriptParams, options, cancellationToken);
 
+
+    /// <summary>
+    /// Create a transcript from a file stream.
+    /// </summary>
+    /// <param name="audioFileStream">The audio file stream to transcribe</param>
+    /// <param name="disposeStream">Dispose the stream as soon as possible</param>
+    /// <param name="transcriptParams">The transcript parameters</param>
+    /// <param name="options">HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Returns a task that resolves to a queued transcript</returns>
     public async Task<Transcript> SubmitAsync(
         Stream audioFileStream,
         bool disposeStream,
@@ -72,12 +123,27 @@ public class ExtendedTranscriptsClient : TranscriptsClient
         return await SubmitAsync(fileUpload, transcriptParams, options, cancellationToken).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Create a transcript from an audio file URI.
+    /// </summary>
+    /// <param name="audioFileUrl">The URI to the audio file to transcribe</param>
+    /// <param name="options">HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Returns a task that resolves to a queued transcript</returns>
     public Task<Transcript> SubmitAsync(
         Uri audioFileUrl,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     ) => SubmitAsync(audioFileUrl, new TranscriptOptionalParams(), options, cancellationToken);
 
+    /// <summary>
+    /// Create a transcript from an audio file URI.
+    /// </summary>
+    /// <param name="audioFileUrl">The URI to the audio file to transcribe</param>
+    /// <param name="transcriptParams">The transcript parameters</param>
+    /// <param name="options">HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Returns a task that resolves to a queued transcript</returns>
     public async Task<Transcript> SubmitAsync(
         Uri audioFileUrl,
         TranscriptOptionalParams transcriptParams,
@@ -89,12 +155,27 @@ public class ExtendedTranscriptsClient : TranscriptsClient
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Create a transcript from a file uploaded to AssemblyAI.
+    /// </summary>
+    /// <param name="file">The file uploaded to AssemblyAI</param>
+    /// <param name="options">HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Returns a task that resolves to a queued transcript</returns>
     public Task<Transcript> SubmitAsync(
         UploadedFile file,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     ) => SubmitAsync(file, new TranscriptOptionalParams(), options, cancellationToken);
 
+    /// <summary>
+    /// Create a transcript from a file uploaded to AssemblyAI.
+    /// </summary>
+    /// <param name="file">The file uploaded to AssemblyAI</param>
+    /// <param name="transcriptParams">The transcript parameters</param>
+    /// <param name="options">HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>Returns a task that resolves to a queued transcript</returns>
     public async Task<Transcript> SubmitAsync(
         UploadedFile file,
         TranscriptOptionalParams transcriptParams,
@@ -106,12 +187,27 @@ public class ExtendedTranscriptsClient : TranscriptsClient
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Transcribe a local file
+    /// </summary>
+    /// <param name="audioFile">The local file to transcribe</param>
+    /// <param name="options">HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>A task that resolves to a transcript with status "completed" or "error".</returns>
     public Task<Transcript> TranscribeAsync(
         FileInfo audioFile,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     ) => TranscribeAsync(audioFile, new TranscriptOptionalParams(), options, cancellationToken);
 
+    /// <summary>
+    /// Transcribe a local file
+    /// </summary>
+    /// <param name="audioFile">The local file to transcribe</param>
+    /// <param name="transcriptParams">The transcript parameters</param>
+    /// <param name="options">HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>A task that resolves to a transcript with status "completed" or "error".</returns>
     public async Task<Transcript> TranscribeAsync(
         FileInfo audioFile,
         TranscriptOptionalParams transcriptParams,
@@ -128,12 +224,27 @@ public class ExtendedTranscriptsClient : TranscriptsClient
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Transcribe a file stream.
+    /// </summary>
+    /// <param name="audioFileStream">The audio file stream to transcribe</param>
+    /// <param name="options">HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>A task that resolves to a transcript with status "completed" or "error".</returns>
     public Task<Transcript> TranscribeAsync(
         Stream audioFileStream,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     ) => TranscribeAsync(audioFileStream, new TranscriptOptionalParams(), options, cancellationToken);
 
+    /// <summary>
+    /// Transcribe a file stream.
+    /// </summary>
+    /// <param name="audioFileStream">The audio file stream to transcribe</param>
+    /// <param name="disposeStream">Dispose the stream as soon as possible</param>
+    /// <param name="options">HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>A task that resolves to a transcript with status "completed" or "error".</returns>
     public Task<Transcript> TranscribeAsync(
         Stream audioFileStream,
         bool disposeStream,
@@ -141,6 +252,14 @@ public class ExtendedTranscriptsClient : TranscriptsClient
         CancellationToken cancellationToken = default
     ) => TranscribeAsync(audioFileStream, disposeStream, new TranscriptOptionalParams(), options, cancellationToken);
 
+    /// <summary>
+    /// Transcribe a file stream.
+    /// </summary>
+    /// <param name="audioFileStream">The audio file stream to transcribe</param>
+    /// <param name="transcriptParams">The transcript parameters</param>
+    /// <param name="options">HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>A task that resolves to a transcript with status "completed" or "error".</returns>
     public async Task<Transcript> TranscribeAsync(
         Stream audioFileStream,
         TranscriptOptionalParams transcriptParams,
@@ -154,6 +273,15 @@ public class ExtendedTranscriptsClient : TranscriptsClient
             .ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Transcribe a file stream.
+    /// </summary>
+    /// <param name="audioFileStream">The audio file stream to transcribe</param>
+    /// <param name="transcriptParams">The transcript parameters</param>
+    /// <param name="disposeStream">Dispose the stream as soon as possible</param>
+    /// <param name="options">HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>A task that resolves to a transcript with status "completed" or "error".</returns>
     public async Task<Transcript> TranscribeAsync(
         Stream audioFileStream,
         bool disposeStream,
@@ -172,12 +300,27 @@ public class ExtendedTranscriptsClient : TranscriptsClient
         return await TranscribeAsync(uploadedFile, transcriptParams, options, cancellationToken).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Transcribe an audio file via its public URI.
+    /// </summary>
+    /// <param name="audioFileUrl">The URI to the audio file to transcribe</param>
+    /// <param name="options">HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>A task that resolves to a transcript with status "completed" or "error".</returns>
     public Task<Transcript> TranscribeAsync(
         Uri audioFileUrl,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     ) => TranscribeAsync(audioFileUrl, new TranscriptOptionalParams(), options, cancellationToken);
 
+    /// <summary>
+    /// Transcribe an audio file via its public URI.
+    /// </summary>
+    /// <param name="audioFileUrl">The URI to the audio file to transcribe</param>
+    /// <param name="transcriptParams">The transcript parameters</param>
+    /// <param name="options">HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>A task that resolves to a transcript with status "completed" or "error".</returns>
     public Task<Transcript> TranscribeAsync(
         Uri audioFileUrl,
         TranscriptOptionalParams transcriptParams,
@@ -185,12 +328,28 @@ public class ExtendedTranscriptsClient : TranscriptsClient
         CancellationToken cancellationToken = default
     ) => TranscribeAsync(CreateParams(audioFileUrl, transcriptParams), options, cancellationToken);
 
+    /// <summary>
+    /// Transcribe a file uploaded to AssemblyAI.
+    /// </summary>
+    /// <param name="file">The file uploaded to AssemblyAI to transcribe</param>
+    /// <param name="options">HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>A task that resolves to a transcript with status "completed" or "error".</returns>
     public Task<Transcript> TranscribeAsync(
         UploadedFile file,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default
     ) => TranscribeAsync(file, new TranscriptOptionalParams(), options, cancellationToken);
 
+
+    /// <summary>
+    /// Transcribe a file uploaded to AssemblyAI.
+    /// </summary>
+    /// <param name="file">The file uploaded to AssemblyAI to transcribe</param>
+    /// <param name="transcriptParams">The transcript parameters</param>
+    /// <param name="options">HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>A task that resolves to a transcript with status "completed" or "error".</returns>
     public Task<Transcript> TranscribeAsync(
         UploadedFile file,
         TranscriptOptionalParams transcriptParams,
@@ -198,6 +357,13 @@ public class ExtendedTranscriptsClient : TranscriptsClient
         CancellationToken cancellationToken = default
     ) => TranscribeAsync(CreateParams(file.UploadUrl, transcriptParams), options, cancellationToken);
 
+    /// <summary>
+    /// Transcribe an audio file via its public URI.
+    /// </summary>
+    /// <param name="transcriptParams">The transcript parameters</param>
+    /// <param name="options">HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>A task that resolves to a transcript with status "completed" or "error".</returns>
     public async Task<Transcript> TranscribeAsync(
         TranscriptParams transcriptParams,
         RequestOptions? options = null,
@@ -216,7 +382,7 @@ public class ExtendedTranscriptsClient : TranscriptsClient
     /// <param name="id">The transcript ID</param>
     /// <param name="pollingInterval">How frequently the transcript is polled. Defaults to 3s.</param>
     /// <param name="pollingTimeout">How long to wait until the timeout exception thrown. Defaults to infinite.</param>
-    /// <param name="options"></param>
+    /// <param name="options">HTTP request options</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The transcript with status "completed" or "error"</returns>
     public async Task<Transcript> WaitUntilReady(
@@ -257,9 +423,16 @@ public class ExtendedTranscriptsClient : TranscriptsClient
         return transcript;
     }
 
+    /// <summary>
+    /// Create transcript parameters from an audio file URL and optional parameters.
+    /// </summary>
+    /// <param name="audioFileUrl">The audio file URL to transcribe</param>
+    /// <param name="optionalTranscriptParams">The optional transcript parameters</param>
+    /// <returns>The transcript parameters</returns>
     private static TranscriptParams CreateParams(Uri audioFileUrl, TranscriptOptionalParams optionalTranscriptParams)
         => CreateParams(audioFileUrl.ToString(), optionalTranscriptParams);
 
+    /// <inheritdoc cref="CreateParams(Uri,TranscriptOptionalParams)"/>
     private static TranscriptParams CreateParams(string audioFileUrl, TranscriptOptionalParams optionalTranscriptParams)
     {
         var json = JsonUtils.Serialize(optionalTranscriptParams);
@@ -269,20 +442,25 @@ public class ExtendedTranscriptsClient : TranscriptsClient
         return transcriptParams;
     }
 
-    /// <summary>
-    /// Get the transcript resource. The transcript is ready when the "status" is "completed".
-    /// </summary>
-    public Task<TranscriptList> ListAsync(
-        RequestOptions? options = null, CancellationToken cancellationToken = default)
-        => ListAsync(new ListTranscriptParams(), options, cancellationToken);
 
     /// <summary>
     /// Retrieve a list of transcripts you created.
     /// Transcripts are sorted from newest to oldest. The previous URL always points to a page with older transcripts.
     /// </summary>
+    /// <param name="options">HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>A list of transcripts you created</returns>
+    public Task<TranscriptList> ListAsync(RequestOptions? options = null, CancellationToken cancellationToken = default)
+        => ListAsync(new ListTranscriptParams(), options, cancellationToken);
+    
+    /// <summary>
+    /// Retrieve a list of transcripts you created.
+    /// Transcripts are sorted from newest to oldest. The previous URL always points to a page with older transcripts.
+    /// </summary>
     /// <param name="listUrl">The next or previous page URL to query the transcript list.</param>
-    /// <param name="options"></param>
-    /// <param name="cancellationToken">Cancellation token</param>
+    /// <param name="options">HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>A list of transcripts you created</returns>
     public async Task<TranscriptList> ListAsync(string listUrl,
         RequestOptions? options = null,
         CancellationToken cancellationToken = default)
@@ -338,6 +516,7 @@ public class ExtendedTranscriptsClient : TranscriptsClient
     /// <summary>
     /// Export your transcript in SRT or VTT format to use with a video player for subtitles and closed captions.
     /// </summary>
+    /// <returns>A task that resolves to a string of the subtitles</returns>
     public Task<string> GetSubtitlesAsync(
         string transcriptId,
         SubtitleFormat subtitleFormat,
@@ -349,6 +528,7 @@ public class ExtendedTranscriptsClient : TranscriptsClient
     /// <summary>
     /// Export your transcript in SRT or VTT format to use with a video player for subtitles and closed captions.
     /// </summary>
+    /// <returns>A task that resolves to a string of the subtitles</returns>
     public Task<string> GetSubtitlesAsync(
         string transcriptId,
         SubtitleFormat subtitleFormat,
@@ -364,6 +544,7 @@ public class ExtendedTranscriptsClient : TranscriptsClient
     /// <summary>
     /// Retrieve the redacted audio file.
     /// </summary>
+    /// <returns>A task that resolves to a stream of the redacted audio file</returns>
     public async Task<Stream> GetRedactedAudioFileAsync(
         string transcriptId,
         RequestOptions? options = null,

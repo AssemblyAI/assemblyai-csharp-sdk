@@ -6,10 +6,19 @@ using Microsoft.Extensions.Options;
 
 namespace AssemblyAI;
 
+/// <summary>
+/// Extensions to add the AssemblyAI client to the service collection.
+/// </summary>
 public static class DependencyInjectionExtensions
 {
     private const string AssemblyAIHttpClientName = "AssemblyAI";
 
+    /// <summary>
+    /// Add the AssemblyAI client to the service collection.
+    /// The AssemblyAI options are configured using the "AssemblyAI" section.
+    /// </summary>
+    /// <param name="services">The service collection</param>
+    /// <returns>The service collection</returns>
     public static IServiceCollection AddAssemblyAIClient(this IServiceCollection services)
     {
         var optionsBuilder = services.AddOptions<ClientOptions>();
@@ -19,6 +28,12 @@ public static class DependencyInjectionExtensions
         return services;
     }
 
+    /// <summary>
+    /// Add the AssemblyAI client to the service collection.
+    /// </summary>
+    /// <param name="services">The service collection</param>
+    /// <param name="namedConfigurationSection">The section where the AssemblyAI options are configured.</param>
+    /// <returns>The service collection</returns>
     public static IServiceCollection AddAssemblyAIClient(
         this IServiceCollection services,
         IConfiguration namedConfigurationSection
@@ -31,13 +46,19 @@ public static class DependencyInjectionExtensions
         return services;
     }
 
+    /// <summary>
+    /// Add the AssemblyAI client to the service collection.
+    /// </summary>
+    /// <param name="services">The service collection</param>
+    /// <param name="configureOptions">Configure the client options using this callback.</param>
+    /// <returns>The service collection</returns>
     public static IServiceCollection AddAssemblyAIClient(
         this IServiceCollection services,
         Action<ClientOptions> configureOptions
     )
         => AddAssemblyAIClient(services, (_, options) => configureOptions(options));
 
-
+    /// <inheritdoc cref="AddAssemblyAIClient(IServiceCollection,Action{ClientOptions})"/>
     public static IServiceCollection AddAssemblyAIClient(
         this IServiceCollection services,
         Action<IServiceProvider, ClientOptions> configureOptions
@@ -50,7 +71,12 @@ public static class DependencyInjectionExtensions
         return services;
     }
 
-
+    /// <summary>
+    /// Add the AssemblyAI client to the service collection.
+    /// </summary>
+    /// <param name="services">The service collection</param>
+    /// <param name="options">The AssemblyAI client options.</param>
+    /// <returns>The service collection</returns>
     public static IServiceCollection AddAssemblyAIClient(
         this IServiceCollection services,
         ClientOptions options

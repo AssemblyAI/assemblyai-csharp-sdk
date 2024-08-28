@@ -217,7 +217,7 @@ public class TranscriptsClientTests
         var testFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "nbc.mp3");
         var stream = File.OpenRead(testFilePath);
 
-        var transcript = await client.Transcripts.TranscribeAsync(stream, disposeStream: true).ConfigureAwait(false);
+        var transcript = await client.Transcripts.TranscribeAsync(stream, disposeStream: true, new TranscriptOptionalParams()).ConfigureAwait(false);
 
         Assert.That(transcript, Is.Not.Null);
         Assert.Multiple(() =>

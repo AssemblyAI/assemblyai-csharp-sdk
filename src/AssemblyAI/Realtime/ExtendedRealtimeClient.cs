@@ -2,6 +2,10 @@
 
 namespace AssemblyAI.Realtime;
 
+/// <summary>
+/// The client to interact with the AssemblyAI Realtime HTTP API.
+/// To interact with the Realtime WebSocket API, use the <see cref="RealtimeTranscriber"/> class.
+/// </summary>
 public partial class RealtimeClient
 {
     /// <summary>

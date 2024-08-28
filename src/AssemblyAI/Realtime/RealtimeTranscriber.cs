@@ -18,13 +18,20 @@ public enum RealtimeTranscriberStatus
     Disconnecting
 }
 
+/// <summary>
+/// Transcribes audio in real-time using AssemblyAI's real-time transcription service.
+/// </summary>
 public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotifyPropertyChanged
 {
     private readonly RealtimeTranscriberOptions _options;
     private WebSocket? _socket;
     private TaskCompletionSource<SessionInformation>? _sessionTerminatedTaskCompletionSource;
+    private SessionInformation? _sessionInformation;
     private RealtimeTranscriberStatus _status;
 
+    /// <summary>
+    /// The status of the real-time transcriber.
+    /// </summary>
     public RealtimeTranscriberStatus Status
     {
         get => _status;
@@ -96,21 +103,57 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
         set => _options.DisablePartialTranscripts = value;
     }
 
+    /// <summary>
+    /// The event raised when the real-time transcription session begins.
+    /// </summary>
     public readonly Event<SessionBegins> SessionBegins = new();
+    
+    /// <summary>
+    /// The event raised when a partial transcript is received.
+    /// </summary>
     public readonly Event<PartialTranscript> PartialTranscriptReceived = new();
+    
+    /// <summary>
+    /// The event raised when a final transcript is received.
+    /// </summary>
     public readonly Event<FinalTranscript> FinalTranscriptReceived = new();
+    
+    /// <summary>
+    /// The event raised when a partial or final transcript is received.
+    /// </summary>
     public readonly Event<RealtimeTranscript> TranscriptReceived = new();
+    
+    /// <summary>
+    /// The event raised when session information is received, right before the session is terminated.
+    /// </summary>
     public readonly Event<SessionInformation> SessionInformationReceived = new();
+    
+    /// <summary>
+    /// The event raised when an error message is received.
+    /// </summary>
     public readonly Event<RealtimeError> ErrorReceived = new();
+    
+    /// <summary>
+    /// The event raised when an exception occurs while listening for WebSocket messages.
+    /// </summary>
     public readonly Event<Exception> ExceptionOccurred = new();
+    
+    /// <summary>
+    /// The event raised when the connection with the real-time service is closed.
+    /// </summary>
     public readonly Event<ClosedEventArgs> Closed = new();
-    private SessionInformation? _sessionInformation;
 
-    public RealtimeTranscriber()
+    /// <summary>
+    /// Create a new instance of the real-time transcriber.
+    /// </summary>
+    public RealtimeTranscriber() : this(new RealtimeTranscriberOptions())
     {
-        _options = new RealtimeTranscriberOptions();
     }
 
+    /// <summary>
+    /// Create a new instance of the real-time transcriber.
+    /// </summary>
+    /// <param name="options">The options for the real-time transcription service.</param>
     public RealtimeTranscriber(RealtimeTranscriberOptions options)
     {
         _options = options;
@@ -293,6 +336,9 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
         _sessionTerminatedTaskCompletionSource?.TrySetResult(_sessionInformation!);
     }
 
+    /// <summary>
+    /// The reason phrases for the close codes.
+    /// </summary>
     private readonly Dictionary<int, string> _closeCodeErrorMessages = new()
     {
         { 4000, "Sample rate must be a positive integer" },
@@ -317,6 +363,11 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
         { 4104, "Could not parse word boost parameter" }
     };
 
+    /// <summary>
+    /// Method called when the connection is closed. Calls the Closed event.
+    /// </summary>
+    /// <param name="code"></param>
+    /// <param name="reason"></param>
     private async Task OnClosed(int? code, string? reason)
     {
         Status = RealtimeTranscriberStatus.Disconnected;
@@ -501,8 +552,15 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
         Status = RealtimeTranscriberStatus.Disconnected;
     }
 
+    /// <summary>
+    /// PropertyChanged event is called when a property is changed.
+    /// </summary>
     public event PropertyChangedEventHandler? PropertyChanged;
 
+    /// <summary>
+    /// Raises the PropertyChanged event.
+    /// </summary>
+    /// <param name="propertyName">The property name that's changed.</param>
     private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -523,6 +581,13 @@ public sealed class RealtimeTranscriber : IAsyncDisposable, IDisposable, INotify
 /// </summary>
 public sealed class ClosedEventArgs
 {
+    /// <summary>
+    /// The close event code.
+    /// </summary>
     public int? Code { get; internal set; }
+    
+    /// <summary>
+    /// The close event reason phrase.
+    /// </summary>
     public string? Reason { get; internal set; }
 }
