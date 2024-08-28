@@ -4,31 +4,57 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI;
 
+/// <summary>
+/// The AssemblyAI user agent.
+/// </summary>
 public class UserAgent
 {
+    /// <summary>
+    /// The default AssemblyAI user agent.
+    /// </summary>
     public static readonly UserAgent Default = CreateDefaultUserAgent();
     private readonly Dictionary<string, UserAgentItem?> _userAgent;
 
+    /// <summary>
+    /// Create a new instance of the <see cref="UserAgent"/> class.
+    /// </summary>
     public UserAgent() : this(new Dictionary<string, UserAgentItem?>())
     {
     }
 
+    /// <summary>
+    /// Create a new instance of the <see cref="UserAgent"/> class from a dictionary.
+    /// </summary>
+    /// <param name="userAgent"></param>
     public UserAgent(Dictionary<string, UserAgentItem?> userAgent)
     {
         _userAgent = userAgent;
     }
 
+    /// <summary>
+    /// Create a new instance of the <see cref="UserAgent"/> class by merging two user agents.
+    /// </summary>
+    /// <param name="a">User agent A</param>
+    /// <param name="b">User agent B</param>
     public UserAgent(UserAgent a, UserAgent b)
     {
         _userAgent = Merge(a._userAgent, b._userAgent) as Dictionary<string, UserAgentItem?>;
     }
     
+    /// <summary>
+    /// Get or set a user agent item by key.
+    /// </summary>
+    /// <param name="index">The name of the user agent item</param>
     public UserAgentItem? this[string index]
     {
         get => _userAgent[index];
         set => _userAgent[index] = value;
     }
 
+    /// <summary>
+    /// Convert the AssemblyAI user agent to a string.
+    /// </summary>
+    /// <returns>The AssemblyAI user agent section</returns>
     public string ToAssemblyAIUserAgentString()
     {
         var sb = new System.Text.StringBuilder("AssemblyAI/1.0 (");
@@ -38,6 +64,10 @@ public class UserAgent
         return sb.ToString();
     }
 
+    /// <summary>
+    /// Create the default AssemblyAI user agent.
+    /// </summary>
+    /// <returns></returns>
     private static UserAgent CreateDefaultUserAgent()
     {
         var defaultUserAgent = new Dictionary<string, UserAgentItem?>();
@@ -55,6 +85,11 @@ public class UserAgent
     
 #if NET462_OR_GREATER
 #else
+    /// <summary>
+    /// Parse the framework description into a name and version.
+    /// </summary>
+    /// <param name="frameworkDescription"></param>
+    /// <returns></returns>
     private static (string Name, string Version) ParseFrameworkDescription(string frameworkDescription)
     {
         string name;
@@ -90,6 +125,12 @@ public class UserAgent
     }
 #endif
 
+    /// <summary>
+    /// Merge two user agents dictionaries.
+    /// </summary>
+    /// <param name="a">User agent dictionary A</param>
+    /// <param name="b">User agent dictionary B</param>
+    /// <returns></returns>
     private static Dictionary<string, UserAgentItem> Merge(
         Dictionary<string, UserAgentItem?> a,
         Dictionary<string, UserAgentItem?> b
@@ -113,6 +154,11 @@ public class UserAgent
     }
 }
 
+/// <summary>
+/// An item in the AssemblyAI user agent.
+/// </summary>
+/// <param name="name">The user agent item name</param>
+/// <param name="version">The user agent item version</param>
 public class UserAgentItem(string name, string version)
 {
     public string Name { get; set; } = name;

@@ -3,7 +3,7 @@
 namespace AssemblyAI.Transcripts;
 
 /// <summary>
-/// Exception thrown when a transcript status is not completed.
+/// Exception thrown when a transcript status is not "completed".
 /// </summary>
 public class TranscriptNotCompletedStatusException : Exception
 {

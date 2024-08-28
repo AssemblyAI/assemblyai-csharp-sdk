@@ -1,5 +1,8 @@
 ﻿namespace AssemblyAI.Realtime;
 
+/// <summary>
+/// The options for the real-time transcriber.
+/// </summary>
 public sealed class RealtimeTranscriberOptions
 {
     /// <summary>

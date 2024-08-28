@@ -1,10 +1,12 @@
-using System.Net.Http;
 // ReSharper disable PartialTypeWithSinglePart
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
 // ReSharper disable CheckNamespace
 
 namespace AssemblyAI;
 
+/// <summary>
+/// The options for the AssemblyAI client.
+/// </summary>
 public partial class ClientOptions
 {
     /// <summary>

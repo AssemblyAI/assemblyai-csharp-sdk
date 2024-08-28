@@ -6,11 +6,11 @@ namespace AssemblyAI.Transcripts;
 public static class TranscriptExtensions
 {
     /// <summary>
-    /// Throws an exception if the transcript status is not completed.
+    /// Throws an exception if the transcript status is not "completed".
     /// </summary>
     /// <param name="transcript">The transcript</param>
     /// <exception cref="TranscriptNotCompletedStatusException">
-    /// The exception is thrown if the transcript status is not completed.
+    /// The exception is thrown if the transcript status is not "completed".
     /// The exception contains the transcript, so you can access the status and error message.
     /// </exception>
     public static void EnsureStatusCompleted(this Transcript transcript)

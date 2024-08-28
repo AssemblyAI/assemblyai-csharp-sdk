@@ -9,6 +9,9 @@ using AssemblyAI.Files;
 
 namespace AssemblyAI.Transcripts;
 
+/// <summary>
+/// The client to interact with the AssemblyAI Transcripts API.
+/// </summary>
 public class ExtendedTranscriptsClient : TranscriptsClient
 {
     private readonly RawClient _client;
@@ -19,24 +22,42 @@ public class ExtendedTranscriptsClient : TranscriptsClient
         _client = client;
         _assemblyAIClient = assemblyAIClient;
     }
-
+    
+    /// <summary>
+    /// Create a transcript from a local file.
+    /// </summary>
+    /// <param name="audioFile">The audio file to transcribe</param>
+    /// <returns>Returns a task that resolves to a queued transcript</returns>
     public Task<Transcript> SubmitAsync(FileInfo audioFile) => SubmitAsync(audioFile, new TranscriptOptionalParams());
 
+    /// <inheritdoc cref="SubmitAsync(FileInfo)"/>
+    /// <param name="transcriptParams">The transcript parameters</param>
     public async Task<Transcript> SubmitAsync(FileInfo audioFile, TranscriptOptionalParams transcriptParams)
     {
         var uploadedFile = await _assemblyAIClient.Files.UploadAsync(audioFile).ConfigureAwait(false);
         return await SubmitAsync(uploadedFile, transcriptParams).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Create a transcript from a file stream.
+    /// </summary>
+    /// <param name="audioFileStream">The audio file stream to transcribe</param>
+    /// <returns>Returns a task that resolves to a queued transcript</returns>
     public Task<Transcript> SubmitAsync(Stream audioFileStream) =>
         SubmitAsync(audioFileStream, new TranscriptOptionalParams());
 
+    /// <inheritdoc cref="SubmitAsync(Stream)"/>
+    /// <param name="disposeStream">Dispose the stream as soon as possible</param>
     public Task<Transcript> SubmitAsync(Stream audioFileStream, bool disposeStream) =>
         SubmitAsync(audioFileStream, disposeStream, new TranscriptOptionalParams());
 
+    /// <inheritdoc cref="SubmitAsync(Stream)"/>
+    /// <param name="transcriptParams">The transcript parameters</param>
     public Task<Transcript> SubmitAsync(Stream audioFileStream, TranscriptOptionalParams transcriptParams)
         => SubmitAsync(audioFileStream, false, transcriptParams);
 
+    /// <inheritdoc cref="SubmitAsync(Stream,bool)"/>
+    /// <inheritdoc cref="SubmitAsync(Stream,TranscriptOptionalParams)"/>
     public async Task<Transcript> SubmitAsync(
         Stream audioFileStream,
         bool disposeStream,
@@ -47,42 +68,74 @@ public class ExtendedTranscriptsClient : TranscriptsClient
             .ConfigureAwait(false);
         return await SubmitAsync(fileUpload, transcriptParams).ConfigureAwait(false);
     }
-
+    
+    /// <summary>
+    /// Create a transcript from an audio file URI.
+    /// </summary>
+    /// <param name="audioFileUrl">The URI to the audio file to transcribe</param>
+    /// <returns>Returns a task that resolves to a queued transcript</returns>
     public Task<Transcript> SubmitAsync(Uri audioFileUrl) => SubmitAsync(audioFileUrl, new TranscriptOptionalParams());
 
+    /// <inheritdoc cref="SubmitAsync(Uri)"/>
+    /// <param name="transcriptParams">The transcript parameters</param>
     public async Task<Transcript> SubmitAsync(Uri audioFileUrl, TranscriptOptionalParams transcriptParams)
     {
         return await SubmitAsync(CreateParams(audioFileUrl, transcriptParams)).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Create a transcript from a file uploaded to AssemblyAI.
+    /// </summary>
+    /// <param name="file">The file uploaded to AssemblyAI</param>
+    /// <returns>Returns a task that resolves to a queued transcript</returns>
     public Task<Transcript> SubmitAsync(UploadedFile file) => SubmitAsync(file, new TranscriptOptionalParams());
 
+    /// <inheritdoc cref="SubmitAsync(UploadedFile)"/>
+    /// <param name="transcriptParams">The transcript parameters</param>
     public async Task<Transcript> SubmitAsync(UploadedFile file, TranscriptOptionalParams transcriptParams)
     {
         return await SubmitAsync(CreateParams(file.UploadUrl, transcriptParams)).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Transcribe a local file
+    /// </summary>
+    /// <param name="audioFile">The local file to transcribe</param>
+    /// <returns>A task that resolves to a transcript with status "completed" or "error".</returns>
     public Task<Transcript> TranscribeAsync(FileInfo audioFile) =>
         TranscribeAsync(audioFile, new TranscriptOptionalParams());
 
+    /// <inheritdoc cref="TranscribeAsync(FileInfo)"/>
+    /// <param name="transcriptParams">The transcript parameters</param>
     public async Task<Transcript> TranscribeAsync(FileInfo audioFile, TranscriptOptionalParams transcriptParams)
     {
         using var audioFileStream = audioFile.OpenRead();
         return await TranscribeAsync(audioFileStream, transcriptParams).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Transcribe a file stream.
+    /// </summary>
+    /// <param name="audioFileStream">The audio file stream to transcribe</param>
+    /// <returns>A task that resolves to a transcript with status "completed" or "error".</returns>
     public Task<Transcript> TranscribeAsync(Stream audioFileStream) =>
         TranscribeAsync(audioFileStream, new TranscriptOptionalParams());
 
+    /// <inheritdoc cref="TranscribeAsync(Stream)"/>
+    /// <param name="disposeStream">Dispose the stream as soon as possible</param>
     public Task<Transcript> TranscribeAsync(Stream audioFileStream, bool disposeStream) =>
         TranscribeAsync(audioFileStream, disposeStream, new TranscriptOptionalParams());
 
+    /// <inheritdoc cref="TranscribeAsync(Stream)"/>
+    /// <param name="transcriptParams">The transcript parameters</param>
     public async Task<Transcript> TranscribeAsync(Stream audioFileStream, TranscriptOptionalParams transcriptParams)
     {
         var fileUpload = await _assemblyAIClient.Files.UploadAsync(audioFileStream).ConfigureAwait(false);
         return await TranscribeAsync(new Uri(fileUpload.UploadUrl), transcriptParams).ConfigureAwait(false);
     }
 
+    /// <inheritdoc cref="TranscribeAsync(Stream, bool)"/>
+    /// <inheritdoc cref="TranscribeAsync(Stream, TranscriptOptionalParams)"/>
     public async Task<Transcript> TranscribeAsync(Stream audioFileStream, bool disposeStream,
         TranscriptOptionalParams transcriptParams)
     {
@@ -91,18 +144,36 @@ public class ExtendedTranscriptsClient : TranscriptsClient
         return await TranscribeAsync(uploadedFile, transcriptParams).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Transcribe an audio file via its public URI.
+    /// </summary>
+    /// <param name="audioFileUrl">The URI to the audio file to transcribe</param>
+    /// <returns>A task that resolves to a transcript with status "completed" or "error".</returns>
     public Task<Transcript> TranscribeAsync(Uri audioFileUrl) =>
         TranscribeAsync(audioFileUrl, new TranscriptOptionalParams());
 
+    /// <inheritdoc cref="TranscribeAsync(Uri)"/>
+    /// <param name="transcriptParams">The transcript parameters</param>
     public Task<Transcript> TranscribeAsync(Uri audioFileUrl, TranscriptOptionalParams transcriptParams)
         => TranscribeAsync(CreateParams(audioFileUrl, transcriptParams));
 
+    /// <summary>
+    /// Transcribe a file uploaded to AssemblyAI.
+    /// </summary>
+    /// <returns>A task that resolves to a transcript with status "completed" or "error".</returns>
     public Task<Transcript> TranscribeAsync(UploadedFile file) =>
         TranscribeAsync(file, new TranscriptOptionalParams());
 
+    /// <inheritdoc cref="TranscribeAsync(UploadedFile)"/>
+    /// <param name="transcriptParams">The transcript parameters</param>
     public Task<Transcript> TranscribeAsync(UploadedFile file, TranscriptOptionalParams transcriptParams)
         => TranscribeAsync(CreateParams(file.UploadUrl, transcriptParams));
 
+    /// <summary>
+    /// Transcribe an audio file via its public URI.
+    /// </summary>
+    /// <param name="transcriptParams">The transcript parameters</param>
+    /// <returns>A task that resolves to a transcript with status "completed" or "error".</returns>
     public async Task<Transcript> TranscribeAsync(TranscriptParams transcriptParams)
     {
         var transcript = await SubmitAsync(transcriptParams).ConfigureAwait(false);
@@ -150,9 +221,16 @@ public class ExtendedTranscriptsClient : TranscriptsClient
         return transcript;
     }
 
+    /// <summary>
+    /// Create transcript parameters from an audio file URL and optional parameters.
+    /// </summary>
+    /// <param name="audioFileUrl">The audio file URL to transcribe</param>
+    /// <param name="optionalTranscriptParams">The optional transcript parameters</param>
+    /// <returns>The transcript parameters</returns>
     private static TranscriptParams CreateParams(Uri audioFileUrl, TranscriptOptionalParams optionalTranscriptParams)
         => CreateParams(audioFileUrl.ToString(), optionalTranscriptParams);
 
+    /// <inheritdoc cref="CreateParams(Uri,TranscriptOptionalParams)"/>
     private static TranscriptParams CreateParams(string audioFileUrl, TranscriptOptionalParams optionalTranscriptParams)
     {
         var json = JsonUtils.Serialize(optionalTranscriptParams);
@@ -162,12 +240,14 @@ public class ExtendedTranscriptsClient : TranscriptsClient
         return transcriptParams;
     }
 
-    public Task<TranscriptList> ListAsync() => ListAsync(new ListTranscriptParams());
-
     /// <summary>
     /// Retrieve a list of transcripts you created.
     /// Transcripts are sorted from newest to oldest. The previous URL always points to a page with older transcripts.
     /// </summary>
+    /// <returns>A list of transcripts you created</returns>
+    public Task<TranscriptList> ListAsync() => ListAsync(new ListTranscriptParams());
+
+    /// <inheritdoc cref="ListAsync()"/>
     /// <param name="listUrl">The next or previous page URL to query the transcript list.</param>
     public async Task<TranscriptList> ListAsync(string listUrl)
     {

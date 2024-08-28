@@ -1,5 +1,8 @@
 namespace AssemblyAI.Files;
 
+/// <summary>
+/// Client to upload files to the AssemblyAI API.
+/// </summary>
 public partial class FilesClient
 {
     /// <summary>
