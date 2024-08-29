@@ -25,7 +25,7 @@ You can find the `AssemblyAI` C# SDK on [NuGet](https://www.nuget.org/packages/A
 Add the latest version using the .NET CLI:
 
 ```bash
-dotnet add package AssemblyAI --prerelease
+dotnet add package AssemblyAI
 ```
 
 Then, create an AssemblyAIClient with your API key:
