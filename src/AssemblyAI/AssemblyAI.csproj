@@ -74,7 +74,6 @@
         <PackageReference Include="OneOf" Version="3.0.271"/>
         <PackageReference Include="OneOf.Extended" Version="3.0.271"/>
         <PackageReference Include="System.Text.Json" Version="8.0.4"/>
-        <PackageReference Include="System.Threading.Channels" Version="8.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
