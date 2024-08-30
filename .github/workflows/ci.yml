@@ -4,6 +4,7 @@ on: [push]
 
 jobs:
   compile:
+    name: Compile
     runs-on: ubuntu-latest
     env:
       DOTNET_NOLOGO: true
@@ -24,8 +25,11 @@ jobs:
         run: dotnet build src -c Release /p:ContinuousIntegrationBuild=true
 
   tests:
+    strategy:
+      matrix:
+        version: [net462, net6.0]
+    name: Run Tests on ${{ matrix.version }}
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -33,13 +37,21 @@ jobs:
       - uses: actions/checkout@master
 
       - name: Setup .NET
+        if: ${{ matrix.version == 'net6.0' }} 
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
-            6.x
             8.x
-            
+            6.x
+
+      - name: Setup .NET
+        if: ${{ matrix.version == 'net462' }}
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.x
+
       - name: Setup Mono
+        if: ${{ matrix.version == 'net462' }}
         run: |
           sudo apt install ca-certificates gnupg
           sudo gpg --homedir /tmp --no-default-keyring --keyring /usr/share/keyrings/mono-official-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
@@ -53,14 +65,14 @@ jobs:
 
       - name: Run Tests
         run: |
-          dotnet test src
+          dotnet test src --framework ${{ matrix.version }}
         env:
           ASSEMBLYAI_API_KEY: ${{ secrets.ASSEMBLYAI_API_KEY }}
           TEST_TRANSCRIPT_ID: ${{ secrets.TEST_TRANSCRIPT_ID }}
           TEST_TRANSCRIPT_IDS: ${{ secrets.TEST_TRANSCRIPT_IDS }}
 
-
   publish:
+    name: Publish to NuGet
     needs: [compile]
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
