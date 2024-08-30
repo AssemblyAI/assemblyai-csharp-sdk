@@ -28,8 +28,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        version: [net462, net6.0]
-    name: Run Tests on ${{ matrix.version }}
+        framework: [net462, net6.0]
+        os: [ubuntu-latest, windows-latest]
+        exclude:
+          - os: ubuntu-latest
+            framework: net462
+    name: Run Tests on ${{ matrix.os }} with ${{ matrix.framework }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -38,27 +42,11 @@ jobs:
       - uses: actions/checkout@master
 
       - name: Setup .NET
-        if: ${{ matrix.version == 'net6.0' }} 
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: |
             8.x
             6.x
-
-      - name: Setup .NET
-        if: ${{ matrix.version == 'net462' }}
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.x
-
-      - name: Setup Mono
-        if: ${{ matrix.version == 'net462' }}
-        run: |
-          sudo apt install ca-certificates gnupg
-          sudo gpg --homedir /tmp --no-default-keyring --keyring /usr/share/keyrings/mono-official-archive-keyring.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-          echo "deb [signed-by=/usr/share/keyrings/mono-official-archive-keyring.gpg] https://download.mono-project.com/repo/ubuntu stable-focal main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
-          sudo apt update
-          sudo apt install mono-devel
 
       - name: Install tools
         run: |
@@ -66,7 +54,7 @@ jobs:
 
       - name: Run Tests
         run: |
-          dotnet test src --framework ${{ matrix.version }}
+          dotnet test src --framework ${{ matrix.framework }}
         env:
           ASSEMBLYAI_API_KEY: ${{ secrets.ASSEMBLYAI_API_KEY }}
           TEST_TRANSCRIPT_ID: ${{ secrets.TEST_TRANSCRIPT_ID }}
