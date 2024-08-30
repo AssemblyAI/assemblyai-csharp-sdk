@@ -480,3 +480,5 @@ $RECYCLE.BIN/
 .runsettings
 docfx/_site
 docfx/api
+
+.env

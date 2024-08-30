@@ -1,3 +1,5 @@
+// ReSharper disable All
+#pragma warning disable
 using System.Net.WebSockets;
 using System.Text;
 using AssemblyAI.Realtime.WebsocketClient.Exceptions;
@@ -6,7 +8,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.IO;
 using Websocket.Client;
-// ReSharper disable All
 
 namespace AssemblyAI.Realtime.WebsocketClient;
 

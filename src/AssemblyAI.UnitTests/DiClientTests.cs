@@ -1,3 +1,4 @@
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -56,3 +57,4 @@ public class DiClientTests
         Assert.That(exception.Message, Is.EqualTo("AssemblyAI:ApiKey is required."));
     }
 }
+#endif

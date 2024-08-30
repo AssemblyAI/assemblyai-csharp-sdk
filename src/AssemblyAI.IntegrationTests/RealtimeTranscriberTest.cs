@@ -65,11 +65,12 @@ public class RealtimeTranscriberTests
             var testFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "gore-short.wav");
             var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
             var ct = cts.Token;
-            await using var fileStream = File.OpenRead(testFilePath);
-            var audioChunk = new Memory<byte>(new byte[8192]);
+            using var fileStream = File.OpenRead(testFilePath);
+            var audioChunk = new byte[8192];
             while (
                 ct.IsCancellationRequested == false &&
-                await fileStream.ReadAsync(audioChunk, ct).ConfigureAwait(false) > 0
+                // ReSharper disable once MethodHasAsyncOverloadWithCancellation
+                fileStream.Read(audioChunk, 0, audioChunk.Length) > 0
             )
             {
                 await transcriber.SendAudioAsync(audioChunk).ConfigureAwait(false);

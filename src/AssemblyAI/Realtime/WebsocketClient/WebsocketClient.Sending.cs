@@ -1,4 +1,6 @@
-﻿using System.Net.WebSockets;
+﻿// ReSharper disable All
+#pragma warning disable
+using System.Net.WebSockets;
 using System.Text;
 
 namespace AssemblyAI.Realtime.WebsocketClient;

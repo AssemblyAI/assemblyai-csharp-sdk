@@ -1,4 +1,7 @@
 ﻿// ReSharper disable All
+// #pragma warning disable
+// #pragma warning disable CS8600
+// #pragma warning disable CS8619
 namespace AssemblyAI.Realtime.WebsocketClient.Threading;
 
 /// <summary>

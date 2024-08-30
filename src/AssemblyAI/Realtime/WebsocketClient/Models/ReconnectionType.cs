@@ -1,4 +1,5 @@
 ﻿// ReSharper disable All
+// #pragma warning disable
 namespace Websocket.Client;
 
 /// <summary>

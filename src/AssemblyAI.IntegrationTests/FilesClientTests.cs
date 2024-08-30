@@ -27,7 +27,7 @@ public class FilesClientTests
 
         // Adjust the path to where your test file is located
         var testFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "nbc.mp3");
-        await using var fileStream = File.OpenRead(testFilePath);
+        using var fileStream = File.OpenRead(testFilePath);
 
         var uploadedFile = await client.Files.UploadAsync(fileStream).ConfigureAwait(false);
 

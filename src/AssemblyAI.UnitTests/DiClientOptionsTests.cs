@@ -1,3 +1,4 @@
+#if NET6_0_OR_GREATER || NETSTANDARD2_0_OR_GREATER
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -81,3 +82,4 @@ public class DependencyInjectionClientOptionsTests
 
     private static IConfiguration BuildEmptyConfiguration() => new ConfigurationBuilder().Build();
 }
+#endif

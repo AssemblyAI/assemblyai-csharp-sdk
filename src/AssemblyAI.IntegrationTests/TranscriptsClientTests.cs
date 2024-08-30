@@ -36,7 +36,7 @@ public class TranscriptsClientTests
 
         // Adjust the path to where your test file is located
         var testFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "nbc.mp3");
-        await using var stream = File.OpenRead(testFilePath);
+        using var stream = File.OpenRead(testFilePath);
 
         var transcript = await client.Transcripts.SubmitAsync(stream).ConfigureAwait(false);
 
@@ -195,7 +195,7 @@ public class TranscriptsClientTests
 
         // Adjust the path to where your test file is located
         var testFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "nbc.mp3");
-        await using var stream = File.OpenRead(testFilePath);
+        using var stream = File.OpenRead(testFilePath);
 
         var transcript = await client.Transcripts.TranscribeAsync(stream).ConfigureAwait(false);
 
@@ -255,7 +255,7 @@ public class TranscriptsClientTests
 
         // Adjust the path to where your test file is located
         var testFilePath = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestData", "nbc.mp3");
-        await using var stream = File.OpenRead(testFilePath);
+        using var stream = File.OpenRead(testFilePath);
 
         var transcript = await client.Transcripts.SubmitAsync(stream).ConfigureAwait(false);
         transcript = await client.Transcripts.WaitUntilReady(transcript.Id).ConfigureAwait(false);

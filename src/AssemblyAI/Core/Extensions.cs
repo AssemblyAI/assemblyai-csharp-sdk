@@ -8,7 +8,7 @@ internal static class Extensions
     {
         var field = value.GetType().GetField(value.ToString());
         var attribute = (EnumMemberAttribute)
-            Attribute.GetCustomAttribute(field, typeof(EnumMemberAttribute));
+            Attribute.GetCustomAttribute(field!, typeof(EnumMemberAttribute))!;
         return attribute?.Value ?? value.ToString();
     }
 }
