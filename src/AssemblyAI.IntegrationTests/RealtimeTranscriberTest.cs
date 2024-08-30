@@ -11,7 +11,8 @@ public class RealtimeTranscriberTests
     {
         var client = new AssemblyAIClient(AssemblyAITestParameters.ApiKey);
         // Set up the transcriber
-        var transcriber = client.Realtime.CreateTranscriber(new RealtimeTranscriberOptions
+        // ReSharper disable once UseAwaitUsing
+        using var transcriber = client.Realtime.CreateTranscriber(new RealtimeTranscriberOptions
         {
             Encoding = AudioEncoding.PcmS16le,
             WordBoost = ["foo", "bar"],
@@ -28,7 +29,8 @@ public class RealtimeTranscriberTests
         var tokenResponse = await client.Realtime.CreateTemporaryTokenAsync(480);
 
         // Set up the transcriber
-        var transcriber = new RealtimeTranscriber(new RealtimeTranscriberOptions
+        // ReSharper disable once UseAwaitUsing
+        using var transcriber = new RealtimeTranscriber(new RealtimeTranscriberOptions
         {
             Token = tokenResponse.Token,
             Encoding = AudioEncoding.PcmS16le,
