@@ -430,18 +430,11 @@ public class ExtendedTranscriptsClient : TranscriptsClient
     /// <param name="optionalTranscriptParams">The optional transcript parameters</param>
     /// <returns>The transcript parameters</returns>
     private static TranscriptParams CreateParams(Uri audioFileUrl, TranscriptOptionalParams optionalTranscriptParams)
-        => CreateParams(audioFileUrl.ToString(), optionalTranscriptParams);
+        => optionalTranscriptParams.ToTranscriptParams(audioFileUrl);
 
     /// <inheritdoc cref="CreateParams(Uri,TranscriptOptionalParams)"/>
     private static TranscriptParams CreateParams(string audioFileUrl, TranscriptOptionalParams optionalTranscriptParams)
-    {
-        var json = JsonUtils.Serialize(optionalTranscriptParams);
-        var jsonObject = JsonUtils.Deserialize<JsonObject>(json);
-        jsonObject["audio_url"] = audioFileUrl;
-        var transcriptParams = jsonObject.Deserialize<TranscriptParams>()!;
-        return transcriptParams;
-    }
-
+        => optionalTranscriptParams.ToTranscriptParams(audioFileUrl);
 
     /// <summary>
     /// Retrieve a list of transcripts you created.
