@@ -2,12 +2,12 @@
 using Microsoft.Extensions.Configuration;
 using AssemblyAI.Realtime;
 
-var transcriptWords = new SortedDictionary<int, string>();
+var transcriptTexts = new SortedDictionary<int, string>();
 
 string BuildTranscript()
 {
     var stringBuilder = new StringBuilder();
-    foreach (var word in transcriptWords.Values)
+    foreach (var word in transcriptTexts.Values)
     {
         stringBuilder.Append($"{word} ");
     }
@@ -40,14 +40,14 @@ transcriber.PartialTranscriptReceived.Subscribe(transcript =>
 {
     // don't do anything if nothing was said
     if (string.IsNullOrEmpty(transcript.Text)) return;
-    transcriptWords[transcript.AudioStart] = transcript.Text;
+    transcriptTexts[transcript.AudioStart] = transcript.Text;
 
     Console.Clear();
     Console.WriteLine(BuildTranscript());
 });
 transcriber.FinalTranscriptReceived.Subscribe(transcript =>
 {
-    transcriptWords[transcript.AudioStart] = transcript.Text;
+    transcriptTexts[transcript.AudioStart] = transcript.Text;
 
     Console.Clear();
     Console.WriteLine(BuildTranscript());

@@ -59,12 +59,12 @@ async Task TranscribeStream(
     var appLifetime = serviceProvider.GetRequiredService<IHostApplicationLifetime>();
     var realtimeTranscriber = serviceProvider.GetRequiredService<RealtimeTranscriber>();
 
-    var transcriptWords = new SortedDictionary<int, string>();
+    var transcriptTexts = new SortedDictionary<int, string>();
 
     string BuildTranscript()
     {
         var stringBuilder = new StringBuilder();
-        foreach (var word in transcriptWords.Values)
+        foreach (var word in transcriptTexts.Values)
         {
             stringBuilder.Append($"{word} ");
         }
@@ -93,10 +93,7 @@ async Task TranscribeStream(
     realtimeTranscriber.PartialTranscriptReceived.Subscribe(partialTranscript =>
     {
         if (string.IsNullOrEmpty(partialTranscript.Text)) return;
-        foreach (var word in partialTranscript.Words)
-        {
-            transcriptWords[word.Start] = word.Text;
-        }
+        transcriptTexts[partialTranscript.AudioStart] = partialTranscript.Text;
 
         var transcript = BuildTranscript();
         Console.Clear();
@@ -105,10 +102,7 @@ async Task TranscribeStream(
 
     realtimeTranscriber.FinalTranscriptReceived.Subscribe(finalTranscript =>
     {
-        foreach (var word in finalTranscript.Words)
-        {
-            transcriptWords[word.Start] = word.Text;
-        }
+        transcriptTexts[finalTranscript.AudioStart] = finalTranscript.Text;
 
         var transcript = BuildTranscript();
         Console.Clear();
