@@ -52,4 +52,52 @@ public partial class FilesClient
             return await UploadAsync(stream, options, cancellationToken).ConfigureAwait(false);
         }
     }
+    
+    /// <summary>
+    /// Upload a media file to AssemblyAI's servers.
+    /// </summary>
+    /// <param name="audioFile">The audio file to upload</param>
+    /// <param name="options">The HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>File uploaded to AssemblyAI</returns>
+    public async Task<UploadedFile> UploadAsync(
+        ReadOnlyMemory<byte> audioFile,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var stream = new MemoryStream(audioFile.ToArray());
+#if NET6_0_OR_GREATER
+        await using (stream)
+#else
+        using (stream)
+#endif
+        {
+            return await UploadAsync(stream, options, cancellationToken).ConfigureAwait(false);
+        }
+    }
+    
+    /// <summary>
+    /// Upload a media file to AssemblyAI's servers.
+    /// </summary>
+    /// <param name="audioFile">The audio file to upload</param>
+    /// <param name="options">The HTTP request options</param>
+    /// <param name="cancellationToken"></param>
+    /// <returns>File uploaded to AssemblyAI</returns>
+    public async Task<UploadedFile> UploadAsync(
+        byte[] audioFile,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var stream = new MemoryStream(audioFile);
+#if NET6_0_OR_GREATER
+        await using (stream)
+#else
+        using (stream)
+#endif
+        {
+            return await UploadAsync(stream, options, cancellationToken).ConfigureAwait(false);
+        }
+    }
 }
