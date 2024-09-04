@@ -258,7 +258,7 @@ public class TranscriptsClientTests
         using var stream = File.OpenRead(testFilePath);
 
         var transcript = await client.Transcripts.SubmitAsync(stream).ConfigureAwait(false);
-        transcript = await client.Transcripts.WaitUntilReady(transcript.Id).ConfigureAwait(false);
+        transcript = await client.Transcripts.WaitUntilReadyAsync(transcript.Id).ConfigureAwait(false);
 
         Assert.That(transcript, Is.Not.Null);
         Assert.Multiple(() =>

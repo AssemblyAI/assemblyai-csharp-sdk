@@ -371,10 +371,19 @@ public class ExtendedTranscriptsClient : TranscriptsClient
     )
     {
         var transcript = await SubmitAsync(transcriptParams, options, cancellationToken).ConfigureAwait(false);
-        transcript = await WaitUntilReady(transcript.Id, null, null, options, cancellationToken)
+        transcript = await WaitUntilReadyAsync(transcript.Id, null, null, options, cancellationToken)
             .ConfigureAwait(false);
         return transcript;
     }
+
+    [Obsolete("Use `WaitUntilReadyAsync` instead.")]
+    public Task<Transcript> WaitUntilReady(
+        string id,
+        TimeSpan? pollingInterval = null,
+        TimeSpan? pollingTimeout = null,
+        RequestOptions? options = null,
+        CancellationToken cancellationToken = default
+    ) => WaitUntilReadyAsync(id, pollingInterval, pollingTimeout, options, cancellationToken);
 
     /// <summary>
     /// Wait until the transcript status is either "completed" or "error".
@@ -385,7 +394,7 @@ public class ExtendedTranscriptsClient : TranscriptsClient
     /// <param name="options">HTTP request options</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The transcript with status "completed" or "error"</returns>
-    public async Task<Transcript> WaitUntilReady(
+    public async Task<Transcript> WaitUntilReadyAsync(
         string id,
         TimeSpan? pollingInterval = null,
         TimeSpan? pollingTimeout = null,
@@ -445,7 +454,7 @@ public class ExtendedTranscriptsClient : TranscriptsClient
     /// <returns>A list of transcripts you created</returns>
     public Task<TranscriptList> ListAsync(RequestOptions? options = null, CancellationToken cancellationToken = default)
         => ListAsync(new ListTranscriptParams(), options, cancellationToken);
-    
+
     /// <summary>
     /// Retrieve a list of transcripts you created.
     /// Transcripts are sorted from newest to oldest. The previous URL always points to a page with older transcripts.
