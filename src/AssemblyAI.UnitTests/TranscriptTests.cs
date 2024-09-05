@@ -1,3 +1,6 @@
+using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
+using AssemblyAI.Core;
 using AssemblyAI.Transcripts;
 using NUnit.Framework;
 
@@ -23,7 +26,7 @@ public class TranscriptTests
         };
         Assert.Throws<TranscriptNotCompletedStatusException>(() => transcript.EnsureStatusCompleted());
     }
-    
+
     [Test]
     public void ShouldThrowExceptionWithErrorIfTranscriptStatusIsNotCompleted()
     {
