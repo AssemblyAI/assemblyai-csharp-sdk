@@ -5,7 +5,7 @@ using Riok.Mapperly.Abstractions;
 namespace AssemblyAI.Transcripts;
 
 [Mapper(UseDeepCloning = true)]
-internal static partial class TranscriptParamsCloner
+public static partial class TranscriptParamsCloner
 {
     /// <summary>
     /// Deep clone TranscriptParams
