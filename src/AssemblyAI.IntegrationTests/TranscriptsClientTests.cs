@@ -6,7 +6,7 @@ namespace AssemblyAI.IntegrationTests;
 [TestFixture]
 public class TranscriptsClientTests
 {
-    private const string RemoteAudioUrl = "https://storage.googleapis.com/aai-web-samples/espn-bears.m4a";
+    private const string RemoteAudioUrl = "https://assembly.ai/espn.m4a";
     private const string BadRemoteAudioUrl = "https://storage.googleapis.com/aai-web-samples/does-not-exist.m4a";
 
     private static string TranscriptId => AssemblyAITestParameters.TranscriptId;

@@ -142,7 +142,7 @@ public partial class TranscriptsClient
     ///         CustomTopics = true,
     ///         Topics = new List<string>() { "topics" },
     ///         AudioUrl =
-    ///             "https://github.com/AssemblyAI-Examples/audio-examples/raw/main/20230607_me_canadian_wildfires.mp3",
+    ///             "https://assembly.ai/wildfires.mp3",
     ///     }
     /// );
     /// </code>
