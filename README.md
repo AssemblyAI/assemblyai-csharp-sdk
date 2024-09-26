@@ -91,7 +91,7 @@ var client = new AssemblyAIClient(Environment.GetEnvironmentVariable("ASSEMBLYAI
 // Transcribe file at remote URL
 var transcript = await client.Transcripts.TranscribeAsync(new TranscriptParams
 {
-    AudioUrl = "https://storage.googleapis.com/aai-web-samples/espn-bears.m4a",
+    AudioUrl = "https://assembly.ai/espn.m4a",
     LanguageCode = TranscriptLanguageCode.EnUs
 });
 
@@ -108,7 +108,7 @@ If you don't want to wait until the transcript is ready, you can use `submit`:
 ```csharp
 transcript = await client.Transcripts.SubmitAsync(new TranscriptParams
 {
-    AudioUrl = "https://storage.googleapis.com/aai-web-samples/espn-bears.m4a",
+    AudioUrl = "https://assembly.ai/espn.m4a",
     LanguageCode = TranscriptLanguageCode.EnUs
 });
 ```
@@ -171,7 +171,7 @@ For example, here's how to enable [Speaker diarization](https://www.assemblyai.c
 ```csharp
 var transcript = await client.Transcripts.TranscribeAsync(new TranscriptParams
 {
-    AudioUrl = "https://storage.googleapis.com/aai-web-samples/espn-bears.m4a",
+    AudioUrl = "https://assembly.ai/espn.m4a",
     SpeakerLabels = true
 });
 
