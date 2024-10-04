@@ -49,6 +49,12 @@ public record LemurBaseParams
     [JsonPropertyName("temperature")]
     public float? Temperature { get; set; }
 
+    /// <summary>
+    /// Extra properties that you want to send to the API.
+    /// </summary>
+    [JsonExtensionData]
+    public IDictionary<string, object>? ExtensionData { get; set; }
+    
     public override string ToString()
     {
         return JsonUtils.Serialize(this);

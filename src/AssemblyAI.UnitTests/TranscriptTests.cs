@@ -47,4 +47,22 @@ public class TranscriptTests
         var ex = Assert.Throws<TranscriptNotCompletedStatusException>(() => transcript.EnsureStatusCompleted());
         Assert.That(ex.Message, Does.Contain(errorMessage));
     }
+
+
+    [Test]
+    public void ShouldSerializeExtensionData()
+    {
+        var paramsJson = JsonUtils.Deserialize<Transcript>(File.ReadAllText("./TestData/create_transcript_response_with_extension.json"));
+        Assert.That(
+            ((JsonElement)paramsJson.ExtensionData!["foo"]).GetProperty("bar").GetString(), 
+            Is.EqualTo("baz")
+        );
+    }
+
+    [Test]
+    public void ShouldDeserializeToNullExtensionData()
+    {
+        var paramsJson = JsonUtils.Deserialize<Transcript>(File.ReadAllText("./TestData/create_transcript_response_without_extension.json"));
+        Assert.That(paramsJson.ExtensionData, Is.Null);
+    }
 }

@@ -354,6 +354,12 @@ public partial record Transcript
     [JsonPropertyName("acoustic_model")]
     public required string AcousticModel { get; set; }
 
+    /// <summary>
+    /// Extra properties that may be returned by the API.
+    /// </summary>
+    [JsonExtensionData]
+    public IDictionary<string, object>? ExtensionData { get; set; }
+    
     public override string ToString()
     {
         return JsonUtils.Serialize(this);

@@ -222,6 +222,12 @@ public record TranscriptOptionalParams
     /// </summary>
     [JsonPropertyName("topics")]
     public IEnumerable<string>? Topics { get; set; }
+    
+    /// <summary>
+    /// Extra properties that you want to send to the API.
+    /// </summary>
+    [JsonExtensionData]
+    public IDictionary<string, object>? ExtensionData { get; set; }
 
     public override string ToString()
     {

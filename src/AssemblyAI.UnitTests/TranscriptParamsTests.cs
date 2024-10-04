@@ -1,4 +1,5 @@
 using System.Text.Json;
+using AssemblyAI.Core;
 using AssemblyAI.Transcripts;
 using NUnit.Framework;
 
@@ -7,7 +8,7 @@ namespace AssemblyAI.UnitTests;
 [TestFixture]
 public class TranscriptParamsTests
 {
-    private static TranscriptOptionalParams _optionalParams = new()
+    private static readonly TranscriptOptionalParams OptionalParams = new()
     {
         LanguageCode = TranscriptLanguageCode.En,
         LanguageDetection = true,
@@ -54,15 +55,15 @@ public class TranscriptParamsTests
         CustomTopics = true,
         Topics = ["topic"]
     };
-
+    
     [Test]
     public void ShouldMapOptionalToTranscriptParams()
     {
         const string audioUrl = "https://example.com/audio.mp3";
-        var transcriptParams = _optionalParams.ToTranscriptParams(audioUrl);
+        var transcriptParams = OptionalParams.ToTranscriptParams(audioUrl);
 
-        var optionalParamsJson = JsonSerializer.SerializeToElement(_optionalParams);
-        var transcriptParamsJson = JsonSerializer.SerializeToElement(transcriptParams);
+        var optionalParamsJson = JsonUtils.SerializeToElement(OptionalParams);
+        var transcriptParamsJson = JsonUtils.SerializeToElement(transcriptParams);
         foreach(var key in optionalParamsJson.EnumerateObject())
         {
             Assert.That(
@@ -75,9 +76,50 @@ public class TranscriptParamsTests
     [Test]
     public void ShouldClone()
     {
-        var clonedParams = _optionalParams.Clone();
-        var paramsJson = JsonSerializer.Serialize(_optionalParams);
-        var cloneJson = JsonSerializer.Serialize(clonedParams);
+        var clonedParams = OptionalParams.Clone();
+        var paramsJson = JsonUtils.Serialize(OptionalParams);
+        var cloneJson = JsonUtils.Serialize(clonedParams);
         Assert.That(paramsJson, Is.EqualTo(cloneJson));
+    }
+    
+    [Test]
+    public void ShouldSerializeExtensionData()
+    {
+        var paramsJson = JsonUtils.SerializeToElement(new TranscriptParams
+        {
+            AudioUrl = "https://example.com/audio.mp3",
+            ExtensionData = new Dictionary<string, object>()
+            {
+                ["foo"] = new
+                {
+                    bar = "baz"
+                }
+            }
+        });
+        Assert.That(paramsJson.GetProperty("foo").GetProperty("bar").GetString(), Is.EqualTo("baz"));
+        TestContext.WriteLine($"Params JSON with extension data: {paramsJson}");
+    }
+    
+    [Test]
+    public void ShouldNotSerializeNullExtensionData()
+    {
+        var paramsJson = JsonUtils.SerializeToElement(new TranscriptParams
+        {
+            AudioUrl = "https://example.com/audio.mp3"
+        });
+        Assert.That(paramsJson.EnumerateObject().Count(), Is.EqualTo(1), "Null data should not be serialized");
+        TestContext.WriteLine($"Params JSON without extension data: {paramsJson}");
+    }
+    
+    [Test]
+    public void ShouldNotSerializeEmptyExtensionData()
+    {
+        var paramsJson = JsonUtils.SerializeToElement(new TranscriptParams
+        {
+            AudioUrl = "https://example.com/audio.mp3",
+            ExtensionData = new Dictionary<string, object>()
+        });
+        Assert.That(paramsJson.EnumerateObject().Count(), Is.EqualTo(1), "Null data should not be serialized");
+        TestContext.WriteLine($"Params JSON without extension data: {paramsJson}");
     }
 }
