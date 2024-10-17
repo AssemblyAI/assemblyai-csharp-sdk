@@ -7,26 +7,35 @@ namespace AssemblyAI.Transcripts;
 
 public record TranscriptParagraph
 {
+    /// <summary>
+    /// The transcript of the paragraph
+    /// </summary>
     [JsonPropertyName("text")]
     public required string Text { get; set; }
 
+    /// <summary>
+    /// The starting time, in milliseconds, of the paragraph
+    /// </summary>
     [JsonPropertyName("start")]
     public required int Start { get; set; }
 
+    /// <summary>
+    /// The ending time, in milliseconds, of the paragraph
+    /// </summary>
     [JsonPropertyName("end")]
     public required int End { get; set; }
 
+    /// <summary>
+    /// The confidence score for the transcript of this paragraph
+    /// </summary>
     [JsonPropertyName("confidence")]
     public required double Confidence { get; set; }
 
+    /// <summary>
+    /// An array of words in the paragraph
+    /// </summary>
     [JsonPropertyName("words")]
     public IEnumerable<TranscriptWord> Words { get; set; } = new List<TranscriptWord>();
-
-    /// <summary>
-    /// The speaker of the sentence if [Speaker Diarization](https://www.assemblyai.com/docs/models/speaker-diarization) is enabled, else null
-    /// </summary>
-    [JsonPropertyName("speaker")]
-    public string? Speaker { get; set; }
 
     public override string ToString()
     {

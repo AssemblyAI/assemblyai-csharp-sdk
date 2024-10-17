@@ -38,6 +38,12 @@ public record SentimentAnalysisResult
     public required double Confidence { get; set; }
 
     /// <summary>
+    /// The channel of this utterance. The left and right channels are channels 1 and 2. Additional channels increment the channel number sequentially.
+    /// </summary>
+    [JsonPropertyName("channel")]
+    public string? Channel { get; set; }
+
+    /// <summary>
     /// The speaker of the sentence if [Speaker Diarization](https://www.assemblyai.com/docs/models/speaker-diarization) is enabled, else null
     /// </summary>
     [JsonPropertyName("speaker")]
