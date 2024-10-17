@@ -1,6 +1,13 @@
+// ReSharper disable CheckNamespace
 namespace AssemblyAI;
 
-public class AssemblyAIClientEnvironment
+/// <summary>
+/// Available AssemblyAI API environments
+/// </summary>
+public static class AssemblyAIClientEnvironment
 {
-    public static string Default = "https://api.assemblyai.com";
+    /// <summary>
+    /// The default base URL for the AssemblyAI API.
+    /// </summary>
+    public const string Default = "https://api.assemblyai.com";
 }

@@ -12,6 +12,7 @@ src/AssemblyAI/AssemblyAI.csproj
 src/AssemblyAI/Core/JsonConfiguration.cs
 src/AssemblyAI/Core/Public/ApiException.cs
 src/AssemblyAI/Core/Public/AssemblyAIException.cs
+src/AssemblyAI/Core/StringEnumSerializer.cs
 src/AssemblyAI/Core/CustomConstants.cs
 src/AssemblyAI/Types/Error.cs
 src/AssemblyAI/UserAgent.cs
@@ -23,6 +24,7 @@ src/AssemblyAI/Files/ExtendedFilesClient.cs
 src/AssemblyAI/Transcripts/ExtendedTranscriptsClient.cs
 src/AssemblyAI/Transcripts/Types/TranscriptExtensions.cs
 src/AssemblyAI/Transcripts/Types/TranscriptParamsMapper.cs
+src/AssemblyAI/Transcripts/Types/TranscriptParamsCloner.cs
 src/AssemblyAI/Transcripts/TranscriptNotCompletedStatusException.cs
 src/AssemblyAI/Lemur/Types/LemurResponse.cs
 src/AssemblyAI/Realtime/RealtimeTranscriber.cs
