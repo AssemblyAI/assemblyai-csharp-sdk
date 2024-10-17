@@ -23,7 +23,7 @@ public record ContentSafetyLabel
     /// How severely the topic is discussed in the section, from 0 to 1
     /// </summary>
     [JsonPropertyName("severity")]
-    public required double Severity { get; set; }
+    public required double? Severity { get; set; }
 
     public override string ToString()
     {
