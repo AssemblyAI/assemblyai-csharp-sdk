@@ -9,7 +9,7 @@ public record ListTranscriptParams
     /// <summary>
     /// Maximum amount of transcripts to retrieve
     /// </summary>
-    public long? Limit { get; set; }
+    public int? Limit { get; set; }
 
     /// <summary>
     /// Filter by transcript status

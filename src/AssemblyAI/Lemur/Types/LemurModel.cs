@@ -25,7 +25,7 @@ public enum LemurModel
     AnthropicClaude2_1,
 
     [EnumMember(Value = "anthropic/claude-2")]
-    AnthropicClaude2,
+    AnthropicClaude2_0,
 
     [EnumMember(Value = "default")]
     Default,

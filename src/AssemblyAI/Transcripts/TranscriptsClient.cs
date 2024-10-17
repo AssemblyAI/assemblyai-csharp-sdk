@@ -97,11 +97,13 @@ public partial class TranscriptsClient
     ///     new TranscriptParams
     ///     {
     ///         LanguageCode = TranscriptLanguageCode.EnUs,
-    ///         LanguageDetection = false,
+    ///         LanguageDetection = true,
+    ///         LanguageConfidenceThreshold = 0.7f,
     ///         Punctuate = true,
     ///         FormatText = true,
     ///         Disfluencies = false,
-    ///         DualChannel = true,
+    ///         Multichannel = true,
+    ///         DualChannel = false,
     ///         WebhookUrl = "https://your-webhook-url/path",
     ///         WebhookAuthHeaderName = "webhook-secret",
     ///         WebhookAuthHeaderValue = "webhook-secret-value",
@@ -141,8 +143,7 @@ public partial class TranscriptsClient
     ///         SummaryType = SummaryType.Bullets,
     ///         CustomTopics = true,
     ///         Topics = new List<string>() { "topics" },
-    ///         AudioUrl =
-    ///             "https://assembly.ai/wildfires.mp3",
+    ///         AudioUrl = "https://assembly.ai/wildfires.mp3",
     ///     }
     /// );
     /// </code>
@@ -302,7 +303,7 @@ public partial class TranscriptsClient
             {
                 BaseUrl = _client.Options.BaseUrl,
                 Method = HttpMethod.Get,
-                Path = $"v2/transcript/{transcriptId}/{subtitleFormat.Stringify()}",
+                Path = $"v2/transcript/{transcriptId}/{subtitleFormat}",
                 Query = _query,
                 Options = options,
             },

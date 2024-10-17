@@ -52,13 +52,21 @@ public record TranscriptParams
     public bool? Disfluencies { get; set; }
 
     /// <summary>
+    /// Enable [Multichannel](https://www.assemblyai.com/docs/models/speech-recognition#multichannel-transcription) transcription, can be true or false.
+    /// </summary>
+    [JsonPropertyName("multichannel")]
+    public bool? Multichannel { get; set; }
+
+    /// <summary>
     /// Enable [Dual Channel](https://www.assemblyai.com/docs/models/speech-recognition#dual-channel-transcription) transcription, can be true or false.
     /// </summary>
     [JsonPropertyName("dual_channel")]
     public bool? DualChannel { get; set; }
 
     /// <summary>
-    /// The URL to which we send webhook requests. We sends two different types of webhook requests. One request when a transcript is completed or failed, and one request when the redacted audio is ready if redact_pii_audio is enabled.
+    /// The URL to which we send webhook requests.
+    /// We sends two different types of webhook requests.
+    /// One request when a transcript is completed or failed, and one request when the redacted audio is ready if redact_pii_audio is enabled.
     /// </summary>
     [JsonPropertyName("webhook_url")]
     public string? WebhookUrl { get; set; }
