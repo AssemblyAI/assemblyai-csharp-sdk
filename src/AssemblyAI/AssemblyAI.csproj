@@ -9,10 +9,10 @@
         <RootNamespace>AssemblyAI</RootNamespace>
         <AssemblyName>AssemblyAI</AssemblyName>
         <PackageId>AssemblyAI</PackageId>
-        <Version>1.1.4</Version>
-        <AssemblyVersion>1.1.4.0</AssemblyVersion>
-        <FileVersion>1.1.4.0</FileVersion>
-        <PackageVersion>1.1.4</PackageVersion>
+        <Version>1.2.0</Version>
+        <AssemblyVersion>1.2.0.0</AssemblyVersion>
+        <FileVersion>1.2.0.0</FileVersion>
+        <PackageVersion>1.2.0</PackageVersion>
         <Title>AssemblyAI C# .NET SDK</Title>
         <Authors>AssemblyAI</Authors>
         <Description>The AssemblyAI C# .NET SDK provides an easy-to-use interface for interacting with the AssemblyAI API, which supports async and real-time transcription, audio intelligence models, as well as the latest LeMUR models.</Description>

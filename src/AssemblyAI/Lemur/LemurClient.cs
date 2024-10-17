@@ -28,7 +28,7 @@ public partial class LemurClient
     ///     {
     ///         TranscriptIds = new List<string>() { "64nygnr62k-405c-4ae8-8a6b-d90b40ff3cce" },
     ///         Context = "This is an interview about wildfires.",
-    ///         FinalModel = LemurModel.Default,
+    ///         FinalModel = LemurModel.AnthropicClaude35Sonnet,
     ///         MaxOutputSize = 3000,
     ///         Temperature = 0f,
     ///         Prompt = "List all the locations affected by wildfires.",
@@ -84,7 +84,7 @@ public partial class LemurClient
     ///     {
     ///         TranscriptIds = new List<string>() { "47b95ba5-8889-44d8-bc80-5de38306e582" },
     ///         Context = "This is an interview about wildfires.",
-    ///         FinalModel = LemurModel.Default,
+    ///         FinalModel = LemurModel.AnthropicClaude35Sonnet,
     ///         MaxOutputSize = 3000,
     ///         Temperature = 0f,
     ///     }
@@ -139,7 +139,7 @@ public partial class LemurClient
     ///     {
     ///         TranscriptIds = new List<string>() { "64nygnr62k-405c-4ae8-8a6b-d90b40ff3cce" },
     ///         Context = "This is an interview about wildfires.",
-    ///         FinalModel = LemurModel.Default,
+    ///         FinalModel = LemurModel.AnthropicClaude35Sonnet,
     ///         MaxOutputSize = 3000,
     ///         Temperature = 0f,
     ///         Questions = new List<LemurQuestion>()
@@ -207,7 +207,7 @@ public partial class LemurClient
     ///     {
     ///         TranscriptIds = new List<string>() { "64nygnr62k-405c-4ae8-8a6b-d90b40ff3cce" },
     ///         Context = "This is an interview about wildfires.",
-    ///         FinalModel = LemurModel.Default,
+    ///         FinalModel = LemurModel.AnthropicClaude35Sonnet,
     ///         MaxOutputSize = 3000,
     ///         Temperature = 0f,
     ///         AnswerFormat = "Bullet Points",

@@ -38,6 +38,12 @@ public record TranscriptUtterance
     public IEnumerable<TranscriptWord> Words { get; set; } = new List<TranscriptWord>();
 
     /// <summary>
+    /// The channel of this utterance. The left and right channels are channels 1 and 2. Additional channels increment the channel number sequentially.
+    /// </summary>
+    [JsonPropertyName("channel")]
+    public string? Channel { get; set; }
+
+    /// <summary>
     /// The speaker of this utterance, where each speaker is assigned a sequential capital letter - e.g. "A" for Speaker A, "B" for Speaker B, etc.
     /// </summary>
     [JsonPropertyName("speaker")]

@@ -13,6 +13,9 @@ public record TopicDetectionResult
     [JsonPropertyName("text")]
     public required string Text { get; set; }
 
+    /// <summary>
+    /// An array of detected topics in the text
+    /// </summary>
     [JsonPropertyName("labels")]
     public IEnumerable<TopicDetectionResultLabelsItem>? Labels { get; set; }
 

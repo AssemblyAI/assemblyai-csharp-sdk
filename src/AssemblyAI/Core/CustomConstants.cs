@@ -6,5 +6,5 @@ internal static class CustomConstants
     /// This is used for the AssemblyAI User-Agent.
     /// If you update this, make sure to also update the version numbers in AssemblyAI.csproj
     /// </summary>
-    internal const string Version = "1.1.4";
+    internal const string Version = "1.2.0";
 }
