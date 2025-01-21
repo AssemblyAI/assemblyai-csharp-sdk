@@ -63,7 +63,7 @@ public class LemurTests
         var client = Helpers.CreateClient();
         var response = await client.Lemur.ActionItemsAsync(new LemurActionItemsParams
         {
-            FinalModel = LemurModel.AnthropicClaude3_Haiku,
+            FinalModel = LemurModel.AnthropicClaude2_1,
             TranscriptIds = TranscriptIds
         }).ConfigureAwait(false);
 
