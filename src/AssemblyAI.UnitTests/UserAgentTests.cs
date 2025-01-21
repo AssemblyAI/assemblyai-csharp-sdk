@@ -15,8 +15,8 @@ public class UserAgentTests
         Assert.That(userAgentString, Does.StartWith("AssemblyAI/1.0 ("));
         Assert.That(userAgentString, Does.EndWith(")"));
         Assert.That(userAgentString, Does.Contain("sdk=CSharp/"));
-#if NET6_0
-        Assert.That(userAgentString, Does.Contain("runtime_env=.NET/6."));
+#if NET8_0
+        Assert.That(userAgentString, Does.Contain("runtime_env=.NET/8."));
 #elif NET462
         Assert.That(userAgentString, Does.Contain("runtime_env=.NET Framework/4."));
 #else
