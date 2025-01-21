@@ -13,7 +13,7 @@ public class LemurTests
         var client = Helpers.CreateClient();
         var response = await client.Lemur.SummaryAsync(new LemurSummaryParams
         {
-            FinalModel = LemurModel.Basic,
+            FinalModel = LemurModel.AnthropicClaude3_Haiku,
             TranscriptIds = TranscriptIds,
             AnswerFormat = "one sentence"
         }).ConfigureAwait(false);
@@ -32,7 +32,7 @@ public class LemurTests
         var client = Helpers.CreateClient();
         var response = await client.Lemur.QuestionAnswerAsync(new LemurQuestionAnswerParams
         {
-            FinalModel = LemurModel.Basic,
+            FinalModel = LemurModel.AnthropicClaude3_Haiku,
             TranscriptIds = TranscriptIds,
             Questions = new[]
             {
@@ -63,7 +63,7 @@ public class LemurTests
         var client = Helpers.CreateClient();
         var response = await client.Lemur.ActionItemsAsync(new LemurActionItemsParams
         {
-            FinalModel = LemurModel.Basic,
+            FinalModel = LemurModel.AnthropicClaude3_Haiku,
             TranscriptIds = TranscriptIds
         }).ConfigureAwait(false);
 
@@ -81,7 +81,7 @@ public class LemurTests
         var client = Helpers.CreateClient();
         var response = await client.Lemur.TaskAsync(new LemurTaskParams
         {
-            FinalModel = LemurModel.Basic,
+            FinalModel = LemurModel.AnthropicClaude3_Haiku,
             TranscriptIds = TranscriptIds,
             Prompt = "Write a haiku about this conversation."
         }).ConfigureAwait(false);
@@ -101,7 +101,7 @@ public class LemurTests
         var client = Helpers.CreateClient();
         var ex = Assert.ThrowsAsync<ApiException>(async () => await client.Lemur.SummaryAsync(new LemurSummaryParams
         {
-            FinalModel = LemurModel.Basic,
+            FinalModel = LemurModel.AnthropicClaude3_Haiku,
             TranscriptIds = ["bad-id"],
             AnswerFormat = "one sentence"
         }).ConfigureAwait(false));
@@ -115,7 +115,7 @@ public class LemurTests
         var client = Helpers.CreateClient();
         var taskResponse = await client.Lemur.TaskAsync(new LemurTaskParams
         {
-            FinalModel = LemurModel.Basic,
+            FinalModel = LemurModel.AnthropicClaude3_Haiku,
             TranscriptIds = TranscriptIds,
             Prompt = "Write a haiku about this conversation."
         }).ConfigureAwait(false);
@@ -132,7 +132,7 @@ public class LemurTests
 
         var qaResponse = await client.Lemur.QuestionAnswerAsync(new LemurQuestionAnswerParams
         {
-            FinalModel = LemurModel.Basic,
+            FinalModel = LemurModel.AnthropicClaude3_Haiku,
             TranscriptIds = TranscriptIds,
             Questions =
             [
@@ -145,7 +145,7 @@ public class LemurTests
         }).ConfigureAwait(false);
 
         await Task.Delay(TimeSpan.FromSeconds(2)).ConfigureAwait(false);
-        
+
         var qaResponse2OneOf = await client.Lemur.GetResponseAsync(qaResponse.RequestId).ConfigureAwait(false);
         var qaResponse2 = qaResponse2OneOf.AsT1;
         Assert.Multiple(() =>
@@ -161,13 +161,13 @@ public class LemurTests
         var client = Helpers.CreateClient();
         var summaryResponse = await client.Lemur.SummaryAsync(new LemurSummaryParams
         {
-            FinalModel = LemurModel.Basic,
+            FinalModel = LemurModel.AnthropicClaude3_Haiku,
             TranscriptIds = TranscriptIds,
             AnswerFormat = "one sentence"
         }).ConfigureAwait(false);
 
         await Task.Delay(TimeSpan.FromSeconds(2)).ConfigureAwait(false);
-        
+
         var deletionRequest = await client.Lemur.PurgeRequestDataAsync(summaryResponse.RequestId).ConfigureAwait(false);
         Assert.Multiple(() =>
         {
