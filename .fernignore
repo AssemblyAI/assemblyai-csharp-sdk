@@ -51,3 +51,5 @@ Samples
 
 # TODO: remove these ignores when AssemblyAI fixes the API
 src/AssemblyAI/Transcripts/Types/ContentSafetyLabel.cs
+src/AssemblyAI/Transcripts/Types/ContentSafetyLabelsResult.cs
+src/AssemblyAI/Transcripts/Types/TopicDetectionModelResult.cs

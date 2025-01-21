@@ -11,7 +11,7 @@ public record TopicDetectionModelResult
     /// The status of the Topic Detection model. Either success, or unavailable in the rare case that the model failed.
     /// </summary>
     [JsonPropertyName("status")]
-    public required AudioIntelligenceModelStatus Status { get; set; }
+    public AudioIntelligenceModelStatus Status { get; set; }
 
     /// <summary>
     /// An array of results for the Topic Detection model
