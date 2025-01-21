@@ -303,8 +303,8 @@ public partial class TranscriptsClient
             new RawClient.JsonApiRequest
             {
                 BaseUrl = _client.Options.BaseUrl,
-                Method = HttpMethod.Get,
-                Path = $"v2/transcript/{transcriptId}/{subtitleFormat}",
+                Method = HttpMethod.Get,                
+                Path = $"v2/transcript/{transcriptId}/{subtitleFormat.Stringify()}",
                 Query = _query,
                 Options = options,
             },
