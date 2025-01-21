@@ -6,7 +6,7 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI.Transcripts;
 
-[JsonConverter(typeof(StringEnumSerializer<PiiPolicy>))]
+[JsonConverter(typeof(EnumSerializer<PiiPolicy>))]
 public enum PiiPolicy
 {
     [EnumMember(Value = "account_number")]

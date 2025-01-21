@@ -10,7 +10,6 @@ public record LemurSummaryParams
 {
     /// <summary>
     /// How you want the summary to be returned. This can be any text. Examples: "TLDR", "bullet points"
-    ///
     /// </summary>
     [JsonPropertyName("answer_format")]
     public string? AnswerFormat { get; set; }
@@ -33,7 +32,6 @@ public record LemurSummaryParams
     /// Context to provide the model. This can be a string or a free-form JSON value.
     /// </summary>
     [JsonPropertyName("context")]
-    [JsonConverter(typeof(OneOfSerializer<OneOf<string, object>>))]
     public OneOf<string, object>? Context { get; set; }
 
     /// <summary>

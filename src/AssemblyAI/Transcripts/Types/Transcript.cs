@@ -5,7 +5,7 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI.Transcripts;
 
-public partial record Transcript
+public record Transcript
 {
     /// <summary>
     /// The unique identifier of your transcript

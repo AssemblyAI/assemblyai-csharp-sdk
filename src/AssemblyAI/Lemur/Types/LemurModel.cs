@@ -6,7 +6,7 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI.Lemur;
 
-[JsonConverter(typeof(StringEnumSerializer<LemurModel>))]
+[JsonConverter(typeof(EnumSerializer<LemurModel>))]
 public enum LemurModel
 {
     [EnumMember(Value = "anthropic/claude-3-5-sonnet")]
@@ -26,10 +26,6 @@ public enum LemurModel
 
     [EnumMember(Value = "anthropic/claude-2")]
     AnthropicClaude2_0,
-
-    [EnumMember(Value = "anthropic/claude-2")]
-    [Obsolete("Use AnthropicClaude2_0")]
-    AnthropicClaude2,
 
     [EnumMember(Value = "default")]
     Default,

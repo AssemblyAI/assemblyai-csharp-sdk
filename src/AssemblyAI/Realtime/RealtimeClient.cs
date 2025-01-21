@@ -40,6 +40,7 @@ public partial class RealtimeClient
                 Method = HttpMethod.Post,
                 Path = "v2/realtime/token",
                 Body = request,
+                ContentType = "application/json",
                 Options = options,
             },
             cancellationToken

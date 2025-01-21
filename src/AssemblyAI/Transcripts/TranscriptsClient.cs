@@ -110,13 +110,13 @@ public partial class TranscriptsClient
     ///         AutoHighlights = true,
     ///         AudioStartFrom = 10,
     ///         AudioEndAt = 280,
-    ///         WordBoost = new List<string>() { "aws", "azure", "google cloud" },
+    ///         WordBoost = new List&lt;string&gt;() { "aws", "azure", "google cloud" },
     ///         BoostParam = TranscriptBoostParam.High,
     ///         FilterProfanity = true,
     ///         RedactPii = true,
     ///         RedactPiiAudio = true,
     ///         RedactPiiAudioQuality = RedactPiiAudioQuality.Mp3,
-    ///         RedactPiiPolicies = new List<PiiPolicy>()
+    ///         RedactPiiPolicies = new List&lt;PiiPolicy&gt;()
     ///         {
     ///             PiiPolicy.UsSocialSecurityNumber,
     ///             PiiPolicy.CreditCardNumber,
@@ -126,11 +126,11 @@ public partial class TranscriptsClient
     ///         SpeakersExpected = 2,
     ///         ContentSafety = true,
     ///         IabCategories = true,
-    ///         CustomSpelling = new List<TranscriptCustomSpelling>()
+    ///         CustomSpelling = new List&lt;TranscriptCustomSpelling&gt;()
     ///         {
     ///             new TranscriptCustomSpelling
     ///             {
-    ///                 From = new List<string>() { "dicarlo" },
+    ///                 From = new List&lt;string&gt;() { "dicarlo" },
     ///                 To = "Decarlo",
     ///             },
     ///         },
@@ -142,7 +142,7 @@ public partial class TranscriptsClient
     ///         SummaryModel = SummaryModel.Informative,
     ///         SummaryType = SummaryType.Bullets,
     ///         CustomTopics = true,
-    ///         Topics = new List<string>() { "topics" },
+    ///         Topics = new List&lt;string&gt;() { "topics" },
     ///         AudioUrl = "https://assembly.ai/wildfires.mp3",
     ///     }
     /// );
@@ -161,6 +161,7 @@ public partial class TranscriptsClient
                 Method = HttpMethod.Post,
                 Path = "v2/transcript",
                 Body = request,
+                ContentType = "application/json",
                 Options = options,
             },
             cancellationToken
@@ -303,7 +304,7 @@ public partial class TranscriptsClient
             {
                 BaseUrl = _client.Options.BaseUrl,
                 Method = HttpMethod.Get,
-                Path = $"v2/transcript/{transcriptId}/{subtitleFormat.Stringify()}",
+                Path = $"v2/transcript/{transcriptId}/{subtitleFormat}",
                 Query = _query,
                 Options = options,
             },

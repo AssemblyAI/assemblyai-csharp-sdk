@@ -32,7 +32,6 @@ public record LemurQuestionAnswerParams
     /// Context to provide the model. This can be a string or a free-form JSON value.
     /// </summary>
     [JsonPropertyName("context")]
-    [JsonConverter(typeof(OneOfSerializer<OneOf<string, object>>))]
     public OneOf<string, object>? Context { get; set; }
 
     /// <summary>

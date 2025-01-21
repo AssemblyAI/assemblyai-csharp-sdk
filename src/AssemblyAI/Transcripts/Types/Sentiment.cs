@@ -6,7 +6,7 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI.Transcripts;
 
-[JsonConverter(typeof(StringEnumSerializer<Sentiment>))]
+[JsonConverter(typeof(EnumSerializer<Sentiment>))]
 public enum Sentiment
 {
     [EnumMember(Value = "POSITIVE")]

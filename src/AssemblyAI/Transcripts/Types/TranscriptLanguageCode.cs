@@ -6,7 +6,7 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI.Transcripts;
 
-[JsonConverter(typeof(StringEnumSerializer<TranscriptLanguageCode>))]
+[JsonConverter(typeof(EnumSerializer<TranscriptLanguageCode>))]
 public enum TranscriptLanguageCode
 {
     [EnumMember(Value = "en")]
