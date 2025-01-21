@@ -1,6 +1,5 @@
 using System.Text.Json.Serialization;
 using AssemblyAI.Core;
-using AssemblyAI.Transcripts;
 
 #nullable enable
 
@@ -12,7 +11,7 @@ public record ContentSafetyLabelsResult
     /// The status of the Content Moderation model. Either success, or unavailable in the rare case that the model failed.
     /// </summary>
     [JsonPropertyName("status")]
-    public AudioIntelligenceModelStatus Status { get; set; }
+    public required AudioIntelligenceModelStatus Status { get; set; }
 
     /// <summary>
     /// An array of results for the Content Moderation model

@@ -1,5 +1,4 @@
 using System.Text.Json.Serialization;
-using AssemblyAI.Transcripts;
 using AssemblyAI.Core;
 
 #nullable enable
@@ -12,7 +11,7 @@ public record TopicDetectionModelResult
     /// The status of the Topic Detection model. Either success, or unavailable in the rare case that the model failed.
     /// </summary>
     [JsonPropertyName("status")]
-    public AudioIntelligenceModelStatus Status { get; set; }
+    public required AudioIntelligenceModelStatus Status { get; set; }
 
     /// <summary>
     /// An array of results for the Topic Detection model
