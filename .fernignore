@@ -29,8 +29,6 @@ src/AssemblyAI/Transcripts/TranscriptNotCompletedStatusException.cs
 src/AssemblyAI/Transcripts/Types/TranscriptExtensions.cs
 src/AssemblyAI/Transcripts/Types/TranscriptParamsMapper.cs
 src/AssemblyAI/Transcripts/Types/TranscriptParamsCloner.cs
-src/AssemblyAI/Transcripts/Types/ContentSafetyLabelsResult.cs
-src/AssemblyAI/Transcripts/Types/TopicDetectionModelResult.cs
 src/AssemblyAI/Lemur/ExtendedLemurClient.cs
 src/AssemblyAI/Lemur/Types/LemurResponse.cs
 src/AssemblyAI/Lemur/Types/LemurModel.cs
@@ -50,3 +48,6 @@ src/AssemblyAI.IntegrationTests
 docfx
 
 Samples
+
+# TODO: remove these ignores when AssemblyAI fixes the API
+src/AssemblyAI/Transcripts/Types/ContentSafetyLabel.cs
