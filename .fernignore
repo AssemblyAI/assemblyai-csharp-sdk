@@ -10,6 +10,10 @@ icon.png
 src/AssemblyAI.sln
 src/AssemblyAI/AssemblyAI.csproj
 src/AssemblyAI/Core/JsonConfiguration.cs
+src/AssemblyAI/Core/Public/ExtendedRequestOptions.cs
+src/AssemblyAI/Core/Public/ExtendedClientOptions.cs
+src/AssemblyAI/Core/Public/AssemblyAIClientEnvironment.cs
+src/AssemblyAI/Core/Public/ClientOptions.cs
 src/AssemblyAI/Core/Public/ApiException.cs
 src/AssemblyAI/Core/Public/AssemblyAIException.cs
 src/AssemblyAI/Core/StringEnumSerializer.cs
@@ -27,6 +31,8 @@ src/AssemblyAI/Transcripts/Types/TranscriptParamsMapper.cs
 src/AssemblyAI/Transcripts/Types/TranscriptParamsCloner.cs
 src/AssemblyAI/Transcripts/TranscriptNotCompletedStatusException.cs
 src/AssemblyAI/Lemur/Types/LemurResponse.cs
+src/AssemblyAI/Lemur/Types/LemurModel.cs
+src/AssemblyAI/Lemur/ExtendedLemurClient.cs
 src/AssemblyAI/Realtime/RealtimeTranscriber.cs
 src/AssemblyAI/Realtime/WebsocketClient
 src/AssemblyAI/Realtime/Types/RealtimeTranscript.cs

@@ -4,11 +4,11 @@ namespace AssemblyAI.Core;
 
 internal static class Extensions
 {
-    public static string Stringify(this Enum value)
+    internal static string Stringify(this Enum value)
     {
         var field = value.GetType().GetField(value.ToString());
         var attribute = (EnumMemberAttribute)
-            Attribute.GetCustomAttribute(field, typeof(EnumMemberAttribute));
+            Attribute.GetCustomAttribute(field!, typeof(EnumMemberAttribute))!;
         return attribute?.Value ?? value.ToString();
     }
 }
