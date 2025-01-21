@@ -40,7 +40,7 @@ public class UserAgent
     {
         _userAgent = Merge(a._userAgent, b._userAgent) as Dictionary<string, UserAgentItem?>;
     }
-    
+
     /// <summary>
     /// Get or set a user agent item by key.
     /// </summary>
@@ -71,7 +71,7 @@ public class UserAgent
     private static UserAgent CreateDefaultUserAgent()
     {
         var defaultUserAgent = new Dictionary<string, UserAgentItem?>();
-        defaultUserAgent["sdk"] = new UserAgentItem("CSharp", CustomConstants.Version);
+        defaultUserAgent["sdk"] = new UserAgentItem("CSharp", Version.Current);
 #if NET462_OR_GREATER
             defaultUserAgent["runtime_env"] = new UserAgentItem(".NET Framework", $"{Environment.Version}");
 #else
@@ -82,7 +82,7 @@ public class UserAgent
 
         return new UserAgent(defaultUserAgent);
     }
-    
+
 #if NET462_OR_GREATER
 #else
     /// <summary>
