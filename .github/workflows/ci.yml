@@ -4,16 +4,16 @@ on: [push]
 
 jobs:
   compile:
-    name: Compile
     runs-on: ubuntu-latest
-    env:
-      DOTNET_NOLOGO: true
+
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
+
+      - uses: actions/checkout@master
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 8.x
 
@@ -24,29 +24,19 @@ jobs:
       - name: Build Release
         run: dotnet build src -c Release /p:ContinuousIntegrationBuild=true
 
-  tests:
-    strategy:
-      fail-fast: false
-      matrix:
-        framework: [net462, net6.0]
-        os: [ubuntu-latest, windows-latest]
-        exclude:
-          - os: ubuntu-latest
-            framework: net462
-    name: Run Tests on ${{ matrix.os }} with ${{ matrix.framework }}
+  unit-tests:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - uses: actions/checkout@master
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: |
-            8.x
-            6.x
+          dotnet-version: 8.x
 
       - name: Install tools
         run: |
@@ -54,24 +44,20 @@ jobs:
 
       - name: Run Tests
         run: |
-          dotnet test src --framework ${{ matrix.framework }}
-        env:
-          ASSEMBLYAI_API_KEY: ${{ secrets.ASSEMBLYAI_API_KEY }}
-          TEST_TRANSCRIPT_ID: ${{ secrets.TEST_TRANSCRIPT_ID }}
-          TEST_TRANSCRIPT_IDS: ${{ secrets.TEST_TRANSCRIPT_IDS }}
+          dotnet test src
+
 
   publish:
-    name: Publish to NuGet
     needs: [compile]
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 8.x
 

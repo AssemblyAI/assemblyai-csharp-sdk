@@ -1,5 +1,5 @@
 using System.Text.Json.Serialization;
-using AssemblyAI.Transcripts;
+using AssemblyAI.Core;
 
 #nullable enable
 
@@ -11,8 +11,11 @@ public record ContentSafetyLabelsResult
     /// The status of the Content Moderation model. Either success, or unavailable in the rare case that the model failed.
     /// </summary>
     [JsonPropertyName("status")]
-    public AudioIntelligenceModelStatus Status { get; set; }
+    public required AudioIntelligenceModelStatus Status { get; set; }
 
+    /// <summary>
+    /// An array of results for the Content Moderation model
+    /// </summary>
     [JsonPropertyName("results")]
     public IEnumerable<ContentSafetyLabelResult> Results { get; set; } =
         new List<ContentSafetyLabelResult>();
@@ -29,4 +32,9 @@ public record ContentSafetyLabelsResult
     [JsonPropertyName("severity_score_summary")]
     public Dictionary<string, SeverityScoreSummary> SeverityScoreSummary { get; set; } =
         new Dictionary<string, SeverityScoreSummary>();
+
+    public override string ToString()
+    {
+        return JsonUtils.Serialize(this);
+    }
 }
