@@ -27,6 +27,10 @@ public enum LemurModel
     [EnumMember(Value = "anthropic/claude-2")]
     AnthropicClaude2_0,
 
+    [EnumMember(Value = "anthropic/claude-2")]
+    [Obsolete("Use AnthropicClaude2_0")]
+    AnthropicClaude2,
+
     [EnumMember(Value = "default")]
     Default,
 

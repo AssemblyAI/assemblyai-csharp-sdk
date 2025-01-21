@@ -4,17 +4,57 @@ Configure additional MSBuild properties for your project in this file:
 - Step 2: Modify this file to your liking.
 -->
 <Project>
-  <!--
     <PropertyGroup>
-        <Title>Contoso SDK</Title>
-        <Authors>Contoso</Authors>
-        <Company>Contoso</Company>
-        <AssemblyName>Contoso.Sdk</AssemblyName>
-        <AssemblyTitle>Contoso SDK</AssemblyTitle>
+        <TargetFrameworks>net462;net8.0;net7.0;net6.0;netstandard2.0</TargetFrameworks>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <LangVersion>12</LangVersion>
+        <Nullable>enable</Nullable>
+        <RootNamespace>AssemblyAI</RootNamespace>
+        <AssemblyName>AssemblyAI</AssemblyName>
+        <PackageId>AssemblyAI</PackageId>
+        <PackageVersion>$(Version)</PackageVersion>
+        <Title>AssemblyAI C# .NET SDK</Title>
+        <Authors>AssemblyAI</Authors>
+        <Description>The AssemblyAI C# .NET SDK provides an easy-to-use interface for interacting with the AssemblyAI API, which supports async and real-time transcription, audio intelligence models, as well as the latest LeMUR models.</Description>
+        <Copyright>Copyright 2024 (c) AssemblyAI, Inc. All rights reserved.</Copyright>
+        <PackageTags>ASR;Speech-To-Text;STT;Speech;AI;AssemblyAI</PackageTags>
+        <Company>AssemblyAI</Company>
+        <Product>AssemblyAI</Product>
+        <OutputType>Library</OutputType>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/AssemblyAI/assemblyai-csharp-sdk.git</RepositoryUrl>
+        <PackageIconUrl>https://www.assemblyai.com/favicon.png</PackageIconUrl>
         <PackageIcon>icon.png</PackageIcon>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <RepositoryType>git</RepositoryType>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(CI)' == 'true'">
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     </PropertyGroup>
     <ItemGroup>
-        <None Include="..\..\icon.png" Pack="true" PackagePath="" />
+        <None Include="..\..\icon.png" Pack="true" PackagePath="\" />
+        <None Remove="..\..\README.md" Pack="true" PackagePath="\" />
+        <None Include="..\..\README.md" Pack="true" PackagePath="\" />
     </ItemGroup>
-    -->
+    <ItemGroup>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+        <PackageReference Include="Riok.Mapperly" Version="3.6.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.2" />
+        <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="3.0.1" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0' Or '$(TargetFramework)' == 'net7.0' Or '$(TargetFramework)' == 'net6.0' Or '$(TargetFramework)' == 'netstandard2.0'">
+        <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+        <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
+    </ItemGroup>
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+            <_Parameter1>AssemblyAI.UnitTests</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
 </Project>

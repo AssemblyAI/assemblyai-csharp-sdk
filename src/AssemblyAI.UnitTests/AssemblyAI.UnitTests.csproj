@@ -26,7 +26,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\AssemblyAI\AssemblyAI.csproj" />
+        <ProjectReference Include="..\AssemblyAI\AssemblyAI.csproj" />
+        <Compile Include="..\AssemblyAI.Test\**\*.cs" Exclude="**\obj\**;**\bin\**">
+            <Link>FernGenerated\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        </Compile>
     </ItemGroup>
 
 
@@ -35,5 +38,10 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <Folder Include="FernGenerated\" />
     </ItemGroup>
 </Project>

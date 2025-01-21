@@ -29,8 +29,15 @@ internal class EnumSerializer<TEnum> : JsonConverter<TEnum>
                 ?? value.ToString()
                 ?? throw new Exception("Unexpected null enum toString value");
 
-            _enumToString.Add(enumValue, stringValue);
-            _stringToEnum.Add(stringValue, enumValue);
+            if(!_enumToString.ContainsKey(enumValue))
+            {
+                _enumToString.Add(enumValue, stringValue);
+            }
+
+            if (!_stringToEnum.ContainsKey(stringValue))
+            {
+                _stringToEnum.Add(stringValue, enumValue);
+            }
         }
     }
 

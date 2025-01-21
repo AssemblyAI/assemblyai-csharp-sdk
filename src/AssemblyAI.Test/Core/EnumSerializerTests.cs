@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace AssemblyAI.Test.Core
 {
     [TestFixture]
-    public class StringEnumSerializerTests
+    public class EnumSerializerTests
     {
         private static readonly JsonSerializerOptions JsonOptions = new() { WriteIndented = true };
 

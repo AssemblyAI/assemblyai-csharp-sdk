@@ -152,6 +152,14 @@ public class UserAgent
 
         return newUserAgent as Dictionary<string, UserAgentItem>;
     }
+    
+    /// <summary>
+    /// Clones this and returns a new instance
+    /// </summary>
+    internal UserAgent Clone()
+    {
+        return new UserAgent(_userAgent.ToDictionary(kv => kv.Key, kv => kv.Value?.Clone()));
+    }
 }
 
 /// <summary>
@@ -163,4 +171,12 @@ public class UserAgentItem(string name, string version)
 {
     public string Name { get; set; } = name;
     public string Version { get; set; } = version;
+    
+    /// <summary>
+    /// Clones this and returns a new instance
+    /// </summary>
+    internal UserAgentItem Clone()
+    {
+        return new UserAgentItem(Name, Version);
+    }
 }
