@@ -6,7 +6,7 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI.Transcripts;
 
-[JsonConverter(typeof(StringEnumSerializer<SubstitutionPolicy>))]
+[JsonConverter(typeof(EnumSerializer<SubstitutionPolicy>))]
 public enum SubstitutionPolicy
 {
     [EnumMember(Value = "entity_name")]

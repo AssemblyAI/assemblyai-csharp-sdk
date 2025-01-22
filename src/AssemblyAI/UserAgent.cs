@@ -40,7 +40,7 @@ public class UserAgent
     {
         _userAgent = Merge(a._userAgent, b._userAgent) as Dictionary<string, UserAgentItem?>;
     }
-    
+
     /// <summary>
     /// Get or set a user agent item by key.
     /// </summary>
@@ -71,7 +71,7 @@ public class UserAgent
     private static UserAgent CreateDefaultUserAgent()
     {
         var defaultUserAgent = new Dictionary<string, UserAgentItem?>();
-        defaultUserAgent["sdk"] = new UserAgentItem("CSharp", CustomConstants.Version);
+        defaultUserAgent["sdk"] = new UserAgentItem("CSharp", Version.Current);
 #if NET462_OR_GREATER
             defaultUserAgent["runtime_env"] = new UserAgentItem(".NET Framework", $"{Environment.Version}");
 #else
@@ -82,7 +82,7 @@ public class UserAgent
 
         return new UserAgent(defaultUserAgent);
     }
-    
+
 #if NET462_OR_GREATER
 #else
     /// <summary>
@@ -152,6 +152,14 @@ public class UserAgent
 
         return newUserAgent as Dictionary<string, UserAgentItem>;
     }
+    
+    /// <summary>
+    /// Clones this and returns a new instance
+    /// </summary>
+    internal UserAgent Clone()
+    {
+        return new UserAgent(_userAgent.ToDictionary(kv => kv.Key, kv => kv.Value?.Clone()));
+    }
 }
 
 /// <summary>
@@ -163,4 +171,12 @@ public class UserAgentItem(string name, string version)
 {
     public string Name { get; set; } = name;
     public string Version { get; set; } = version;
+    
+    /// <summary>
+    /// Clones this and returns a new instance
+    /// </summary>
+    internal UserAgentItem Clone()
+    {
+        return new UserAgentItem(Name, Version);
+    }
 }

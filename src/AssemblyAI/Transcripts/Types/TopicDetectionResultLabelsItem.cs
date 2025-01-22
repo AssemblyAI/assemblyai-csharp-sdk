@@ -14,7 +14,7 @@ public record TopicDetectionResultLabelsItem
     public required double Relevance { get; set; }
 
     /// <summary>
-    /// The IAB taxonomical label for the label of the detected topic, where > denotes supertopic/subtopic relationship
+    /// The IAB taxonomical label for the label of the detected topic, where &gt; denotes supertopic/subtopic relationship
     /// </summary>
     [JsonPropertyName("label")]
     public required string Label { get; set; }

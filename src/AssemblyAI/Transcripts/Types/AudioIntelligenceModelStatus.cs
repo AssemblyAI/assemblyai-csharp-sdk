@@ -6,7 +6,7 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI.Transcripts;
 
-[JsonConverter(typeof(StringEnumSerializer<AudioIntelligenceModelStatus>))]
+[JsonConverter(typeof(EnumSerializer<AudioIntelligenceModelStatus>))]
 public enum AudioIntelligenceModelStatus
 {
     [EnumMember(Value = "success")]

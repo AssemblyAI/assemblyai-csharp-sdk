@@ -11,7 +11,6 @@ public record LemurActionItemsParams
     /// <summary>
     /// How you want the action items to be returned. This can be any text.
     /// Defaults to "Bullet Points".
-    ///
     /// </summary>
     [JsonPropertyName("answer_format")]
     public string? AnswerFormat { get; set; }
@@ -34,7 +33,6 @@ public record LemurActionItemsParams
     /// Context to provide the model. This can be a string or a free-form JSON value.
     /// </summary>
     [JsonPropertyName("context")]
-    [JsonConverter(typeof(OneOfSerializer<OneOf<string, object>>))]
     public OneOf<string, object>? Context { get; set; }
 
     /// <summary>

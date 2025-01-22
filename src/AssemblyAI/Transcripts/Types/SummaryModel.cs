@@ -6,7 +6,7 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI.Transcripts;
 
-[JsonConverter(typeof(StringEnumSerializer<SummaryModel>))]
+[JsonConverter(typeof(EnumSerializer<SummaryModel>))]
 public enum SummaryModel
 {
     [EnumMember(Value = "informative")]

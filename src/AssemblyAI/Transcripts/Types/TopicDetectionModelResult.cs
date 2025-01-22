@@ -1,5 +1,5 @@
 using System.Text.Json.Serialization;
-using AssemblyAI.Transcripts;
+using AssemblyAI.Core;
 
 #nullable enable
 
@@ -25,4 +25,9 @@ public record TopicDetectionModelResult
     /// </summary>
     [JsonPropertyName("summary")]
     public Dictionary<string, double> Summary { get; set; } = new Dictionary<string, double>();
+
+    public override string ToString()
+    {
+        return JsonUtils.Serialize(this);
+    }
 }

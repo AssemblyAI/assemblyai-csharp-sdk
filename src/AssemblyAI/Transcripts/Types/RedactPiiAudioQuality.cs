@@ -6,7 +6,7 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI.Transcripts;
 
-[JsonConverter(typeof(StringEnumSerializer<RedactPiiAudioQuality>))]
+[JsonConverter(typeof(EnumSerializer<RedactPiiAudioQuality>))]
 public enum RedactPiiAudioQuality
 {
     [EnumMember(Value = "mp3")]

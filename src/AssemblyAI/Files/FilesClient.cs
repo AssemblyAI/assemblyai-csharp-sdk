@@ -33,6 +33,7 @@ public partial class FilesClient
                 Method = HttpMethod.Post,
                 Path = "v2/upload",
                 Body = request,
+                ContentType = "application/octet-stream",
                 Options = options,
             },
             cancellationToken

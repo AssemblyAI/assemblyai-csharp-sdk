@@ -6,7 +6,7 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI.Transcripts;
 
-[JsonConverter(typeof(StringEnumSerializer<TranscriptBoostParam>))]
+[JsonConverter(typeof(EnumSerializer<TranscriptBoostParam>))]
 public enum TranscriptBoostParam
 {
     [EnumMember(Value = "low")]

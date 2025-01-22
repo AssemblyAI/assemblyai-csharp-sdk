@@ -6,7 +6,7 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI.Transcripts;
 
-[JsonConverter(typeof(StringEnumSerializer<TranscriptReadyStatus>))]
+[JsonConverter(typeof(EnumSerializer<TranscriptReadyStatus>))]
 public enum TranscriptReadyStatus
 {
     [EnumMember(Value = "completed")]

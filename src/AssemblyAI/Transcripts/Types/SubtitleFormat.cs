@@ -6,7 +6,7 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI.Transcripts;
 
-[JsonConverter(typeof(StringEnumSerializer<SubtitleFormat>))]
+[JsonConverter(typeof(EnumSerializer<SubtitleFormat>))]
 public enum SubtitleFormat
 {
     [EnumMember(Value = "srt")]
