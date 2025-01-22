@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyAI", "AssemblyAI\As
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyAI.IntegrationTests", "AssemblyAI.IntegrationTests\AssemblyAI.IntegrationTests.csproj", "{311AB518-6FCF-453B-A4B7-12E444C9479E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyAI.UnitTests", "AssemblyAI.UnitTests\AssemblyAI.UnitTests.csproj", "{F432A09F-C463-438F-AF0D-EB7951F0DBB9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyAI.UnitTests", "AssemblyAI.UnitTests\AssemblyAI.UnitTests.csproj", "{547C3456-F649-4E68-A591-0538486F7DE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,9 +26,9 @@ Global
 		{311AB518-6FCF-453B-A4B7-12E444C9479E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{311AB518-6FCF-453B-A4B7-12E444C9479E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{311AB518-6FCF-453B-A4B7-12E444C9479E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F432A09F-C463-438F-AF0D-EB7951F0DBB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F432A09F-C463-438F-AF0D-EB7951F0DBB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F432A09F-C463-438F-AF0D-EB7951F0DBB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F432A09F-C463-438F-AF0D-EB7951F0DBB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{547C3456-F649-4E68-A591-0538486F7DE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{547C3456-F649-4E68-A591-0538486F7DE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{547C3456-F649-4E68-A591-0538486F7DE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{547C3456-F649-4E68-A591-0538486F7DE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

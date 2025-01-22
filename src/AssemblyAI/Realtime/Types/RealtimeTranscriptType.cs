@@ -6,7 +6,7 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI.Realtime;
 
-[JsonConverter(typeof(StringEnumSerializer<RealtimeTranscriptType>))]
+[JsonConverter(typeof(EnumSerializer<RealtimeTranscriptType>))]
 public enum RealtimeTranscriptType
 {
     [EnumMember(Value = "PartialTranscript")]

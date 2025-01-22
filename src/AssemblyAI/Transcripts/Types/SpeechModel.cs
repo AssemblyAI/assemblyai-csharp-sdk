@@ -6,7 +6,7 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI.Transcripts;
 
-[JsonConverter(typeof(StringEnumSerializer<SpeechModel>))]
+[JsonConverter(typeof(EnumSerializer<SpeechModel>))]
 public enum SpeechModel
 {
     [EnumMember(Value = "best")]

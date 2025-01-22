@@ -6,7 +6,7 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI.Realtime;
 
-[JsonConverter(typeof(StringEnumSerializer<MessageType>))]
+[JsonConverter(typeof(EnumSerializer<MessageType>))]
 public enum MessageType
 {
     [EnumMember(Value = "SessionBegins")]

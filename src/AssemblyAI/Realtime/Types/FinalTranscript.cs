@@ -20,7 +20,7 @@ public record FinalTranscript
     public required bool Punctuated { get; set; }
 
     /// <summary>
-    /// Whether the text is formatted, for example Dollar -> $
+    /// Whether the text is formatted, for example Dollar -&gt; $
     /// </summary>
     [JsonPropertyName("text_formatted")]
     public required bool TextFormatted { get; set; }

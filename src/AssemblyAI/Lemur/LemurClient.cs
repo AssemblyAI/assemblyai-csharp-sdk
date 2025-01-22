@@ -26,7 +26,7 @@ public partial class LemurClient
     /// await client.Lemur.TaskAsync(
     ///     new LemurTaskParams
     ///     {
-    ///         TranscriptIds = new List<string>() { "64nygnr62k-405c-4ae8-8a6b-d90b40ff3cce" },
+    ///         TranscriptIds = new List&lt;string&gt;() { "64nygnr62k-405c-4ae8-8a6b-d90b40ff3cce" },
     ///         Context = "This is an interview about wildfires.",
     ///         FinalModel = LemurModel.AnthropicClaude35Sonnet,
     ///         MaxOutputSize = 3000,
@@ -49,6 +49,7 @@ public partial class LemurClient
                 Method = HttpMethod.Post,
                 Path = "lemur/v3/generate/task",
                 Body = request,
+                ContentType = "application/json",
                 Options = options,
             },
             cancellationToken
@@ -82,7 +83,7 @@ public partial class LemurClient
     /// await client.Lemur.SummaryAsync(
     ///     new LemurSummaryParams
     ///     {
-    ///         TranscriptIds = new List<string>() { "47b95ba5-8889-44d8-bc80-5de38306e582" },
+    ///         TranscriptIds = new List&lt;string&gt;() { "47b95ba5-8889-44d8-bc80-5de38306e582" },
     ///         Context = "This is an interview about wildfires.",
     ///         FinalModel = LemurModel.AnthropicClaude35Sonnet,
     ///         MaxOutputSize = 3000,
@@ -104,6 +105,7 @@ public partial class LemurClient
                 Method = HttpMethod.Post,
                 Path = "lemur/v3/generate/summary",
                 Body = request,
+                ContentType = "application/json",
                 Options = options,
             },
             cancellationToken
@@ -137,23 +139,23 @@ public partial class LemurClient
     /// await client.Lemur.QuestionAnswerAsync(
     ///     new LemurQuestionAnswerParams
     ///     {
-    ///         TranscriptIds = new List<string>() { "64nygnr62k-405c-4ae8-8a6b-d90b40ff3cce" },
+    ///         TranscriptIds = new List&lt;string&gt;() { "64nygnr62k-405c-4ae8-8a6b-d90b40ff3cce" },
     ///         Context = "This is an interview about wildfires.",
     ///         FinalModel = LemurModel.AnthropicClaude35Sonnet,
     ///         MaxOutputSize = 3000,
     ///         Temperature = 0f,
-    ///         Questions = new List<LemurQuestion>()
+    ///         Questions = new List&lt;LemurQuestion&gt;()
     ///         {
     ///             new LemurQuestion
     ///             {
     ///                 Question = "Where are there wildfires?",
     ///                 AnswerFormat = "List of countries in ISO 3166-1 alpha-2 format",
-    ///                 AnswerOptions = new List<string>() { "US", "CA" },
+    ///                 AnswerOptions = new List&lt;string&gt;() { "US", "CA" },
     ///             },
     ///             new LemurQuestion
     ///             {
     ///                 Question = "Is global warming affecting wildfires?",
-    ///                 AnswerOptions = new List<string>() { "yes", "no" },
+    ///                 AnswerOptions = new List&lt;string&gt;() { "yes", "no" },
     ///             },
     ///         },
     ///     }
@@ -173,6 +175,7 @@ public partial class LemurClient
                 Method = HttpMethod.Post,
                 Path = "lemur/v3/generate/question-answer",
                 Body = request,
+                ContentType = "application/json",
                 Options = options,
             },
             cancellationToken
@@ -205,7 +208,7 @@ public partial class LemurClient
     /// await client.Lemur.ActionItemsAsync(
     ///     new LemurActionItemsParams
     ///     {
-    ///         TranscriptIds = new List<string>() { "64nygnr62k-405c-4ae8-8a6b-d90b40ff3cce" },
+    ///         TranscriptIds = new List&lt;string&gt;() { "64nygnr62k-405c-4ae8-8a6b-d90b40ff3cce" },
     ///         Context = "This is an interview about wildfires.",
     ///         FinalModel = LemurModel.AnthropicClaude35Sonnet,
     ///         MaxOutputSize = 3000,
@@ -228,6 +231,7 @@ public partial class LemurClient
                 Method = HttpMethod.Post,
                 Path = "lemur/v3/generate/action-items",
                 Body = request,
+                ContentType = "application/json",
                 Options = options,
             },
             cancellationToken

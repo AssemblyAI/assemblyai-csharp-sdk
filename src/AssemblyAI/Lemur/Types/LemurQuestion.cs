@@ -18,7 +18,6 @@ public record LemurQuestion
     /// Any context about the transcripts you wish to provide. This can be a string or any object.
     /// </summary>
     [JsonPropertyName("context")]
-    [JsonConverter(typeof(OneOfSerializer<OneOf<string, object>>))]
     public OneOf<string, object>? Context { get; set; }
 
     /// <summary>

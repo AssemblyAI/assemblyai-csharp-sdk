@@ -1,34 +1,26 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using AssemblyAI.Lemur;
-using OneOf;
 
 namespace AssemblyAI.Core;
 
-/// <summary>
-/// The JSON options used by the AssemblyAI SDK.
-/// </summary>
-internal static class JsonOptions
+internal static partial class JsonOptions
 {
-    /// <summary>
-    /// The JSON options used by the AssemblyAI SDK.
-    /// </summary>
-    internal static readonly JsonSerializerOptions JsonSerializerOptions;
+    public static readonly JsonSerializerOptions JsonSerializerOptions;
 
     static JsonOptions()
     {
-        JsonSerializerOptions = new JsonSerializerOptions
+        var options = new JsonSerializerOptions
         {
-            Converters =
-            {
-                new DateTimeSerializer(),
-                new OneOfSerializer<OneOf<LemurStringResponse, LemurQuestionAnswerResponse>>()
-            },
+            Converters = { new DateTimeSerializer(), new OneOfSerializer() },
             WriteIndented = true,
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         };
+        ConfigureJsonSerializerOptions(options);
+        JsonSerializerOptions = options;
     }
+
+    static partial void ConfigureJsonSerializerOptions(JsonSerializerOptions defaultOptions);
 }
 
 /// <summary>
@@ -42,7 +34,7 @@ public static class JsonUtils
     /// <param name="obj">Object to serialize</param>
     /// <typeparam name="T">Type of the object to serialize</typeparam>
     /// <returns>The object serialized as JSON</returns>
-    public static string Serialize<T>(T obj) 
+    public static string Serialize<T>(T obj)
         => JsonSerializer.Serialize(obj, JsonOptions.JsonSerializerOptions);
 
     /// <summary>
@@ -51,7 +43,7 @@ public static class JsonUtils
     /// <param name="obj">Object to serialize</param>
     /// <typeparam name="T">Type of the object to serialize</typeparam>
     /// <returns>The object serialized as JSON</returns>
-    public static JsonDocument SerializeToDocument<T>(T obj) 
+    public static JsonDocument SerializeToDocument<T>(T obj)
         => JsonSerializer.SerializeToDocument(obj, JsonOptions.JsonSerializerOptions);
 
     /// <summary>
@@ -60,7 +52,7 @@ public static class JsonUtils
     /// <param name="obj">Object to serialize</param>
     /// <typeparam name="T">Type of the object to serialize</typeparam>
     /// <returns>The object serialized as JSON</returns>
-    public static JsonElement SerializeToElement<T>(T obj) 
+    public static JsonElement SerializeToElement<T>(T obj)
         => JsonSerializer.SerializeToElement(obj, JsonOptions.JsonSerializerOptions);
 
     /// <summary>
@@ -78,7 +70,7 @@ public static class JsonUtils
     /// <param name="json">The JSON string</param>
     /// <typeparam name="T">The type to deserialize the JSON to</typeparam>
     /// <returns>The deserialized object of type T</returns>
-    public static T Deserialize<T>(string json) 
+    public static T Deserialize<T>(string json)
         => JsonSerializer.Deserialize<T>(json, JsonOptions.JsonSerializerOptions)!;
 
     /// <summary>
@@ -87,7 +79,7 @@ public static class JsonUtils
     /// <param name="json">The JSON string</param>
     /// <typeparam name="T">The type to deserialize the JSON to</typeparam>
     /// <returns>The deserialized object of type T</returns>
-    public static T Deserialize<T>(JsonDocument json) 
+    public static T Deserialize<T>(JsonDocument json)
         => json.Deserialize<T>(JsonOptions.JsonSerializerOptions)!;
 
     /// <summary>
@@ -96,7 +88,7 @@ public static class JsonUtils
     /// <param name="json">The JSON string</param>
     /// <typeparam name="T">The type to deserialize the JSON to</typeparam>
     /// <returns>The deserialized object of type T</returns>
-    public static T Deserialize<T>(JsonElement json) 
+    public static T Deserialize<T>(JsonElement json)
         => json.Deserialize<T>(JsonOptions.JsonSerializerOptions)!;
 
     /// <summary>
@@ -105,6 +97,6 @@ public static class JsonUtils
     /// <param name="json">The JSON string</param>
     /// <typeparam name="T">The type to deserialize the JSON to</typeparam>
     /// <returns>The deserialized object of type T</returns>
-    public static T Deserialize<T>(JsonNode json) 
+    public static T Deserialize<T>(JsonNode json)
         => json.Deserialize<T>(JsonOptions.JsonSerializerOptions)!;
 }

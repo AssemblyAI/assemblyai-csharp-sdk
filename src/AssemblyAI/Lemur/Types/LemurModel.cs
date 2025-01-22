@@ -6,7 +6,7 @@ using AssemblyAI.Core;
 
 namespace AssemblyAI.Lemur;
 
-[JsonConverter(typeof(StringEnumSerializer<LemurModel>))]
+[JsonConverter(typeof(EnumSerializer<LemurModel>))]
 public enum LemurModel
 {
     [EnumMember(Value = "anthropic/claude-3-5-sonnet")]
