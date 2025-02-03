@@ -280,9 +280,9 @@ public partial class TranscriptsClient
     /// <example>
     /// <code>
     /// await client.Transcripts.GetSubtitlesAsync(
-    ///     "string",
+    ///     "transcript_id",
     ///     SubtitleFormat.Srt,
-    ///     new GetSubtitlesParams { CharsPerCaption = 1 }
+    ///     new GetSubtitlesParams()
     /// );
     /// </code>
     /// </example>
@@ -303,8 +303,8 @@ public partial class TranscriptsClient
             new RawClient.JsonApiRequest
             {
                 BaseUrl = _client.Options.BaseUrl,
-                Method = HttpMethod.Get,                
-                Path = $"v2/transcript/{transcriptId}/{subtitleFormat.Stringify()}",
+                Method = HttpMethod.Get,
+                Path = $"v2/transcript/{transcriptId}/{subtitleFormat}",
                 Query = _query,
                 Options = options,
             },
@@ -415,7 +415,7 @@ public partial class TranscriptsClient
     /// </summary>
     /// <example>
     /// <code>
-    /// await client.Transcripts.WordSearchAsync("string", new WordSearchParams { Words = ["string"] });
+    /// await client.Transcripts.WordSearchAsync("transcript_id", new WordSearchParams());
     /// </code>
     /// </example>
     public async Task<WordSearchResponse> WordSearchAsync(
