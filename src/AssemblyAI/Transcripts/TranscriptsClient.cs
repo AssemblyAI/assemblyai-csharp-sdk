@@ -304,7 +304,7 @@ public partial class TranscriptsClient
             {
                 BaseUrl = _client.Options.BaseUrl,
                 Method = HttpMethod.Get,
-                Path = $"v2/transcript/{transcriptId}/{subtitleFormat.Stringify()}",
+                Path = $"v2/transcript/{transcriptId}/{subtitleFormat}",
                 Query = _query,
                 Options = options,
             },
