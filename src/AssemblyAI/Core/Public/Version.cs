@@ -2,5 +2,5 @@ namespace AssemblyAI;
 
 internal class Version
 {
-    public const string Current = "1.2.1";
+    public const string Current = "1.2.2";
 }
