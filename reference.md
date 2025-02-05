@@ -298,9 +298,9 @@ Export your transcript in SRT or VTT format to use with a video player for subti
 
 ```csharp
 await client.Transcripts.GetSubtitlesAsync(
-    "string",
+    "transcript_id",
     SubtitleFormat.Srt,
-    new GetSubtitlesParams { CharsPerCaption = 1 }
+    new GetSubtitlesParams()
 );
 ```
 </dd>
@@ -479,7 +479,7 @@ Search through the transcript for keywords. You can search for individual words,
 <dd>
 
 ```csharp
-await client.Transcripts.WordSearchAsync("string", new WordSearchParams { Words = ["string"] });
+await client.Transcripts.WordSearchAsync("transcript_id", new WordSearchParams());
 ```
 </dd>
 </dl>

@@ -69,8 +69,8 @@ public record Transcript
     public IEnumerable<TranscriptWord>? Words { get; set; }
 
     /// <summary>
-    /// When dual_channel or speaker_labels is enabled, a list of turn-by-turn utterance objects.
-    /// See [Speaker diarization](https://www.assemblyai.com/docs/models/speaker-diarization) for more information.
+    /// When multichannel or speaker_labels is enabled, a list of turn-by-turn utterance objects.
+    /// See [Speaker diarization](https://www.assemblyai.com/docs/speech-to-text/speaker-diarization) and [Multichannel transcription](https://www.assemblyai.com/docs/speech-to-text/speech-recognition#multichannel-transcription) for more information.
     /// </summary>
     [JsonPropertyName("utterances")]
     public IEnumerable<TranscriptUtterance>? Utterances { get; set; }
