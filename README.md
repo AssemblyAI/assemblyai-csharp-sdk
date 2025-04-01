@@ -11,6 +11,15 @@
 [![Discord](https://img.shields.io/discord/875120158014853141?logo=discord&label=Discord&link=https%3A%2F%2Fdiscord.com%2Fchannels%2F875120158014853141&style=social)
 ](https://assembly.ai/discord)
 
+> [!IMPORTANT]
+> As of April 2025, AssemblyAI C# SDK **has been discontinued** and will no longer be maintained.
+>
+> While the SDK will no longer be updated, any previously published releases will remain available.
+>
+> Going forward, see the [AssemblyAI API reference](https://www.assemblyai.com/docs/api-reference) for information on how to integrate with our API directly. 
+>
+> We know this is a disruptive change. If you need help with this transition, [reach out to our Support team](https://www.assemblyai.com/contact/support) and we'll help you in any way we can.
+
 The AssemblyAI C# SDK provides an easy-to-use interface for interacting with the AssemblyAI API from .NET, which supports async and real-time transcription, as well as the latest audio intelligence and LeMUR models.
 The C# SDK is compatible with `.NET 6.0` and up, `.NET Framework 4.6.2` and up, and `.NET Standard 2.0`.
 
